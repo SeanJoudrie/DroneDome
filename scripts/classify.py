@@ -175,6 +175,28 @@ def classify(aid, spec):
     if len(parts) == 1:
         parts[0]["role"] = "body"
 
+    # A rotor blade and a wing look identical to the geometry: long, thin, and
+    # symmetric. The manifest already says whether the aircraft has a wing at
+    # all, so use it - on a pure rotorcraft, anything wing-shaped is a blade.
+    if not spec.get("wing_area_m2") and (spec.get("rotors") or 0) >= 1:
+        for p in parts:
+            if p["role"] != "wing":
+                continue
+            blade = p["ds"] > max(p["dl"], p["dv"]) * 2.5
+            p["role"] = "rotor" if blade else "body"
+
+    # Safety net: if the manifest says this thing has rotors, the model has to
+    # end up with at least one, or the builder will report a helicopter as
+    # generating no lift at all. Promote the most blade-like candidate.
+    if (spec.get("rotors") or 0) >= 1 and not any(p["role"] == "rotor" for p in parts):
+        pool = [p for p in parts if p["role"] in ("body", "arm", "wing")]
+        if pool:
+            def bladeness(p):
+                thin = max(p["dl"], p["dv"], 1e-9)
+                return p["ds"] / thin
+            best = max(pool, key=bladeness)
+            best["role"] = "rotor"
+
     ovr_path = OVERRIDES / f"{aid}.json"
     overrides = json.loads(ovr_path.read_text()) if ovr_path.is_file() else {}
     for p in parts:

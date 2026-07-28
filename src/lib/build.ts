@@ -12,6 +12,15 @@ const PRESET_LOADOUT: Record<string, { powerplant: string; energy: string; paylo
   x500: { powerplant: 'e-5010-360', energy: 'lipo-4s-5000', payloads: ['gimbal-4k'] },
   'typhoon-h480': { powerplant: 'e-2216-950', energy: 'lipo-4s-5000', payloads: ['gimbal-4k'] },
   'zephyr-delta': { powerplant: 'e-2216-950', energy: 'lipo-4s-5000', payloads: ['fpv-cam'] },
+  'v22-osprey': { powerplant: 't406-turboshaft', energy: 'fuel-6500', payloads: ['none'] },
+  'black-hornet': { powerplant: 'e-0802-19000', energy: 'liion-2p5', payloads: ['fpv-cam'] },
+  'fpv-racer': { powerplant: 'e-2207-2450', energy: 'lipo-4s-1500', payloads: ['fpv-cam'] },
+  'agri-hex': { powerplant: 'e-8318-100', energy: 'lipo-12s-22000', payloads: ['spray-40l'] },
+  'delivery-quad': { powerplant: 'e-5010-360', energy: 'lipo-6s-8000', payloads: ['cargo-2kg'] },
+  iris: { powerplant: 'e-5010-360', energy: 'lipo-4s-5000', payloads: ['gopro'] },
+  'x3-uav': { powerplant: 'e-2216-950', energy: 'lipo-4s-5000', payloads: ['none'] },
+  m100: { powerplant: 'e-5010-360', energy: 'lipo-6s-8000', payloads: ['lidar'] },
+  'cessna-172': { powerplant: 'lycoming-io360', energy: 'fuel-160', payloads: ['comms-relay'] },
 }
 
 const FALLBACK = { powerplant: 'e-5010-360', energy: 'lipo-4s-5000', payloads: ['none'] }
@@ -64,7 +73,12 @@ export function slotLabel(build: Build, role: PartRole): string {
   if (choice.kind === 'none') return 'Removed'
   if (choice.kind === 'stock') {
     const base = AIRCRAFT_BY_ID[build.baseId]
-    const has = base?.parts.some((p) => p.role === role) || base?.cuts[role]
+    // Same evidence rule the physics uses, so the label cannot disagree with
+    // the stats panel about whether a wing is fitted.
+    const has =
+      base?.parts.some((p) => p.role === role) ||
+      base?.cuts[role] ||
+      (role === 'wing' && base?.spec.wing_area_m2)
     return has ? 'Standard' : 'Not fitted'
   }
   const donor = AIRCRAFT_BY_ID[choice.aircraftId]

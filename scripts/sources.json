@@ -120,7 +120,7 @@
         "engine": "Pratt & Whitney F100-220U turbofan",
         "thrust_n": 79600,
         "sfc_kg_per_kwh": 0.0,
-        "tsfc_kg_per_n_h": 0.0000217,
+        "tsfc_kg_per_n_h": 2.17e-05,
         "payload_kg": 2000,
         "cruise_kmh": 850,
         "max_speed_kmh": 1035,
@@ -150,7 +150,7 @@
         "fuel_capacity_kg": 7300,
         "engine": "Rolls-Royce F137-RR-100 turbofan",
         "thrust_n": 34000,
-        "tsfc_kg_per_n_h": 0.0000185,
+        "tsfc_kg_per_n_h": 1.85e-05,
         "payload_kg": 1360,
         "cruise_kmh": 570,
         "max_speed_kmh": 629,
@@ -282,6 +282,285 @@
         "max_speed_kmh": 110,
         "endurance_h": 0.6,
         "ceiling_m": 400
+      }
+    },
+    {
+      "id": "v22-osprey",
+      "name": "Bell Boeing V-22 Osprey",
+      "family": "experimental",
+      "blurb": "Tiltrotor. Takes off on two enormous rotors, then flies on its wing.",
+      "source": {
+        "kind": "sketchfab",
+        "uid": "cf00a682505f479a903e9600cce051f7",
+        "author": "Muhamad Mirza Ardiansyah",
+        "license": "CC-BY-4.0",
+        "url": "https://sketchfab.com/3d-models/bell-boeing-v-22-osprey-military-helicopter-cf00a682505f479a903e9600cce051f7"
+      },
+      "spec": {
+        "span_m": 25.55,
+        "length_m": 17.5,
+        "wing_area_m2": 28.0,
+        "empty_mass_kg": 15032,
+        "mtow_kg": 27443,
+        "powertrain": "fuel",
+        "fuel_capacity_kg": 6513,
+        "engine": "Rolls-Royce T406 turboshaft x2",
+        "shaft_power_kw": 9172,
+        "sfc_kg_per_kwh": 0.29,
+        "rotors": 2,
+        "rotor_diameter_m": 11.6,
+        "prop_blades": 3,
+        "payload_kg": 9070,
+        "cruise_kmh": 446,
+        "max_speed_kmh": 565,
+        "endurance_h": 3.5,
+        "ceiling_m": 7620
+      }
+    },
+    {
+      "id": "black-hornet",
+      "name": "Black Hornet nano helicopter",
+      "family": "experimental",
+      "blurb": "Thirty-three grams. Fits in a pocket, flies for twenty-five minutes.",
+      "source": {
+        "kind": "sketchfab",
+        "uid": "2522b830817b41bd9cc0118b4fd227bb",
+        "author": "Shah@NarsunStudios",
+        "license": "CC-BY-4.0",
+        "url": "https://sketchfab.com/3d-models/black-hornet-drone-2522b830817b41bd9cc0118b4fd227bb"
+      },
+      "spec": {
+        "span_m": 0.123,
+        "length_m": 0.168,
+        "empty_mass_kg": 0.028,
+        "mtow_kg": 0.033,
+        "powertrain": "electric",
+        "rotors": 2,
+        "rotor_diameter_m": 0.123,
+        "motor_kv": 4000,
+        "battery_wh": 2.5,
+        "battery_cells": 1,
+        "payload_kg": 0.002,
+        "cruise_kmh": 15,
+        "max_speed_kmh": 21,
+        "endurance_h": 0.42,
+        "ceiling_m": 500
+      }
+    },
+    {
+      "id": "fpv-racer",
+      "name": "5-inch freestyle quad",
+      "family": "hobby",
+      "blurb": "The FPV standard. Absurd thrust-to-weight, four minutes of flight.",
+      "source": {
+        "kind": "sketchfab",
+        "uid": "22f2ba667d6a4b7eaebd05539cb9ffb9",
+        "author": "jbabs",
+        "license": "CC-BY-4.0",
+        "url": "https://sketchfab.com/3d-models/fpv-racing-drone-22f2ba667d6a4b7eaebd05539cb9ffb9"
+      },
+      "spec": {
+        "span_m": 0.22,
+        "length_m": 0.22,
+        "empty_mass_kg": 0.45,
+        "mtow_kg": 0.75,
+        "powertrain": "electric",
+        "rotors": 4,
+        "rotor_diameter_m": 0.127,
+        "motor_kv": 2450,
+        "battery_wh": 22,
+        "battery_cells": 4,
+        "payload_kg": 0.15,
+        "cruise_kmh": 60,
+        "max_speed_kmh": 130,
+        "endurance_h": 0.1,
+        "ceiling_m": 500
+      }
+    },
+    {
+      "id": "agri-hex",
+      "name": "Agricultural spray drone",
+      "family": "consumer",
+      "blurb": "Six rotors and a tank. Most of the aircraft is the payload.",
+      "source": {
+        "kind": "sketchfab",
+        "uid": "b6220a9a99d349d5aa64c8e7edef3758",
+        "author": "Low Poly Drone",
+        "license": "CC-BY-4.0",
+        "url": "https://sketchfab.com/3d-models/drone-for-agriculturelow-poly-b6220a9a99d349d5aa64c8e7edef3758"
+      },
+      "spec": {
+        "span_m": 1.5,
+        "length_m": 1.5,
+        "empty_mass_kg": 25,
+        "mtow_kg": 65,
+        "powertrain": "electric",
+        "rotors": 6,
+        "rotor_diameter_m": 0.53,
+        "motor_kv": 100,
+        "battery_wh": 977,
+        "battery_cells": 12,
+        "payload_kg": 40,
+        "cruise_kmh": 25,
+        "max_speed_kmh": 40,
+        "endurance_h": 0.3,
+        "ceiling_m": 100
+      }
+    },
+    {
+      "id": "delivery-quad",
+      "name": "Delivery quadcopter",
+      "family": "consumer",
+      "blurb": "Carries a parcel to your door and comes back for another.",
+      "source": {
+        "kind": "sketchfab",
+        "uid": "48d0997629ee4cc9836775a523651017",
+        "author": "Futuristic Delivery Drone",
+        "license": "CC-BY-4.0",
+        "url": "https://sketchfab.com/3d-models/futuristic-delivery-drone-48d0997629ee4cc9836775a523651017"
+      },
+      "spec": {
+        "span_m": 0.8,
+        "length_m": 0.8,
+        "empty_mass_kg": 3.0,
+        "mtow_kg": 8.0,
+        "powertrain": "electric",
+        "rotors": 4,
+        "rotor_diameter_m": 0.33,
+        "motor_kv": 400,
+        "battery_wh": 177,
+        "battery_cells": 6,
+        "payload_kg": 2.5,
+        "cruise_kmh": 40,
+        "max_speed_kmh": 60,
+        "endurance_h": 0.5,
+        "ceiling_m": 120
+      }
+    },
+    {
+      "id": "iris",
+      "name": "3DR Iris quadcopter",
+      "family": "hobby",
+      "blurb": "The ArduPilot reference airframe. Patient, forgiving, everywhere.",
+      "source": {
+        "kind": "fuel",
+        "owner": "OpenRobotics",
+        "model": "Iris with Standoffs",
+        "author": "Open Robotics",
+        "license": "CC0-1.0",
+        "url": "https://app.gazebosim.org/OpenRobotics/fuel/models/Iris%20with%20Standoffs"
+      },
+      "spec": {
+        "span_m": 0.55,
+        "length_m": 0.55,
+        "empty_mass_kg": 1.0,
+        "mtow_kg": 1.5,
+        "powertrain": "electric",
+        "rotors": 4,
+        "rotor_diameter_m": 0.254,
+        "motor_kv": 920,
+        "battery_wh": 74,
+        "battery_cells": 4,
+        "payload_kg": 0.4,
+        "cruise_kmh": 30,
+        "max_speed_kmh": 60,
+        "endurance_h": 0.25,
+        "ceiling_m": 500
+      }
+    },
+    {
+      "id": "x3-uav",
+      "name": "X3 research quadcopter",
+      "family": "hobby",
+      "blurb": "Small open-source research quad. Plain, and useful for it.",
+      "source": {
+        "kind": "fuel",
+        "owner": "OpenRobotics",
+        "model": "X3 UAV Config 1",
+        "author": "Open Robotics",
+        "license": "CC-BY-4.0",
+        "url": "https://app.gazebosim.org/OpenRobotics/fuel/models/X3%20UAV%20Config%201"
+      },
+      "spec": {
+        "span_m": 0.47,
+        "length_m": 0.47,
+        "empty_mass_kg": 1.0,
+        "mtow_kg": 1.5,
+        "powertrain": "electric",
+        "rotors": 4,
+        "rotor_diameter_m": 0.2,
+        "motor_kv": 1000,
+        "battery_wh": 74,
+        "battery_cells": 4,
+        "payload_kg": 0.3,
+        "cruise_kmh": 30,
+        "max_speed_kmh": 55,
+        "endurance_h": 0.22,
+        "ceiling_m": 400
+      }
+    },
+    {
+      "id": "m100",
+      "name": "M100 research quadcopter",
+      "family": "consumer",
+      "blurb": "Carries a sensor stack for a living. The workhorse of field robotics.",
+      "source": {
+        "kind": "fuel",
+        "owner": "OpenRobotics",
+        "model": "CERBERUS_M100_SENSOR_CONFIG_1",
+        "author": "Open Robotics",
+        "license": "CC-BY-4.0",
+        "url": "https://app.gazebosim.org/OpenRobotics/fuel/models/CERBERUS_M100_SENSOR_CONFIG_1"
+      },
+      "spec": {
+        "span_m": 0.65,
+        "length_m": 0.65,
+        "empty_mass_kg": 2.4,
+        "mtow_kg": 3.6,
+        "powertrain": "electric",
+        "rotors": 4,
+        "rotor_diameter_m": 0.33,
+        "motor_kv": 350,
+        "battery_wh": 99,
+        "battery_cells": 6,
+        "payload_kg": 1.0,
+        "cruise_kmh": 30,
+        "max_speed_kmh": 65,
+        "endurance_h": 0.3,
+        "ceiling_m": 500
+      }
+    },
+    {
+      "id": "cessna-172",
+      "name": "Cessna C-172",
+      "family": "experimental",
+      "blurb": "Not a drone at all. Strip the pilot out and see what it could carry.",
+      "source": {
+        "kind": "fuel",
+        "owner": "OpenRobotics",
+        "model": "Cessna C-172",
+        "author": "Open Robotics",
+        "license": "CC0-1.0",
+        "url": "https://app.gazebosim.org/OpenRobotics/fuel/models/Cessna%20C-172"
+      },
+      "spec": {
+        "span_m": 11.0,
+        "length_m": 8.28,
+        "wing_area_m2": 16.2,
+        "empty_mass_kg": 767,
+        "mtow_kg": 1111,
+        "powertrain": "fuel",
+        "fuel_capacity_kg": 160,
+        "engine": "Lycoming IO-360 piston",
+        "shaft_power_kw": 134,
+        "sfc_kg_per_kwh": 0.31,
+        "prop_diameter_m": 1.93,
+        "prop_blades": 2,
+        "payload_kg": 344,
+        "cruise_kmh": 226,
+        "max_speed_kmh": 302,
+        "endurance_h": 5.0,
+        "ceiling_m": 4100
       }
     }
   ]

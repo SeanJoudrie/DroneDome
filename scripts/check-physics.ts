@@ -24,6 +24,15 @@ const PUBLISHED: Record<string, { mtow: number; endurance: number; cruise: numbe
   'typhoon-h480': { mtow: 2.4, endurance: 0.4, cruise: 30 },
   'zephyr-delta': { mtow: 1.6, endurance: 0.6, cruise: 55 },
   ingenuity: { mtow: 1.8, endurance: 0.025, cruise: 18 },
+  'v22-osprey': { mtow: 27443, endurance: 3.5, cruise: 446 },
+  'black-hornet': { mtow: 0.033, endurance: 0.42, cruise: 15 },
+  'fpv-racer': { mtow: 0.75, endurance: 0.1, cruise: 60 },
+  'agri-hex': { mtow: 65, endurance: 0.3, cruise: 25 },
+  'delivery-quad': { mtow: 8, endurance: 0.5, cruise: 40 },
+  iris: { mtow: 1.5, endurance: 0.25, cruise: 30 },
+  'x3-uav': { mtow: 1.5, endurance: 0.22, cruise: 30 },
+  m100: { mtow: 3.6, endurance: 0.3, cruise: 30 },
+  'cessna-172': { mtow: 1111, endurance: 5.0, cruise: 226 },
 }
 
 const pick = (groups: StatGroup[], title: string, label: string) =>

@@ -73,7 +73,13 @@ function resolveSlot(build: Build, base: AircraftModel, role: PartRole) {
   if (choice.kind === 'stock') {
     // A welded model has no separate node for the part, only a cut that removes
     // it — so a defined cut counts as the part being fitted.
-    const present = base.parts.some((p) => p.role === role) || !!base.cuts[role]
+    // Evidence the aircraft has this part: a classified mesh, a defined cut, or
+    // - for a wing - the manifest's published wing area. The Cessna's wing is
+    // welded into its fuselage so no wing mesh exists, but it certainly has one.
+    const present =
+      base.parts.some((p) => p.role === role) ||
+      !!base.cuts[role] ||
+      (role === 'wing' && !!base.spec.wing_area_m2)
     return present ? { donor: base, fitScale: choice.scale ?? 1, count: undefined } : null
   }
   const donor = AIRCRAFT_BY_ID[choice.aircraftId]
@@ -142,7 +148,11 @@ export function analyse(build: Build): Analysis {
   let rotorCount = 0
   if (rotorSlot) {
     const donorSpec = rotorSlot.donor.spec
-    rotorCount = rotorSlot.count ?? donorSpec.rotors ?? base.spec.rotors ?? 4
+    // Default carefully: a winged aircraft with an unspecified rotor count has
+    // a propeller, not a quadcopter's worth of lift rotors. Getting this wrong
+    // makes a Cessna try to hover on its piston engine and fail.
+    const winged = !!(base.spec.wing_area_m2 || base.parts.some((p) => p.role === 'wing'))
+    rotorCount = rotorSlot.count ?? donorSpec.rotors ?? base.spec.rotors ?? (winged ? 1 : 4)
   }
 
   // One or two propellers on a winged aircraft are propulsion, not lift. Three

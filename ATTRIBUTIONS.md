@@ -18,6 +18,15 @@ model removed, please open an issue.
 | Holybro X500 Quad | PX4 / Open Robotics | CC Attribution 4.0 | [source](https://app.gazebosim.org/PX4/fuel/models/x500) |
 | Typhoon H480 Hex | Gambit / Open Robotics | CC Attribution 4.0 | [source](https://app.gazebosim.org/Gambit/fuel/models/Typhoon%20H480) |
 | Zephyr Delta Wing | Open Robotics | CC0 1.0 (public domain dedication) | [source](https://app.gazebosim.org/OpenRobotics/fuel/models/Zephyr%20Delta%20Wing) |
+| Bell Boeing V-22 Osprey | Muhamad Mirza Ardiansyah | CC Attribution 4.0 | [source](https://sketchfab.com/3d-models/bell-boeing-v-22-osprey-military-helicopter-cf00a682505f479a903e9600cce051f7) |
+| Black Hornet nano helicopter | Shah@NarsunStudios | CC Attribution 4.0 | [source](https://sketchfab.com/3d-models/black-hornet-drone-2522b830817b41bd9cc0118b4fd227bb) |
+| 5-inch freestyle quad | jbabs | CC Attribution 4.0 | [source](https://sketchfab.com/3d-models/fpv-racing-drone-22f2ba667d6a4b7eaebd05539cb9ffb9) |
+| Agricultural spray drone | Low Poly Drone | CC Attribution 4.0 | [source](https://sketchfab.com/3d-models/drone-for-agriculturelow-poly-b6220a9a99d349d5aa64c8e7edef3758) |
+| Delivery quadcopter | Futuristic Delivery Drone | CC Attribution 4.0 | [source](https://sketchfab.com/3d-models/futuristic-delivery-drone-48d0997629ee4cc9836775a523651017) |
+| 3DR Iris quadcopter | Open Robotics | CC0 1.0 (public domain dedication) | [source](https://app.gazebosim.org/OpenRobotics/fuel/models/Iris%20with%20Standoffs) |
+| X3 research quadcopter | Open Robotics | CC Attribution 4.0 | [source](https://app.gazebosim.org/OpenRobotics/fuel/models/X3%20UAV%20Config%201) |
+| M100 research quadcopter | Open Robotics | CC Attribution 4.0 | [source](https://app.gazebosim.org/OpenRobotics/fuel/models/CERBERUS_M100_SENSOR_CONFIG_1) |
+| Cessna C-172 | Open Robotics | CC0 1.0 (public domain dedication) | [source](https://app.gazebosim.org/OpenRobotics/fuel/models/Cessna%20C-172) |
 
 ## Sources
 
