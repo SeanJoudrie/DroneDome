@@ -50,8 +50,12 @@ jobs:
         with:
           path: dist
 
+  # The github-pages environment only accepts deployments from the default
+  # branch unless that rule is relaxed in Settings -> Environments, so feature
+  # branches build and validate but do not publish.
   deploy:
     needs: build
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     environment:
       name: github-pages
