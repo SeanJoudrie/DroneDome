@@ -1,0 +1,264 @@
+/** Roles a piece of an aircraft can play. Assigned by scripts/classify.py. */
+export type PartRole =
+  | 'body'
+  | 'wing'
+  | 'tail'
+  | 'rotor'
+  | 'arm'
+  | 'gear'
+  | 'payload'
+  | 'hardpoint'
+  | 'solar'
+  | 'motor'
+  | 'battery'
+
+/** Roles the builder lets you remove or replace. */
+export const SWAPPABLE_ROLES: PartRole[] = [
+  'wing',
+  'tail',
+  'rotor',
+  'gear',
+  'payload',
+  'solar',
+  'hardpoint',
+]
+
+export interface AircraftPart {
+  /** Unique node name inside the GLB. */
+  node: string
+  /** Several nodes can belong to one physical part; this is what the UI shows. */
+  group: string
+  role: PartRole
+  side: 'left' | 'right' | 'center'
+  /** Centre relative to the model origin, in model units. */
+  center: [number, number, number]
+  size: [number, number, number]
+  swappable: boolean
+}
+
+/**
+ * A region of a welded mesh to clip away. Used when a part can't be a separate
+ * node — NASA's Global Hawk has its wings fused into the fuselage primitive, so
+ * "remove the wings" means "keep only the centre band".
+ */
+export interface AircraftCut {
+  /** Index (0/1/2) of the axis to cut along, in model space. */
+  axis: number
+  axisName: 'span' | 'length' | 'vertical'
+  /** Half-width of the band to keep, in model units. */
+  keep: number
+  origin: number
+}
+
+export type Powertrain = 'electric' | 'fuel' | 'hybrid' | 'solar'
+
+export interface AircraftSpec {
+  span_m: number
+  length_m: number
+  wing_area_m2?: number
+  empty_mass_kg: number
+  mtow_kg: number
+  powertrain: Powertrain
+  payload_kg: number
+  cruise_kmh: number
+  max_speed_kmh: number
+  endurance_h: number
+  ceiling_m: number
+
+  // fuel-burning
+  fuel_capacity_kg?: number
+  engine?: string
+  shaft_power_kw?: number
+  sfc_kg_per_kwh?: number
+  thrust_n?: number
+  tsfc_kg_per_n_h?: number
+  prop_diameter_m?: number
+  prop_blades?: number
+
+  // electric
+  rotors?: number
+  coaxial?: boolean
+  rotor_diameter_m?: number
+  rotor_rpm?: number
+  motor_kv?: number
+  battery_wh?: number
+  battery_cells?: number
+  solar_w?: number
+}
+
+export interface Credit {
+  author: string
+  license: string
+  licenseName: string
+  url: string
+}
+
+export interface AircraftModel {
+  id: string
+  name: string
+  family: 'military' | 'consumer' | 'hobby' | 'experimental'
+  blurb: string
+  environment: EnvironmentId
+  /** Path relative to the app base. */
+  model: string
+  spec: AircraftSpec
+  axes: { span: number; length: number; vertical: number }
+  aftSign: number
+  /** Multiply model units by this to get metres. */
+  scaleToMetres: number
+  modelExtent: [number, number, number]
+  origin: [number, number, number]
+  cuts: Partial<Record<PartRole, AircraftCut>>
+  parts: AircraftPart[]
+  credit: Credit
+}
+
+// ---------------------------------------------------------------------------
+// The build
+// ---------------------------------------------------------------------------
+
+/**
+ * What's fitted in one role slot.
+ *  stock — whatever the base aircraft came with
+ *  none  — stripped off
+ *  donor — the same part borrowed from a different aircraft, which is how you
+ *          end up with a Reaper on quadcopter rotors
+ */
+export type SlotChoice =
+  | { kind: 'stock' }
+  | { kind: 'none' }
+  | { kind: 'donor'; aircraftId: string; count?: number; scale?: number }
+
+export interface Build {
+  id: string
+  name: string
+  /** Base aircraft this started from. */
+  baseId: string
+  /** 0.25 – 4. Mass scales with the cube, area with the square. */
+  scale: number
+  environment: EnvironmentId
+  slots: Partial<Record<PartRole, SlotChoice>>
+  powerplantId: string
+  energyId: string
+  /** Extra carried mass, in kg, before scaling. */
+  payloadIds: string[]
+  paint: string
+  createdAt: number
+  updatedAt: number
+}
+
+// ---------------------------------------------------------------------------
+// Catalog items
+// ---------------------------------------------------------------------------
+
+export interface Powerplant {
+  id: string
+  name: string
+  kind: Powertrain
+  /** Continuous shaft power, kW. Turbofans use thrustN instead. */
+  powerKw?: number
+  thrustN?: number
+  /** Specific fuel consumption. kg/kWh for shaft engines. */
+  sfcKgPerKwh?: number
+  /** Thrust-specific fuel consumption, kg per newton per hour. */
+  tsfcKgPerNH?: number
+  massKg: number
+  /** Fraction of shaft power that reaches the air. */
+  efficiency: number
+  note: string
+}
+
+export interface EnergySource {
+  id: string
+  name: string
+  kind: 'battery' | 'fuel' | 'solar'
+  /** Usable energy, Wh (batteries). */
+  wh?: number
+  /** Fuel mass, kg. */
+  fuelKg?: number
+  /** Continuous generated power, W (solar). */
+  solarW?: number
+  massKg: number
+  note: string
+}
+
+export interface PayloadItem {
+  id: string
+  name: string
+  massKg: number
+  /** Continuous electrical draw, W. */
+  drawW: number
+  /** Extra parasite drag area, m². */
+  dragAreaM2: number
+  note: string
+}
+
+export interface Environment {
+  id: EnvironmentId
+  name: string
+  /** Air density at the surface, kg/m³. */
+  airDensity: number
+  gravity: number
+  note: string
+}
+
+export type EnvironmentId = 'earth' | 'mars' | 'denver' | 'everest'
+
+// ---------------------------------------------------------------------------
+// Results
+// ---------------------------------------------------------------------------
+
+export interface StatRow {
+  label: string
+  /** Value in SI-ish base units; formatting happens in the UI. */
+  value: number
+  unit: UnitKind
+  hint?: string
+}
+
+export type UnitKind =
+  | 'kg'
+  | 'm'
+  | 'm2'
+  | 'speed'
+  | 'time_h'
+  | 'distance_km'
+  | 'power_w'
+  | 'ratio'
+  | 'percent'
+  | 'loading'
+  | 'rate_kg_h'
+  | 'none'
+
+export interface MassItem {
+  label: string
+  kg: number
+}
+
+export type VerdictLevel = 'good' | 'marginal' | 'bad' | 'grounded'
+
+export interface Verdict {
+  level: VerdictLevel
+  headline: string
+  reason: string
+}
+
+export interface Warning {
+  severity: 'warn' | 'info'
+  text: string
+}
+
+export interface StatGroup {
+  title: string
+  rows: StatRow[]
+}
+
+export interface Analysis {
+  massKg: number
+  masses: MassItem[]
+  groups: StatGroup[]
+  verdict: Verdict
+  warnings: Warning[]
+  hasRotors: boolean
+  hasWing: boolean
+}

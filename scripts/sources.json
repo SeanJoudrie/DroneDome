@@ -1,0 +1,288 @@
+{
+  "_comment": "Model sources and real-world specifications. Specs are published figures used to anchor the physics model; see ATTRIBUTIONS.md for model licensing.",
+  "aircraft": [
+    {
+      "id": "mq9-reaper",
+      "name": "MQ-9 Reaper",
+      "family": "military",
+      "blurb": "Turboprop hunter-killer UAV. Long wings, pusher prop, six hardpoints.",
+      "source": {
+        "kind": "sketchfab",
+        "uid": "eff549610fee4f20904f7b388a3a0830",
+        "author": "Tyler V Howell",
+        "license": "CC-BY-4.0",
+        "url": "https://sketchfab.com/3d-models/mq-9-reaper-eff549610fee4f20904f7b388a3a0830"
+      },
+      "spec": {
+        "span_m": 20.12,
+        "length_m": 11.0,
+        "wing_area_m2": 21.5,
+        "empty_mass_kg": 2223,
+        "mtow_kg": 4760,
+        "powertrain": "fuel",
+        "fuel_capacity_kg": 1815,
+        "engine": "Honeywell TPE331-10GD turboprop",
+        "shaft_power_kw": 671,
+        "sfc_kg_per_kwh": 0.32,
+        "prop_diameter_m": 2.3,
+        "prop_blades": 3,
+        "payload_kg": 1701,
+        "cruise_kmh": 313,
+        "max_speed_kmh": 482,
+        "endurance_h": 27,
+        "ceiling_m": 15420
+      }
+    },
+    {
+      "id": "mq1-predator",
+      "name": "MQ-1 Predator",
+      "family": "military",
+      "blurb": "The original armed UAV. Piston engine, inverted V-tail, very high aspect ratio.",
+      "source": {
+        "kind": "sketchfab",
+        "uid": "7f70ef747e6d4c27a9555cfff0671923",
+        "author": "Jeyhun1985",
+        "license": "CC-BY-4.0",
+        "url": "https://sketchfab.com/3d-models/mq-1-predator-uav-7f70ef747e6d4c27a9555cfff0671923"
+      },
+      "spec": {
+        "span_m": 14.8,
+        "length_m": 8.22,
+        "wing_area_m2": 11.5,
+        "empty_mass_kg": 512,
+        "mtow_kg": 1020,
+        "powertrain": "fuel",
+        "fuel_capacity_kg": 300,
+        "engine": "Rotax 914F turbocharged piston",
+        "shaft_power_kw": 86,
+        "sfc_kg_per_kwh": 0.33,
+        "prop_diameter_m": 1.73,
+        "prop_blades": 2,
+        "payload_kg": 204,
+        "cruise_kmh": 130,
+        "max_speed_kmh": 217,
+        "endurance_h": 24,
+        "ceiling_m": 7620
+      }
+    },
+    {
+      "id": "tb2",
+      "name": "Bayraktar TB2",
+      "family": "military",
+      "blurb": "Light strike UAV. Twin boom, inverted V-tail, pusher prop.",
+      "source": {
+        "kind": "sketchfab",
+        "uid": "8e5b6972f7d049f19688096e03949487",
+        "author": "TheDevilsEye",
+        "license": "CC-BY-4.0",
+        "url": "https://sketchfab.com/3d-models/baykar-bayraktar-tb2-8e5b6972f7d049f19688096e03949487"
+      },
+      "spec": {
+        "span_m": 12.0,
+        "length_m": 6.5,
+        "wing_area_m2": 9.0,
+        "empty_mass_kg": 420,
+        "mtow_kg": 700,
+        "powertrain": "fuel",
+        "fuel_capacity_kg": 130,
+        "engine": "Rotax 912 piston",
+        "shaft_power_kw": 74,
+        "sfc_kg_per_kwh": 0.34,
+        "prop_diameter_m": 1.4,
+        "prop_blades": 2,
+        "payload_kg": 150,
+        "cruise_kmh": 130,
+        "max_speed_kmh": 220,
+        "endurance_h": 27,
+        "ceiling_m": 8200
+      }
+    },
+    {
+      "id": "x47b",
+      "name": "Northrop Grumman X-47B",
+      "family": "military",
+      "blurb": "Carrier-capable stealth flying wing. Turbofan, no tail at all.",
+      "source": {
+        "kind": "sketchfab",
+        "uid": "8d5fa8ab10ba4b8486d40248eeb9332d",
+        "author": "Yakudami",
+        "license": "CC-BY-4.0",
+        "url": "https://sketchfab.com/3d-models/northrop-grumman-x-47b-8d5fa8ab10ba4b8486d40248eeb9332d"
+      },
+      "spec": {
+        "span_m": 18.92,
+        "length_m": 11.63,
+        "wing_area_m2": 74.0,
+        "empty_mass_kg": 6350,
+        "mtow_kg": 20215,
+        "powertrain": "fuel",
+        "fuel_capacity_kg": 8000,
+        "engine": "Pratt & Whitney F100-220U turbofan",
+        "thrust_n": 79600,
+        "sfc_kg_per_kwh": 0.0,
+        "tsfc_kg_per_n_h": 0.0000217,
+        "payload_kg": 2000,
+        "cruise_kmh": 850,
+        "max_speed_kmh": 1035,
+        "endurance_h": 6,
+        "ceiling_m": 12000
+      }
+    },
+    {
+      "id": "global-hawk",
+      "name": "RQ-4 Global Hawk",
+      "family": "military",
+      "blurb": "High-altitude long-endurance surveillance. Turbofan, whale nose, enormous span.",
+      "source": {
+        "kind": "url",
+        "url": "https://raw.githubusercontent.com/nasa/NASA-3D-Resources/master/3D%20Models/Global%20Hawk/Global%20Hawk.glb",
+        "author": "NASA",
+        "license": "public-domain",
+        "credit_url": "https://github.com/nasa/NASA-3D-Resources"
+      },
+      "spec": {
+        "span_m": 39.9,
+        "length_m": 14.5,
+        "wing_area_m2": 50.2,
+        "empty_mass_kg": 6781,
+        "mtow_kg": 14628,
+        "powertrain": "fuel",
+        "fuel_capacity_kg": 7300,
+        "engine": "Rolls-Royce F137-RR-100 turbofan",
+        "thrust_n": 34000,
+        "tsfc_kg_per_n_h": 0.0000185,
+        "payload_kg": 1360,
+        "cruise_kmh": 570,
+        "max_speed_kmh": 629,
+        "endurance_h": 32,
+        "ceiling_m": 18300
+      }
+    },
+    {
+      "id": "ingenuity",
+      "name": "Ingenuity Mars Helicopter",
+      "family": "experimental",
+      "blurb": "Coaxial rotors, solar recharged, flown in 1.6% of Earth's air pressure.",
+      "source": {
+        "kind": "url",
+        "url": "https://raw.githubusercontent.com/nasa/NASA-3D-Resources/master/3D%20Models/Ingenuity%20Mars%20Helicopter/Ingenuity%20Mars%20Helicopter.glb",
+        "author": "NASA/JPL-Caltech",
+        "license": "public-domain",
+        "credit_url": "https://github.com/nasa/NASA-3D-Resources"
+      },
+      "environment": "mars",
+      "spec": {
+        "span_m": 1.21,
+        "length_m": 1.21,
+        "empty_mass_kg": 1.5,
+        "mtow_kg": 1.8,
+        "powertrain": "solar",
+        "rotors": 4,
+        "coaxial": true,
+        "rotor_diameter_m": 1.21,
+        "rotor_rpm": 2537,
+        "battery_wh": 38,
+        "solar_w": 12,
+        "payload_kg": 0.05,
+        "cruise_kmh": 18,
+        "max_speed_kmh": 36,
+        "endurance_h": 0.025,
+        "ceiling_m": 24
+      }
+    },
+    {
+      "id": "x500",
+      "name": "Holybro X500 Quad",
+      "family": "hobby",
+      "blurb": "500 mm research quadcopter. The PX4 reference airframe.",
+      "source": {
+        "kind": "fuel",
+        "owner": "PX4",
+        "model": "x500",
+        "author": "PX4 / Open Robotics",
+        "license": "CC-BY-4.0",
+        "url": "https://app.gazebosim.org/PX4/fuel/models/x500"
+      },
+      "spec": {
+        "span_m": 0.5,
+        "length_m": 0.5,
+        "empty_mass_kg": 1.0,
+        "mtow_kg": 2.0,
+        "powertrain": "electric",
+        "rotors": 4,
+        "rotor_diameter_m": 0.254,
+        "motor_kv": 920,
+        "battery_wh": 74,
+        "battery_cells": 4,
+        "payload_kg": 0.5,
+        "cruise_kmh": 30,
+        "max_speed_kmh": 65,
+        "endurance_h": 0.25,
+        "ceiling_m": 500
+      }
+    },
+    {
+      "id": "typhoon-h480",
+      "name": "Typhoon H480 Hex",
+      "family": "consumer",
+      "blurb": "Six rotors, retractable gear, gimballed camera.",
+      "source": {
+        "kind": "fuel",
+        "owner": "Gambit",
+        "model": "Typhoon H480",
+        "author": "Gambit / Open Robotics",
+        "license": "CC-BY-4.0",
+        "url": "https://app.gazebosim.org/Gambit/fuel/models/Typhoon%20H480"
+      },
+      "spec": {
+        "span_m": 0.52,
+        "length_m": 0.52,
+        "empty_mass_kg": 1.7,
+        "mtow_kg": 2.4,
+        "powertrain": "electric",
+        "rotors": 6,
+        "rotor_diameter_m": 0.24,
+        "motor_kv": 950,
+        "battery_wh": 79,
+        "battery_cells": 4,
+        "payload_kg": 0.4,
+        "cruise_kmh": 30,
+        "max_speed_kmh": 70,
+        "endurance_h": 0.4,
+        "ceiling_m": 500
+      }
+    },
+    {
+      "id": "zephyr-delta",
+      "name": "Zephyr Delta Wing",
+      "family": "hobby",
+      "blurb": "Small electric flying wing. No tail, no fuselage, pure lifting surface.",
+      "source": {
+        "kind": "fuel",
+        "owner": "OpenRobotics",
+        "model": "Zephyr Delta Wing",
+        "author": "Open Robotics",
+        "license": "CC0-1.0",
+        "url": "https://app.gazebosim.org/OpenRobotics/fuel/models/Zephyr%20Delta%20Wing"
+      },
+      "spec": {
+        "span_m": 1.5,
+        "length_m": 0.6,
+        "wing_area_m2": 0.32,
+        "empty_mass_kg": 1.1,
+        "mtow_kg": 1.6,
+        "powertrain": "electric",
+        "rotors": 1,
+        "rotor_diameter_m": 0.2,
+        "motor_kv": 1000,
+        "battery_wh": 55,
+        "battery_cells": 4,
+        "payload_kg": 0.5,
+        "cruise_kmh": 55,
+        "max_speed_kmh": 110,
+        "endurance_h": 0.6,
+        "ceiling_m": 400
+      }
+    }
+  ]
+}

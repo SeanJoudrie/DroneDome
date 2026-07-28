@@ -1,0 +1,13 @@
+{
+  "_note": "NASA's Global Hawk is a single mesh with the wings fused into the same primitive as the fuselage, so the wing cannot be a separate node. Instead we cut it: keeping only the centre band hides both wings at once, and a replacement wing mounts at the cut.",
+  "_cuts": {
+    "wing": {
+      "axis": "span",
+      "keepBand": 0.105,
+      "comment": "fraction of half-span retained; the Global Hawk fuselage is roughly 10% of its 39.9 m span"
+    }
+  },
+  "_mountScale": {
+    "wing": 1.0
+  }
+}

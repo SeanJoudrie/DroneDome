@@ -1,0 +1,10 @@
+{
+  "_note": "This TB2 exported as one welded mesh, so every part is a cut rather than a node toggle. The twin tail booms sit outboard of the fuselage, so the wing cut has to keep a wider band than a conventional airframe would.",
+  "_cuts": {
+    "wing": {
+      "axis": "span",
+      "keepBand": 0.22,
+      "comment": "keeps fuselage plus both tail booms, drops the outer wing panels"
+    }
+  }
+}
