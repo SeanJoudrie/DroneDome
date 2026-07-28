@@ -10,6 +10,7 @@
  */
 import type {
   Analysis,
+  Balance,
   Build,
   AircraftModel,
   MassItem,
@@ -102,6 +103,29 @@ function resolveSlot(build: Build, base: AircraftModel, role: PartRole) {
     fitScale: fitScaleFor(base, donor) * (choice.scale ?? 1),
     count: choice.count,
   }
+}
+
+/**
+ * Longitudinal station of a role's parts, in metres aft of the model origin.
+ * aftSign orients the axis so positive is always toward the tail, whichever
+ * way the source model happened to be built.
+ */
+function stationOf(model: AircraftModel, role: PartRole): number | null {
+  const ps = model.parts.filter((p) => p.role === role)
+  if (!ps.length) return null
+  const li = model.axes.length
+  const mean = ps.reduce((sum, p) => sum + p.center[li], 0) / ps.length
+  return mean * model.scaleToMetres * (model.aftSign || 1)
+}
+
+/** Planform area of a role's parts, m2, from their bounding boxes. */
+function planformOf(model: AircraftModel, role: PartRole): number {
+  const k = model.scaleToMetres * model.scaleToMetres
+  const si = model.axes.span
+  const li = model.axes.length
+  return model.parts
+    .filter((p) => p.role === role)
+    .reduce((sum, p) => sum + p.size[si] * p.size[li] * k, 0)
 }
 
 export function fitScaleFor(host: AircraftModel, donor: AircraftModel) {
@@ -260,12 +284,14 @@ export function analyse(build: Build): Analysis {
   let liftToDrag = 0
   let cruisePowerW = 0
   let wingArea = 0
+  let aspectRatioUsed = 6
   if (hasWing) {
     const donorSpec = wingSlot!.donor.spec
     const fit = wingSlot!.fitScale
     wingArea = (donorSpec.wing_area_m2 ?? (donorSpec.span_m * donorSpec.span_m) / 12) * s2 * fit ** 2
     const span = donorSpec.span_m * s * fit
     const aspect = wingArea > 0 ? (span * span) / wingArea : 6
+    aspectRatioUsed = aspect
 
     stallSpeed = Math.sqrt((2 * weight) / (cruiseRho * wingArea * CL_MAX))
 
@@ -464,8 +490,121 @@ export function analyse(build: Build): Analysis {
     warnings.push({ severity: 'warn', text: `Hovering needs ${(hoverThrottle * 100).toFixed(0)}% throttle. Nothing left for control.` })
   }
 
+  // ---- balance ------------------------------------------------------------
+  // Where the mass sits, versus where the lift acts. This is what actually
+  // decides whether a spliced airframe is controllable, and it is the reason
+  // bolting a Reaper tail onto a quadcopter is not a free upgrade.
+  const bodyStation = stationOf(base, 'body') ?? 0
+  const stationFor = (role: PartRole): number => {
+    const slot = fitted[role]
+    if (!slot) return bodyStation
+    // A borrowed part mounts where the host carries that role; if the host has
+    // no such station, fall back to the donor's own proportions on this frame.
+    return (
+      stationOf(base, role) ??
+      (stationOf(slot.donor, role) ?? 0) * (base.spec.span_m / (slot.donor.spec.span_m || 1))
+    )
+  }
+
+  let momentSum = 0
+  let massSum = 0
+  const addMoment = (kg: number, station: number) => {
+    momentSum += kg * station * s
+    massSum += kg
+  }
+  addMoment(base.spec.empty_mass_kg * bodyFraction * s3, bodyStation)
+  for (const role of roles) {
+    const slot = fitted[role]
+    if (!slot) continue
+    addMoment(
+      slot.donor.spec.empty_mass_kg * STRUCTURE_FRACTION[role] * s3 * slot.fitScale ** 3,
+      stationFor(role),
+    )
+  }
+  // Engines, tanks and packs live in the fuselage; equipment hangs where the
+  // airframe carries its payload.
+  addMoment(plantMass + energyMass + fuelMass, bodyStation)
+  addMoment(payloadMass, stationFor('payload'))
+
+  const cgM = massSum > 0 ? momentSum / massSum : 0
+
+  let macM: number | null = null
+  let neutralPointM: number | null = null
+  let staticMarginPct: number | null = null
+  let rotorOffsetRatio: number | null = null
+
+  if (hasWing && wingArea > 0) {
+    const wingStation = stationFor('wing')
+    const span = Math.sqrt(Math.max(wingArea, 1e-9) * Math.max(aspectRatioUsed, 1e-9))
+    macM = wingArea / Math.max(span, 1e-6)
+    // Aerodynamic centre sits about a quarter chord back from the leading edge,
+    // which is forward of the panel's centroid.
+    const wingAc = wingStation - 0.25 * macM
+    const tailSlot = fitted.tail
+    let npShift = 0
+    if (tailSlot) {
+      const tailArea = planformOf(base, 'tail') * s2 * tailSlot.fitScale ** 2
+      const armM = (stationFor('tail') - wingAc) * s
+      if (tailArea > 0 && armM > 0) {
+        // Horizontal tail volume coefficient, with the usual lift-slope and
+        // downwash allowance folded into one factor.
+        const vh = (tailArea * armM) / (wingArea * macM)
+        npShift = vh * 0.55 * macM
+      }
+    }
+    neutralPointM = wingAc + npShift
+    staticMarginPct = ((neutralPointM - cgM) / macM) * 100
+  }
+
+  if (hasRotors && rotorCount > 0) {
+    // Rotors are spread evenly about the airframe, so their centroid is the
+    // body station; what matters is how far the mass has drifted from it.
+    const armM = Math.max(base.spec.span_m * 0.4 * s, 1e-6)
+    rotorOffsetRatio = Math.abs(cgM - bodyStation * s) / armM
+  }
+
+  const balance: Balance = { cgM, neutralPointM, macM, staticMarginPct, rotorOffsetRatio }
+
+  const balanceRows: StatRow[] = [row('Centre of gravity', cgM, 'm', 'positive is aft of the airframe origin')]
+  if (macM !== null) balanceRows.push(row('Mean chord', macM, 'm'))
+  if (neutralPointM !== null) balanceRows.push(row('Neutral point', neutralPointM, 'm'))
+  if (staticMarginPct !== null) {
+    balanceRows.push({
+      ...row('Static margin', staticMarginPct, 'percent', 'of mean chord; 5-15% is a well-behaved aeroplane'),
+      gauge: { max: 30, floor: 0 },
+    })
+  }
+  if (rotorOffsetRatio !== null) {
+    balanceRows.push({
+      ...row('CG offset', rotorOffsetRatio * 100, 'percent', 'of arm length; past ~20% it cannot trim level'),
+      gauge: { max: 40, invert: true },
+    })
+  }
+  groups.push({ title: 'Balance', rows: balanceRows })
+
+  if (staticMarginPct !== null) {
+    if (staticMarginPct < 0) {
+      warnings.push({
+        severity: 'warn',
+        text: `Static margin is ${staticMarginPct.toFixed(1)}% — the centre of gravity is behind the neutral point. It will pitch up until it stalls, and keep doing it.`,
+      })
+    } else if (staticMarginPct > 25) {
+      warnings.push({
+        severity: 'warn',
+        text: `Static margin is ${staticMarginPct.toFixed(0)}% — nose-heavy to the point that the tail may not have the authority to rotate for takeoff.`,
+      })
+    }
+  }
+  if (rotorOffsetRatio !== null && rotorOffsetRatio > 0.2) {
+    warnings.push({
+      severity: 'warn',
+      text: `The centre of gravity sits ${(rotorOffsetRatio * 100).toFixed(0)}% of an arm length off the rotor centroid. It will lean permanently and burn thrust fighting itself.`,
+    })
+  }
+
   return {
     massKg: totalMass,
+    balance,
     masses,
     groups,
     verdict: judge({ hasRotors, hasWing, twr, enduranceH, stallSpeed, maxSpeed, plantOk: !!plant, energyOk: !!energy, shaftW, jetThrust, hoverThrottle }),

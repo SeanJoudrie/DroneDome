@@ -1,4 +1,5 @@
 import type { Build } from '../types'
+import { AIRCRAFT_BY_ID } from '../data/aircraft.generated'
 
 const KEY = 'dronedome.builds.v1'
 const PREFS = 'dronedome.prefs.v1'
@@ -15,7 +16,13 @@ export function loadBuilds(): Build[] {
     const raw = localStorage.getItem(KEY)
     if (!raw) return []
     const parsed = JSON.parse(raw)
-    return Array.isArray(parsed) ? (parsed as Build[]) : []
+    if (!Array.isArray(parsed)) return []
+    // A saved build can outlive the aircraft it was built from - a renamed or
+    // removed model would otherwise reach analyse() and take the whole app
+    // down with it on load.
+    return (parsed as Build[]).filter(
+      (b) => b && typeof b.id === 'string' && !!AIRCRAFT_BY_ID[b.baseId],
+    )
   } catch {
     return []
   }

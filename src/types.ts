@@ -282,6 +282,19 @@ export interface StatGroup {
   rows: StatRow[]
 }
 
+export interface Balance {
+  /** Longitudinal centre of gravity, m aft of the airframe's own origin. */
+  cgM: number
+  /** Neutral point: where lift effectively acts. Fixed wing only. */
+  neutralPointM: number | null
+  /** Mean aerodynamic chord, m. */
+  macM: number | null
+  /** (NP - CG) / MAC, as a percentage. Positive is stable. */
+  staticMarginPct: number | null
+  /** Multirotor: CG offset from the rotor centroid as a fraction of arm radius. */
+  rotorOffsetRatio: number | null
+}
+
 export interface Analysis {
   massKg: number
   masses: MassItem[]
@@ -290,4 +303,5 @@ export interface Analysis {
   warnings: Warning[]
   hasRotors: boolean
   hasWing: boolean
+  balance: Balance
 }
