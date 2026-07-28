@@ -155,18 +155,18 @@ export const ENERGY_SOURCES: EnergySource[] = [
 
 export const PAYLOADS: PayloadItem[] = [
   { id: 'none', name: 'Nothing', massKg: 0, drawW: 0, dragAreaM2: 0, note: 'Clean airframe.' },
-  { id: 'fpv-cam', name: 'FPV camera + VTX', massKg: 0.02, drawW: 4, dragAreaM2: 0.0004, note: 'Analogue eyes. Basically free.' },
-  { id: 'gopro', name: 'Action camera', massKg: 0.13, drawW: 3, dragAreaM2: 0.0016, note: 'Every gram of it visible in your hover time.' },
-  { id: 'gimbal-4k', name: '3-axis gimbal, 4K', massKg: 0.32, drawW: 12, dragAreaM2: 0.006, note: 'Stabilised cinema camera.' },
-  { id: 'lidar', name: 'Survey lidar', massKg: 1.1, drawW: 22, dragAreaM2: 0.012, note: 'Point clouds of everything below you.' },
-  { id: 'eo-ir', name: 'EO/IR sensor turret', massKg: 90, drawW: 900, dragAreaM2: 0.09, note: 'The ball under the nose. Sees in the dark from very far away.' },
-  { id: 'sar', name: 'Synthetic aperture radar', massKg: 240, drawW: 3000, dragAreaM2: 0.22, note: 'Images through cloud. Heavy and power-hungry.' },
-  { id: 'comms-relay', name: 'Comms relay package', massKg: 65, drawW: 700, dragAreaM2: 0.05, note: 'Turns the aircraft into a flying cell tower.' },
-  { id: 'cargo-2kg', name: 'Cargo box, 2 kg', massKg: 2, drawW: 0, dragAreaM2: 0.02, note: 'Delivery drone staple.' },
-  { id: 'spray-10l', name: 'Spray tank, 10 L', massKg: 10.5, drawW: 60, dragAreaM2: 0.04, note: 'Agricultural. Gets lighter as you work.' },
-  { id: 'spray-40l', name: 'Spray tank, 40 L', massKg: 41, drawW: 90, dragAreaM2: 0.09, note: 'Agras class. Most of the aircraft is tank.' },
-  { id: 'hellfire-x4', name: 'Four AGM-114 on hardpoints', massKg: 200, drawW: 20, dragAreaM2: 0.16, note: 'What the hardpoints are for.' },
-  { id: 'science-mars', name: 'Mars science package', massKg: 0.05, drawW: 2, dragAreaM2: 0.001, note: 'Fifty grams is a serious payload when the air is this thin.' },
+  { id: 'fpv-cam', name: 'FPV camera + VTX', massKg: 0.02, drawW: 4, dragAreaM2: 0.0004, note: 'Analogue eyes. Basically free.', mesh: { aircraftId: 'ingenuity', role: 'payload', scale: 0.6 } },
+  { id: 'gopro', name: 'Action camera', massKg: 0.13, drawW: 3, dragAreaM2: 0.0016, note: 'Every gram of it visible in your hover time.', mesh: { aircraftId: 'ingenuity', role: 'payload', scale: 0.9 } },
+  { id: 'gimbal-4k', name: '3-axis gimbal, 4K', massKg: 0.32, drawW: 12, dragAreaM2: 0.006, note: 'Stabilised cinema camera.', mesh: { aircraftId: 'ingenuity', role: 'payload', scale: 1.4 } },
+  { id: 'lidar', name: 'Survey lidar', massKg: 1.1, drawW: 22, dragAreaM2: 0.012, note: 'Point clouds of everything below you.', mesh: { aircraftId: 'mq1-predator', role: 'payload', scale: 0.8 } },
+  { id: 'eo-ir', name: 'EO/IR sensor turret', massKg: 90, drawW: 900, dragAreaM2: 0.09, note: 'The ball under the nose. Sees in the dark from very far away.', mesh: { aircraftId: 'mq9-reaper', role: 'payload', scale: 1 } },
+  { id: 'sar', name: 'Synthetic aperture radar', massKg: 240, drawW: 3000, dragAreaM2: 0.22, note: 'Images through cloud. Heavy and power-hungry.', mesh: { aircraftId: 'mq9-reaper', role: 'payload', scale: 1.8 } },
+  { id: 'comms-relay', name: 'Comms relay package', massKg: 65, drawW: 700, dragAreaM2: 0.05, note: 'Turns the aircraft into a flying cell tower.', mesh: { aircraftId: 'mq1-predator', role: 'payload', scale: 1.3 } },
+  { id: 'cargo-2kg', name: 'Cargo box, 2 kg', massKg: 2, drawW: 0, dragAreaM2: 0.02, note: 'Delivery drone staple.', mesh: { aircraftId: 'mq9-reaper', role: 'payload', scale: 1.2 } },
+  { id: 'spray-10l', name: 'Spray tank, 10 L', massKg: 10.5, drawW: 60, dragAreaM2: 0.04, note: 'Agricultural. Gets lighter as you work.', mesh: { aircraftId: 'mq9-reaper', role: 'payload', scale: 1.6 } },
+  { id: 'spray-40l', name: 'Spray tank, 40 L', massKg: 41, drawW: 90, dragAreaM2: 0.09, note: 'Agras class. Most of the aircraft is tank.', mesh: { aircraftId: 'mq9-reaper', role: 'payload', scale: 2.4 } },
+  { id: 'hellfire-x4', name: 'Four AGM-114 on hardpoints', massKg: 200, drawW: 20, dragAreaM2: 0.16, note: 'What the hardpoints are for.', mesh: { aircraftId: 'mq9-reaper', role: 'hardpoint', scale: 1 } },
+  { id: 'science-mars', name: 'Mars science package', massKg: 0.05, drawW: 2, dragAreaM2: 0.001, note: 'Fifty grams is a serious payload when the air is this thin.', mesh: { aircraftId: 'ingenuity', role: 'payload', scale: 0.7 } },
 ]
 
 export const ENVIRONMENTS: Environment[] = [

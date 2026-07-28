@@ -4,7 +4,7 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js'
 import type { AircraftModel, Build, PartRole } from '../types'
 import { AIRCRAFT_BY_ID } from '../data/aircraft.generated'
-import { PAINTS } from '../data/catalog'
+import { PAINTS, PAYLOADS_BY_ID } from '../data/catalog'
 import { fitScaleFor } from '../lib/physics'
 
 const SWAP_ROLES: PartRole[] = ['wing', 'tail', 'rotor', 'gear', 'payload', 'solar', 'hardpoint']
@@ -88,6 +88,22 @@ function scaleRole(modelRoot: THREE.Object3D, nodes: THREE.Object3D[], factor: n
     node.matrix.copy(relatives[i])
   })
   group.scale.setScalar(factor)
+}
+
+/**
+ * Copy a node out of its model with its world transform applied exactly once.
+ *
+ * clone() already carries the node's own matrix, so multiplying the world
+ * matrix on top of it applies every parent scale twice — which quietly made
+ * every borrowed part far larger than it should have been.
+ */
+function bakeWorld(node: THREE.Object3D): THREE.Object3D {
+  const copy = node.clone(true)
+  copy.matrixAutoUpdate = false
+  copy.matrix.copy(node.matrixWorld)
+  copy.matrix.decompose(copy.position, copy.quaternion, copy.scale)
+  copy.matrixAutoUpdate = true
+  return copy
 }
 
 /** Which physical part a node belongs to — a rotor's blade and bell share one. */
@@ -177,8 +193,9 @@ export function createViewer(container: HTMLElement): ViewerHandle {
 
   let disposed = false
   let token = 0
-  /** Which aircraft the camera was last framed for. */
+  /** Which aircraft the camera was last framed for, and at what natural size. */
   let framedFor: string | null = null
+  let framedReach = 0
 
   function clearRoot() {
     for (const child of [...root.children]) root.remove(child)
@@ -316,12 +333,7 @@ export function createViewer(container: HTMLElement): ViewerHandle {
       }
 
       const group = new THREE.Group()
-      for (const piece of pieces) {
-        const copy = piece.clone(true)
-        copy.applyMatrix4(piece.matrixWorld)
-        copy.position.copy(new THREE.Vector3().setFromMatrixPosition(piece.matrixWorld))
-        group.add(copy)
-      }
+      for (const piece of pieces) group.add(bakeWorld(piece))
       group.scale.setScalar(d.fit)
 
       // Rotors get laid out on the host's own mounting points where it has
@@ -343,6 +355,70 @@ export function createViewer(container: HTMLElement): ViewerHandle {
         }
       } else {
         assembly.add(group)
+      }
+    }
+
+    // ---- equipment ---------------------------------------------------------
+    // Cameras, turrets and weapons borrow real meshes from other aircraft in
+    // the catalog rather than being invented, and replace the host's own part
+    // in that role so you don't end up with two sensor balls.
+    const equipment = build.payloadIds
+      .map((id) => PAYLOADS_BY_ID[id])
+      .filter((p) => p?.mesh)
+    for (const item of equipment) {
+      const spec = item.mesh!
+      const donor = AIRCRAFT_BY_ID[spec.aircraftId]
+      if (!donor) continue
+
+      // hide whatever the host already had in that role
+      const hostPoints: THREE.Vector3[] = []
+      baseClone.traverse((o) => {
+        if (roleOf(base, o.name) !== spec.role || !(o as THREE.Mesh).isMesh) return
+        const at = new THREE.Vector3()
+        o.getWorldPosition(at)
+        hostPoints.push(at)
+        o.visible = false
+      })
+
+      const donorScene = await loadModel(donor)
+      if (disposed || mine !== token) return
+      const donorClone = donorScene.clone(true)
+      donorClone.applyMatrix4(normaliseTransform(donor))
+      donorClone.updateMatrixWorld(true)
+
+      let pieces: THREE.Object3D[] = []
+      donorClone.traverse((o) => {
+        if (roleOf(donor, o.name) === spec.role && (o as THREE.Mesh).isMesh) pieces.push(o)
+      })
+      if (!pieces.length) continue
+      const firstGroup = groupOf(donor, pieces[0].name)
+      pieces = pieces.filter((p) => groupOf(donor, p.name) === firstGroup)
+
+      const unit = new THREE.Group()
+      for (const piece of pieces) unit.add(bakeWorld(piece))
+      // The part still carries the offset it had on its donor aircraft, so
+      // recentre it on its own geometry before mounting; otherwise it hangs in
+      // space wherever it happened to sit on the Reaper.
+      const unitBox = new THREE.Box3().setFromObject(unit)
+      const unitMid = unitBox.getCenter(new THREE.Vector3())
+      for (const child of unit.children) child.position.sub(unitMid)
+
+      // Equipment is NOT resized to suit the host. A 90 kg sensor turret is a
+      // 90 kg sensor turret, and hanging one off a 1.7 kg quadcopter should
+      // look as ridiculous as the thrust-to-weight figure says it is.
+      unit.scale.setScalar(spec.scale ?? 1)
+
+      if (hostPoints.length) {
+        for (const at of hostPoints.slice(0, spec.repeat ?? hostPoints.length)) {
+          const copy = unit.clone(true)
+          copy.position.copy(at)
+          assembly.add(copy)
+        }
+      } else {
+        // nothing equivalent on the host: hang it under the nose
+        const hull = new THREE.Box3().setFromObject(baseClone)
+        unit.position.set(0, hull.min.y + (hull.max.y - hull.min.y) * 0.12, hull.max.z * 0.45)
+        assembly.add(unit)
       }
     }
 
@@ -394,11 +470,15 @@ export function createViewer(container: HTMLElement): ViewerHandle {
     cam.far = shadowSpan * 8
     cam.updateProjectionMatrix()
 
-    // Only reframe when the aircraft itself changes. Swapping a part or moving
-    // the scale slider leaves the camera where you put it, so you can actually
-    // see what changed.
-    if (framedFor !== build.baseId) {
+    // Reframe when the aircraft changes, or when a part has changed its natural
+    // size so drastically that the old view no longer contains it — bolting a
+    // real 90 kg sensor turret onto a 1.7 kg quad otherwise leaves the whole
+    // build off-screen. This is measured before the scale slider is applied, so
+    // dragging that still moves the model rather than the camera.
+    const jumped = framedReach > 0 && (reach / framedReach > 2.5 || framedReach / reach > 2.5)
+    if (framedFor !== build.baseId || jumped) {
       framedFor = build.baseId
+      framedReach = reach
       controls.target.set(0, size.y * 0.45, 0)
       camera.position.set(reach * 1.1, reach * 0.85, reach * 1.8)
     }

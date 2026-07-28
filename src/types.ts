@@ -194,6 +194,12 @@ export interface PayloadItem {
   /** Extra parasite drag area, m². */
   dragAreaM2: number
   note: string
+  /**
+   * Where to borrow a model for this from. The catalog already contains a
+   * sensor turret, weapon pylons and camera blocks on real aircraft, so
+   * equipment reuses those rather than inventing shapes.
+   */
+  mesh?: { aircraftId: string; role: PartRole; scale?: number; repeat?: number }
 }
 
 export interface Environment {
