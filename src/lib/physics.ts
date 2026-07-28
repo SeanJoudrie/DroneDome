@@ -52,6 +52,15 @@ const PROP_EFFICIENCY = 0.85
 const FUEL_RESERVE = 0.9
 
 /**
+ * Air thins out exponentially with height. Aeroplanes exploit that: they climb
+ * until the air is thin enough to go fast cheaply, which is why a Global Hawk
+ * cruises at 570 km/h and not the 320 it would manage down here.
+ */
+function densityAt(surfaceRho: number, altitudeM: number, scaleHeight: number) {
+  return surfaceRho * Math.exp(-Math.max(0, altitudeM) / scaleHeight)
+}
+
+/**
  * Rotors lose efficiency badly in thin air — blade Reynolds numbers collapse,
  * so Ingenuity's rotors are far worse than their Earth equivalents. Momentum
  * theory alone does not capture that, so scale the figure of merit by density.
@@ -193,6 +202,12 @@ export function analyse(build: Build): Analysis {
   const shaftW = shaftKw * 1000
   const jetThrust = (plant?.thrustN ?? 0) * s2
 
+  // Aircraft cruise at roughly half their service ceiling. Rotor and takeoff
+  // figures stay at the surface density the user selected, because that is
+  // where hovering and leaving the ground actually happen.
+  const cruiseAltitude = hasWing ? (base.spec.ceiling_m || 0) * 0.5 : 0
+  const cruiseRho = densityAt(rho, cruiseAltitude, env.scaleHeight)
+
   const groups: StatGroup[] = []
 
   // ---- rotor performance --------------------------------------------------
@@ -252,7 +267,7 @@ export function analyse(build: Build): Analysis {
     const span = donorSpec.span_m * s * fit
     const aspect = wingArea > 0 ? (span * span) / wingArea : 6
 
-    stallSpeed = Math.sqrt((2 * weight) / (rho * wingArea * CL_MAX))
+    stallSpeed = Math.sqrt((2 * weight) / (cruiseRho * wingArea * CL_MAX))
 
     const cd0 = CD0_CLEAN + payloadDragArea / Math.max(wingArea, 1e-6)
     liftToDrag = 0.5 * Math.sqrt((Math.PI * aspect * OSWALD) / cd0)
@@ -263,7 +278,7 @@ export function analyse(build: Build): Analysis {
     // On a very high aspect ratio wing the best-L/D lift coefficient can exceed
     // CL_max, which would put cruise below the stall. Cap it well clear.
     const clBest = Math.min(Math.sqrt(cd0 * Math.PI * aspect * OSWALD), CL_MAX * 0.75)
-    const bestLdSpeed = Math.sqrt((2 * weight) / (rho * wingArea * clBest))
+    const bestLdSpeed = Math.sqrt((2 * weight) / (cruiseRho * wingArea * clBest))
     cruiseSpeed = bestLdSpeed * (isJet ? Math.pow(3, 0.25) : 1)
     // Lift-to-drag actually achieved at that cruise point, not the ideal best.
     const cdCruise = cd0 + (clBest * clBest) / (Math.PI * aspect * OSWALD)
@@ -279,7 +294,7 @@ export function analyse(build: Build): Analysis {
       : cruiseSpeed > 0
         ? (shaftW * PROP_EFFICIENCY) / Math.max(cruiseSpeed, 1)
         : 0
-    maxSpeed = solveMaxSpeed(rho, wingArea, cd0, aspect, weight, shaftW, jetThrust, isJet)
+    maxSpeed = solveMaxSpeed(cruiseRho, wingArea, cd0, aspect, weight, shaftW, jetThrust, isJet)
     if (!Number.isFinite(maxSpeed) || maxSpeed <= 0) maxSpeed = cruiseSpeed
     void thrustAvail
 
@@ -295,6 +310,7 @@ export function analyse(build: Build): Analysis {
         row('Stall speed', stallSpeed, 'speed', 'slowest it can fly before falling out of the sky'),
         row('Cruise speed', cruiseSpeed, 'speed'),
         row('Top speed', maxSpeed, 'speed'),
+        row('Cruise altitude', cruiseAltitude, 'm', 'speeds are computed for the thinner air up here'),
       ],
     })
   }

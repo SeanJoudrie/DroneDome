@@ -218,6 +218,8 @@ export interface Environment {
   /** Air density at the surface, kg/m³. */
   airDensity: number
   gravity: number
+  /** Exponential atmosphere scale height, m: density falls as exp(-h/H). */
+  scaleHeight: number
   note: string
 }
 

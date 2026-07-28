@@ -193,10 +193,10 @@ export const PAYLOADS: PayloadItem[] = [
 ]
 
 export const ENVIRONMENTS: Environment[] = [
-  { id: 'earth', name: 'Earth, sea level', airDensity: 1.225, gravity: 9.807, note: 'Thick air, heavy gravity. The default.' },
-  { id: 'denver', name: 'Earth, 1600 m', airDensity: 1.048, gravity: 9.807, note: 'Denver. Noticeably less lift than you expect.' },
-  { id: 'everest', name: 'Earth, 8850 m', airDensity: 0.466, gravity: 9.807, note: 'Summit of Everest. Rotors struggle badly up here.' },
-  { id: 'mars', name: 'Mars surface', airDensity: 0.02, gravity: 3.721, note: '1.6% of Earth\'s air density, 38% of its gravity. Almost nothing to push against.' },
+  { id: 'earth', scaleHeight: 8500, name: 'Earth, sea level', airDensity: 1.225, gravity: 9.807, note: 'Thick air, heavy gravity. The default.' },
+  { id: 'denver', scaleHeight: 8500, name: 'Earth, 1600 m', airDensity: 1.048, gravity: 9.807, note: 'Denver. Noticeably less lift than you expect.' },
+  { id: 'everest', scaleHeight: 8500, name: 'Earth, 8850 m', airDensity: 0.466, gravity: 9.807, note: 'Summit of Everest. Rotors struggle badly up here.' },
+  { id: 'mars', scaleHeight: 11100, name: 'Mars surface', airDensity: 0.02, gravity: 3.721, note: '1.6% of Earth\'s air density, 38% of its gravity. Almost nothing to push against.' },
 ]
 
 export const PAINTS: { id: string; name: string; color: string }[] = [
