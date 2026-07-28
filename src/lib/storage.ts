@@ -3,8 +3,11 @@ import type { Build } from '../types'
 const KEY = 'dronedome.builds.v1'
 const PREFS = 'dronedome.prefs.v1'
 
+export type ThemeId = 'light' | 'dark'
+
 export interface Prefs {
   units: 'metric' | 'imperial'
+  theme: ThemeId
 }
 
 export function loadBuilds(): Build[] {
@@ -45,11 +48,11 @@ export function deleteBuild(id: string): Build[] {
 export function loadPrefs(): Prefs {
   try {
     const raw = localStorage.getItem(PREFS)
-    if (raw) return { units: 'metric', ...JSON.parse(raw) }
+    if (raw) return { units: 'metric', theme: 'dark', ...JSON.parse(raw) }
   } catch {
     /* fall through to defaults */
   }
-  return { units: 'metric' }
+  return { units: 'metric', theme: 'dark' }
 }
 
 export function savePrefs(prefs: Prefs) {

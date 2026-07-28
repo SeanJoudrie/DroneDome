@@ -233,6 +233,12 @@ export interface StatRow {
   value: number
   unit: UnitKind
   hint?: string
+  /**
+   * Turns the row into a gauge. `max` sets full scale; `floor` marks the
+   * minimum viable value, so a thrust-to-weight bar can show the 1.0 line it
+   * has to clear.
+   */
+  gauge?: { max: number; floor?: number; invert?: boolean }
 }
 
 export type UnitKind =

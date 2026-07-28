@@ -229,9 +229,11 @@ export function analyse(build: Build): Analysis {
         row('Total disc area', disc, 'm2'),
         row('Disc loading', weight / Math.max(disc, 1e-6), 'loading', 'N per m² of disc — high means loud and inefficient'),
         row('Static thrust', staticThrust, 'force_n', 'what the rotors can push at full power'),
-        row('Thrust-to-weight', twr, 'ratio', 'below 1.0 it cannot lift itself'),
+        { ...row('Thrust-to-weight', twr, 'ratio', 'below 1.0 it cannot lift itself'),
+          gauge: { max: 8, floor: 1 } },
         row('Hover power', hoverPowerW, 'power_w'),
-        row('Hover throttle', clamp(hoverThrottle, 0, 2) * 100, 'percent'),
+        { ...row('Hover throttle', clamp(hoverThrottle, 0, 2) * 100, 'percent'),
+          gauge: { max: 100, invert: true } },
       ],
     })
   }
@@ -288,7 +290,8 @@ export function analyse(build: Build): Analysis {
         row('Wingspan', span, 'm'),
         row('Aspect ratio', aspect, 'ratio', 'long thin wings glide better'),
         row('Wing loading', weight / Math.max(wingArea, 1e-6), 'loading', 'N per m² — high means fast and unforgiving'),
-        row('Lift-to-drag', liftToDrag, 'ratio', 'metres forward per metre down with the power off'),
+        { ...row('Lift-to-drag', liftToDrag, 'ratio', 'metres forward per metre down with the power off'),
+          gauge: { max: 30 } },
         row('Stall speed', stallSpeed, 'speed', 'slowest it can fly before falling out of the sky'),
         row('Cruise speed', cruiseSpeed, 'speed'),
         row('Top speed', maxSpeed, 'speed'),
@@ -342,7 +345,8 @@ export function analyse(build: Build): Analysis {
     energyRows.push(
       row('Fuel load', fuelMass, 'kg'),
       row('Burn rate', burnKgH, 'rate_kg_h'),
-      row('Endurance', enduranceH, 'time_h'),
+      { ...row('Endurance', enduranceH, 'time_h'),
+        gauge: { max: Math.max(enduranceH * 1.4, 1) } },
     )
     if (rangeKm > 0) energyRows.push(row('Range', rangeKm, 'distance_km'))
   } else {
@@ -359,7 +363,8 @@ export function analyse(build: Build): Analysis {
     )
     if (solarW > 0) energyRows.push(row('Solar input', solarW, 'power_w'))
     energyRows.push(
-      row(hasWing ? 'Endurance' : 'Hover time', enduranceH, 'time_h'),
+      { ...row(hasWing ? 'Endurance' : 'Hover time', enduranceH, 'time_h'),
+        gauge: { max: Math.max(enduranceH * 1.4, 0.5) } },
       row('Range', rangeKm, 'distance_km'),
     )
   }
@@ -383,7 +388,8 @@ export function analyse(build: Build): Analysis {
   const overall: StatRow[] = [
     row('Takeoff weight', totalMass, 'kg'),
     row('Dry weight', dryMass, 'kg'),
-    row('Spare payload', extraPayloadKg, 'kg', 'what you can add and still fly'),
+    { ...row('Spare payload', extraPayloadKg, 'kg', 'what you can add and still fly'),
+      gauge: { max: Math.max(extraPayloadKg, totalMass * 0.5, 0.01) } },
   ]
   if (hasWing) overall.push(row('Top speed', maxSpeed, 'speed'))
   else if (hasRotors) {

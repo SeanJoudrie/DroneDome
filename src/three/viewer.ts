@@ -114,6 +114,7 @@ function groupOf(model: AircraftModel, objectName: string): string {
 
 export interface ViewerHandle {
   setBuild(build: Build): void
+  setTheme(theme: 'light' | 'dark'): void
   resize(): void
   frame(): void
   dispose(): void
@@ -131,7 +132,21 @@ export function createViewer(container: HTMLElement): ViewerHandle {
   container.appendChild(renderer.domElement)
 
   const scene = new THREE.Scene()
-  scene.background = new THREE.Color('#eef1f4')
+
+  /** The canvas has to follow the interface theme or it sits there glowing. */
+  function setTheme(theme: 'light' | 'dark') {
+    const dark = theme === 'dark'
+    scene.background = new THREE.Color(dark ? '#0a1017' : '#eef1f4')
+    hemi.color.set(dark ? '#9fc6dd' : '#ffffff')
+    hemi.groundColor.set(dark ? '#0b1219' : '#c3ccd6')
+    hemi.intensity = dark ? 1.5 : 2.1
+    key.intensity = dark ? 2.0 : 2.4
+    fill.color.set(dark ? '#2de0ff' : '#dce6f2')
+    fill.intensity = dark ? 0.5 : 0.7
+    const gridMat = grid.material as THREE.Material & { opacity: number }
+    gridMat.opacity = dark ? 0.28 : 0.5
+    ;(ground.material as THREE.ShadowMaterial).opacity = dark ? 0.35 : 0.14
+  }
 
   const camera = new THREE.PerspectiveCamera(45, 1, 0.01, 5000)
   camera.position.set(4, 2.4, 6)
@@ -460,6 +475,9 @@ export function createViewer(container: HTMLElement): ViewerHandle {
     // The grid is a ruler: fixed squares at the base aircraft's scale, so a
     // 4x model visibly covers sixteen times the ground a 1x one does.
     setGrid(reach)
+    // setGrid replaces the grid object, so its themed opacity must be restored
+    ;(grid.material as THREE.Material & { opacity: number }).opacity =
+      document.documentElement.dataset.theme === 'light' ? 0.5 : 0.28
     ground.scale.setScalar(reach * 20)
 
     camera.near = reach / 800
@@ -509,6 +527,8 @@ export function createViewer(container: HTMLElement): ViewerHandle {
     controls.update()
   }
 
+  setTheme((document.documentElement.dataset.theme as 'light' | 'dark') ?? 'dark')
+
   resize()
   renderer.setAnimationLoop(() => {
     controls.update()
@@ -517,6 +537,7 @@ export function createViewer(container: HTMLElement): ViewerHandle {
 
   return {
     setBuild: (b) => void setBuild(b),
+    setTheme,
     resize,
     frame,
     screenshot: () => renderer.domElement.toDataURL('image/png'),

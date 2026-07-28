@@ -25,6 +25,7 @@ export default function App() {
   const [build, setBuild] = useState<Build>(() => createBuild('mq9-reaper'))
   const [saved, setSaved] = useState<Build[]>(() => loadBuilds())
   const [units, setUnits] = useState(() => loadPrefs().units)
+  const [theme, setTheme] = useState(() => loadPrefs().theme)
   const [target, setTarget] = useState<PickerTarget | null>(null)
   const [creditsOpen, setCreditsOpen] = useState(false)
 
@@ -53,8 +54,12 @@ export default function App() {
   }, [build])
 
   useEffect(() => {
-    savePrefs({ units })
-  }, [units])
+    savePrefs({ units, theme })
+    // Components read theme only through CSS variables, so one attribute on the
+    // root element restyles the whole app.
+    document.documentElement.dataset.theme = theme
+    viewerRef.current?.setTheme(theme)
+  }, [units, theme])
 
   const analysis = useMemo(() => analyse(build), [build])
   const roles = useMemo(() => availableRoles(build.baseId), [build.baseId])
@@ -111,6 +116,15 @@ export default function App() {
           </button>
           <button className={units === 'imperial' ? 'on' : ''} onClick={() => setUnits('imperial')}>
             Imperial
+          </button>
+        </div>
+
+        <div className="seg" title="Interface theme">
+          <button className={theme === 'dark' ? 'on' : ''} onClick={() => setTheme('dark')}>
+            Terminal
+          </button>
+          <button className={theme === 'light' ? 'on' : ''} onClick={() => setTheme('light')}>
+            Workshop
           </button>
         </div>
 

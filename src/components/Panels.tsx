@@ -403,6 +403,55 @@ export function Picker({
   )
 }
 
+/**
+ * One telemetry row. With a gauge range it becomes a bar, coloured against the
+ * value's own meaning: a thrust-to-weight below its 1.0 floor reads red, and
+ * hover throttle inverts because a high number there is bad news.
+ */
+function StatLine({ row, system }: { row: StatRow; system: UnitSystem }) {
+  const f = format(row.value, row.unit, system)
+  const g = row.gauge
+  const pct = g ? Math.max(0, Math.min(1, row.value / g.max)) * 100 : 0
+
+  let tone = ''
+  if (g) {
+    if (g.floor !== undefined) {
+      tone = row.value < g.floor ? 'bad' : row.value < g.floor * 1.35 ? 'warn' : 'good'
+    } else if (g.invert) {
+      tone = pct > 85 ? 'bad' : pct > 65 ? 'warn' : 'good'
+    } else {
+      tone = pct < 12 ? 'warn' : 'good'
+    }
+  }
+
+  return (
+    <div className={`stat-row${g ? ' has-gauge' : ''}`} title={row.hint}>
+      <div className={g ? 'stat-line' : undefined} style={g ? undefined : { display: 'contents' }}>
+        <span className="stat-label">{row.label}</span>
+        <span className="stat-value">
+          {f.value}
+          <span className="stat-unit">{f.unit}</span>
+        </span>
+      </div>
+      {g && (
+        <div
+          className="gauge"
+          role="meter"
+          aria-valuenow={Math.round(row.value * 100) / 100}
+          aria-valuemin={0}
+          aria-valuemax={g.max}
+          aria-label={row.label}
+        >
+          <div className={`gauge-fill ${tone}`} style={{ width: `${pct}%` }} />
+          {g.floor !== undefined && g.floor < g.max && (
+            <div className="gauge-floor" style={{ left: `${(g.floor / g.max) * 100}%` }} />
+          )}
+        </div>
+      )}
+    </div>
+  )
+}
+
 export function Stats({ analysis, system }: { analysis: Analysis; system: UnitSystem }) {
   return (
     <>
@@ -416,18 +465,9 @@ export function Stats({ analysis, system }: { analysis: Analysis; system: UnitSy
           <div className="panel-head">
             <span className="panel-title">{group.title}</span>
           </div>
-          {group.rows.map((r) => {
-            const f = format(r.value, r.unit, system)
-            return (
-              <div className="stat-row" key={r.label} title={r.hint}>
-                <span className="stat-label">{r.label}</span>
-                <span className="stat-value">
-                  {f.value}
-                  <span className="stat-unit">{f.unit}</span>
-                </span>
-              </div>
-            )
-          })}
+          {group.rows.map((r) => (
+            <StatLine key={r.label} row={r} system={system} />
+          ))}
         </section>
       ))}
 

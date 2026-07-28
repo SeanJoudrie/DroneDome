@@ -557,3 +557,134 @@ a {
     z-index: 10;
   }
 }
+
+/* ---- dark aerospace terminal -------------------------------------------- */
+/* Same variable contract as the light workshop, so every component restyles
+   itself without knowing a theme exists. */
+:root[data-theme='dark'] {
+  --bg: #080b0f;
+  --panel: #0f151c;
+  --panel-2: #131b24;
+  --line: #1e2a36;
+  --line-strong: #2b3b4c;
+  --ink: #dbe7f2;
+  --ink-2: #8ba3ba;
+  --ink-3: #5c7386;
+  --accent: #2de0ff;
+  --accent-soft: #08303c;
+  --warn: #ffb545;
+  --warn-soft: #33260c;
+  --bad: #ff5c6c;
+  --good: #35e39a;
+  --shadow: 0 0 0 1px rgba(45, 224, 255, 0.04), 0 10px 30px rgba(0, 0, 0, 0.55);
+}
+
+:root[data-theme='dark'] body {
+  background:
+    radial-gradient(1100px 700px at 78% -8%, rgba(45, 224, 255, 0.07), transparent 60%),
+    var(--bg);
+}
+
+:root[data-theme='dark'] .brand,
+:root[data-theme='dark'] .panel-title,
+:root[data-theme='dark'] .stat-value,
+:root[data-theme='dark'] .scale-value {
+  text-shadow: 0 0 14px rgba(45, 224, 255, 0.28);
+}
+
+:root[data-theme='dark'] .stat-value,
+:root[data-theme='dark'] .verdict-head {
+  color: var(--accent);
+}
+
+:root[data-theme='dark'] .seg button.on,
+:root[data-theme='dark'] .btn.primary {
+  color: #04222a;
+  font-weight: 700;
+}
+
+:root[data-theme='dark'] .viewer {
+  background: #0a1017;
+}
+
+/* scanline wash over the canvas, purely cosmetic */
+:root[data-theme='dark'] .viewer::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(45, 224, 255, 0.035) 0px,
+    rgba(45, 224, 255, 0.035) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+}
+
+:root[data-theme='dark'] .warning {
+  border-color: #4a3a15;
+}
+
+:root[data-theme='dark'] .warning.info {
+  color: #9fd8ee;
+  border-color: #163b49;
+}
+
+/* ---- gauges -------------------------------------------------------------- */
+.stat-row.has-gauge {
+  display: block;
+  padding-bottom: 9px;
+}
+
+.stat-row.has-gauge .stat-line {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.gauge {
+  position: relative;
+  height: 5px;
+  margin-top: 6px;
+  border-radius: 3px;
+  background: var(--line);
+  overflow: hidden;
+}
+
+.gauge-fill {
+  position: absolute;
+  inset: 0 auto 0 0;
+  border-radius: 3px;
+  background: var(--accent);
+  transition: width 0.45s cubic-bezier(0.22, 1, 0.36, 1), background 0.3s;
+}
+
+.gauge-fill.good {
+  background: var(--good);
+}
+
+.gauge-fill.warn {
+  background: var(--warn);
+}
+
+.gauge-fill.bad {
+  background: var(--bad);
+}
+
+/* the minimum-viable marker, e.g. the 1.0 line on thrust-to-weight */
+.gauge-floor {
+  position: absolute;
+  top: -2px;
+  bottom: -2px;
+  width: 2px;
+  background: var(--ink-2);
+  opacity: 0.75;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gauge-fill {
+    transition: none;
+  }
+}
