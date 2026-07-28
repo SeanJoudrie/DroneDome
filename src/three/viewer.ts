@@ -65,6 +65,31 @@ function roleOf(model: AircraftModel, objectName: string): PartRole | null {
   return part ? part.role : null
 }
 
+/**
+ * Resize one part of an aircraft in place.
+ *
+ * The nodes for that role are lifted into a group hanging off the model root,
+ * keeping their transforms relative to it, so scaling the group grows the part
+ * outward from the aircraft's centreline — bigger wings reach further out from
+ * the fuselage rather than sliding sideways off it.
+ */
+function scaleRole(modelRoot: THREE.Object3D, nodes: THREE.Object3D[], factor: number) {
+  if (!nodes.length || Math.abs(factor - 1) < 0.001) return
+  modelRoot.updateMatrixWorld(true)
+  const invRoot = new THREE.Matrix4().copy(modelRoot.matrixWorld).invert()
+  const relatives = nodes.map((n) =>
+    new THREE.Matrix4().multiplyMatrices(invRoot, n.matrixWorld),
+  )
+  const group = new THREE.Group()
+  modelRoot.add(group)
+  nodes.forEach((node, i) => {
+    group.add(node)
+    node.matrixAutoUpdate = false
+    node.matrix.copy(relatives[i])
+  })
+  group.scale.setScalar(factor)
+}
+
 /** Which physical part a node belongs to — a rotor's blade and bell share one. */
 function groupOf(model: AircraftModel, objectName: string): string {
   const part = model.parts.find((p) => p.node === objectName || p.group === objectName)
@@ -123,16 +148,37 @@ export function createViewer(container: HTMLElement): ViewerHandle {
   ground.receiveShadow = true
   scene.add(ground)
 
-  const grid = new THREE.GridHelper(1, 20, '#b9c4d0', '#d5dce4')
-  ;(grid.material as THREE.Material).transparent = true
-  ;(grid.material as THREE.Material).opacity = 0.55
+  let grid = new THREE.GridHelper(1, 20, '#b9c4d0', '#d5dce4')
   scene.add(grid)
+
+  /**
+   * Rebuild the floor grid with cells of a round real-world size, so it reads
+   * as a ruler rather than wallpaper. Cells are chosen from a 1/2/5 sequence
+   * near a tenth of the aircraft, which keeps a 6 cm whoop and a 40 m Global
+   * Hawk both legible.
+   */
+  function setGrid(reach: number) {
+    const raw = reach / 8
+    const mag = 10 ** Math.floor(Math.log10(raw))
+    const norm = raw / mag
+    const cell = (norm < 1.5 ? 1 : norm < 3.5 ? 2 : norm < 7.5 ? 5 : 10) * mag
+    const half = Math.max(6, Math.ceil((reach * 3) / cell))
+    scene.remove(grid)
+    grid.geometry.dispose()
+    grid = new THREE.GridHelper(cell * half * 2, half * 2, '#aebbc8', '#d5dce4')
+    const mat = grid.material as THREE.Material
+    mat.transparent = true
+    mat.opacity = 0.5
+    scene.add(grid)
+  }
 
   const root = new THREE.Group()
   scene.add(root)
 
   let disposed = false
   let token = 0
+  /** Which aircraft the camera was last framed for. */
+  let framedFor: string | null = null
 
   function clearRoot() {
     for (const child of [...root.children]) root.remove(child)
@@ -213,7 +259,7 @@ export function createViewer(container: HTMLElement): ViewerHandle {
         donors.push({
           role,
           model: donor,
-          fit: choice.scale ?? fitScaleFor(base, donor),
+          fit: fitScaleFor(base, donor) * (choice.scale ?? 1),
           count: choice.count ?? donor.spec.rotors ?? 1,
         })
       }
@@ -232,6 +278,19 @@ export function createViewer(container: HTMLElement): ViewerHandle {
       o.visible = false
     })
     for (const role of removed) applyCut(baseClone, base, role)
+
+    // Resize the aircraft's own parts wherever a size has been dialled in.
+    for (const role of SWAP_ROLES) {
+      const choice = build.slots[role]
+      if (!choice || choice.kind !== 'stock') continue
+      const factor = choice.scale ?? 1
+      if (Math.abs(factor - 1) < 0.001) continue
+      const nodes: THREE.Object3D[] = []
+      baseClone.traverse((o) => {
+        if (roleOf(base, o.name) === role && (o as THREE.Mesh).isMesh) nodes.push(o)
+      })
+      scaleRole(baseClone, nodes, factor)
+    }
 
     // Bolt on whatever is replacing them.
     for (const d of donors) {
@@ -296,34 +355,53 @@ export function createViewer(container: HTMLElement): ViewerHandle {
     })
 
     if (build.paint !== 'stock') applyPaint(assembly, build.paint)
+
+    // Measure the aircraft at its natural size, BEFORE the scale slider is
+    // applied. Everything that makes the scene readable — grid spacing, camera
+    // distance, lighting — is pinned to this. If it were pinned to the scaled
+    // size instead, growing the aircraft 4x would also push the camera back 4x
+    // and stretch the grid 4x, and the slider would appear to do nothing.
+    const natural = new THREE.Box3().setFromObject(assembly)
+    if (natural.isEmpty()) return
+    const naturalSize = natural.getSize(new THREE.Vector3())
+    const reach = Math.max(naturalSize.x, naturalSize.y, naturalSize.z, 0.05)
+
     assembly.scale.multiplyScalar(build.scale)
 
-    // Sit it on the ground and frame it.
+    // Sit it on the ground, centred.
     const box = new THREE.Box3().setFromObject(assembly)
-    if (box.isEmpty()) return
     const size = box.getSize(new THREE.Vector3())
     const centre = box.getCenter(new THREE.Vector3())
     assembly.position.sub(new THREE.Vector3(centre.x, box.min.y, centre.z))
     root.add(assembly)
 
-    const reach = Math.max(size.x, size.y, size.z, 0.1)
-    grid.scale.setScalar(reach * 3)
-    ground.scale.setScalar(reach * 8)
-    controls.target.set(0, size.y * 0.45, 0)
-    camera.position.set(reach * 0.9, reach * 0.75, reach * 1.5)
-    camera.near = reach / 400
-    camera.far = reach * 200
+    // The grid is a ruler: fixed squares at the base aircraft's scale, so a
+    // 4x model visibly covers sixteen times the ground a 1x one does.
+    setGrid(reach)
+    ground.scale.setScalar(reach * 20)
+
+    camera.near = reach / 800
+    camera.far = reach * 400
     camera.updateProjectionMatrix()
-    key.position.set(reach * 1.2, reach * 2, reach * 0.8)
-    const shadowSpan = reach * 2
+    key.position.set(reach * 1.2, reach * 2.4, reach * 0.8)
+    const shadowSpan = reach * 4
     const cam = key.shadow.camera as THREE.OrthographicCamera
     cam.left = -shadowSpan
     cam.right = shadowSpan
     cam.top = shadowSpan
     cam.bottom = -shadowSpan
     cam.near = 0.01
-    cam.far = shadowSpan * 6
+    cam.far = shadowSpan * 8
     cam.updateProjectionMatrix()
+
+    // Only reframe when the aircraft itself changes. Swapping a part or moving
+    // the scale slider leaves the camera where you put it, so you can actually
+    // see what changed.
+    if (framedFor !== build.baseId) {
+      framedFor = build.baseId
+      controls.target.set(0, size.y * 0.45, 0)
+      camera.position.set(reach * 1.1, reach * 0.85, reach * 1.8)
+    }
     controls.update()
   }
 

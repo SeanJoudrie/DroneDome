@@ -1,4 +1,4 @@
-import type { Analysis, Build, PartRole, StatRow } from '../types'
+import type { Analysis, Build, PartRole, SlotChoice, StatRow } from '../types'
 import { AIRCRAFT, AIRCRAFT_BY_ID } from '../data/aircraft.generated'
 import {
   ENERGY_SOURCES,
@@ -141,7 +141,7 @@ export function SlotList({
   rows.push({ key: 'energy', label: 'Energy', value: energy?.name ?? 'None', cls: '', t: { kind: 'energy' } })
   rows.push({
     key: 'payload',
-    label: 'Payload',
+    label: 'Equipment',
     value: payloadNames.length ? payloadNames.join(', ') : 'Nothing',
     cls: '',
     t: { kind: 'payload' },
@@ -206,8 +206,51 @@ export function Picker({
     const hasOwn = base?.parts.some((p) => p.role === role) || !!base?.cuts[role]
     const choice = build.slots[role]
     title = `${role}`
+    const size = choice && choice.kind !== 'none' ? (choice.scale ?? 1) : 1
+    const setSlot = (patch: Partial<Extract<SlotChoice, { kind: 'donor' }>>) => {
+      const current: SlotChoice = choice ?? { kind: 'stock' }
+      if (current.kind === 'none') return
+      onChange({ ...build, slots: { ...build.slots, [role]: { ...current, ...patch } } })
+    }
     body = (
       <>
+        {choice?.kind !== 'none' && (hasOwn || choice?.kind === 'donor') && (
+          <div className="sub-bar">
+            <span className="panel-title">Size</span>
+            <input
+              type="range"
+              min={0.25}
+              max={3}
+              step={0.05}
+              value={size}
+              onChange={(e) => setSlot({ scale: Number(e.target.value) })}
+            />
+            <span className="scale-value">{size.toFixed(2)}×</span>
+            {Math.abs(size - 1) > 0.001 && (
+              <button className="btn ghost" onClick={() => setSlot({ scale: 1 })}>
+                Reset
+              </button>
+            )}
+          </div>
+        )}
+
+        {role === 'rotor' && choice?.kind === 'donor' && (
+          <div className="sub-bar">
+            <span className="panel-title">How many</span>
+            <div className="seg">
+              {[2, 3, 4, 6, 8].map((n) => (
+                <button
+                  key={n}
+                  className={(choice.count ?? 4) === n ? 'on' : ''}
+                  onClick={() => setSlot({ count: n })}
+                >
+                  {n}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+
         {hasOwn && (
           <OptionRow
             name={`Standard ${role}`}

@@ -123,9 +123,12 @@ export interface AircraftModel {
  *  none  — stripped off
  *  donor — the same part borrowed from a different aircraft, which is how you
  *          end up with a Reaper on quadcopter rotors
+ *
+ * `scale` is always a user multiplier on top of whatever size the part would
+ * naturally be, so 1 means "as it comes" for both stock and borrowed parts.
  */
 export type SlotChoice =
-  | { kind: 'stock' }
+  | { kind: 'stock'; scale?: number }
   | { kind: 'none' }
   | { kind: 'donor'; aircraftId: string; count?: number; scale?: number }
 

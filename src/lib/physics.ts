@@ -74,7 +74,7 @@ function resolveSlot(build: Build, base: AircraftModel, role: PartRole) {
     // A welded model has no separate node for the part, only a cut that removes
     // it — so a defined cut counts as the part being fitted.
     const present = base.parts.some((p) => p.role === role) || !!base.cuts[role]
-    return present ? { donor: base, fitScale: 1, count: undefined } : null
+    return present ? { donor: base, fitScale: choice.scale ?? 1, count: undefined } : null
   }
   const donor = AIRCRAFT_BY_ID[choice.aircraftId]
   if (!donor) return null
@@ -82,7 +82,11 @@ function resolveSlot(build: Build, base: AircraftModel, role: PartRole) {
   // quadcopter rotors on a 20 m Reaper are technically honest and visually
   // useless, so donor parts scale with the host's span — and because the
   // physics uses the same number, the result stays truthful either way.
-  return { donor, fitScale: choice.scale ?? fitScaleFor(base, donor), count: choice.count }
+  return {
+    donor,
+    fitScale: fitScaleFor(base, donor) * (choice.scale ?? 1),
+    count: choice.count,
+  }
 }
 
 export function fitScaleFor(host: AircraftModel, donor: AircraftModel) {
