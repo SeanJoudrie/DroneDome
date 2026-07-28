@@ -1,5 +1,12 @@
 import type { Build, PartRole, SlotChoice } from '../types'
 import { AIRCRAFT, AIRCRAFT_BY_ID } from '../data/aircraft.generated'
+import {
+  ENERGY_SOURCES,
+  ENVIRONMENTS,
+  PAINTS,
+  PAYLOADS,
+  POWERPLANTS,
+} from '../data/catalog'
 
 /** What each preset arrives with fitted. */
 const PRESET_LOADOUT: Record<string, { powerplant: string; energy: string; payloads: string[] }> = {
@@ -89,4 +96,53 @@ export function isChimera(build: Build): boolean {
   return Object.values(build.slots).some(
     (c) => c && (c.kind === 'none' || (c.kind === 'donor' && c.aircraftId !== build.baseId)),
   )
+}
+
+// ---------------------------------------------------------------------------
+// Randomiser
+// ---------------------------------------------------------------------------
+
+const pick = <T,>(xs: T[]): T => xs[Math.floor(Math.random() * xs.length)]
+
+/**
+ * Roll a mongrel.
+ *
+ * Deliberately biased toward splicing rather than fairness: a uniformly random
+ * build is mostly "stock" and looks like nothing happened. Every swappable role
+ * gets a good chance of coming from a different aircraft, sizes are jittered,
+ * and the powerplant is left free to be wildly unsuited to the airframe -
+ * which is where the interesting verdicts come from.
+ */
+export function randomBuild(): Build {
+  const base = pick(AIRCRAFT)
+  const b = createBuild(base.id)
+  const donors: string[] = []
+
+  for (const role of availableRoles(base.id)) {
+    const options = donorsFor(role).filter((a) => a.id !== base.id)
+    const roll = Math.random()
+    if (roll < 0.15) {
+      b.slots[role] = { kind: 'none' }
+    } else if (roll < 0.7 && options.length) {
+      const donor = pick(options)
+      donors.push(donor.name)
+      b.slots[role] = {
+        kind: 'donor',
+        aircraftId: donor.id,
+        scale: 0.5 + Math.random() * 1.6,
+        ...(role === 'rotor' ? { count: pick([2, 3, 4, 6, 8]) } : {}),
+      }
+    } else {
+      b.slots[role] = { kind: 'stock', scale: 0.7 + Math.random() * 1.1 }
+    }
+  }
+
+  b.powerplantId = pick(POWERPLANTS).id
+  b.energyId = pick(ENERGY_SOURCES).id
+  b.payloadIds = [pick(PAYLOADS).id]
+  b.paint = pick(PAINTS).id
+  b.environment = pick(ENVIRONMENTS).id
+  b.scale = 0.4 + Math.random() * 1.8
+  b.name = donors.length ? `${base.name} / ${donors[0]} mongrel` : `${base.name} mongrel`
+  return b
 }

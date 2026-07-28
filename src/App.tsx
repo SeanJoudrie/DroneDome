@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import type { Build } from './types'
 import { AIRCRAFT } from './data/aircraft.generated'
-import { availableRoles, createBuild, isChimera, newId } from './lib/build'
+import { availableRoles, createBuild, isChimera, newId, randomBuild } from './lib/build'
 import { analyse } from './lib/physics'
 import {
   deleteBuild,
@@ -146,6 +146,16 @@ export default function App() {
           </select>
         )}
 
+        <button
+          className="btn primary"
+          title="Splice something at random"
+          onClick={() => {
+            setTarget(null)
+            setBuild(randomBuild())
+          }}
+        >
+          Randomise
+        </button>
         <button className="btn" onClick={save}>
           Save
         </button>
