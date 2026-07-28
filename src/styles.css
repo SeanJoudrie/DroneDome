@@ -688,3 +688,135 @@ a {
     transition: none;
   }
 }
+
+/* ---- slot accordion ------------------------------------------------------ */
+.slot-group {
+  border-bottom: 1px solid var(--line);
+}
+
+.slot-group:last-child {
+  border-bottom: 0;
+}
+
+.slot-group .slot {
+  border-bottom: 0;
+}
+
+.slot-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.slot-caret {
+  font-family: var(--mono);
+  color: var(--ink-3);
+  width: 12px;
+  text-align: center;
+  flex: none;
+}
+
+.slot.active .slot-caret {
+  color: var(--accent);
+}
+
+/* the options drawer sits inside the row, so it never becomes a second card */
+.slot-expand > .panel {
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  background: var(--panel-2);
+  border-top: 1px solid var(--line);
+}
+
+.slot-expand .panel-head {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: var(--panel-2);
+}
+
+/* keep a long donor list from pushing everything else off the page */
+.slot-expand {
+  max-height: min(58vh, 520px);
+  overflow: auto;
+  overscroll-behavior: contain;
+}
+
+/* ---- one-screen mobile --------------------------------------------------- */
+@media (max-width: 1080px) {
+  /* Drone first and pinned, controls under it, data last - so changing a wing
+     never scrolls the aircraft out of view. */
+  .col-stage {
+    order: -1;
+  }
+
+  .viewer {
+    position: sticky;
+    top: 56px;
+    z-index: 5;
+    height: 42vh;
+    min-height: 220px;
+  }
+
+  .stage {
+    gap: 10px;
+    padding: 10px;
+  }
+
+  .slot-expand {
+    max-height: 46vh;
+  }
+}
+
+/* Mobile top bar: the default wrapped onto three rows and cost ~290px of a
+   896px screen before the drone even appeared. */
+@media (max-width: 1080px) {
+  .topbar {
+    gap: 8px;
+    padding: 7px 10px;
+    row-gap: 6px;
+  }
+
+  .topbar .brand {
+    font-size: 11px;
+    letter-spacing: 0.1em;
+  }
+
+  .topbar select {
+    flex: 1 1 130px;
+    min-width: 0;
+    max-width: none;
+    padding: 5px 7px;
+    font-size: 13px;
+  }
+
+  .topbar .seg button,
+  .topbar .btn {
+    padding: 4px 8px;
+    font-size: 12px;
+  }
+
+  /* the spacer forces a wrap on narrow screens for no benefit */
+  .topbar .spacer {
+    display: none;
+  }
+
+  .viewer {
+    height: 34vh;
+  }
+
+  .scale-bar {
+    padding: 7px 12px;
+    gap: 9px;
+  }
+
+  .panel-head {
+    padding: 8px 12px;
+  }
+
+  .slot {
+    padding: 9px 12px;
+  }
+}

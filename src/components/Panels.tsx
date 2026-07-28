@@ -105,12 +105,16 @@ export function SlotList({
   build,
   roles,
   target,
+  system,
   onSelect,
+  onChange,
 }: {
   build: Build
   roles: PartRole[]
   target: PickerTarget | null
-  onSelect: (t: PickerTarget) => void
+  system: UnitSystem
+  onSelect: (t: PickerTarget | null) => void
+  onChange: (b: Build) => void
 }) {
   const isOn = (t: PickerTarget) =>
     target !== null &&
@@ -166,16 +170,39 @@ export function SlotList({
       <div className="panel-head">
         <span className="panel-title">Build</span>
       </div>
-      {rows.map((r) => (
-        <button
-          key={r.key}
-          className={`slot ${isOn(r.t) ? 'active' : ''}`}
-          onClick={() => onSelect(r.t)}
-        >
-          <span className="slot-role">{r.label}</span>
-          <span className={`slot-value ${r.cls}`}>{r.value}</span>
-        </button>
-      ))}
+      {rows.map((r) => {
+        const open = isOn(r.t)
+        return (
+          <div key={r.key} className="slot-group">
+            <button
+              className={`slot ${open ? 'active' : ''}`}
+              aria-expanded={open}
+              onClick={() => onSelect(open ? null : r.t)}
+            >
+              <span className="slot-role">{r.label}</span>
+              <span className="slot-right">
+                <span className={`slot-value ${r.cls}`}>{r.value}</span>
+                <span className="slot-caret" aria-hidden="true">
+                  {open ? '\u2212' : '+'}
+                </span>
+              </span>
+            </button>
+            {/* Options open directly under the row you tapped, so choosing a
+                wing never means scrolling to the bottom of the page and back. */}
+            {open && (
+              <div className="slot-expand">
+                <Picker
+                  build={build}
+                  target={r.t}
+                  system={system}
+                  onChange={onChange}
+                  onClose={() => onSelect(null)}
+                />
+              </div>
+            )}
+          </div>
+        )
+      })}
     </section>
   )
 }

@@ -11,7 +11,7 @@ import {
   upsertBuild,
 } from './lib/storage'
 import { createViewer, type ViewerHandle } from './three/viewer'
-import { Credits, Picker, SlotList, Stats, type PickerTarget } from './components/Panels'
+import { Credits, SlotList, Stats, type PickerTarget } from './components/Panels'
 
 const FAMILY_ORDER = ['military', 'experimental', 'consumer', 'hobby'] as const
 const FAMILY_LABEL: Record<string, string> = {
@@ -165,20 +165,18 @@ export default function App() {
       </header>
 
       <div className="stage">
-        <div className="col">
-          <SlotList build={build} roles={roles} target={target} onSelect={setTarget} />
-          {target && (
-            <Picker
-              build={build}
-              target={target}
-              system={units}
-              onChange={update}
-              onClose={() => setTarget(null)}
-            />
-          )}
+        <div className="col col-build">
+          <SlotList
+            build={build}
+            roles={roles}
+            target={target}
+            system={units}
+            onSelect={setTarget}
+            onChange={update}
+          />
         </div>
 
-        <div className="col">
+        <div className="col col-stage">
           <div className="viewer" ref={mountRef}>
             <div className="viewer-tools">
               <button className="btn" onClick={() => viewerRef.current?.frame()}>
@@ -209,7 +207,7 @@ export default function App() {
           </section>
         </div>
 
-        <div className="col">
+        <div className="col col-data">
           <Stats analysis={analysis} system={units} />
         </div>
       </div>
