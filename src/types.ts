@@ -224,6 +224,8 @@ export type UnitKind =
   | 'time_h'
   | 'distance_km'
   | 'power_w'
+  | 'force_n'
+  | 'energy_wh'
   | 'ratio'
   | 'percent'
   | 'loading'

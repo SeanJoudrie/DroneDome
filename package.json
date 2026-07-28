@@ -5,9 +5,12 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "tsc -b --noEmit && vite build",
     "preview": "vite preview",
-    "typecheck": "tsc -b --noEmit"
+    "typecheck": "tsc -b --noEmit",
+    "assets": "python3 scripts/fetch.py && node scripts/normalize.mjs && python3 scripts/classify.py && node scripts/optimize.mjs && node scripts/build-catalog.mjs",
+    "assets:repack": "node scripts/normalize.mjs && python3 scripts/classify.py && node scripts/optimize.mjs && node scripts/build-catalog.mjs",
+    "check:physics": "tsx scripts/check-physics.ts"
   },
   "dependencies": {
     "react": "^18.3.1",
@@ -24,7 +27,9 @@
     "@vitejs/plugin-react": "^4.3.2",
     "draco3dgltf": "^1.5.7",
     "meshoptimizer": "^1.2.0",
+    "playwright": "^1.62.0",
     "sharp": "^0.35.3",
+    "tsx": "^4.23.1",
     "typescript": "^5.6.3",
     "vite": "^5.4.9"
   }

@@ -1,0 +1,194 @@
+import type {
+  EnergySource,
+  Environment,
+  PayloadItem,
+  Powerplant,
+} from '../types'
+
+/**
+ * Engines and motor sets. Shaft engines are rated in kW and burn fuel by the
+ * kWh; turbofans are rated in newtons and burn by thrust-hour, which is why the
+ * two consumption figures are different units.
+ */
+export const POWERPLANTS: Powerplant[] = [
+  {
+    id: 'e-0802-19000',
+    name: 'Whoop motors (0802, 19000 Kv)',
+    kind: 'electric',
+    powerKw: 0.02,
+    massKg: 0.0032,
+    efficiency: 0.62,
+    note: 'Four tiny brushless motors. Enough to lift a coaster.',
+  },
+  {
+    id: 'e-2207-2450',
+    name: 'FPV race motors (2207, 2450 Kv)',
+    kind: 'electric',
+    powerKw: 0.4,
+    massKg: 0.032,
+    efficiency: 0.78,
+    note: 'The freestyle standard. Absurd power for their mass.',
+  },
+  {
+    id: 'e-2216-950',
+    name: 'Camera drone motors (2216, 950 Kv)',
+    kind: 'electric',
+    powerKw: 0.22,
+    massKg: 0.058,
+    efficiency: 0.8,
+    note: 'Efficient and quiet. Built for hovering, not for fighting.',
+  },
+  {
+    id: 'e-5010-360',
+    name: 'Research motors (5010, 360 Kv)',
+    kind: 'electric',
+    powerKw: 0.5,
+    massKg: 0.096,
+    efficiency: 0.82,
+    note: 'The X500 workhorse. Big slow props, long hover.',
+  },
+  {
+    id: 'e-8318-100',
+    name: 'Heavy-lift motors (8318, 100 Kv)',
+    kind: 'electric',
+    powerKw: 3.2,
+    massKg: 0.42,
+    efficiency: 0.84,
+    note: 'Agricultural spray drone class. Moves serious weight.',
+  },
+  {
+    id: 'e-coax-mars',
+    name: 'Coaxial rotor pair (Mars-rated)',
+    kind: 'electric',
+    powerKw: 0.35,
+    massKg: 0.11,
+    efficiency: 0.7,
+    note: 'Spins at 2500 rpm because the air is barely there.',
+  },
+  {
+    id: 'rotax-912',
+    name: 'Rotax 912 piston',
+    kind: 'fuel',
+    powerKw: 74,
+    sfcKgPerKwh: 0.34,
+    massKg: 60,
+    efficiency: 0.8,
+    note: 'Light aircraft flat-four. Powers the TB2.',
+  },
+  {
+    id: 'rotax-914',
+    name: 'Rotax 914F turbocharged piston',
+    kind: 'fuel',
+    powerKw: 86,
+    sfcKgPerKwh: 0.33,
+    massKg: 78,
+    efficiency: 0.8,
+    note: 'Turbocharged so it keeps its power up high. The Predator engine.',
+  },
+  {
+    id: 'tpe331-10',
+    name: 'Honeywell TPE331-10 turboprop',
+    kind: 'fuel',
+    powerKw: 671,
+    sfcKgPerKwh: 0.32,
+    massKg: 172,
+    efficiency: 0.85,
+    note: '900 shaft horsepower. What makes a Reaper a Reaper.',
+  },
+  {
+    id: 'f137-rr-100',
+    name: 'Rolls-Royce F137 turbofan',
+    kind: 'fuel',
+    thrustN: 34000,
+    tsfcKgPerNH: 0.061,
+    massKg: 730,
+    efficiency: 1,
+    note: 'High-bypass fan built for thin air and very long days.',
+  },
+  {
+    id: 'f100-220u',
+    name: 'Pratt & Whitney F100-220U turbofan',
+    kind: 'fuel',
+    thrustN: 79600,
+    tsfcKgPerNH: 0.082,
+    massKg: 1470,
+    efficiency: 1,
+    note: 'A fighter engine. Thirsty, and very fast.',
+  },
+  {
+    id: 'hybrid-10kw',
+    name: 'Hybrid generator (10 kW gen + electric)',
+    kind: 'hybrid',
+    powerKw: 10,
+    sfcKgPerKwh: 0.38,
+    massKg: 14,
+    efficiency: 0.78,
+    note: 'Petrol generator feeding electric motors. Endurance of fuel, control of electric.',
+  },
+  {
+    id: 'solar-electric',
+    name: 'Solar-electric drive',
+    kind: 'solar',
+    powerKw: 0.35,
+    massKg: 0.09,
+    efficiency: 0.72,
+    note: 'Runs on sunlight and a small buffer battery. Patient by design.',
+  },
+]
+
+export const ENERGY_SOURCES: EnergySource[] = [
+  { id: 'lipo-1s-300', name: '1S 300 mAh LiPo', kind: 'battery', wh: 1.1, massKg: 0.008, note: 'Whoop pack. Two minutes of fun.' },
+  { id: 'lipo-4s-1500', name: '4S 1500 mAh LiPo', kind: 'battery', wh: 22, massKg: 0.17, note: 'Standard 5-inch freestyle pack.' },
+  { id: 'lipo-4s-5000', name: '4S 5000 mAh LiPo', kind: 'battery', wh: 74, massKg: 0.45, note: 'The X500 pack. Good hover time.' },
+  { id: 'lipo-6s-8000', name: '6S 8000 mAh LiPo', kind: 'battery', wh: 177, massKg: 1.05, note: 'Long-range and cinelifter territory.' },
+  { id: 'liion-6s-12000', name: '6S 12000 mAh Li-ion', kind: 'battery', wh: 266, massKg: 1.28, note: 'Heavier but far more energy per kilo. Poor peak current.' },
+  { id: 'lipo-12s-22000', name: '12S 22000 mAh LiPo', kind: 'battery', wh: 977, massKg: 6.2, note: 'Agricultural pack. Enormous.' },
+  { id: 'liion-mars-38', name: 'Mars-rated Li-ion, 38 Wh', kind: 'battery', wh: 38, massKg: 0.27, note: 'Heated so it survives the night at −90 °C.' },
+  { id: 'fuel-130', name: 'Fuel tank, 130 kg', kind: 'fuel', fuelKg: 130, massKg: 9, note: 'TB2-sized. About a day aloft.' },
+  { id: 'fuel-300', name: 'Fuel tank, 300 kg', kind: 'fuel', fuelKg: 300, massKg: 20, note: 'Predator tankage.' },
+  { id: 'fuel-1815', name: 'Fuel tank, 1815 kg', kind: 'fuel', fuelKg: 1815, massKg: 110, note: 'Reaper internal fuel. Most of its empty weight again.' },
+  { id: 'fuel-7300', name: 'Fuel tank, 7300 kg', kind: 'fuel', fuelKg: 7300, massKg: 420, note: 'Global Hawk. Thirty-two hours of it.' },
+  { id: 'fuel-8000', name: 'Fuel tank, 8000 kg', kind: 'fuel', fuelKg: 8000, massKg: 460, note: 'X-47B. Gone in an afternoon.' },
+  { id: 'solar-12w', name: 'Solar array, 12 W', kind: 'solar', solarW: 12, wh: 12, massKg: 0.09, note: 'Ingenuity-sized. The pack holds 38 Wh but most of it goes to keeping the electronics alive overnight at −90 °C, so only about a third is ever available to fly on.' },
+  { id: 'solar-500w', name: 'Solar array, 500 W', kind: 'solar', solarW: 500, wh: 400, massKg: 3.4, note: 'Wing-covering array. Flies as long as the sun holds.' },
+]
+
+export const PAYLOADS: PayloadItem[] = [
+  { id: 'none', name: 'Nothing', massKg: 0, drawW: 0, dragAreaM2: 0, note: 'Clean airframe.' },
+  { id: 'fpv-cam', name: 'FPV camera + VTX', massKg: 0.02, drawW: 4, dragAreaM2: 0.0004, note: 'Analogue eyes. Basically free.' },
+  { id: 'gopro', name: 'Action camera', massKg: 0.13, drawW: 3, dragAreaM2: 0.0016, note: 'Every gram of it visible in your hover time.' },
+  { id: 'gimbal-4k', name: '3-axis gimbal, 4K', massKg: 0.32, drawW: 12, dragAreaM2: 0.006, note: 'Stabilised cinema camera.' },
+  { id: 'lidar', name: 'Survey lidar', massKg: 1.1, drawW: 22, dragAreaM2: 0.012, note: 'Point clouds of everything below you.' },
+  { id: 'eo-ir', name: 'EO/IR sensor turret', massKg: 90, drawW: 900, dragAreaM2: 0.09, note: 'The ball under the nose. Sees in the dark from very far away.' },
+  { id: 'sar', name: 'Synthetic aperture radar', massKg: 240, drawW: 3000, dragAreaM2: 0.22, note: 'Images through cloud. Heavy and power-hungry.' },
+  { id: 'comms-relay', name: 'Comms relay package', massKg: 65, drawW: 700, dragAreaM2: 0.05, note: 'Turns the aircraft into a flying cell tower.' },
+  { id: 'cargo-2kg', name: 'Cargo box, 2 kg', massKg: 2, drawW: 0, dragAreaM2: 0.02, note: 'Delivery drone staple.' },
+  { id: 'spray-10l', name: 'Spray tank, 10 L', massKg: 10.5, drawW: 60, dragAreaM2: 0.04, note: 'Agricultural. Gets lighter as you work.' },
+  { id: 'spray-40l', name: 'Spray tank, 40 L', massKg: 41, drawW: 90, dragAreaM2: 0.09, note: 'Agras class. Most of the aircraft is tank.' },
+  { id: 'hellfire-x4', name: 'Four AGM-114 on hardpoints', massKg: 200, drawW: 20, dragAreaM2: 0.16, note: 'What the hardpoints are for.' },
+  { id: 'science-mars', name: 'Mars science package', massKg: 0.05, drawW: 2, dragAreaM2: 0.001, note: 'Fifty grams is a serious payload when the air is this thin.' },
+]
+
+export const ENVIRONMENTS: Environment[] = [
+  { id: 'earth', name: 'Earth, sea level', airDensity: 1.225, gravity: 9.807, note: 'Thick air, heavy gravity. The default.' },
+  { id: 'denver', name: 'Earth, 1600 m', airDensity: 1.048, gravity: 9.807, note: 'Denver. Noticeably less lift than you expect.' },
+  { id: 'everest', name: 'Earth, 8850 m', airDensity: 0.466, gravity: 9.807, note: 'Summit of Everest. Rotors struggle badly up here.' },
+  { id: 'mars', name: 'Mars surface', airDensity: 0.02, gravity: 3.721, note: '1.6% of Earth\'s air density, 38% of its gravity. Almost nothing to push against.' },
+]
+
+export const PAINTS: { id: string; name: string; color: string }[] = [
+  { id: 'grey', name: 'Air force grey', color: '#8b939c' },
+  { id: 'sand', name: 'Desert sand', color: '#c8b48b' },
+  { id: 'white', name: 'Gloss white', color: '#e8ecef' },
+  { id: 'charcoal', name: 'Charcoal', color: '#3a3f45' },
+  { id: 'olive', name: 'Olive drab', color: '#5d6244' },
+  { id: 'navy', name: 'Navy blue', color: '#2b3d54' },
+  { id: 'orange', name: 'Hi-vis orange', color: '#d4622a' },
+  { id: 'red', name: 'Racing red', color: '#b8332f' },
+  { id: 'stock', name: 'As delivered', color: '' },
+]
+
+export const POWERPLANTS_BY_ID = Object.fromEntries(POWERPLANTS.map((p) => [p.id, p]))
+export const ENERGY_BY_ID = Object.fromEntries(ENERGY_SOURCES.map((e) => [e.id, e]))
+export const PAYLOADS_BY_ID = Object.fromEntries(PAYLOADS.map((p) => [p.id, p]))
+export const ENVIRONMENTS_BY_ID = Object.fromEntries(ENVIRONMENTS.map((e) => [e.id, e]))

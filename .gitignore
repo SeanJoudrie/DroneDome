@@ -9,3 +9,4 @@ dist/
 !.env.example
 assets-src/
 .sketchfab-token
+*.tsbuildinfo
