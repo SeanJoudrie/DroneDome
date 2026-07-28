@@ -199,7 +199,17 @@ export interface PayloadItem {
    * sensor turret, weapon pylons and camera blocks on real aircraft, so
    * equipment reuses those rather than inventing shapes.
    */
-  mesh?: { aircraftId: string; role: PartRole; scale?: number; repeat?: number }
+  mesh?: {
+    aircraftId: string
+    role: PartRole
+    /**
+     * Real length of the longest side, in metres. The borrowed mesh is
+     * normalised to this, so the result does not depend on how big the part
+     * happened to be on its donor aircraft.
+     */
+    sizeM: number
+    repeat?: number
+  }
 }
 
 export interface Environment {

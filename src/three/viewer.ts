@@ -403,10 +403,16 @@ export function createViewer(container: HTMLElement): ViewerHandle {
       const unitMid = unitBox.getCenter(new THREE.Vector3())
       for (const child of unit.children) child.position.sub(unitMid)
 
-      // Equipment is NOT resized to suit the host. A 90 kg sensor turret is a
-      // 90 kg sensor turret, and hanging one off a 1.7 kg quadcopter should
-      // look as ridiculous as the thrust-to-weight figure says it is.
-      unit.scale.setScalar(spec.scale ?? 1)
+      // Normalise the borrowed mesh to the item's real size. Doing it by
+      // measurement rather than by a multiplier means the result does not
+      // depend on how big the part happened to be on its donor aircraft.
+      //
+      // Equipment is deliberately NOT scaled to suit the host: a 90 kg turret
+      // is 90 kg wherever you bolt it, so on a 1.7 kg quadcopter it should look
+      // as ridiculous as the thrust-to-weight figure says it is.
+      const span = unitBox.getSize(new THREE.Vector3())
+      const longest = Math.max(span.x, span.y, span.z, 1e-6)
+      unit.scale.setScalar(spec.sizeM / longest)
 
       if (hostPoints.length) {
         for (const at of hostPoints.slice(0, spec.repeat ?? hostPoints.length)) {
