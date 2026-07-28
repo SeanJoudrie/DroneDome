@@ -193,6 +193,18 @@ export function analyse(build: Build): Analysis {
   // its rotors — which is a completely different set of sums.
   const hasRotors = rotorCount > 0 && (rotorCount >= 3 || !hasWing)
 
+  // Rotor torque has to be cancelled by something. An even number of rotors
+  // does it by counter-rotation; an odd number needs a tilting servo or a tail
+  // rotor. Two rotors can only manage it coaxially. Nothing here blocks the
+  // build - it just tells you the truth about what it would do.
+  const coaxial = !!rotorSlot?.donor.spec.coaxial
+  const yawAuthority =
+    !hasRotors ||
+    coaxial ||
+    rotorCount >= 4 ||
+    (rotorCount === 3 && !!fitted.tail) ||
+    (rotorCount === 2 && !!fitted.tail)
+
   const plantCount = hasRotors ? Math.max(1, rotorCount) : 1
   const plantMass = (plant?.massKg ?? 0) * plantCount * s3
   if (plantMass > 0) {
@@ -232,6 +244,15 @@ export function analyse(build: Build): Analysis {
   const cruiseAltitude = hasWing ? (base.spec.ceiling_m || 0) * 0.5 : 0
   const cruiseRho = densityAt(rho, cruiseAltitude, env.scaleHeight)
 
+  // Wing planform, needed by the rotor block before the wing block runs.
+  let wingAreaForDownload = 0
+  if (hasWing && wingSlot) {
+    const ds = wingSlot.donor.spec
+    wingAreaForDownload =
+      (ds.wing_area_m2 ?? (ds.span_m * ds.span_m) / 12) * s2 * wingSlot.fitScale ** 2
+  }
+  let downloadLoss = 0
+
   const groups: StatGroup[] = []
 
   // ---- rotor performance --------------------------------------------------
@@ -251,6 +272,14 @@ export function analyse(build: Build): Analysis {
     // thrust can the disc actually produce?  T = ((P·FoM)² · 2ρA)^(1/3)
     if (shaftW > 0 && disc > 0) {
       staticThrust = Math.cbrt((shaftW * fom) ** 2 * 2 * rho * disc)
+    }
+    // Anything sitting in the rotor wake eats thrust. A wing bolted under a
+    // quadcopter's discs is the classic case: the downwash presses on it and
+    // the aircraft has to lift its own wing before it lifts anything else.
+    // Real VTOLs lose 5-15% here; a wing larger than the disc loses far more.
+    if (hasWing && wingAreaForDownload > 0 && disc > 0) {
+      downloadLoss = clamp(0.3 * (wingAreaForDownload / disc), 0, 0.45)
+      staticThrust *= 1 - downloadLoss
     }
     twr = weight > 0 ? staticThrust / weight : 0
 
@@ -273,6 +302,17 @@ export function analyse(build: Build): Analysis {
         row('Hover power', hoverPowerW, 'power_w'),
         { ...row('Hover throttle', clamp(hoverThrottle, 0, 2) * 100, 'percent'),
           gauge: { max: 100, invert: true } },
+        ...(downloadLoss > 0
+          ? [{
+              ...row('Wake download loss', downloadLoss * 100, 'percent',
+                'thrust lost pressing on your own wing'),
+              gauge: { max: 45, invert: true },
+            }]
+          : []),
+        row('Yaw authority', yawAuthority ? 1 : 0, 'none',
+          yawAuthority
+            ? 'counter-rotating pairs can hold heading'
+            : 'nothing balances the rotor torque'),
       ],
     })
   }
@@ -486,6 +526,18 @@ export function analyse(build: Build): Analysis {
       })
     }
   }
+  if (hasRotors && !yawAuthority) {
+    warnings.push({
+      severity: 'warn',
+      text: `${rotorCount} rotor${rotorCount === 1 ? '' : 's'} with nothing to cancel their torque. It will spin on its own axis and keep spinning — it can hover, but it cannot hold a heading.`,
+    })
+  }
+  if (downloadLoss > 0.12) {
+    warnings.push({
+      severity: 'warn',
+      text: `The wing sits in the rotor wake and eats ${(downloadLoss * 100).toFixed(0)}% of your thrust. The aircraft is lifting its own wing before it lifts anything else.`,
+    })
+  }
   if (hoverThrottle > 0.8 && hoverThrottle < Infinity && hasRotors) {
     warnings.push({ severity: 'warn', text: `Hovering needs ${(hoverThrottle * 100).toFixed(0)}% throttle. Nothing left for control.` })
   }
@@ -607,7 +659,7 @@ export function analyse(build: Build): Analysis {
     balance,
     masses,
     groups,
-    verdict: judge({ hasRotors, hasWing, twr, enduranceH, stallSpeed, maxSpeed, plantOk: !!plant, energyOk: !!energy, shaftW, jetThrust, hoverThrottle }),
+    verdict: judge({ hasRotors, hasWing, yawAuthority, twr, enduranceH, stallSpeed, maxSpeed, plantOk: !!plant, energyOk: !!energy, shaftW, jetThrust, hoverThrottle }),
     warnings,
     hasRotors,
     hasWing,
@@ -646,6 +698,7 @@ function solveMaxSpeed(
 function judge(x: {
   hasRotors: boolean
   hasWing: boolean
+  yawAuthority: boolean
   twr: number
   enduranceH: number
   stallSpeed: number
@@ -677,6 +730,13 @@ function judge(x: {
       level: 'grounded',
       headline: 'Cannot reach flying speed',
       reason: `It stalls at ${(x.stallSpeed * 3.6).toFixed(0)} km/h but can only manage ${(x.maxSpeed * 3.6).toFixed(0)} km/h. It will never get airborne.`,
+    }
+  }
+  if (x.hasRotors && !x.yawAuthority && x.twr >= 1) {
+    return {
+      level: 'bad',
+      headline: 'Flies, spinning',
+      reason: 'It will leave the ground and immediately begin rotating, because nothing cancels the torque of its rotors.',
     }
   }
   if (x.hasRotors && x.twr < 1.3) {

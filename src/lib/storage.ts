@@ -2,6 +2,8 @@ import type { Build } from '../types'
 import { AIRCRAFT_BY_ID } from '../data/aircraft.generated'
 
 const KEY = 'dronedome.builds.v1'
+/** Bump when the Build shape changes incompatibly. */
+export const BUILD_SCHEMA = 1
 const PREFS = 'dronedome.prefs.v1'
 
 export type ThemeId = 'light' | 'dark'
@@ -21,7 +23,11 @@ export function loadBuilds(): Build[] {
     // removed model would otherwise reach analyse() and take the whole app
     // down with it on load.
     return (parsed as Build[]).filter(
-      (b) => b && typeof b.id === 'string' && !!AIRCRAFT_BY_ID[b.baseId],
+      (b) =>
+        b &&
+        typeof b.id === 'string' &&
+        (b.v ?? 1) === BUILD_SCHEMA &&
+        !!AIRCRAFT_BY_ID[b.baseId],
     )
   } catch {
     return []
@@ -38,7 +44,7 @@ export function saveBuilds(builds: Build[]) {
 
 export function upsertBuild(build: Build): Build[] {
   const all = loadBuilds()
-  const next = { ...build, updatedAt: Date.now() }
+  const next = { ...build, v: BUILD_SCHEMA, updatedAt: Date.now() }
   const at = all.findIndex((b) => b.id === build.id)
   if (at >= 0) all[at] = next
   else all.unshift(next)

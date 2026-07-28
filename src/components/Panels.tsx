@@ -22,16 +22,21 @@ export type PickerTarget =
 /** Headline numbers used for the before/after comparison in the picker. */
 function headline(build: Build) {
   const a = analyse(build)
+  // An aircraft that cannot leave the ground has no meaningful endurance or
+  // speed - the maths still produces a number, and it is a nonsense one. NaN
+  // makes Delta skip the row rather than advertise "+5,597h" for a brick.
+  const flies = a.verdict.level !== 'grounded'
   const find = (title: string, label: string) =>
     a.groups.find((g) => g.title === title)?.rows.find((r) => r.label === label)?.value ?? NaN
   return {
     mass: a.massKg,
     payload: find('Overall', 'Spare payload'),
-    speed: find('Overall', 'Top speed'),
-    endurance:
-      find('Fuel & endurance', 'Endurance') ||
-      find('Energy & endurance', 'Endurance') ||
-      find('Energy & endurance', 'Hover time'),
+    speed: flies ? find('Overall', 'Top speed') : NaN,
+    endurance: flies
+      ? find('Fuel & endurance', 'Endurance') ||
+        find('Energy & endurance', 'Endurance') ||
+        find('Energy & endurance', 'Hover time')
+      : NaN,
   }
 }
 

@@ -133,6 +133,8 @@ export type SlotChoice =
   | { kind: 'donor'; aircraftId: string; count?: number; scale?: number }
 
 export interface Build {
+  /** Schema version. Lets a future change reject builds it cannot read. */
+  v?: number
   id: string
   name: string
   /** Base aircraft this started from. */
