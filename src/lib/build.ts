@@ -20,7 +20,9 @@ const PRESET_LOADOUT: Record<string, { powerplant: string; energy: string; paylo
   'typhoon-h480': { powerplant: 'e-2216-950', energy: 'lipo-4s-5000', payloads: ['gimbal-4k'] },
   'zephyr-delta': { powerplant: 'e-2216-950', energy: 'lipo-4s-5000', payloads: ['fpv-cam'] },
   'v22-osprey': { powerplant: 't406-turboshaft', energy: 'fuel-6500', payloads: ['none'] },
-  'black-hornet': { powerplant: 'e-0802-19000', energy: 'liion-2p5', payloads: ['fpv-cam'] },
+  // Its cameras are part of the 33 g airframe, not bolted on after - fitting a
+  // separate FPV camera double-counted them and put it over its own MTOW.
+  'black-hornet': { powerplant: 'e-0802-19000', energy: 'liion-2p5', payloads: ['none'] },
   'fpv-racer': { powerplant: 'e-2207-2450', energy: 'lipo-4s-1500', payloads: ['fpv-cam'] },
   'agri-hex': { powerplant: 'e-8318-100', energy: 'lipo-12s-22000', payloads: ['spray-40l'] },
   'delivery-quad': { powerplant: 'e-5010-360', energy: 'lipo-6s-8000', payloads: ['cargo-2kg'] },

@@ -467,11 +467,38 @@ export function analyse(build: Build): Analysis {
 
   groups.push({ title: kind === 'fuel' || kind === 'hybrid' ? 'Fuel & endurance' : 'Energy & endurance', rows: energyRows })
 
+  // ---- structural limits ---------------------------------------------------
+  // Every airframe in the catalog carries a published maximum takeoff weight,
+  // and until now nothing checked against it - you could hang a 240 kg radar
+  // off a 33 g helicopter and the only complaint was thrust. MTOW scales with
+  // the cube like the structure it describes.
+  const structuralLimitKg = base.spec.mtow_kg * s3
+  const loadFraction = structuralLimitKg > 0 ? totalMass / structuralLimitKg : 0
+  // Airframes are built with margin over their rated weight; past roughly 1.5x
+  // you are into the territory where the spar, not the motor, is the problem.
+  const ULTIMATE_FACTOR = 1.5
+  const structuralFailure = loadFraction > ULTIMATE_FACTOR
+
+  if (loadFraction > 1 && !structuralFailure) {
+    warnings.push({
+      severity: 'warn',
+      text: `${(loadFraction * 100).toFixed(0)}% of the ${base.name}'s rated takeoff weight. Over its limit but inside its safety margin — it would fly, once, and you would not want to be underneath it.`,
+    })
+  } else if (structuralFailure) {
+    warnings.push({
+      severity: 'warn',
+      text: `${(loadFraction * 100).toFixed(0)}% of rated weight — past the ${ULTIMATE_FACTOR}× ultimate margin. The airframe fails before the rotors even get a say.`,
+    })
+  }
+
   const overall: StatRow[] = [
     row('Takeoff weight', totalMass, 'kg'),
     row('Dry weight', dryMass, 'kg'),
     { ...row('Spare payload', extraPayloadKg, 'kg', 'what you can add and still fly'),
       gauge: { max: Math.max(extraPayloadKg, totalMass * 0.5, 0.01) } },
+    { ...row('Structural load', loadFraction * 100, 'percent',
+        `of the ${base.name}'s rated takeoff weight; over 150% the airframe fails`),
+      gauge: { max: 150, floor: undefined, invert: true } },
   ]
   if (hasWing) overall.push(row('Top speed', maxSpeed, 'speed'))
   else if (hasRotors) {
@@ -659,7 +686,7 @@ export function analyse(build: Build): Analysis {
     balance,
     masses,
     groups,
-    verdict: judge({ hasRotors, hasWing, yawAuthority, twr, enduranceH, stallSpeed, maxSpeed, plantOk: !!plant, energyOk: !!energy, shaftW, jetThrust, hoverThrottle }),
+    verdict: judge({ hasRotors, hasWing, yawAuthority, structuralFailure, loadFraction, twr, enduranceH, stallSpeed, maxSpeed, plantOk: !!plant, energyOk: !!energy, shaftW, jetThrust, hoverThrottle }),
     warnings,
     hasRotors,
     hasWing,
@@ -699,6 +726,8 @@ function judge(x: {
   hasRotors: boolean
   hasWing: boolean
   yawAuthority: boolean
+  structuralFailure: boolean
+  loadFraction: number
   twr: number
   enduranceH: number
   stallSpeed: number
@@ -709,6 +738,13 @@ function judge(x: {
   jetThrust: number
   hoverThrottle: number
 }): Verdict {
+  if (x.structuralFailure) {
+    return {
+      level: 'grounded',
+      headline: 'The airframe fails first',
+      reason: `It is carrying ${(x.loadFraction * 100).toFixed(0)}% of its rated takeoff weight. Whether the motors could lift it is academic — the structure gives way on the pad.`,
+    }
+  }
   if (!x.hasRotors && !x.hasWing) {
     return { level: 'grounded', headline: 'Not an aircraft', reason: 'Nothing here generates lift. It is a very expensive brick.' }
   }
