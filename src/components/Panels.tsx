@@ -257,6 +257,7 @@ export function Picker({
     [target],
   )
   const [find, setFind] = useState('')
+  const [adjust, setAdjust] = useState(false)
   // Sixty-odd parts per slot is a list you scroll past, not one you choose
   // from. Matching on the aircraft and the part's own name covers both ways
   // people look for something: "reaper" and "rotor".
@@ -289,7 +290,105 @@ export function Picker({
     }
     body = (
       <>
+        {hasOwn && (
+          <OptionRow
+            name={`Standard ${role}`}
+            note={`As fitted to the ${base?.name}.`}
+            selected={!choice || choice.kind === 'stock'}
+            onPick={() => onChange({ ...build, slots: { ...build.slots, [role]: { kind: 'stock' } } })}
+            base={current}
+            next={preview({ slots: { ...build.slots, [role]: { kind: 'stock' } } })}
+            system={system}
+          />
+        )}
+        <OptionRow
+          name={`No ${role}`}
+          note="Take it off entirely and see what happens."
+          selected={choice?.kind === 'none'}
+          onPick={() => onChange({ ...build, slots: { ...build.slots, [role]: { kind: 'none' } } })}
+          base={current}
+          next={preview({ slots: { ...build.slots, [role]: { kind: 'none' } } })}
+          system={system}
+        />
+        {donors.filter((d) => d.id !== build.baseId).length > 0 && (
+          <div className="parts-head">
+            {donors.filter((d) => d.id !== build.baseId).length} {role}s from other drones
+          </div>
+        )}
+        {donors
+          .filter((d) => d.id !== build.baseId)
+          .map((d) => {
+            const patch = {
+              slots: { ...build.slots, [role]: { kind: 'donor' as const, aircraftId: d.id } },
+            }
+            return (
+              <OptionRow
+                key={d.id}
+                name={`${d.name} ${role}`}
+                note={d.blurb}
+                selected={
+                  choice?.kind === 'donor' && choice.aircraftId === d.id && !choice.fromRole
+                }
+                onPick={() => onChange({ ...build, ...patch })}
+                base={current}
+                next={preview(patch)}
+                system={system}
+              />
+            )
+          })}
+
+        {/* The Lego drawer. Any part in the catalog can do any job — the slot
+            decides what it does, the mesh decides what it looks like. */}
+        <button className="drawer-toggle" onClick={() => setDrawer((v) => !v)}>
+          {drawer ? '−' : '+'} Use something else as a {role} ({crossParts.length})
+        </button>
+        {drawer && (
+          <input
+            className="drawer-find"
+            type="search"
+            placeholder={`Find a part — try "reaper", "rotor", "solar"`}
+            value={find}
+            onChange={(e) => setFind(e.target.value)}
+          />
+        )}
+        {drawer &&
+          shownCrossParts.map(({ aircraft: d, fromRole }) => {
+            const patch = {
+              slots: {
+                ...build.slots,
+                [role]: { kind: 'donor' as const, aircraftId: d.id, fromRole },
+              },
+            }
+            return (
+              <OptionRow
+                key={`${d.id}:${fromRole}`}
+                name={`${d.name} ${fromRole}`}
+                note={`Fitted as a ${role}. ${d.blurb}`}
+                selected={
+                  choice?.kind === 'donor' &&
+                  choice.aircraftId === d.id &&
+                  choice.fromRole === fromRole
+                }
+                onPick={() => onChange({ ...build, ...patch })}
+                base={current}
+                next={preview(patch)}
+                system={system}
+              />
+            )
+          })}
+
+        {/* Fit comes after the choice, not before it. Opening a wing slot has
+            to answer "which wing?" first — burying twelve other aircraft's
+            wings under seven sliders made the whole point of the app look
+            like a size control. */}
         {choice?.kind !== 'none' && (hasOwn || choice?.kind === 'donor') && (
+          <>
+            <button className="drawer-toggle" onClick={() => setAdjust((v) => !v)}>
+              {adjust ? '\u2212' : '+'} Adjust how it is fitted
+            </button>
+            {adjust && (
+              <>
+        {(hasOwn || choice?.kind === 'donor') && (
           <div className="sub-bar">
             <span className="panel-title">Size</span>
             <input
@@ -309,7 +408,7 @@ export function Picker({
           </div>
         )}
 
-        {choice?.kind !== 'none' && (hasOwn || choice?.kind === 'donor') && (
+        {(hasOwn || choice?.kind === 'donor') && (
           <>
             <div className="sub-bar">
               <span className="panel-title">Fore / aft</span>
@@ -342,7 +441,7 @@ export function Picker({
           </>
         )}
 
-        {choice?.kind !== 'none' && (hasOwn || choice?.kind === 'donor') && (
+        {(hasOwn || choice?.kind === 'donor') && (
           <>
             {(role === 'wing' || role === 'tail') && (
               <div className="sub-bar">
@@ -384,7 +483,7 @@ export function Picker({
           </>
         )}
 
-        {role === 'rotor' && choice?.kind !== 'none' && (
+        {role === 'rotor' && (
           <div className="sub-bar">
             <span className="panel-title">Tilt</span>
             <input
@@ -448,88 +547,10 @@ export function Picker({
             </div>
           </div>
         )}
-
-        {hasOwn && (
-          <OptionRow
-            name={`Standard ${role}`}
-            note={`As fitted to the ${base?.name}.`}
-            selected={!choice || choice.kind === 'stock'}
-            onPick={() => onChange({ ...build, slots: { ...build.slots, [role]: { kind: 'stock' } } })}
-            base={current}
-            next={preview({ slots: { ...build.slots, [role]: { kind: 'stock' } } })}
-            system={system}
-          />
+              </>
+            )}
+          </>
         )}
-        <OptionRow
-          name={`No ${role}`}
-          note="Take it off entirely and see what happens."
-          selected={choice?.kind === 'none'}
-          onPick={() => onChange({ ...build, slots: { ...build.slots, [role]: { kind: 'none' } } })}
-          base={current}
-          next={preview({ slots: { ...build.slots, [role]: { kind: 'none' } } })}
-          system={system}
-        />
-        {donors
-          .filter((d) => d.id !== build.baseId)
-          .map((d) => {
-            const patch = {
-              slots: { ...build.slots, [role]: { kind: 'donor' as const, aircraftId: d.id } },
-            }
-            return (
-              <OptionRow
-                key={d.id}
-                name={`${d.name} ${role}`}
-                note={d.blurb}
-                selected={
-                  choice?.kind === 'donor' && choice.aircraftId === d.id && !choice.fromRole
-                }
-                onPick={() => onChange({ ...build, ...patch })}
-                base={current}
-                next={preview(patch)}
-                system={system}
-              />
-            )
-          })}
-
-        {/* The Lego drawer. Any part in the catalog can do any job — the slot
-            decides what it does, the mesh decides what it looks like. */}
-        <button className="drawer-toggle" onClick={() => setDrawer((v) => !v)}>
-          {drawer ? '−' : '+'} Use something else as a {role} ({crossParts.length})
-        </button>
-        {drawer && (
-          <input
-            className="drawer-find"
-            type="search"
-            placeholder={`Find a part — try "reaper", "rotor", "solar"`}
-            value={find}
-            onChange={(e) => setFind(e.target.value)}
-          />
-        )}
-        {drawer &&
-          shownCrossParts.map(({ aircraft: d, fromRole }) => {
-            const patch = {
-              slots: {
-                ...build.slots,
-                [role]: { kind: 'donor' as const, aircraftId: d.id, fromRole },
-              },
-            }
-            return (
-              <OptionRow
-                key={`${d.id}:${fromRole}`}
-                name={`${d.name} ${fromRole}`}
-                note={`Fitted as a ${role}. ${d.blurb}`}
-                selected={
-                  choice?.kind === 'donor' &&
-                  choice.aircraftId === d.id &&
-                  choice.fromRole === fromRole
-                }
-                onPick={() => onChange({ ...build, ...patch })}
-                base={current}
-                next={preview(patch)}
-                system={system}
-              />
-            )
-          })}
       </>
     )
   } else if (target.kind === 'powerplant') {

@@ -904,3 +904,14 @@ a {
 }
 .drawer-find::placeholder { color: var(--muted); }
 .drawer-find:focus { outline: 1px solid var(--accent); }
+
+/* Marks where the borrowed parts start. Without it the list reads as one
+   undifferentiated run and the whole point of the app looks like a size slider. */
+.parts-head {
+  padding: 0.55rem 0.85rem 0.35rem;
+  border-top: 1px solid var(--line);
+  color: var(--accent);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+}
