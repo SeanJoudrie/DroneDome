@@ -2441,7 +2441,7 @@ export const AIRCRAFT: AircraftModel[] = [
     "model": "models/zephyr-delta.glb",
     "spec": {
       "span_m": 1.5,
-      "length_m": 0.6,
+      "length_m": 1.5,
       "wing_area_m2": 0.32,
       "empty_mass_kg": 1.1,
       "mtow_kg": 1.6,
@@ -2455,7 +2455,8 @@ export const AIRCRAFT: AircraftModel[] = [
       "cruise_kmh": 55,
       "max_speed_kmh": 110,
       "endurance_h": 0.6,
-      "ceiling_m": 400
+      "ceiling_m": 400,
+      "_length_note": "Measured off the mesh. Both of these are Gazebo simulation airframes with no manufacturer datasheet, so the model is the reference; the figure here before was a guess, and being 2.5x out made the fore/aft control move parts by the wrong amount."
     },
     "axes": {
       "span": 0,
@@ -5043,7 +5044,7 @@ export const AIRCRAFT: AircraftModel[] = [
     "model": "models/x3-uav.glb",
     "spec": {
       "span_m": 0.47,
-      "length_m": 0.47,
+      "length_m": 0.22,
       "empty_mass_kg": 1,
       "mtow_kg": 1.5,
       "powertrain": "electric",
@@ -5056,7 +5057,8 @@ export const AIRCRAFT: AircraftModel[] = [
       "cruise_kmh": 30,
       "max_speed_kmh": 55,
       "endurance_h": 0.22,
-      "ceiling_m": 400
+      "ceiling_m": 400,
+      "_length_note": "Measured off the mesh. Both of these are Gazebo simulation airframes with no manufacturer datasheet, so the model is the reference; the figure here before was a guess, and being 2.5x out made the fore/aft control move parts by the wrong amount."
     },
     "axes": {
       "span": 1,
