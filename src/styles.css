@@ -889,3 +889,18 @@ a {
   color: var(--fg);
   background: var(--raise);
 }
+
+.drawer-find {
+  display: block;
+  width: calc(100% - 1.7rem);
+  margin: 0.5rem 0.85rem;
+  padding: 0.45rem 0.6rem;
+  background: var(--raise);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  color: var(--fg);
+  font: inherit;
+  font-size: 0.85rem;
+}
+.drawer-find::placeholder { color: var(--muted); }
+.drawer-find:focus { outline: 1px solid var(--accent); }

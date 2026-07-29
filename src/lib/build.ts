@@ -174,22 +174,56 @@ export function randomBuild(): Build {
   const b = createBuild(base.id)
   const donors: string[] = []
 
+  /** Angles and offsets, so a rolled build is not just a stock one recoloured. */
+  const jitter = (role: PartRole) => ({
+    fore: Math.round((Math.random() - 0.5) * 120) / 100,
+    rise: Math.round((Math.random() - 0.5) * 100) / 100,
+    ...(role === 'wing' || role === 'tail'
+      ? {
+          rollDeg: Math.round((Math.random() - 0.5) * 50),
+          pitchDeg: Math.round((Math.random() - 0.5) * 24),
+          yawDeg: Math.round((Math.random() - 0.5) * 60),
+          ...(Math.random() < 0.25 ? { count: pick([2, 3]) } : {}),
+        }
+      : {}),
+    ...(role === 'rotor'
+      ? {
+          count: pick([2, 3, 4, 6, 8]),
+          tiltDeg: Math.random() < 0.3 ? pick([15, 45, 90]) : 0,
+          spread: Math.round(Math.random() * 100) / 100,
+          layout: pick(['ring', 'plus', 'tandem', 'stacked'] as const),
+        }
+      : {}),
+  })
+
   for (const role of availableRoles(base.id)) {
-    const options = donorsFor(role).filter((a) => a.id !== base.id)
+    const sameRole = donorsFor(role).filter((a) => a.id !== base.id)
+    const anyPart = crossRolePartsFor(role).filter((p) => p.aircraft.id !== base.id)
     const roll = Math.random()
-    if (roll < 0.15) {
+    if (roll < 0.12) {
       b.slots[role] = { kind: 'none' }
-    } else if (roll < 0.7 && options.length) {
-      const donor = pick(options)
+    } else if (roll < 0.5 && sameRole.length) {
+      const donor = pick(sameRole)
       donors.push(donor.name)
       b.slots[role] = {
         kind: 'donor',
         aircraftId: donor.id,
         scale: 0.5 + Math.random() * 1.6,
-        ...(role === 'rotor' ? { count: pick([2, 3, 4, 6, 8]) } : {}),
+        ...jitter(role),
+      }
+    } else if (roll < 0.78 && anyPart.length) {
+      // The good stuff: a part doing a job it was never built for.
+      const part = pick(anyPart)
+      donors.push(`${part.aircraft.name} ${part.fromRole}`)
+      b.slots[role] = {
+        kind: 'donor',
+        aircraftId: part.aircraft.id,
+        fromRole: part.fromRole,
+        scale: 0.5 + Math.random() * 1.6,
+        ...jitter(role),
       }
     } else {
-      b.slots[role] = { kind: 'stock', scale: 0.7 + Math.random() * 1.1 }
+      b.slots[role] = { kind: 'stock', scale: 0.7 + Math.random() * 1.1, ...jitter(role) }
     }
   }
 

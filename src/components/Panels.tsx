@@ -256,6 +256,20 @@ export function Picker({
     () => (target.kind === 'role' ? crossRolePartsFor(target.role) : []),
     [target],
   )
+  const [find, setFind] = useState('')
+  // Sixty-odd parts per slot is a list you scroll past, not one you choose
+  // from. Matching on the aircraft and the part's own name covers both ways
+  // people look for something: "reaper" and "rotor".
+  const shownCrossParts = useMemo(() => {
+    const q = find.trim().toLowerCase()
+    if (!q) return crossParts
+    return crossParts.filter(
+      (p) =>
+        p.aircraft.name.toLowerCase().includes(q) ||
+        p.fromRole.includes(q) ||
+        p.aircraft.family.includes(q),
+    )
+  }, [crossParts, find])
 
   let title = ''
   let body: React.ReactNode = null
@@ -482,8 +496,17 @@ export function Picker({
         <button className="drawer-toggle" onClick={() => setDrawer((v) => !v)}>
           {drawer ? '−' : '+'} Use something else as a {role} ({crossParts.length})
         </button>
+        {drawer && (
+          <input
+            className="drawer-find"
+            type="search"
+            placeholder={`Find a part — try "reaper", "rotor", "solar"`}
+            value={find}
+            onChange={(e) => setFind(e.target.value)}
+          />
+        )}
         {drawer &&
-          crossParts.map(({ aircraft: d, fromRole }) => {
+          shownCrossParts.map(({ aircraft: d, fromRole }) => {
             const patch = {
               slots: {
                 ...build.slots,
