@@ -127,10 +127,28 @@ export interface AircraftModel {
  * `scale` is always a user multiplier on top of whatever size the part would
  * naturally be, so 1 means "as it comes" for both stock and borrowed parts.
  */
+/**
+ * Where a fitted part sits and how it is angled, as fractions of the airframe's
+ * own size so the same numbers mean the same thing on a whoop and a Global
+ * Hawk. This is what lets one donor part make a dozen different aircraft.
+ */
+export interface SlotPlacement {
+  /** Fore and aft, -1 (nose) to 1 (tail). */
+  fore?: number
+  /** Up and down, -1 (below) to 1 (above). */
+  rise?: number
+  /** Outboard spread, 0 (centreline) to 1 (wingtip). Rotors and pairs only. */
+  spread?: number
+  /** Rotor tilt, 0 = lifting straight up, 90 = pointing forward. */
+  tiltDeg?: number
+  /** How rotors are arranged when there is more than one. */
+  layout?: 'ring' | 'plus' | 'tandem' | 'stacked'
+}
+
 export type SlotChoice =
-  | { kind: 'stock'; scale?: number }
+  | ({ kind: 'stock'; scale?: number } & SlotPlacement)
   | { kind: 'none' }
-  | { kind: 'donor'; aircraftId: string; count?: number; scale?: number }
+  | ({ kind: 'donor'; aircraftId: string; count?: number; scale?: number } & SlotPlacement)
 
 export interface Build {
   /** Schema version. Lets a future change reject builds it cannot read. */

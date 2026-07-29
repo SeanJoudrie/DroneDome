@@ -239,7 +239,7 @@ export function Picker({
     const choice = build.slots[role]
     title = `${role}`
     const size = choice && choice.kind !== 'none' ? (choice.scale ?? 1) : 1
-    const setSlot = (patch: Partial<Extract<SlotChoice, { kind: 'donor' }>>) => {
+    const setSlot = (patch: Record<string, unknown>) => {
       const current: SlotChoice = choice ?? { kind: 'stock' }
       if (current.kind === 'none') return
       onChange({ ...build, slots: { ...build.slots, [role]: { ...current, ...patch } } })
@@ -264,6 +264,89 @@ export function Picker({
               </button>
             )}
           </div>
+        )}
+
+        {choice?.kind !== 'none' && (hasOwn || choice?.kind === 'donor') && (
+          <>
+            <div className="sub-bar">
+              <span className="panel-title">Fore / aft</span>
+              <input
+                type="range"
+                min={-1}
+                max={1}
+                step={0.05}
+                value={(choice as { fore?: number })?.fore ?? 0}
+                onChange={(e) => setSlot({ fore: Number(e.target.value) })}
+              />
+              <span className="scale-value">
+                {(((choice as { fore?: number })?.fore ?? 0) * 100).toFixed(0)}
+              </span>
+            </div>
+            <div className="sub-bar">
+              <span className="panel-title">Up / down</span>
+              <input
+                type="range"
+                min={-1}
+                max={1}
+                step={0.05}
+                value={(choice as { rise?: number })?.rise ?? 0}
+                onChange={(e) => setSlot({ rise: Number(e.target.value) })}
+              />
+              <span className="scale-value">
+                {(((choice as { rise?: number })?.rise ?? 0) * 100).toFixed(0)}
+              </span>
+            </div>
+          </>
+        )}
+
+        {role === 'rotor' && choice?.kind !== 'none' && (
+          <div className="sub-bar">
+            <span className="panel-title">Tilt</span>
+            <input
+              type="range"
+              min={0}
+              max={90}
+              step={5}
+              value={(choice as { tiltDeg?: number })?.tiltDeg ?? 0}
+              onChange={(e) => setSlot({ tiltDeg: Number(e.target.value) })}
+            />
+            <span className="scale-value">
+              {((choice as { tiltDeg?: number })?.tiltDeg ?? 0).toFixed(0)}°
+            </span>
+          </div>
+        )}
+
+        {role === 'rotor' && choice?.kind === 'donor' && (
+          <>
+            <div className="sub-bar">
+              <span className="panel-title">Spread</span>
+              <input
+                type="range"
+                min={0}
+                max={1}
+                step={0.05}
+                value={choice.spread ?? 0.5}
+                onChange={(e) => setSlot({ spread: Number(e.target.value) })}
+              />
+              <span className="scale-value">
+                {((choice.spread ?? 0.5) * 100).toFixed(0)}
+              </span>
+            </div>
+            <div className="sub-bar">
+              <span className="panel-title">Layout</span>
+              <div className="seg">
+                {(['ring', 'plus', 'tandem', 'stacked'] as const).map((l) => (
+                  <button
+                    key={l}
+                    className={(choice.layout ?? 'ring') === l ? 'on' : ''}
+                    onClick={() => setSlot({ layout: l })}
+                  >
+                    {l}
+                  </button>
+                ))}
+              </div>
+            </div>
+          </>
         )}
 
         {role === 'rotor' && choice?.kind === 'donor' && (

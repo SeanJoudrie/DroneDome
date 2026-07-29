@@ -2,7 +2,7 @@ import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js'
-import type { AircraftModel, Build, PartRole } from '../types'
+import type { AircraftModel, Build, PartRole, SlotPlacement } from '../types'
 import { AIRCRAFT_BY_ID } from '../data/aircraft.generated'
 import { PAINTS, PAYLOADS_BY_ID } from '../data/catalog'
 import { fitScaleFor } from '../lib/physics'
@@ -73,8 +73,15 @@ function roleOf(model: AircraftModel, objectName: string): PartRole | null {
  * outward from the aircraft's centreline — bigger wings reach further out from
  * the fuselage rather than sliding sideways off it.
  */
-function scaleRole(modelRoot: THREE.Object3D, nodes: THREE.Object3D[], factor: number) {
-  if (!nodes.length || Math.abs(factor - 1) < 0.001) return
+function scaleRole(
+  modelRoot: THREE.Object3D,
+  nodes: THREE.Object3D[],
+  factor: number,
+  offset?: THREE.Vector3,
+  tiltDeg = 0,
+) {
+  const moved = offset && offset.lengthSq() > 1e-9
+  if (!nodes.length || (Math.abs(factor - 1) < 0.001 && !moved && !tiltDeg)) return
   modelRoot.updateMatrixWorld(true)
   const invRoot = new THREE.Matrix4().copy(modelRoot.matrixWorld).invert()
   const relatives = nodes.map((n) =>
@@ -88,6 +95,8 @@ function scaleRole(modelRoot: THREE.Object3D, nodes: THREE.Object3D[], factor: n
     node.matrix.copy(relatives[i])
   })
   group.scale.setScalar(factor)
+  if (offset) group.position.add(offset)
+  if (tiltDeg) group.rotateX((-tiltDeg * Math.PI) / 180)
 }
 
 /**
@@ -280,7 +289,13 @@ export function createViewer(container: HTMLElement): ViewerHandle {
 
     // Work out what each role is doing before touching the scene graph.
     const removed = new Set<PartRole>()
-    const donors: { role: PartRole; model: AircraftModel; fit: number; count: number }[] = []
+    const donors: {
+      role: PartRole
+      model: AircraftModel
+      fit: number
+      count: number
+      place?: SlotPlacement
+    }[] = []
     for (const role of SWAP_ROLES) {
       const choice = build.slots[role]
       if (!choice || choice.kind === 'stock') continue
@@ -293,6 +308,7 @@ export function createViewer(container: HTMLElement): ViewerHandle {
           model: donor,
           fit: fitScaleFor(base, donor) * (choice.scale ?? 1),
           count: choice.count ?? donor.spec.rotors ?? 1,
+          place: choice,
         })
       }
     }
@@ -316,12 +332,21 @@ export function createViewer(container: HTMLElement): ViewerHandle {
       const choice = build.slots[role]
       if (!choice || choice.kind !== 'stock') continue
       const factor = choice.scale ?? 1
-      if (Math.abs(factor - 1) < 0.001) continue
+      const place = choice
+      const tilt = role === 'rotor' ? (place.tiltDeg ?? 0) : 0
       const nodes: THREE.Object3D[] = []
       baseClone.traverse((o) => {
         if (roleOf(base, o.name) === role && (o as THREE.Mesh).isMesh) nodes.push(o)
       })
-      scaleRole(baseClone, nodes, factor)
+      if (!nodes.length) continue
+      const hull = new THREE.Box3().setFromObject(baseClone)
+      const size = hull.getSize(new THREE.Vector3())
+      const off = new THREE.Vector3(
+        0,
+        (place.rise ?? 0) * size.y * 0.5,
+        (place.fore ?? 0) * size.z * -0.5,
+      )
+      scaleRole(baseClone, nodes, factor, off, tilt)
     }
 
     // Bolt on whatever is replacing them.
@@ -354,18 +379,48 @@ export function createViewer(container: HTMLElement): ViewerHandle {
       // Rotors get laid out on the host's own mounting points where it has
       // them, otherwise spread evenly around the airframe.
       const hostMounts = mounts.get(d.role)
-      if (d.role === 'rotor' && (!hostMounts || hostMounts.length < d.count)) {
-        const radius = (base.spec.span_m * 0.32) || 0.5
+      if (d.role === 'rotor') {
+        // Layout is a first-class choice: the same four rotors read completely
+        // differently as an X, a plus, a tandem pair of pairs or a stack.
+        const spread = 0.25 + (d.place?.spread ?? 0.5) * 0.55
+        const radius = (base.spec.span_m * spread) || 0.5
+        const rise = base.spec.span_m * 0.03 + (d.place?.rise ?? 0) * base.spec.span_m * 0.25
+        const fore = (d.place?.fore ?? 0) * base.spec.length_m * -0.5
+        const tilt = ((d.place?.tiltDeg ?? 0) * Math.PI) / 180
+        const layout = d.place?.layout ?? 'ring'
         for (let i = 0; i < d.count; i++) {
           const arm = group.clone(true)
-          const angle = (i / d.count) * Math.PI * 2 + Math.PI / 4
-          arm.position.set(Math.cos(angle) * radius, base.spec.span_m * 0.03, Math.sin(angle) * radius)
+          let x = 0
+          let y = rise
+          let z = fore
+          if (layout === 'stacked') {
+            y = rise + i * base.spec.span_m * 0.05
+          } else if (layout === 'tandem') {
+            const pair = Math.floor(i / 2)
+            const side = i % 2 === 0 ? 1 : -1
+            x = side * radius * 0.6
+            z = fore + (pair - (Math.ceil(d.count / 2) - 1) / 2) * radius * 1.4
+          } else {
+            const phase = layout === 'plus' ? 0 : Math.PI / 4
+            const angle = (i / d.count) * Math.PI * 2 + phase
+            x = Math.cos(angle) * radius
+            z = fore + Math.sin(angle) * radius
+          }
+          arm.position.set(x, y, z)
+          if (tilt) arm.rotateX(-tilt)
           assembly.add(arm)
         }
       } else if (hostMounts && hostMounts.length) {
+        const hull = new THREE.Box3().setFromObject(baseClone)
+        const size = hull.getSize(new THREE.Vector3())
+        const nudge = new THREE.Vector3(
+          0,
+          (d.place?.rise ?? 0) * size.y * 0.5,
+          (d.place?.fore ?? 0) * size.z * -0.5,
+        )
         for (const point of hostMounts.slice(0, Math.max(1, d.count))) {
           const copy = group.clone(true)
-          copy.position.copy(point)
+          copy.position.copy(point).add(nudge)
           assembly.add(copy)
         }
       } else {

@@ -104,7 +104,9 @@ function resolveSlot(build: Build, base: AircraftModel, role: PartRole) {
       base.parts.some((p) => p.role === role) ||
       !!base.cuts[role] ||
       (role === 'wing' && !!base.spec.wing_area_m2)
-    return present ? { donor: base, fitScale: choice.scale ?? 1, count: undefined } : null
+    return present
+      ? { donor: base, fitScale: choice.scale ?? 1, count: undefined, place: choice }
+      : null
   }
   const donor = AIRCRAFT_BY_ID[choice.aircraftId]
   if (!donor) return null
@@ -116,6 +118,7 @@ function resolveSlot(build: Build, base: AircraftModel, role: PartRole) {
     donor,
     fitScale: fitScaleFor(base, donor) * (choice.scale ?? 1),
     count: choice.count,
+    place: choice,
   }
 }
 
@@ -300,6 +303,13 @@ export function analyse(build: Build): Analysis {
     // quadcopter's discs is the classic case: the downwash presses on it and
     // the aircraft has to lift its own wing before it lifts anything else.
     // Real VTOLs lose 5-15% here; a wing larger than the disc loses far more.
+    // A tilted rotor trades lift for thrust. At 90 degrees it is a propeller
+    // and holds nothing up at all - which is exactly what a tiltrotor does
+    // once it has transitioned to wingborne flight.
+    const tiltDeg = clamp(rotorSlot!.place?.tiltDeg ?? 0, 0, 90)
+    if (tiltDeg > 0) {
+      staticThrust *= Math.cos((tiltDeg * Math.PI) / 180)
+    }
     if (hasWing && wingAreaForDownload > 0 && disc > 0) {
       downloadLoss = clamp(0.3 * (wingAreaForDownload / disc), 0, 0.45)
       staticThrust *= 1 - downloadLoss
@@ -331,6 +341,10 @@ export function analyse(build: Build): Analysis {
                 'thrust lost pressing on your own wing'),
               gauge: { max: 45, invert: true },
             }]
+          : []),
+        ...(((rotorSlot?.place?.tiltDeg ?? 0) > 0)
+          ? [row('Rotor tilt', rotorSlot!.place!.tiltDeg!, 'none',
+              '0 lifts straight up, 90 points forward and holds nothing up')]
           : []),
         row('Yaw authority', yawAuthority ? 1 : 0, 'none',
           yawAuthority
@@ -628,14 +642,19 @@ export function analyse(build: Build): Analysis {
   // decides whether a spliced airframe is controllable, and it is the reason
   // bolting a Reaper tail onto a quadcopter is not a free upgrade.
   const bodyStation = stationOf(base, 'body') ?? 0
+  const hullLengthM = base.spec.length_m || base.spec.span_m || 1
   const stationFor = (role: PartRole): number => {
     const slot = fitted[role]
     if (!slot) return bodyStation
+    // Sliding a part fore or aft is the whole point of the control; it has to
+    // move the centre of gravity or the slider would be decoration.
+    const nudge = (slot.place?.fore ?? 0) * hullLengthM * 0.5
     // A borrowed part mounts where the host carries that role; if the host has
     // no such station, fall back to the donor's own proportions on this frame.
     return (
-      stationOf(base, role) ??
-      (stationOf(slot.donor, role) ?? 0) * (base.spec.span_m / (slot.donor.spec.span_m || 1))
+      nudge +
+      (stationOf(base, role) ??
+        (stationOf(slot.donor, role) ?? 0) * (base.spec.span_m / (slot.donor.spec.span_m || 1)))
     )
   }
 
