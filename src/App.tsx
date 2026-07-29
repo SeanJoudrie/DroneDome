@@ -37,6 +37,14 @@ export default function App() {
     if (!mountRef.current) return
     const viewer = createViewer(mountRef.current)
     viewerRef.current = viewer
+    // Handle for the geometry self-checks. They drive the real interface and
+    // then ask the renderer where every mesh actually ended up, which is the
+    // only way to catch a part quietly floating off across 35 airframes.
+    ;(window as unknown as { dronedome?: unknown }).dronedome = {
+      report: () => viewer.report(),
+      setBuild: (b: Build) => setBuild(b),
+    }
+    ;(window as unknown as { __mk?: unknown }).__mk = (id: string) => createBuild(id)
     const onResize = () => viewer.resize()
     window.addEventListener('resize', onResize)
     const observer = new ResizeObserver(onResize)

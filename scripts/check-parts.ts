@@ -25,9 +25,37 @@ function rolesPresent(a: AircraftModel): PartRole[] {
   return [...present]
 }
 
-type Problem = { id: string; role: PartRole; why: string }
+type Problem = { id: string; role: PartRole | 'axes'; why: string }
 const problems: Problem[] = []
 const warnings: Problem[] = []
+
+// ---------------------------------------------------------------------------
+// Does the model agree with the manifest about its own shape?
+//
+// Every dimension in the app is derived from which axis of the mesh is the
+// span, and that is decided by the published figures. When the two disagree
+// the model is either the wrong aircraft, oriented unexpectedly, or carrying
+// scenery — and every cut, station and area downstream inherits the error.
+// ---------------------------------------------------------------------------
+for (const a of AIRCRAFT) {
+  const spanM = a.modelExtent[a.axes.span] * a.scaleToMetres
+  if (Math.abs(spanM / a.spec.span_m - 1) > 0.02) {
+    problems.push({
+      id: a.id,
+      role: 'axes',
+      why: `span axis measures ${spanM.toFixed(2)} m against a published ${a.spec.span_m} m`,
+    })
+  }
+  const lengthM = a.modelExtent[a.axes.length] * a.scaleToMetres
+  const ratio = lengthM / (a.spec.length_m || lengthM)
+  if (ratio > 1.6 || ratio < 0.6) {
+    warnings.push({
+      id: a.id,
+      role: 'axes',
+      why: `length axis measures ${lengthM.toFixed(2)} m against a published ${a.spec.length_m} m (${ratio.toFixed(2)}x)`,
+    })
+  }
+}
 
 for (const a of AIRCRAFT) {
   for (const role of rolesPresent(a)) {

@@ -203,6 +203,14 @@ function groupOf(model: AircraftModel, objectName: string): string {
   return part ? part.group : objectName
 }
 
+/** One rendered mesh, in world space, for the geometry self-checks. */
+export interface MeshReport {
+  name: string
+  role: string
+  min: [number, number, number]
+  max: [number, number, number]
+}
+
 export interface ViewerHandle {
   setBuild(build: Build): void
   setTheme(theme: 'light' | 'dark'): void
@@ -210,6 +218,15 @@ export interface ViewerHandle {
   frame(): void
   dispose(): void
   screenshot(): string
+  /**
+   * Every visible mesh and where it ended up.
+   *
+   * Exists so a test can ask questions no screenshot can answer — is anything
+   * detached from the rest of the aircraft, has the assembly grown a hundred
+   * times, is a transform NaN — across every airframe and every operation,
+   * rather than a handful someone thought to look at.
+   */
+  report(): MeshReport[]
 }
 
 export function createViewer(container: HTMLElement): ViewerHandle {
@@ -302,6 +319,8 @@ export function createViewer(container: HTMLElement): ViewerHandle {
   /** Which aircraft the camera was last framed for, and at what natural size. */
   let framedFor: string | null = null
   let framedReach = 0
+
+  let lastAssembly: THREE.Object3D | null = null
 
   function clearRoot() {
     for (const child of [...root.children]) root.remove(child)
@@ -883,6 +902,7 @@ export function createViewer(container: HTMLElement): ViewerHandle {
     const centre = box.getCenter(new THREE.Vector3())
     assembly.position.sub(new THREE.Vector3(centre.x, box.min.y, centre.z))
     root.add(assembly)
+    lastAssembly = assembly
 
     // Now that the assembly has stopped moving, carry the cuts into world space,
     // which is the only space three.js clips in.
@@ -958,6 +978,29 @@ export function createViewer(container: HTMLElement): ViewerHandle {
     resize,
     frame,
     screenshot: () => renderer.domElement.toDataURL('image/png'),
+    report() {
+      const out: MeshReport[] = []
+      if (!lastAssembly) return out
+      lastAssembly.updateMatrixWorld(true)
+      const box = new THREE.Box3()
+      lastAssembly.traverse((o) => {
+        const mesh = o as THREE.Mesh
+        if (!mesh.isMesh || !mesh.visible) return
+        // A parent further up may be hidden even when this node is not.
+        for (let p: THREE.Object3D | null = mesh.parent; p; p = p.parent) {
+          if (!p.visible) return
+        }
+        box.setFromObject(mesh)
+        if (box.isEmpty()) return
+        out.push({
+          name: mesh.name,
+          role: typeof mesh.userData.ddRole === 'string' ? mesh.userData.ddRole : '',
+          min: [box.min.x, box.min.y, box.min.z],
+          max: [box.max.x, box.max.y, box.max.z],
+        })
+      })
+      return out
+    },
     dispose() {
       disposed = true
       renderer.setAnimationLoop(null)

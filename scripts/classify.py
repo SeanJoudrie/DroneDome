@@ -139,7 +139,18 @@ def classify(aid, spec):
         vert = int(order[2])
         span, length = int(order[0]), int(order[1])
     else:
-        span, length, vert = int(order[0]), int(order[1]), int(order[2])
+        # Taking the widest axis as the span is wrong for anything longer than
+        # it is wide - a Shahed-136 is 3.5 m long across a 2.5 m span, and
+        # guessing put its wing cut down the fuselage. The manifest knows which
+        # way round the aircraft is, so ask it.
+        vert = int(order[2])
+        big, next_big = int(order[0]), int(order[1])
+        pub_span = float(spec.get("span_m") or 0)
+        pub_len = float(spec.get("length_m") or 0)
+        if pub_span and pub_len and pub_len > pub_span:
+            span, length = next_big, big
+        else:
+            span, length = big, next_big
 
     S, L, V = span, length, vert
     total_span = float(extent[S])
