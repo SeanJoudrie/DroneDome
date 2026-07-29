@@ -67,7 +67,7 @@ stand or, in the Matrice's case, its flight case.
 
 ## 5. How the catalog is checked
 
-Four gates, because each catches something the others cannot:
+Five gates, because each catches something the others cannot:
 
 - `npm run check:physics` — every preset against its published figures.
 - `npm run fuzz` — adversarial builds; every rendered number must be finite.

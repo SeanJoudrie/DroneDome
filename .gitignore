@@ -1,5 +1,8 @@
 node_modules/
 dist/
+# A second build, so the Playwright checks can be run against a change while
+# the previous build is still being swept on another port.
+dist-test/
 *.local
 .DS_Store
 

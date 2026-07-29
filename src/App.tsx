@@ -1,7 +1,14 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import type { Build } from './types'
 import { AIRCRAFT } from './data/aircraft.generated'
-import { availableRoles, createBuild, isChimera, newId, randomBuild } from './lib/build'
+import {
+  availableRoles,
+  capabilityMatrix,
+  createBuild,
+  isChimera,
+  newId,
+  randomBuild,
+} from './lib/build'
 import { analyse } from './lib/physics'
 import {
   deleteBuild,
@@ -43,6 +50,9 @@ export default function App() {
     ;(window as unknown as { dronedome?: unknown }).dronedome = {
       report: () => viewer.report(),
       setBuild: (b: Build) => setBuild(b),
+      // Which parts the app itself believes are swappable, so the capability
+      // check tests the live catalog rather than a snapshot of it.
+      caps: () => capabilityMatrix(),
     }
     ;(window as unknown as { __mk?: unknown }).__mk = (id: string) => createBuild(id)
     const onResize = () => viewer.resize()

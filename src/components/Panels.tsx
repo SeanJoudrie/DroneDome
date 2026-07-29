@@ -15,7 +15,7 @@ import {
   PAYLOADS,
   POWERPLANTS,
 } from '../data/catalog'
-import { crossRolePartsFor, donorsFor, slotLabel } from '../lib/build'
+import { crossRolePartsFor, donorsFor, hasStockRole, slotLabel } from '../lib/build'
 import { analyse } from '../lib/physics'
 import { format, type UnitSystem } from '../lib/units'
 
@@ -285,10 +285,19 @@ export function Picker({
     const role = target.role
     const donors = donorsFor(role)
     const base = AIRCRAFT_BY_ID[build.baseId]
-    const hasOwn = base?.parts.some((p) => p.role === role) || !!base?.cuts[role]
+    const hasOwn = hasStockRole(base, role)
     const choice = build.slots[role]
     title = `${role}`
     const size = choice && choice.kind !== 'none' ? (choice.scale ?? 1) : 1
+    // How many rotors this build has before you touch anything — the same
+    // fallback the stats use. Hard-coding four highlighted "4" on a hexacopter
+    // and on a single-rotor helicopter, so the control disagreed with the panel
+    // next to it about what was already fitted.
+    const naturalRotors =
+      (choice?.kind === 'donor' ? AIRCRAFT_BY_ID[choice.aircraftId]?.spec.rotors : undefined) ??
+      base?.spec.rotors ??
+      4
+    const rotorCounts = [...new Set([1, 2, 3, 4, 6, 8, naturalRotors])].sort((a, b) => a - b)
     const setSlot = (patch: Record<string, unknown>) => {
       const current: SlotChoice = choice ?? { kind: 'stock' }
       if (current.kind === 'none') return
@@ -541,10 +550,10 @@ export function Picker({
           <div className="sub-bar">
             <span className="panel-title">How many</span>
             <div className="seg">
-              {[2, 3, 4, 6, 8].map((n) => (
+              {rotorCounts.map((n) => (
                 <button
                   key={n}
-                  className={slotNum(choice, 'count', 4) === n ? 'on' : ''}
+                  className={slotNum(choice, 'count', naturalRotors) === n ? 'on' : ''}
                   onClick={() => setSlot({ count: n })}
                 >
                   {n}

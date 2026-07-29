@@ -139,6 +139,32 @@ function roleOf(model: AircraftModel, objectName: string): PartRole | null {
 
 
 /**
+ * Where an aircraft's rotors actually sit, as distinct stations.
+ *
+ * One rotor is often several meshes — a disc, a hub, a spinner, a nut. The
+ * Phantom 4's four propellers are twenty-three of them, and averaging over the
+ * meshes instead of the stations pulls the measured radius in towards the hubs
+ * clustered near the middle. Merging anything closer together than a fraction
+ * of the airframe's own width recovers the four positions.
+ */
+function rotorStations(seats: THREE.Vector3[], tolerance: number): THREE.Vector3[] {
+  const stations: { sum: THREE.Vector3; n: number }[] = []
+  for (const s of seats) {
+    const hit = stations.find((st) => {
+      const c = st.sum.clone().multiplyScalar(1 / st.n)
+      return Math.hypot(c.x - s.x, c.z - s.z) <= tolerance
+    })
+    if (hit) {
+      hit.sum.add(s)
+      hit.n++
+    } else {
+      stations.push({ sum: s.clone(), n: 1 })
+    }
+  }
+  return stations.map((st) => st.sum.multiplyScalar(1 / st.n))
+}
+
+/**
  * Resize one part of an aircraft in place.
  *
  * The nodes for that role are lifted into a group hanging off `container`,
@@ -752,6 +778,12 @@ export function createViewer(container: HTMLElement): ViewerHandle {
 
     // Take the base's own version of anything that has been changed out.
     const mounts = new Map<PartRole, THREE.Vector3[]>()
+    // Where the part physically was, as opposed to where its transform node
+    // sits. For a mesh with baked geometry those are different: the node is at
+    // the model's origin, so four rotors all report the same point and any ring
+    // measured from them has no radius at all.
+    const seats = new Map<PartRole, THREE.Vector3[]>()
+    baseClone.updateMatrixWorld(true)
     baseClone.traverse((o) => {
       const role = roleOf(base, o.name)
       if (!role || !removed.has(role)) return
@@ -760,6 +792,14 @@ export function createViewer(container: HTMLElement): ViewerHandle {
       const list = mounts.get(role) ?? []
       list.push(where)
       mounts.set(role, list)
+      if ((o as THREE.Mesh).isMesh) {
+        const box = new THREE.Box3().setFromObject(o)
+        if (!box.isEmpty()) {
+          const seat = seats.get(role) ?? []
+          seat.push(box.getCenter(new THREE.Vector3()))
+          seats.set(role, seat)
+        }
+      }
       o.visible = false
     })
     for (const role of removed) applyCut(baseClone, base, role)
@@ -858,9 +898,26 @@ export function createViewer(container: HTMLElement): ViewerHandle {
       const hull = new THREE.Box3().setFromObject(baseClone)
       const size = hull.getSize(new THREE.Vector3())
 
-      // A second and third wing, stacked above the first, is how a biplane and
-      // a triplane get built out of an aircraft's own wing.
-      if (copies > 1) {
+      // "How many" means two different things depending on the part, and the
+      // renderer has to mean the same thing the stats do.
+      //
+      // For a rotor it is a rotor count: the stats read it straight off as the
+      // number of discs producing thrust. The renderer used to read it as
+      // "copies of the whole rotor set", so asking a quadcopter for eight
+      // rotors drew thirty-two of them in a tower a metre tall while the panel
+      // beside it said eight. Either number could have been the honest one;
+      // showing both at once is the one thing this app cannot do.
+      // "How many" means two different things depending on the part, and only
+      // one of them belongs here.
+      //
+      // A rotor count is a number of rotors, and it is already handled by the
+      // layout path above, which hides the aircraft's own set and lays `count`
+      // of them out on a ring. Repeating them here as well would draw a second
+      // set on top — and because the originals are hidden by then, every copy
+      // made here inherits that and never shows up anyway.
+      if (role !== 'rotor' && copies > 1) {
+        // A wing count is a number of wings, and a second and third stacked
+        // above the first is how a biplane and a triplane get built.
         const step = (place.layout === 'tandem' ? size.z : size.y) * 0.22
         // The copies go onto the assembly rather than alongside the original,
         // because inside the model root a metre is not a metre and "up" is
@@ -920,9 +977,31 @@ export function createViewer(container: HTMLElement): ViewerHandle {
       if (d.role === 'rotor') {
         // Layout is a first-class choice: the same four rotors read completely
         // differently as an X, a plus, a tandem pair of pairs or a stack.
+        //
+        // The ring is sized from where the host's own rotors were, and only
+        // falls back to a fraction of its span when it never had any. A
+        // quadcopter's motors sit at about a third of its span from the middle,
+        // so a ring sized from the span alone put every borrowed rotor out
+        // beyond the arm tips with nothing under it.
         const spread = 0.25 + (d.place?.spread ?? 0.5) * 0.55
-        const radius = (base.spec.span_m * spread) || 0.5
-        const rise = base.spec.span_m * 0.03 + (d.place?.rise ?? 0) * base.spec.span_m * 0.25
+        const hull = new THREE.Box3().setFromObject(baseClone)
+        const across = Math.max(hull.max.x - hull.min.x, base.spec.span_m, 1e-3)
+        const hostSeats = rotorStations(seats.get('rotor') ?? [], across * 0.15)
+        const onRing = hostSeats.filter((s) => Math.hypot(s.x, s.z) > across * 0.02)
+        const seatRing = onRing.length
+          ? onRing.reduce((a, s) => a + Math.hypot(s.x, s.z), 0) / onRing.length
+          : 0
+        const radius =
+          (seatRing > 0 ? seatRing * (0.5 + (d.place?.spread ?? 0.5)) : base.spec.span_m * spread) ||
+          0.5
+        // Keep whatever angle this aircraft's own rotors are at, so an X-quad
+        // taken to six or eight stays an X rather than rotating to a shape it
+        // never had. A plus is the explicit alternative: arms on the axes.
+        const phase = onRing.length ? Math.atan2(onRing[0].z, onRing[0].x) : Math.PI / 4
+        const seatRise = hostSeats.length
+          ? hostSeats.reduce((a, s) => a + s.y, 0) / hostSeats.length
+          : base.spec.span_m * 0.03
+        const rise = seatRise + (d.place?.rise ?? 0) * base.spec.span_m * 0.25
         const fore = (d.place?.fore ?? 0) * base.spec.length_m * -0.5
         const tilt = ((d.place?.tiltDeg ?? 0) * Math.PI) / 180
         const layout = d.place?.layout ?? 'ring'
@@ -932,15 +1011,25 @@ export function createViewer(container: HTMLElement): ViewerHandle {
           let y = rise
           let z = fore
           if (layout === 'stacked') {
-            y = rise + i * base.spec.span_m * 0.05
+            // Coaxial pairs over the arms the host already has is a real X8.
+            // Stacking them all on the centreline instead built a tower through
+            // the middle of the fuselage.
+            const tier = base.spec.span_m * 0.05
+            if (hostSeats.length) {
+              const seat = hostSeats[i % hostSeats.length]
+              x = seat.x
+              z = fore + seat.z
+              y = rise + Math.floor(i / hostSeats.length) * tier
+            } else {
+              y = rise + i * tier
+            }
           } else if (layout === 'tandem') {
             const pair = Math.floor(i / 2)
             const side = i % 2 === 0 ? 1 : -1
             x = side * radius * 0.6
             z = fore + (pair - (Math.ceil(d.count / 2) - 1) / 2) * radius * 1.4
           } else {
-            const phase = layout === 'plus' ? 0 : Math.PI / 4
-            const angle = (i / d.count) * Math.PI * 2 + phase
+            const angle = (i / d.count) * Math.PI * 2 + (layout === 'plus' ? 0 : phase)
             x = Math.cos(angle) * radius
             z = fore + Math.sin(angle) * radius
           }

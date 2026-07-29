@@ -27,6 +27,7 @@ import {
   POWERPLANTS_BY_ID,
 } from '../data/catalog'
 import { AIRCRAFT_BY_ID } from '../data/aircraft.generated'
+import { hasStockRole } from './build'
 
 /** How the empty airframe's mass is distributed across its parts. */
 const STRUCTURE_FRACTION: Record<PartRole, number> = {
@@ -95,16 +96,7 @@ function resolveSlot(build: Build, base: AircraftModel, role: PartRole) {
   const choice = build.slots[role] ?? { kind: 'stock' as const }
   if (choice.kind === 'none') return null
   if (choice.kind === 'stock') {
-    // A welded model has no separate node for the part, only a cut that removes
-    // it — so a defined cut counts as the part being fitted.
-    // Evidence the aircraft has this part: a classified mesh, a defined cut, or
-    // - for a wing - the manifest's published wing area. The Cessna's wing is
-    // welded into its fuselage so no wing mesh exists, but it certainly has one.
-    const present =
-      base.parts.some((p) => p.role === role) ||
-      !!base.cuts[role] ||
-      (role === 'wing' && !!base.spec.wing_area_m2)
-    return present
+    return hasStockRole(base, role)
       ? {
           donor: base,
           fromRole: role,

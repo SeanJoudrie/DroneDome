@@ -11,10 +11,8 @@
  * never that part — and checks the rendered geometry actually moved.
  */
 import { chromium } from 'playwright'
-import { readFileSync } from 'node:fs'
 
 const URL = process.argv[2] ?? 'http://localhost:4173/DroneDome/'
-const caps = JSON.parse(readFileSync(process.argv[3] ?? '/tmp/caps.json', 'utf8'))
 
 const browser = await chromium.launch({
   executablePath: '/opt/pw-browsers/chromium',
@@ -26,6 +24,11 @@ page.on('pageerror', (e) => crashes.push(String(e)))
 await page.goto(URL, { waitUntil: 'load' })
 await page.waitForFunction(() => !!window.dronedome, null, { timeout: 30000 })
 await page.waitForTimeout(2500)
+
+// Ask the app what it thinks is swappable. This used to be a file I generated
+// by hand into /tmp, which meant the check could not run from a clean checkout
+// and described the catalog as it stood the day I wrote it.
+const caps = await page.evaluate(() => window.dronedome.caps())
 
 async function apply(baseId, slots) {
   const want = JSON.stringify([baseId, slots, 1])
