@@ -43,6 +43,21 @@ for (const ac of sources.aircraft) {
 
   try {
     const doc = await io.read(inPath)
+    // Carry each node's name onto the mesh it points at before anything moves.
+    // prune() collapses a named node into its child mesh, and the mesh keeps
+    // whatever the source called it - so the Global Hawk's and Ingenuity's
+    // parts arrived in the app under names the classifier had never heard of,
+    // and every one of their roles was unreachable: nothing to remove, resize
+    // or lend to another aircraft.
+    for (const node of doc.getRoot().listNodes()) {
+      const mesh = node.getMesh()
+      const name = node.getName()
+      if (mesh && name && !mesh.getName()) mesh.setName(name)
+      if (mesh && name && mesh.getName() !== name && mesh.listParents().length <= 2) {
+        mesh.setName(name)
+      }
+    }
+
     await doc.transform(
       dedup(),
       resample(),

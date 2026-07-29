@@ -2,7 +2,7 @@ import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js'
-import type { AircraftModel, Build, PartRole, SlotPlacement } from '../types'
+import type { AircraftModel, AircraftPart, Build, PartRole, SlotPlacement } from '../types'
 import { AIRCRAFT_BY_ID } from '../data/aircraft.generated'
 import { PAINTS, PAYLOADS_BY_ID } from '../data/catalog'
 import { fitScaleFor } from '../lib/physics'
@@ -59,10 +59,64 @@ function normaliseTransform(model: AircraftModel): THREE.Matrix4 {
   return scale.multiply(basis).multiply(centre)
 }
 
+/**
+ * Reduce a name to something that survives the round trip.
+ *
+ * three.js sanitises glTF node names on load — whitespace becomes an
+ * underscore and `[ ] . : /` are dropped — while the classifier records what
+ * the file said. So an X-47B part written down as "Cube.001_Material.001_0"
+ * arrives as "Cube001_Material001_0" and never matched, which quietly froze
+ * every part on that airframe: nothing to remove, resize, or lend out.
+ * Exporter uniquifying suffixes go too, so a name only has to agree about the
+ * thing it names.
+ */
+function canonical(name: string): string {
+  return name
+    .replace(/\s/g, '_')
+    .replace(/[[\].:/]/g, '')
+    .replace(/(__\d+|_[0-9a-f]{6})$/, '')
+    .toLowerCase()
+}
+
+/** name -> part, built once per model rather than scanned for every node. */
+const partIndex = new WeakMap<AircraftModel, Map<string, AircraftPart>>()
+
+function lookupPart(model: AircraftModel, objectName: string): AircraftPart | undefined {
+  let index = partIndex.get(model)
+  if (!index) {
+    index = new Map()
+    for (const p of model.parts) {
+      for (const key of [p.node, p.group]) {
+        const c = canonical(key)
+        if (!index.has(c)) index.set(c, p)
+      }
+    }
+    // One glTF mesh can hold several primitives. three.js splits those into
+    // Meshes called "Global Hawk_0", "Global Hawk_1" and so on, while the
+    // classifier saw them as separate geometries and gave each its own hash.
+    // Strip the hash and they all collapse onto one name, so pair them up in
+    // order instead — otherwise a Global Hawk's six pieces all answered to the
+    // first one, and its wing and gear could not be touched at all.
+    const byBase = new Map<string, AircraftPart[]>()
+    for (const p of model.parts) {
+      const base = canonical(p.node)
+      const list = byBase.get(base) ?? []
+      list.push(p)
+      byBase.set(base, list)
+    }
+    for (const [base, list] of byBase) {
+      if (list.length < 2) continue
+      list.forEach((p, i) => index!.set(`${base}_${i}`, p))
+    }
+    partIndex.set(model, index)
+  }
+  const name = canonical(objectName)
+  return index.get(name) ?? index.get(name.replace(/_\d+$/, ''))
+}
+
 /** Roles present on this node, resolved through the classifier output. */
 function roleOf(model: AircraftModel, objectName: string): PartRole | null {
-  const part = model.parts.find((p) => p.node === objectName || p.group === objectName)
-  return part ? part.role : null
+  return lookupPart(model, objectName)?.role ?? null
 }
 
 
@@ -270,8 +324,7 @@ function applyAngles(obj: THREE.Object3D, place?: SlotPlacement, mirror = 1) {
 
 /** Which physical part a node belongs to — a rotor's blade and bell share one. */
 function groupOf(model: AircraftModel, objectName: string): string {
-  const part = model.parts.find((p) => p.node === objectName || p.group === objectName)
-  return part ? part.group : objectName
+  return lookupPart(model, objectName)?.group ?? objectName
 }
 
 /** One rendered mesh, in world space, for the geometry self-checks. */
@@ -392,6 +445,7 @@ export function createViewer(container: HTMLElement): ViewerHandle {
   let framedReach = 0
 
   let lastAssembly: THREE.Object3D | null = null
+  let lastBase: AircraftModel | null = null
   let lastBuildKey = ''
 
   function clearRoot() {
@@ -677,9 +731,9 @@ export function createViewer(container: HTMLElement): ViewerHandle {
     // already refused to measure it; this stops it being drawn, which is how the
     // Matrice spent a while sitting on top of its own flight case.
     if (base.hidden.length) {
-      const scenery = new Set(base.hidden)
+      const scenery = new Set(base.hidden.map(canonical))
       baseClone.traverse((o) => {
-        if (scenery.has(o.name)) o.visible = false
+        if (scenery.has(canonical(o.name))) o.visible = false
       })
     }
     assembly.add(baseClone)
@@ -1079,6 +1133,7 @@ export function createViewer(container: HTMLElement): ViewerHandle {
     assembly.position.sub(new THREE.Vector3(centre.x, box.min.y, centre.z))
     root.add(assembly)
     lastAssembly = assembly
+    lastBase = base
     lastBuildKey = JSON.stringify([build.baseId, build.slots, build.scale])
 
     // Now that the assembly has stopped moving, carry the cuts into world space,
@@ -1175,7 +1230,10 @@ export function createViewer(container: HTMLElement): ViewerHandle {
         if (box.isEmpty()) return
         out.push({
           name: mesh.name,
-          role: typeof mesh.userData.ddRole === 'string' ? mesh.userData.ddRole : '',
+          // Resolved the same way the builder resolves it, so a test can ask
+          // whether the app can actually find a part rather than guessing at
+          // the name-matching rules from outside.
+          role: (lastBase && roleOf(lastBase, mesh.name)) || '',
           min: [box.min.x, box.min.y, box.min.z],
           max: [box.max.x, box.max.y, box.max.z],
         })
