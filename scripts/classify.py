@@ -58,10 +58,17 @@ def name_role(name):
     n = re.sub(r"(__\d+|_[0-9a-f]{6})$", "", name).lower()
     if re.fullmatch(r"(g|node|mesh|object|defaultmaterial|group)[\W_]*\d*", n):
         return None  # meaningless exporter name
-    for pat, role in NAME_HINTS:
-        if re.search(pat, n):
-            return role
-    return None
+    # Exporters name a node after the object first and its material second:
+    # "TailFin_high_WingPieces1_0" is a tail fin made of wing material. Taking
+    # the first pattern that matched anywhere made it a wing, and scaling the
+    # Raven's wing then dragged its tail along. The earliest word in the name
+    # is the one describing the thing.
+    best = None
+    for order, (pat, role) in enumerate(NAME_HINTS):
+        m = re.search(pat, n)
+        if m and (best is None or m.start() < best[0] or (m.start() == best[0] and order < best[1])):
+            best = (m.start(), order, role)
+    return best[2] if best else None
 
 
 def collect(scene):

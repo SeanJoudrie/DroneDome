@@ -153,13 +153,31 @@ function scaleRole(
         if (touch) parent[find(i)] = find(j)
       }
     }
+    // Pieces that nearly touch belong to the same thing. A Black Hornet's tail
+    // is a boom and a rotor with a couple of millimetres between them; an
+    // agricultural hexacopter's landing legs are a metre and a half apart and
+    // are two separate legs. Judging that by "is it on the centreline" put the
+    // legs in one group and scaled them away from each other, so judge it by
+    // distance relative to how big the whole role is instead.
+    const roleBox = new THREE.Box3()
+    for (const n of members) if (!bounds.get(n)!.isEmpty()) roleBox.union(bounds.get(n)!)
+    const knit = Math.max(...roleBox.getSize(new THREE.Vector3()).toArray()) * 0.25
+    for (let i = 0; i < members.length; i++) {
+      for (let j = i + 1; j < members.length; j++) {
+        if (find(i) === find(j)) continue
+        const a = bounds.get(members[i])!
+        const b = bounds.get(members[j])!
+        if (a.isEmpty() || b.isEmpty()) continue
+        let gap = 0
+        for (const k of ['x', 'y', 'z'] as const) {
+          gap = Math.max(gap, b.min[k] - a.max[k], a.min[k] - b.max[k])
+        }
+        if (gap < knit) parent[find(i)] = find(j)
+      }
+    }
+
     members.forEach((n, i) => {
-      // Repeated parts live off the centreline — four rotors, two mains, six
-      // pylons — and each needs its own mount. Parts on the centreline are one
-      // assembly even when they do not touch: a Black Hornet's tail is a boom
-      // and a rotor with air between them, and scaling those separately pulled
-      // the tail apart.
-      const key = side === 'center' ? `${side}|one` : `${side}|${find(i)}`
+      const key = `${side}|${find(i)}`
       const list = sides.get(key) ?? []
       list.push(n)
       sides.set(key, list)
