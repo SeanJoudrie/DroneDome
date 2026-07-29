@@ -31,8 +31,16 @@ await page.waitForTimeout(2500)
 const ids = await page.locator('select').first().evaluate((el) =>
   Array.from(el.options).map((o) => o.value))
 
-/** Connected components of the mesh set, joined when their boxes nearly touch. */
-function components(meshes, slack) {
+/**
+ * How far the furthest adrift piece is from the body of the aircraft.
+ *
+ * Counting connected components turned out to be far too twitchy: on thin
+ * geometry a hairline gap between two meshes scored the same as a rotor
+ * hanging a metre away, and the count moved around between runs without
+ * anything visible changing. What matters is the gap, so measure that.
+ * Returns the widest gap in metres between a detached group and the main one.
+ */
+function worstGap(meshes, slack) {
   const near = (a, b) =>
     a.min[0] - slack <= b.max[0] && b.min[0] - slack <= a.max[0] &&
     a.min[1] - slack <= b.max[1] && b.min[1] - slack <= a.max[1] &&
@@ -42,7 +50,34 @@ function components(meshes, slack) {
   for (let i = 0; i < meshes.length; i++)
     for (let j = i + 1; j < meshes.length; j++)
       if (near(meshes[i], meshes[j])) parent[find(i)] = find(j)
-  return new Set(meshes.map((_, i) => find(i))).size
+
+  const groups = new Map()
+  meshes.forEach((m, i) => {
+    const k = find(i)
+    const g = groups.get(k) ?? []
+    g.push(m)
+    groups.set(k, g)
+  })
+  if (groups.size < 2) return 0
+  const vol = (g) => {
+    const lo = [Infinity, Infinity, Infinity], hi = [-Infinity, -Infinity, -Infinity]
+    for (const m of g) for (let k = 0; k < 3; k++) {
+      lo[k] = Math.min(lo[k], m.min[k]); hi[k] = Math.max(hi[k], m.max[k])
+    }
+    return { lo, hi, v: (hi[0]-lo[0]) * (hi[1]-lo[1]) * (hi[2]-lo[2]) }
+  }
+  const boxes = [...groups.values()].map(vol)
+  const main = boxes.reduce((a, b) => (b.v > a.v ? b : a))
+  let worst = 0
+  for (const b of boxes) {
+    if (b === main) continue
+    let gap = 0
+    for (let k = 0; k < 3; k++) {
+      gap = Math.max(gap, b.lo[k] - main.hi[k], main.lo[k] - b.hi[k])
+    }
+    worst = Math.max(worst, gap)
+  }
+  return worst
 }
 
 const size = (ms) => {
@@ -89,7 +124,7 @@ for (const id of ids) {
   if (!stock.length) { findings.push({ id, op: 'stock', why: 'renders nothing' }); continue }
   const reach = size(stock)
   const slack = reach * 0.02
-  const baseParts = components(stock, slack)
+  const baseGap = worstGap(stock, slack)
   if (!finite(stock)) findings.push({ id, op: 'stock', why: 'non-finite mesh position' })
 
   const ops = []
@@ -115,9 +150,15 @@ for (const id of ids) {
     const grew = size(meshes) / (reach * scale)
     if (grew > 4) findings.push({ id, op: name, why: `assembly grew ${grew.toFixed(1)}x its own size` })
     if (!/moved|angled/.test(name)) {
-      const parts = components(meshes, slack * scale)
-      if (parts > baseParts + 1)
-        findings.push({ id, op: name, why: `${parts} detached groups, stock has ${baseParts}` })
+      // Only a gap you could see. A tenth of the aircraft's own size is about
+      // where a part stops reading as attached and starts reading as floating.
+      const gap = worstGap(meshes, slack * scale)
+      const limit = Math.max(reach * scale * 0.1, baseGap * 1.5)
+      if (gap > limit)
+        findings.push({
+          id, op: name,
+          why: `a part sits ${(gap / (reach * scale) * 100).toFixed(0)}% of the aircraft's length away from it`,
+        })
     }
   }
 }
