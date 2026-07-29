@@ -1,0 +1,16 @@
+{
+  "_note": "This Cessna exports its wings welded into the fuselage primitive, so 'remove the wing' has to be a cut rather than a node toggle. The control surfaces are separate nodes, but the classifier calls anything flat and spanwise a tail - the ailerons and flaps ride on the wing and have to go with it.",
+  "right_aileron": "wing",
+  "left_aileron": "wing",
+  "right_flap": "wing",
+  "left_flap": "wing",
+  "_cuts": {
+    "wing": {
+      "axis": "span",
+      "keepBand": 0.1,
+      "lengthBand": [0.5, 0.92],
+      "verticalBand": [0.55, 1.0],
+      "comment": "keeps the ~1.1 m cabin out of an 11.0 m span, and closes the box fore/aft and below so the cut takes the wing without the tailplane or the main gear legs"
+    }
+  }
+}

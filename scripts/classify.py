@@ -205,16 +205,36 @@ def classify(aid, spec):
 
     # Welded models can't toggle a node off, so a role can instead be defined as
     # a region of the mesh to clip away at runtime.
+    #
+    # The span band alone is an infinite slab, which takes the tailplane off with
+    # the wings on anything that has both fused into one hull. lengthBand and
+    # verticalBand close the other two sides of the box; both are fractions of
+    # the model's own extent, 0 at the low end of the axis and 1 at the high one,
+    # and both are optional - leaving one out means "all the way through".
+    def band(cut, key, axis):
+        pair = cut.get(key)
+        if not pair:
+            return None
+        half = float(extent[axis]) / 2.0
+        return [round((float(f) - 0.5) * 2.0 * half, 6) for f in pair]
+
     cuts = {}
     for role, cut in (overrides.get("_cuts") or {}).items():
         axis = {"span": S, "length": L, "vertical": V}[cut.get("axis", "span")]
         half = float(extent[axis]) / 2.0
-        cuts[role] = {
+        entry = {
             "axis": axis,
             "axisName": cut.get("axis", "span"),
             "keep": round(half * float(cut["keepBand"]), 6),
             "origin": round(float(origin[axis]), 6),
         }
+        along = band(cut, "lengthBand", L)
+        up = band(cut, "verticalBand", V)
+        if along:
+            entry["bandLength"] = along
+        if up:
+            entry["bandVertical"] = up
+        cuts[role] = entry
 
     # ---- real-world scale --------------------------------------------------
     real_span = float(spec.get("span_m") or spec.get("rotor_diameter_m") or 1.0)

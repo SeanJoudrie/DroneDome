@@ -1,4 +1,11 @@
-import type { Analysis, Build, PartRole, SlotChoice, StatRow } from '../types'
+import type {
+  Analysis,
+  Build,
+  PartRole,
+  SlotChoice,
+  SlotPlacement,
+  StatRow,
+} from '../types'
 import { AIRCRAFT, AIRCRAFT_BY_ID } from '../data/aircraft.generated'
 import {
   ENERGY_SOURCES,
@@ -18,6 +25,20 @@ export type PickerTarget =
   | { kind: 'payload' }
   | { kind: 'paint' }
   | { kind: 'environment' }
+
+/** Numeric fields a fitted slot can carry, for the sliders below. */
+type SlotNumber = Exclude<keyof SlotPlacement, 'layout'> | 'scale' | 'count'
+
+/**
+ * Read one number off a slot choice. A removed slot carries no placement at
+ * all, so it answers with the default rather than forcing every caller to
+ * re-narrow the union.
+ */
+function slotNum(choice: SlotChoice | undefined, key: SlotNumber, fallback = 0): number {
+  if (!choice || choice.kind === 'none') return fallback
+  const v = choice[key]
+  return typeof v === 'number' ? v : fallback
+}
 
 /** Headline numbers used for the before/after comparison in the picker. */
 function headline(build: Build) {
@@ -275,11 +296,11 @@ export function Picker({
                 min={-1}
                 max={1}
                 step={0.05}
-                value={(choice as { fore?: number })?.fore ?? 0}
+                value={slotNum(choice, 'fore')}
                 onChange={(e) => setSlot({ fore: Number(e.target.value) })}
               />
               <span className="scale-value">
-                {(((choice as { fore?: number })?.fore ?? 0) * 100).toFixed(0)}
+                {(slotNum(choice, 'fore') * 100).toFixed(0)}
               </span>
             </div>
             <div className="sub-bar">
@@ -289,13 +310,55 @@ export function Picker({
                 min={-1}
                 max={1}
                 step={0.05}
-                value={(choice as { rise?: number })?.rise ?? 0}
+                value={slotNum(choice, 'rise')}
                 onChange={(e) => setSlot({ rise: Number(e.target.value) })}
               />
               <span className="scale-value">
-                {(((choice as { rise?: number })?.rise ?? 0) * 100).toFixed(0)}
+                {(slotNum(choice, 'rise') * 100).toFixed(0)}
               </span>
             </div>
+          </>
+        )}
+
+        {choice?.kind !== 'none' && (hasOwn || choice?.kind === 'donor') && (
+          <>
+            {(role === 'wing' || role === 'tail') && (
+              <div className="sub-bar">
+                <span className="panel-title">How many</span>
+                <div className="seg">
+                  {[1, 2, 3, 4].map((n) => (
+                    <button
+                      key={n}
+                      className={slotNum(choice, 'count', 1) === n ? 'on' : ''}
+                      onClick={() => setSlot({ count: n })}
+                    >
+                      {n}
+                    </button>
+                  ))}
+                </div>
+                <span className="scale-value">
+                  {['', 'mono', 'bi', 'tri', 'quad'][slotNum(choice, 'count', 1)]}
+                </span>
+              </div>
+            )}
+            {([
+              ['Dihedral', 'rollDeg', -45, 45],
+              ['Incidence', 'pitchDeg', -30, 30],
+              ['Sweep', 'yawDeg', -45, 45],
+            ] as const).map(([label, key, lo, hi]) => (
+              <div className="sub-bar" key={key}>
+                <span className="panel-title">{label}</span>
+                <input
+                  type="range"
+                  min={lo}
+                  max={hi}
+                  step={1}
+                  value={slotNum(choice, key)}
+                  onChange={(e) => setSlot({ [key]: Number(e.target.value) })}
+                />
+                <span className="scale-value">{slotNum(choice, key).toFixed(0)}°</span>
+              </div>
+            ))}
           </>
         )}
 
@@ -307,12 +370,10 @@ export function Picker({
               min={0}
               max={90}
               step={5}
-              value={(choice as { tiltDeg?: number })?.tiltDeg ?? 0}
+              value={slotNum(choice, 'tiltDeg')}
               onChange={(e) => setSlot({ tiltDeg: Number(e.target.value) })}
             />
-            <span className="scale-value">
-              {((choice as { tiltDeg?: number })?.tiltDeg ?? 0).toFixed(0)}°
-            </span>
+            <span className="scale-value">{slotNum(choice, 'tiltDeg').toFixed(0)}°</span>
           </div>
         )}
 

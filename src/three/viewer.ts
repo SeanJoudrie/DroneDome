@@ -65,38 +65,63 @@ function roleOf(model: AircraftModel, objectName: string): PartRole | null {
   return part ? part.role : null
 }
 
+
 /**
  * Resize one part of an aircraft in place.
  *
- * The nodes for that role are lifted into a group hanging off the model root,
+ * The nodes for that role are lifted into a group hanging off `container`,
  * keeping their transforms relative to it, so scaling the group grows the part
  * outward from the aircraft's centreline — bigger wings reach further out from
  * the fuselage rather than sliding sideways off it.
+ *
+ * `container` has to be the assembly rather than the model root: the model root
+ * carries the normalisation matrix, so inside it a metre is not a metre and the
+ * axes are still whatever the exporter happened to use. Working one level up
+ * means offsets are in metres and the rotations are about span, vertical and
+ * length as intended.
  */
 function scaleRole(
-  modelRoot: THREE.Object3D,
+  container: THREE.Object3D,
   nodes: THREE.Object3D[],
   factor: number,
   offset?: THREE.Vector3,
   tiltDeg = 0,
+  place?: SlotPlacement,
 ) {
+  const angled = !!(place?.rollDeg || place?.pitchDeg || place?.yawDeg)
   const moved = offset && offset.lengthSq() > 1e-9
-  if (!nodes.length || (Math.abs(factor - 1) < 0.001 && !moved && !tiltDeg)) return
-  modelRoot.updateMatrixWorld(true)
-  const invRoot = new THREE.Matrix4().copy(modelRoot.matrixWorld).invert()
-  const relatives = nodes.map((n) =>
-    new THREE.Matrix4().multiplyMatrices(invRoot, n.matrixWorld),
-  )
-  const group = new THREE.Group()
-  modelRoot.add(group)
-  nodes.forEach((node, i) => {
-    group.add(node)
-    node.matrixAutoUpdate = false
-    node.matrix.copy(relatives[i])
-  })
-  group.scale.setScalar(factor)
-  if (offset) group.position.add(offset)
-  if (tiltDeg) group.rotateX((-tiltDeg * Math.PI) / 180)
+  if (!nodes.length || (Math.abs(factor - 1) < 0.001 && !moved && !tiltDeg && !angled)) return
+  container.updateMatrixWorld(true)
+  const invRoot = new THREE.Matrix4().copy(container.matrixWorld).invert()
+  const relatives = new Map<THREE.Object3D, THREE.Matrix4>()
+  for (const n of nodes) {
+    relatives.set(n, new THREE.Matrix4().multiplyMatrices(invRoot, n.matrixWorld))
+  }
+
+  // One group per side. Dihedral and sweep have to mirror across the
+  // centreline — rolling every panel the same way banks the aircraft instead of
+  // raising both tips, and yawing them together makes one wing sweep forward.
+  const sides = new Map<string, THREE.Object3D[]>()
+  for (const n of nodes) {
+    const side = typeof n.userData.ddSide === 'string' ? n.userData.ddSide : 'center'
+    const list = sides.get(side) ?? []
+    list.push(n)
+    sides.set(side, list)
+  }
+
+  for (const [side, members] of sides) {
+    const group = new THREE.Group()
+    container.add(group)
+    for (const node of members) {
+      group.add(node)
+      node.matrixAutoUpdate = false
+      node.matrix.copy(relatives.get(node)!)
+    }
+    group.scale.setScalar(factor)
+    if (offset) group.position.add(offset)
+    if (tiltDeg) group.rotateX((-tiltDeg * Math.PI) / 180)
+    applyAngles(group, place, side === 'left' ? -1 : 1)
+  }
 }
 
 /**
@@ -113,6 +138,20 @@ function bakeWorld(node: THREE.Object3D): THREE.Object3D {
   copy.matrix.decompose(copy.position, copy.quaternion, copy.scale)
   copy.matrixAutoUpdate = true
   return copy
+}
+
+/**
+ * Dihedral, incidence and sweep, applied about the part's own mount point.
+ *
+ * `mirror` is -1 for anything on the left of the centreline, so the pair stays
+ * symmetric: both tips rise together, both panels sweep aft together. Incidence
+ * is the same on both sides, so it is never mirrored.
+ */
+function applyAngles(obj: THREE.Object3D, place?: SlotPlacement, mirror = 1) {
+  if (!place) return
+  if (place.rollDeg) obj.rotateZ((place.rollDeg * mirror * Math.PI) / 180)
+  if (place.pitchDeg) obj.rotateX((place.pitchDeg * Math.PI) / 180)
+  if (place.yawDeg) obj.rotateY((place.yawDeg * mirror * Math.PI) / 180)
 }
 
 /** Which physical part a node belongs to — a rotor's blade and bell share one. */
@@ -245,31 +284,159 @@ export function createViewer(container: HTMLElement): ViewerHandle {
   }
 
   /**
-   * Hide the part of a welded mesh that a role occupies. NASA's Global Hawk has
-   * its wings fused into the fuselage, so removing them means keeping only the
-   * centre band — two opposed planes, whose intersection is that band.
+   * Put clipping planes on a mesh.
+   *
+   * clone(true) shares materials with the cached GLB, so the planes have to go
+   * on a copy — writing them straight onto the shared material left the wings
+   * clipped off every future build of that airframe.
    */
-  function applyCut(object: THREE.Object3D, model: AircraftModel, role: PartRole) {
-    const cut = model.cuts[role]
-    if (!cut) return
-    // After normalisation the span axis is world X.
-    const keep = cut.keep * model.scaleToMetres
-    const planes = [
-      new THREE.Plane(new THREE.Vector3(-1, 0, 0), keep),
-      new THREE.Plane(new THREE.Vector3(1, 0, 0), keep),
-    ]
-    object.traverse((o) => {
+  function clipMaterials(mesh: THREE.Mesh, planes: THREE.Plane[], union: boolean) {
+    const mats = Array.isArray(mesh.material) ? mesh.material : [mesh.material]
+    const clipped = mats.map((m) => {
+      const mat = (m as THREE.Material).clone()
+      mat.clippingPlanes = planes
+      mat.clipIntersection = union
+      mat.side = THREE.DoubleSide
+      mat.needsUpdate = true
+      return mat
+    })
+    mesh.material = Array.isArray(mesh.material) ? clipped : clipped[0]
+  }
+
+  /**
+   * The meshes a cut is allowed to touch: the welded lump itself, plus anything
+   * classified as this very role. Parts the classifier already pulled out as
+   * their own nodes — the Cessna's tail, its wheels — are handled by the node
+   * toggle, and clipping them too would take the tail off with the wings.
+   */
+  function weldedMeshes(root: THREE.Object3D, model: AircraftModel, role: PartRole) {
+    const out: THREE.Mesh[] = []
+    root.traverse((o) => {
       const mesh = o as THREE.Mesh
       if (!mesh.isMesh) return
-      const mats = Array.isArray(mesh.material) ? mesh.material : [mesh.material]
-      for (const m of mats) {
-        const mat = m as THREE.Material
-        mat.clippingPlanes = planes
-        mat.clipIntersection = false
-        mat.side = THREE.DoubleSide
-        mat.needsUpdate = true
-      }
+      const meshRole = roleOf(model, o.name)
+      if (meshRole && meshRole !== 'body' && meshRole !== role) return
+      out.push(mesh)
     })
+    return out
+  }
+
+  /**
+   * Every plane made for the build in progress.
+   *
+   * three.js clips in world space, but the cuts are worked out in the
+   * assembly's own frame, before the aircraft has been dropped onto the ground
+   * and scaled. Keeping the list lets them all be carried into world space once
+   * the assembly is finally placed — without that, a cut drifts as soon as the
+   * scale slider moves off 1.
+   */
+  let cutPlanes: THREE.Plane[] = []
+
+  /** Keeps coordinates on `axis` at or above `lo`. */
+  function planeAbove(axis: 0 | 1 | 2, lo: number) {
+    const n = new THREE.Vector3().setComponent(axis, 1)
+    const p = new THREE.Plane(n, -lo)
+    cutPlanes.push(p)
+    return p
+  }
+
+  /** Keeps coordinates on `axis` at or below `hi`. */
+  function planeBelow(axis: 0 | 1 | 2, hi: number) {
+    const n = new THREE.Vector3().setComponent(axis, -1)
+    const p = new THREE.Plane(n, hi)
+    cutPlanes.push(p)
+    return p
+  }
+
+  /**
+   * The invisible cube, resolved into clipping planes.
+   *
+   * A role on a welded airframe is a box: outboard of a half-width, and — where
+   * the override says so — between a pair of fore/aft and vertical limits. That
+   * last part matters, because a cut with open ends is an infinite slab that
+   * takes the tailplane and the gear legs off along with the wings.
+   *
+   * Returns the box as two one-sided halves (so each can be angled on its own —
+   * a wing needs dihedral, not bank) and its complement as a list of convex
+   * regions, since "everything except a box" is not itself convex.
+   */
+  function cutRegions(model: AircraftModel, role: PartRole) {
+    const cut = model.cuts[role]
+    if (!cut) return null
+    const m = model.scaleToMetres
+    const keep = cut.keep * m
+    // World axes after normalisation: X span, Y vertical, Z length.
+    const limits: { axis: 0 | 1 | 2; lo: number; hi: number }[] = []
+    if (cut.bandLength) limits.push({ axis: 2, lo: cut.bandLength[0] * m, hi: cut.bandLength[1] * m })
+    if (cut.bandVertical) limits.push({ axis: 1, lo: cut.bandVertical[0] * m, hi: cut.bandVertical[1] * m })
+
+    // Peel the complement off one face at a time, so the regions tile the model
+    // instead of overlapping and z-fighting.
+    const keeps: THREE.Plane[][] = []
+    const inside: THREE.Plane[] = []
+    for (const l of limits) {
+      keeps.push([...inside, planeBelow(l.axis, l.lo)])
+      keeps.push([...inside, planeAbove(l.axis, l.hi)])
+      inside.push(planeAbove(l.axis, l.lo), planeBelow(l.axis, l.hi))
+    }
+    keeps.push([...inside, planeBelow(0, keep), planeAbove(0, -keep)])
+
+    return {
+      keeps,
+      right: [...inside, planeAbove(0, keep)],
+      left: [...inside, planeBelow(0, -keep)],
+    }
+  }
+
+  /**
+   * Hide the part of a welded mesh that a role occupies. NASA's Global Hawk has
+   * its wings fused into the fuselage, so removing them means keeping only
+   * what falls outside the box.
+   */
+  function applyCut(object: THREE.Object3D, model: AircraftModel, role: PartRole) {
+    carveWelded(object, model, role, false)
+  }
+
+  /**
+   * Carve the region a role occupies out of a welded mesh.
+   *
+   * The mesh gets clipped down to the complement of the box — one copy per
+   * convex piece of it. With `keepPart`, the box's own contents are kept too, as
+   * a left and a right half that can then be resized or angled like real parts:
+   * the invisible cube pointed both ways.
+   *
+   * Returns the new part meshes, ready to hand to scaleRole.
+   */
+  function carveWelded(
+    root: THREE.Object3D,
+    model: AircraftModel,
+    role: PartRole,
+    keepPart: boolean,
+  ) {
+    const regions = cutRegions(model, role)
+    if (!regions) return []
+    const made: THREE.Object3D[] = []
+    for (const mesh of weldedMeshes(root, model, role)) {
+      // clone(false) keeps the local matrix but not the children, and sharing a
+      // parent keeps the world transform, so each copy starts out exactly on top
+      // of the original.
+      for (const planes of regions.keeps.slice(1)) {
+        const piece = mesh.clone(false)
+        mesh.parent?.add(piece)
+        clipMaterials(piece, planes, false)
+      }
+      if (keepPart) {
+        for (const side of ['left', 'right'] as const) {
+          const half = mesh.clone(false)
+          mesh.parent?.add(half)
+          clipMaterials(half, regions[side], false)
+          half.userData.ddSide = side
+          made.push(half)
+        }
+      }
+      clipMaterials(mesh, regions.keeps[0], false)
+    }
+    return made
   }
 
   async function setBuild(build: Build) {
@@ -283,6 +450,7 @@ export function createViewer(container: HTMLElement): ViewerHandle {
     clearRoot()
 
     const assembly = new THREE.Group()
+    cutPlanes = []
     const baseClone = baseScene.clone(true)
     baseClone.applyMatrix4(normaliseTransform(base))
     assembly.add(baseClone)
@@ -334,10 +502,37 @@ export function createViewer(container: HTMLElement): ViewerHandle {
       const factor = choice.scale ?? 1
       const place = choice
       const tilt = role === 'rotor' ? (place.tiltDeg ?? 0) : 0
+      const moved =
+        Math.abs(factor - 1) > 1e-3 ||
+        !!place.fore ||
+        !!place.rise ||
+        !!place.rollDeg ||
+        !!place.pitchDeg ||
+        !!place.yawDeg ||
+        !!tilt
+      if (!moved) continue
+      // Which side a node is on has to come from where it actually sits, not
+      // from the classifier's label: "right" in model space lands on either
+      // world X depending on how the model was authored, and a mirrored guess
+      // sweeps one wing forward and the other aft.
+      baseClone.updateMatrixWorld(true)
+      const span = new THREE.Box3().setFromObject(baseClone)
+      const midX = (span.max.x + span.min.x) / 2
+      const edge = Math.max((span.max.x - span.min.x) * 0.05, 1e-4)
+      const centre = new THREE.Vector3()
       const nodes: THREE.Object3D[] = []
       baseClone.traverse((o) => {
-        if (roleOf(base, o.name) === role && (o as THREE.Mesh).isMesh) nodes.push(o)
+        if (roleOf(base, o.name) !== role || !(o as THREE.Mesh).isMesh) return
+        new THREE.Box3().setFromObject(o).getCenter(centre)
+        const dx = centre.x - midX
+        o.userData.ddSide = dx > edge ? 'right' : dx < -edge ? 'left' : 'center'
+        nodes.push(o)
       })
+      // A welded airframe has no node for this role, only a region of the hull.
+      // Split it in two so the region can be transformed like a real part —
+      // only once something is actually asking it to move, since the split
+      // doubles the geometry.
+      nodes.push(...carveWelded(baseClone, base, role, true))
       if (!nodes.length) continue
       const hull = new THREE.Box3().setFromObject(baseClone)
       const size = hull.getSize(new THREE.Vector3())
@@ -346,7 +541,7 @@ export function createViewer(container: HTMLElement): ViewerHandle {
         (place.rise ?? 0) * size.y * 0.5,
         (place.fore ?? 0) * size.z * -0.5,
       )
-      scaleRole(baseClone, nodes, factor, off, tilt)
+      scaleRole(assembly, nodes, factor, off, tilt, place)
     }
 
     // Bolt on whatever is replacing them.
@@ -411,6 +606,7 @@ export function createViewer(container: HTMLElement): ViewerHandle {
           assembly.add(arm)
         }
       } else if (hostMounts && hostMounts.length) {
+        const extra = Math.max(1, d.count ?? 1)
         const hull = new THREE.Box3().setFromObject(baseClone)
         const size = hull.getSize(new THREE.Vector3())
         const nudge = new THREE.Vector3(
@@ -419,9 +615,19 @@ export function createViewer(container: HTMLElement): ViewerHandle {
           (d.place?.fore ?? 0) * size.z * -0.5,
         )
         for (const point of hostMounts.slice(0, Math.max(1, d.count))) {
-          const copy = group.clone(true)
-          copy.position.copy(point).add(nudge)
-          assembly.add(copy)
+          // A count above one stacks copies - two wings is a biplane, three a
+          // triplane - offset vertically or fore-and-aft by the layout.
+          for (let i = 0; i < (d.role === 'wing' || d.role === 'tail' ? extra : 1); i++) {
+            const copy = group.clone(true)
+            copy.position.copy(point).add(nudge)
+            if (i > 0) {
+              const step = size.y * 0.14 * i
+              if (d.place?.layout === 'tandem') copy.position.z += size.z * 0.22 * i
+              else copy.position.y += step
+            }
+            applyAngles(copy, d.place)
+            assembly.add(copy)
+          }
         }
       } else {
         // The host never had this role, so there is no mounting point to copy.
@@ -549,6 +755,11 @@ export function createViewer(container: HTMLElement): ViewerHandle {
     const centre = box.getCenter(new THREE.Vector3())
     assembly.position.sub(new THREE.Vector3(centre.x, box.min.y, centre.z))
     root.add(assembly)
+
+    // Now that the assembly has stopped moving, carry the cuts into world space,
+    // which is the only space three.js clips in.
+    assembly.updateMatrixWorld(true)
+    for (const plane of cutPlanes) plane.applyMatrix4(assembly.matrixWorld)
 
     // The grid is a ruler: fixed squares at the base aircraft's scale, so a
     // 4x model visibly covers sixteen times the ground a 1x one does.

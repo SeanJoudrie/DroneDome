@@ -48,6 +48,13 @@ export interface AircraftCut {
   /** Half-width of the band to keep, in model units. */
   keep: number
   origin: number
+  /**
+   * Optional fore/aft and vertical limits, in model units either side of the
+   * centre, that close the other two faces of the box. Without them the cut is
+   * an infinite slab and takes the tailplane off with the wings.
+   */
+  bandLength?: [number, number]
+  bandVertical?: [number, number]
 }
 
 export type Powertrain = 'electric' | 'fuel' | 'hybrid' | 'solar'
@@ -141,12 +148,18 @@ export interface SlotPlacement {
   spread?: number
   /** Rotor tilt, 0 = lifting straight up, 90 = pointing forward. */
   tiltDeg?: number
-  /** How rotors are arranged when there is more than one. */
+  /** How multiples are arranged. 'stacked' on a wing makes a biplane. */
   layout?: 'ring' | 'plus' | 'tandem' | 'stacked'
+  /** Roll about the fuselage axis. On a wing this is dihedral. */
+  rollDeg?: number
+  /** Pitch. On a wing this is incidence; on a tail, trim. */
+  pitchDeg?: number
+  /** Yaw. On a wing this is sweep. */
+  yawDeg?: number
 }
 
 export type SlotChoice =
-  | ({ kind: 'stock'; scale?: number } & SlotPlacement)
+  | ({ kind: 'stock'; scale?: number; count?: number } & SlotPlacement)
   | { kind: 'none' }
   | ({ kind: 'donor'; aircraftId: string; count?: number; scale?: number } & SlotPlacement)
 

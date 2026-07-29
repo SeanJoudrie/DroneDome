@@ -366,6 +366,25 @@ export function analyse(build: Build): Analysis {
     const donorSpec = wingSlot!.donor.spec
     const fit = wingSlot!.fitScale
     wingArea = (donorSpec.wing_area_m2 ?? (donorSpec.span_m * donorSpec.span_m) / 12) * s2 * fit ** 2
+
+    // Extra wings are not free area. A biplane's second wing sits in the first
+    // one's flow field and contributes roughly 80% of what it would alone; a
+    // triplane's third, less again.
+    const wingCount = Math.max(1, wingSlot!.count ?? 1)
+    if (wingCount > 1) {
+      let effective = 1
+      for (let i = 1; i < wingCount; i++) effective += 0.8 ** i
+      wingArea *= effective
+    }
+
+    // Dihedral buys roll stability by tilting the lift vector, so less of it
+    // holds the aircraft up. Sweep does the same to the lift curve slope.
+    const dihedral = Math.abs(wingSlot!.place?.rollDeg ?? 0)
+    const sweep = Math.abs(wingSlot!.place?.yawDeg ?? 0)
+    const lossFactor =
+      Math.cos((clamp(dihedral, 0, 60) * Math.PI) / 180) *
+      Math.cos((clamp(sweep, 0, 60) * Math.PI) / 180)
+    wingArea *= lossFactor
     const span = donorSpec.span_m * s * fit
     const aspect = wingArea > 0 ? (span * span) / wingArea : 6
     aspectRatioUsed = aspect
@@ -410,6 +429,10 @@ export function analyse(build: Build): Analysis {
       rows: [
         row('Wing area', wingArea, 'm2'),
         row('Wingspan', span, 'm'),
+        ...((wingSlot!.count ?? 1) > 1
+          ? [row('Wing surfaces', wingSlot!.count ?? 1, 'none',
+              'a biplane gains area but each wing works in the last one\u2019s wake')]
+          : []),
         row('Aspect ratio', aspect, 'ratio', 'long thin wings glide better'),
         row('Wing loading', weight / Math.max(wingArea, 1e-6), 'loading', 'N per m² — high means fast and unforgiving'),
         { ...row('Lift-to-drag', liftToDrag, 'ratio', 'metres forward per metre down with the power off'),
