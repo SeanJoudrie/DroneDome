@@ -1,0 +1,10 @@
+{
+  "_note": "A tailsitter is almost as wide as it is long, so its wing is not a separate lump the classifier can find - it is a pair of stubs on a fuselage that is mostly ducted fan. The cut keeps that fuselage and clips the stubs.",
+  "_cuts": {
+    "wing": {
+      "axis": "span",
+      "keepBand": 0.3,
+      "comment": "keeps the duct and body out of a 2.7 m span"
+    }
+  }
+}

@@ -49,6 +49,9 @@ const PUBLISHED: Record<string, { mtow: number; endurance: number; cruise: numbe
   'px4-tiltrotor': { mtow: 7.0, endurance: 0.5, cruise: 65 },
   'px4-omnicopter': { mtow: 2.3, endurance: 0.2, cruise: 30 },
   'px4-plane': { mtow: 1.8, endurance: 0.6, cruise: 60 },
+  'mq8-firescout': { mtow: 2721, endurance: 12, cruise: 213 },
+  'camcopter-s100': { mtow: 200, endurance: 6, cruise: 102 },
+  vbat: { mtow: 57, endurance: 9, cruise: 74 },
 }
 
 const pick = (groups: StatGroup[], title: string, label: string) =>

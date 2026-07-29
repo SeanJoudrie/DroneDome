@@ -41,6 +41,9 @@ model removed, please open an issue.
 | Tiltrotor VTOL | PX4 / Open Robotics | BSD 3-Clause | [source](https://app.gazebosim.org/PX4/fuel/models/tiltrotor) |
 | Omnicopter | PX4 / Open Robotics | BSD 3-Clause | [source](https://app.gazebosim.org/PX4/fuel/models/Omnicopter) |
 | Advanced Plane | PX4 / Open Robotics | BSD 3-Clause | [source](https://app.gazebosim.org/PX4/fuel/models/Advanced%20Plane) |
+| MQ-8C Fire Scout | 42manako | CC Attribution 4.0 | [source](https://sketchfab.com/3d-models/mq-8-fire-scout-f6340be1210b4887adfbadee31bf2d5d) |
+| Camcopter S-100 | MaX3Dd | CC Attribution 4.0 | [source](https://sketchfab.com/3d-models/camcopter-s-100-800250c9c67c452286d282b51266605a) |
+| MQ-35 V-BAT | KillCaptureDestroy | CC Attribution 4.0 | [source](https://sketchfab.com/3d-models/mq-35-v-bat-4543fb39c7794ccebf272052a0877dd8) |
 
 ## Sources
 

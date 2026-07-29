@@ -987,6 +987,105 @@
         "endurance_h": 0.6,
         "ceiling_m": 1500
       }
+    },
+    {
+      "id": "mq8-firescout",
+      "name": "MQ-8C Fire Scout",
+      "family": "military",
+      "blurb": "An unmanned helicopter. Takes off from a destroyer's deck and hovers for twelve hours.",
+      "source": {
+        "kind": "sketchfab",
+        "uid": "f6340be1210b4887adfbadee31bf2d5d",
+        "author": "42manako",
+        "license": "CC-BY-4.0",
+        "url": "https://sketchfab.com/3d-models/mq-8-fire-scout-f6340be1210b4887adfbadee31bf2d5d"
+      },
+      "spec": {
+        "span_m": 10.67,
+        "length_m": 12.6,
+        "empty_mass_kg": 1585,
+        "mtow_kg": 2721,
+        "powertrain": "fuel",
+        "fuel_capacity_kg": 590,
+        "engine": "Rolls-Royce M250-C47B turboshaft",
+        "shaft_power_kw": 559,
+        "sfc_kg_per_kwh": 0.36,
+        "rotors": 1,
+        "rotor_diameter_m": 10.67,
+        "prop_blades": 4,
+        "payload_kg": 317,
+        "cruise_kmh": 213,
+        "max_speed_kmh": 259,
+        "endurance_h": 12,
+        "ceiling_m": 5180,
+        "tail_rotor": true
+      }
+    },
+    {
+      "id": "camcopter-s100",
+      "name": "Camcopter S-100",
+      "family": "military",
+      "blurb": "A 200 kg helicopter that lands itself on a moving ship. Runs on the same heavy fuel the ship does.",
+      "source": {
+        "kind": "sketchfab",
+        "uid": "800250c9c67c452286d282b51266605a",
+        "author": "MaX3Dd",
+        "license": "CC-BY-4.0",
+        "url": "https://sketchfab.com/3d-models/camcopter-s-100-800250c9c67c452286d282b51266605a"
+      },
+      "spec": {
+        "span_m": 3.4,
+        "length_m": 3.11,
+        "empty_mass_kg": 110,
+        "mtow_kg": 200,
+        "powertrain": "fuel",
+        "fuel_capacity_kg": 40,
+        "engine": "Diamond AE50R rotary",
+        "shaft_power_kw": 41,
+        "sfc_kg_per_kwh": 0.38,
+        "rotors": 1,
+        "rotor_diameter_m": 3.4,
+        "prop_blades": 2,
+        "payload_kg": 50,
+        "cruise_kmh": 102,
+        "max_speed_kmh": 222,
+        "endurance_h": 6,
+        "ceiling_m": 5500,
+        "tail_rotor": true
+      }
+    },
+    {
+      "id": "vbat",
+      "name": "MQ-35 V-BAT",
+      "family": "military",
+      "blurb": "One ducted fan, no runway, no catapult. Stands on its tail and goes straight up.",
+      "source": {
+        "kind": "sketchfab",
+        "uid": "4543fb39c7794ccebf272052a0877dd8",
+        "author": "KillCaptureDestroy",
+        "license": "CC-BY-4.0",
+        "url": "https://sketchfab.com/3d-models/mq-35-v-bat-4543fb39c7794ccebf272052a0877dd8"
+      },
+      "spec": {
+        "span_m": 2.7,
+        "length_m": 2.5,
+        "wing_area_m2": 0.9,
+        "empty_mass_kg": 34,
+        "mtow_kg": 57,
+        "powertrain": "fuel",
+        "fuel_capacity_kg": 12,
+        "engine": "Two-stroke driving a ducted fan",
+        "shaft_power_kw": 15,
+        "sfc_kg_per_kwh": 0.44,
+        "rotors": 1,
+        "rotor_diameter_m": 0.76,
+        "prop_blades": 3,
+        "payload_kg": 11,
+        "cruise_kmh": 74,
+        "max_speed_kmh": 167,
+        "endurance_h": 9,
+        "ceiling_m": 6100
+      }
     }
   ]
 }

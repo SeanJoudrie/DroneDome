@@ -264,9 +264,16 @@ export function analyse(build: Build): Analysis {
   // rotor. Two rotors can only manage it coaxially. Nothing here blocks the
   // build - it just tells you the truth about what it would do.
   const coaxial = !!rotorSlot?.donor.spec.coaxial
+  // A tail rotor only counts if the aircraft still has its tail on. Testing for
+  // a tail *part* was too strict: both helicopters in the catalog arrive as a
+  // single welded mesh with no separate tail node, so the check has to be
+  // "the tail has not been taken off" rather than "a tail mesh exists".
+  const tailRotor =
+    !!rotorSlot?.donor.spec.tail_rotor && (build.slots.tail?.kind ?? 'stock') !== 'none'
   const yawAuthority =
     !hasRotors ||
     coaxial ||
+    tailRotor ||
     rotorCount >= 4 ||
     (rotorCount === 3 && !!fitted.tail) ||
     (rotorCount === 2 && !!fitted.tail)

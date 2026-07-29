@@ -1129,7 +1129,7 @@ export const AIRCRAFT: AircraftModel[] = [
     "hidden": [],
     "parts": [
       {
-        "node": "Global Hawk_66c1ea",
+        "node": "Global Hawk_22bbf0",
         "group": "Global Hawk",
         "role": "wing",
         "side": "center",
@@ -1146,7 +1146,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": true
       },
       {
-        "node": "Global Hawk_31eba6",
+        "node": "Global Hawk_62bf0b",
         "group": "Global Hawk",
         "role": "gear",
         "side": "center",
@@ -1163,7 +1163,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": true
       },
       {
-        "node": "Global Hawk_4728a3",
+        "node": "Global Hawk_ac407c",
         "group": "Global Hawk",
         "role": "body",
         "side": "center",
@@ -1180,7 +1180,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": false
       },
       {
-        "node": "Global Hawk_5baa04",
+        "node": "Global Hawk_fa2048",
         "group": "Global Hawk",
         "role": "body",
         "side": "center",
@@ -1197,7 +1197,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": false
       },
       {
-        "node": "Global Hawk_b89a5d",
+        "node": "Global Hawk_6f5c8e",
         "group": "Global Hawk",
         "role": "body",
         "side": "center",
@@ -1214,7 +1214,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": false
       },
       {
-        "node": "Global Hawk_4789f5",
+        "node": "Global Hawk_45b9c1",
         "group": "Global Hawk",
         "role": "body",
         "side": "center",
@@ -1284,7 +1284,7 @@ export const AIRCRAFT: AircraftModel[] = [
     "hidden": [],
     "parts": [
       {
-        "node": "rotors_02_b646e1",
+        "node": "rotors_02_c29de3",
         "group": "rotors_02",
         "role": "rotor",
         "side": "center",
@@ -1301,7 +1301,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": true
       },
       {
-        "node": "rotors_01_058fc3",
+        "node": "rotors_01_e96b03",
         "group": "rotors_01",
         "role": "rotor",
         "side": "center",
@@ -1318,7 +1318,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": true
       },
       {
-        "node": "rotors_02_afe4bf",
+        "node": "rotors_02_496dab",
         "group": "rotors_02",
         "role": "rotor",
         "side": "center",
@@ -1335,7 +1335,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": true
       },
       {
-        "node": "rotors_01_b3cd57",
+        "node": "rotors_01_cabedf",
         "group": "rotors_01",
         "role": "rotor",
         "side": "center",
@@ -1352,7 +1352,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": true
       },
       {
-        "node": "parts_02_da8480",
+        "node": "parts_02_ca6446",
         "group": "parts_02",
         "role": "body",
         "side": "center",
@@ -1369,7 +1369,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": false
       },
       {
-        "node": "parts_01_bfeac4",
+        "node": "parts_01_dc899b",
         "group": "parts_01",
         "role": "body",
         "side": "center",
@@ -1386,7 +1386,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": false
       },
       {
-        "node": "leg_04_3dcac9",
+        "node": "leg_04_4ce5ab",
         "group": "leg_04",
         "role": "gear",
         "side": "right",
@@ -1403,7 +1403,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": true
       },
       {
-        "node": "leg_03_d8fe45",
+        "node": "leg_03_c43327",
         "group": "leg_03",
         "role": "gear",
         "side": "left",
@@ -1420,7 +1420,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": true
       },
       {
-        "node": "leg_02_ac5a0d",
+        "node": "leg_02_569f36",
         "group": "leg_02",
         "role": "gear",
         "side": "right",
@@ -1437,7 +1437,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": true
       },
       {
-        "node": "leg_01_e91f1f",
+        "node": "leg_01_8605da",
         "group": "leg_01",
         "role": "gear",
         "side": "left",
@@ -1454,7 +1454,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": true
       },
       {
-        "node": "solar_panel_e108ed",
+        "node": "solar_panel_158a65",
         "group": "solar_panel",
         "role": "solar",
         "side": "center",
@@ -1471,7 +1471,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": true
       },
       {
-        "node": "leg_04_8b24cf",
+        "node": "leg_04_316450",
         "group": "leg_04",
         "role": "gear",
         "side": "right",
@@ -1488,7 +1488,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": true
       },
       {
-        "node": "leg_03_183ae9",
+        "node": "leg_03_ac887a",
         "group": "leg_03",
         "role": "gear",
         "side": "left",
@@ -1505,7 +1505,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": true
       },
       {
-        "node": "leg_02_098d38",
+        "node": "leg_02_51e5c8",
         "group": "leg_02",
         "role": "gear",
         "side": "right",
@@ -1522,7 +1522,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": true
       },
       {
-        "node": "leg_01_f312a2",
+        "node": "leg_01_db214c",
         "group": "leg_01",
         "role": "gear",
         "side": "left",
@@ -1539,7 +1539,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": true
       },
       {
-        "node": "rotors_02_bb9356",
+        "node": "rotors_02_bc9d59",
         "group": "rotors_02",
         "role": "rotor",
         "side": "center",
@@ -1556,7 +1556,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": true
       },
       {
-        "node": "rotors_01_88e0b7",
+        "node": "rotors_01_5092d2",
         "group": "rotors_01",
         "role": "rotor",
         "side": "center",
@@ -1573,7 +1573,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": true
       },
       {
-        "node": "bus_a5e92f",
+        "node": "bus_c078e7",
         "group": "bus",
         "role": "body",
         "side": "center",
@@ -1590,7 +1590,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": false
       },
       {
-        "node": "leg_04_4c09a4",
+        "node": "leg_04_65f2c3",
         "group": "leg_04",
         "role": "gear",
         "side": "right",
@@ -1607,7 +1607,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": true
       },
       {
-        "node": "leg_03_50e8b0",
+        "node": "leg_03_82515a",
         "group": "leg_03",
         "role": "gear",
         "side": "left",
@@ -1624,7 +1624,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": true
       },
       {
-        "node": "leg_02_057709",
+        "node": "leg_02_3519a7",
         "group": "leg_02",
         "role": "gear",
         "side": "right",
@@ -1641,7 +1641,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": true
       },
       {
-        "node": "leg_01_0c1307",
+        "node": "leg_01_cf12d0",
         "group": "leg_01",
         "role": "gear",
         "side": "left",
@@ -1658,7 +1658,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": true
       },
       {
-        "node": "parts_02_c65b12",
+        "node": "parts_02_c3435a",
         "group": "parts_02",
         "role": "body",
         "side": "center",
@@ -1675,7 +1675,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": false
       },
       {
-        "node": "parts_01_37a3ed",
+        "node": "parts_01_12ec37",
         "group": "parts_01",
         "role": "body",
         "side": "center",
@@ -1692,7 +1692,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": false
       },
       {
-        "node": "parts_02_4673ca",
+        "node": "parts_02_c3738e",
         "group": "parts_02",
         "role": "body",
         "side": "center",
@@ -1709,7 +1709,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": false
       },
       {
-        "node": "parts_01_99bc63",
+        "node": "parts_01_5a8462",
         "group": "parts_01",
         "role": "body",
         "side": "center",
@@ -1726,7 +1726,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": false
       },
       {
-        "node": "solar_panel_979aef",
+        "node": "solar_panel_adc5d9",
         "group": "solar_panel",
         "role": "solar",
         "side": "right",
@@ -1743,7 +1743,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": true
       },
       {
-        "node": "bus_045fad",
+        "node": "bus_c0f23f",
         "group": "bus",
         "role": "body",
         "side": "center",
@@ -1760,7 +1760,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": false
       },
       {
-        "node": "solar_panel_c05bcd",
+        "node": "solar_panel_51e8d5",
         "group": "solar_panel",
         "role": "solar",
         "side": "center",
@@ -1777,7 +1777,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": true
       },
       {
-        "node": "rotors_01_81d2f0",
+        "node": "rotors_01_476399",
         "group": "rotors_01",
         "role": "rotor",
         "side": "center",
@@ -1794,7 +1794,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": true
       },
       {
-        "node": "bus_d5b0e6",
+        "node": "bus_1de518",
         "group": "bus",
         "role": "body",
         "side": "center",
@@ -1811,7 +1811,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": false
       },
       {
-        "node": "cams_c0607c",
+        "node": "cams_011221",
         "group": "cams",
         "role": "payload",
         "side": "center",
@@ -1828,7 +1828,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": true
       },
       {
-        "node": "rotors_02_f519f2",
+        "node": "rotors_02_215153",
         "group": "rotors_02",
         "role": "rotor",
         "side": "center",
@@ -1845,7 +1845,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": true
       },
       {
-        "node": "solar_panel_633dd8",
+        "node": "solar_panel_cc35f5",
         "group": "solar_panel",
         "role": "solar",
         "side": "center",
@@ -1862,7 +1862,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": true
       },
       {
-        "node": "cams_e0b481",
+        "node": "cams_c7ea2f",
         "group": "cams",
         "role": "payload",
         "side": "center",
@@ -15990,6 +15990,1402 @@ export const AIRCRAFT: AircraftModel[] = [
       "license": "BSD-3-Clause",
       "licenseName": "BSD 3-Clause",
       "url": "https://app.gazebosim.org/PX4/fuel/models/Advanced%20Plane"
+    }
+  },
+  {
+    "id": "mq8-firescout",
+    "name": "MQ-8C Fire Scout",
+    "family": "military",
+    "blurb": "An unmanned helicopter. Takes off from a destroyer's deck and hovers for twelve hours.",
+    "environment": "earth",
+    "model": "models/mq8-firescout.glb",
+    "spec": {
+      "span_m": 10.67,
+      "length_m": 12.6,
+      "empty_mass_kg": 1585,
+      "mtow_kg": 2721,
+      "powertrain": "fuel",
+      "fuel_capacity_kg": 590,
+      "engine": "Rolls-Royce M250-C47B turboshaft",
+      "shaft_power_kw": 559,
+      "sfc_kg_per_kwh": 0.36,
+      "rotors": 1,
+      "rotor_diameter_m": 10.67,
+      "prop_blades": 4,
+      "payload_kg": 317,
+      "cruise_kmh": 213,
+      "max_speed_kmh": 259,
+      "endurance_h": 12,
+      "ceiling_m": 5180,
+      "tail_rotor": true
+    },
+    "axes": {
+      "span": 0,
+      "length": 2,
+      "vertical": 1
+    },
+    "aftSign": 1,
+    "scaleToMetres": 0.020952426781997494,
+    "modelExtent": [
+      509.24888610839844,
+      165.76329421997073,
+      451.48150634765636
+    ],
+    "origin": [
+      -29.058570861816406,
+      44.53709983825685,
+      -2.4471893310546875
+    ],
+    "cuts": {},
+    "hidden": [],
+    "parts": [
+      {
+        "node": "Object_2",
+        "group": "Object_2",
+        "role": "body",
+        "side": "center",
+        "center": [
+          0,
+          0,
+          0
+        ],
+        "size": [
+          509.24889,
+          165.76329,
+          451.48151
+        ],
+        "swappable": false
+      },
+      {
+        "node": "Object_3",
+        "group": "Object_3",
+        "role": "rotor",
+        "side": "right",
+        "center": [
+          -16.47038,
+          -6.31173,
+          2.44829
+        ],
+        "size": [
+          305.77774,
+          153.13984,
+          99.13842
+        ],
+        "swappable": true
+      }
+    ],
+    "credit": {
+      "author": "42manako",
+      "license": "CC-BY-4.0",
+      "licenseName": "CC Attribution 4.0",
+      "url": "https://sketchfab.com/3d-models/mq-8-fire-scout-f6340be1210b4887adfbadee31bf2d5d"
+    }
+  },
+  {
+    "id": "camcopter-s100",
+    "name": "Camcopter S-100",
+    "family": "military",
+    "blurb": "A 200 kg helicopter that lands itself on a moving ship. Runs on the same heavy fuel the ship does.",
+    "environment": "earth",
+    "model": "models/camcopter-s100.glb",
+    "spec": {
+      "span_m": 3.4,
+      "length_m": 3.11,
+      "empty_mass_kg": 110,
+      "mtow_kg": 200,
+      "powertrain": "fuel",
+      "fuel_capacity_kg": 40,
+      "engine": "Diamond AE50R rotary",
+      "shaft_power_kw": 41,
+      "sfc_kg_per_kwh": 0.38,
+      "rotors": 1,
+      "rotor_diameter_m": 3.4,
+      "prop_blades": 2,
+      "payload_kg": 50,
+      "cruise_kmh": 102,
+      "max_speed_kmh": 222,
+      "endurance_h": 6,
+      "ceiling_m": 5500,
+      "tail_rotor": true
+    },
+    "axes": {
+      "span": 2,
+      "length": 0,
+      "vertical": 1
+    },
+    "aftSign": 1,
+    "scaleToMetres": 0.025343295544569586,
+    "modelExtent": [
+      130.4454892827098,
+      54.142150145516126,
+      134.1577694195549
+    ],
+    "origin": [
+      -1.0994921045411417,
+      -7.81691884994507,
+      15.069748878479015
+    ],
+    "cuts": {},
+    "hidden": [],
+    "parts": [
+      {
+        "node": "camcopters100_camcopters100_0",
+        "group": "camcopters100_camcopters100_0",
+        "role": "body",
+        "side": "center",
+        "center": [
+          -0.32561,
+          0,
+          0
+        ],
+        "size": [
+          58.65289,
+          54.14215,
+          134.15777
+        ],
+        "swappable": false
+      },
+      {
+        "node": "propellar_back_camcopters100_0",
+        "group": "propellar_back_camcopters100_0",
+        "role": "rotor",
+        "side": "right",
+        "center": [
+          3.629,
+          0.8673,
+          -65.01039
+        ],
+        "size": [
+          2.06248,
+          22.32836,
+          1.81957
+        ],
+        "swappable": true
+      },
+      {
+        "node": "propellar_top_camcopters100_0",
+        "group": "propellar_top_camcopters100_0",
+        "role": "rotor",
+        "side": "left",
+        "center": [
+          0,
+          22.60926,
+          19.74911
+        ],
+        "size": [
+          130.44549,
+          2.36778,
+          7.89705
+        ],
+        "swappable": true
+      }
+    ],
+    "credit": {
+      "author": "MaX3Dd",
+      "license": "CC-BY-4.0",
+      "licenseName": "CC Attribution 4.0",
+      "url": "https://sketchfab.com/3d-models/camcopter-s-100-800250c9c67c452286d282b51266605a"
+    }
+  },
+  {
+    "id": "vbat",
+    "name": "MQ-35 V-BAT",
+    "family": "military",
+    "blurb": "One ducted fan, no runway, no catapult. Stands on its tail and goes straight up.",
+    "environment": "earth",
+    "model": "models/vbat.glb",
+    "spec": {
+      "span_m": 2.7,
+      "length_m": 2.5,
+      "wing_area_m2": 0.9,
+      "empty_mass_kg": 34,
+      "mtow_kg": 57,
+      "powertrain": "fuel",
+      "fuel_capacity_kg": 12,
+      "engine": "Two-stroke driving a ducted fan",
+      "shaft_power_kw": 15,
+      "sfc_kg_per_kwh": 0.44,
+      "rotors": 1,
+      "rotor_diameter_m": 0.76,
+      "prop_blades": 3,
+      "payload_kg": 11,
+      "cruise_kmh": 74,
+      "max_speed_kmh": 167,
+      "endurance_h": 9,
+      "ceiling_m": 6100
+    },
+    "axes": {
+      "span": 1,
+      "length": 2,
+      "vertical": 0
+    },
+    "aftSign": 1,
+    "scaleToMetres": 0.25915949258882254,
+    "modelExtent": [
+      2.3695514116011185,
+      10.418294823117932,
+      9.740543003193817
+    ],
+    "origin": [
+      0.015196342058479528,
+      0.16216709512446714,
+      2.9817664643046857
+    ],
+    "cuts": {
+      "wing": {
+        "axis": 1,
+        "axisName": "span",
+        "keep": 1.562744,
+        "origin": 0.162167
+      }
+    },
+    "hidden": [],
+    "parts": [
+      {
+        "node": "Mesh002_Material #27_0",
+        "group": "Mesh002_Material #27_0",
+        "role": "tail",
+        "side": "right",
+        "center": [
+          -0.01354,
+          -3.65424,
+          -0.05271
+        ],
+        "size": [
+          0.8724,
+          0.68147,
+          0.45599
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Mesh004_Material #27_0",
+        "group": "Mesh004_Material #27_0",
+        "role": "tail",
+        "side": "right",
+        "center": [
+          -0.05783,
+          -3.41707,
+          -0.04896
+        ],
+        "size": [
+          0.68701,
+          0.44953,
+          0.44661
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Capsule009_Material #27_0",
+        "group": "Capsule009_Material #27_0",
+        "role": "body",
+        "side": "right",
+        "center": [
+          0.62416,
+          -3.00633,
+          -0.15443
+        ],
+        "size": [
+          0.20574,
+          1.66044,
+          0.35829
+        ],
+        "swappable": false
+      },
+      {
+        "node": "Capsule008_Material #27_0",
+        "group": "Capsule008_Material #27_0",
+        "role": "body",
+        "side": "right",
+        "center": [
+          0.62416,
+          -3.00633,
+          0.12122
+        ],
+        "size": [
+          0.20574,
+          1.66044,
+          0.35829
+        ],
+        "swappable": false
+      },
+      {
+        "node": "Mesh003_Material #27_0",
+        "group": "Mesh003_Material #27_0",
+        "role": "tail",
+        "side": "right",
+        "center": [
+          -0.02233,
+          -3.47287,
+          0.00043
+        ],
+        "size": [
+          0.30281,
+          0.37235,
+          0.44491
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Sphere009_Material #27_0",
+        "group": "Sphere009_Material #27_0",
+        "role": "body",
+        "side": "right",
+        "center": [
+          -0.00914,
+          -4.2108,
+          0.02458
+        ],
+        "size": [
+          0.89496,
+          0.37976,
+          0.89496
+        ],
+        "swappable": false
+      },
+      {
+        "node": "Torus001_Material #27_0",
+        "group": "Torus001_Material #27_0",
+        "role": "body",
+        "side": "right",
+        "center": [
+          0,
+          -4.08673,
+          0.0072
+        ],
+        "size": [
+          2.36955,
+          0.67831,
+          2.36955
+        ],
+        "swappable": false
+      },
+      {
+        "node": "Mesh005_Material #28_0",
+        "group": "Mesh005_Material #28_0",
+        "role": "tail",
+        "side": "right",
+        "center": [
+          -0.01065,
+          -3.92098,
+          0.03218
+        ],
+        "size": [
+          1.3092,
+          0.11841,
+          0.83456
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Sphere002_Material #27_0",
+        "group": "Sphere002_Material #27_0",
+        "role": "tail",
+        "side": "left",
+        "center": [
+          0.28721,
+          3.67851,
+          0.03131
+        ],
+        "size": [
+          0.57754,
+          0.37867,
+          0.47786
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Mesh001_Material #27_0",
+        "group": "Mesh001_Material #27_0",
+        "role": "tail",
+        "side": "right",
+        "center": [
+          -0.0131,
+          -3.60575,
+          -0.41603
+        ],
+        "size": [
+          0.5677,
+          0.06731,
+          0.31363
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Capsule007_Material #27_0",
+        "group": "Capsule007_Material #27_0",
+        "role": "body",
+        "side": "left",
+        "center": [
+          0.02202,
+          1.70483,
+          0.02981
+        ],
+        "size": [
+          0.76754,
+          4.56635,
+          0.76182
+        ],
+        "swappable": false
+      },
+      {
+        "node": "Sphere003_Material #27_0",
+        "group": "Sphere003_Material #27_0",
+        "role": "tail",
+        "side": "left",
+        "center": [
+          0.38425,
+          3.67351,
+          0.02819
+        ],
+        "size": [
+          0.33899,
+          0.26766,
+          0.33899
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Mesh006_Material #27_0",
+        "group": "Mesh006_Material #27_0",
+        "role": "tail",
+        "side": "right",
+        "center": [
+          -0.0238,
+          -3.40664,
+          0.09027
+        ],
+        "size": [
+          1.01069,
+          0.41301,
+          0.12873
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Sphere008_Material #27_0",
+        "group": "Sphere008_Material #27_0",
+        "role": "gear",
+        "side": "right",
+        "center": [
+          -0.90569,
+          -5.17502,
+          -0.8878
+        ],
+        "size": [
+          0.13649,
+          0.06825,
+          0.13649
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Sphere007_Material #27_0",
+        "group": "Sphere007_Material #27_0",
+        "role": "body",
+        "side": "right",
+        "center": [
+          0.78073,
+          -5.17502,
+          -0.99393
+        ],
+        "size": [
+          0.13649,
+          0.06825,
+          0.13649
+        ],
+        "swappable": false
+      },
+      {
+        "node": "Sphere006_Material #27_0",
+        "group": "Sphere006_Material #27_0",
+        "role": "body",
+        "side": "right",
+        "center": [
+          0.95501,
+          -5.17502,
+          0.92214
+        ],
+        "size": [
+          0.13649,
+          0.06825,
+          0.13649
+        ],
+        "swappable": false
+      },
+      {
+        "node": "Sphere005_Material #27_0",
+        "group": "Sphere005_Material #27_0",
+        "role": "payload",
+        "side": "right",
+        "center": [
+          -0.89906,
+          -5.17502,
+          0.92214
+        ],
+        "size": [
+          0.13649,
+          0.06825,
+          0.13649
+        ],
+        "swappable": true
+      },
+      {
+        "node": "ChamferBox001_Material #27_0",
+        "group": "ChamferBox001_Material #27_0",
+        "role": "body",
+        "side": "right",
+        "center": [
+          0.0178,
+          -2.34042,
+          -0.03542
+        ],
+        "size": [
+          1.56922,
+          3.50071,
+          1.65112
+        ],
+        "swappable": false
+      },
+      {
+        "node": "Sphere004_Material #27_0",
+        "group": "Sphere004_Material #27_0",
+        "role": "hardpoint",
+        "side": "left",
+        "center": [
+          -0.359,
+          3.2581,
+          -0.00383
+        ],
+        "size": [
+          0.24133,
+          0.34838,
+          0.24133
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Tube004_Material #27_0",
+        "group": "Tube004_Material #27_0",
+        "role": "tail",
+        "side": "left",
+        "center": [
+          0.12379,
+          3.67645,
+          0.03079
+        ],
+        "size": [
+          0.10319,
+          0.38236,
+          0.38236
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Cylinder016_Material #27_0",
+        "group": "Cylinder016_Material #27_0",
+        "role": "payload",
+        "side": "right",
+        "center": [
+          -0.83184,
+          -4.32977,
+          -0.81864
+        ],
+        "size": [
+          0.19214,
+          1.63021,
+          0.18793
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Cylinder015_Material #27_0",
+        "group": "Cylinder015_Material #27_0",
+        "role": "body",
+        "side": "right",
+        "center": [
+          0.70687,
+          -4.32977,
+          -0.92476
+        ],
+        "size": [
+          0.19214,
+          1.63021,
+          0.18793
+        ],
+        "swappable": false
+      },
+      {
+        "node": "Cylinder014_Material #27_0",
+        "group": "Cylinder014_Material #27_0",
+        "role": "rotor",
+        "side": "right",
+        "center": [
+          0.88116,
+          -4.32977,
+          0.85297
+        ],
+        "size": [
+          0.19214,
+          1.63021,
+          0.18793
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Cylinder013_Material #27_0",
+        "group": "Cylinder013_Material #27_0",
+        "role": "payload",
+        "side": "right",
+        "center": [
+          -0.82521,
+          -4.32977,
+          0.85297
+        ],
+        "size": [
+          0.19214,
+          1.63021,
+          0.18793
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Tube006_Material #28_0",
+        "group": "Tube006_Material #28_0",
+        "role": "body",
+        "side": "right",
+        "center": [
+          0.5823,
+          -2.75301,
+          -0.2307
+        ],
+        "size": [
+          0.31338,
+          0.10014,
+          0.22967
+        ],
+        "swappable": false
+      },
+      {
+        "node": "Tube002_Material #28_0",
+        "group": "Tube002_Material #28_0",
+        "role": "body",
+        "side": "right",
+        "center": [
+          0.5823,
+          -2.75301,
+          0.1975
+        ],
+        "size": [
+          0.31338,
+          0.10014,
+          0.22967
+        ],
+        "swappable": false
+      },
+      {
+        "node": "Cylinder029_Material #28_0",
+        "group": "Cylinder029_Material #28_0",
+        "role": "payload",
+        "side": "right",
+        "center": [
+          -0.3693,
+          -2.31648,
+          -2.05289
+        ],
+        "size": [
+          0.19304,
+          0.34774,
+          0.08874
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Cylinder028_Material #28_0",
+        "group": "Cylinder028_Material #28_0",
+        "role": "payload",
+        "side": "right",
+        "center": [
+          -0.3693,
+          -2.31648,
+          -1.11817
+        ],
+        "size": [
+          0.19304,
+          0.34774,
+          0.08874
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Cylinder009_Material #28_0",
+        "group": "Cylinder009_Material #28_0",
+        "role": "body",
+        "side": "left",
+        "center": [
+          0.49007,
+          2.25799,
+          0.00337
+        ],
+        "size": [
+          0.19304,
+          0.34774,
+          0.08874
+        ],
+        "swappable": false
+      },
+      {
+        "node": "Cylinder031_Material #28_0",
+        "group": "Cylinder031_Material #28_0",
+        "role": "payload",
+        "side": "right",
+        "center": [
+          -0.3693,
+          -2.31648,
+          1.92211
+        ],
+        "size": [
+          0.19304,
+          0.34774,
+          0.08874
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Cylinder030_Material #28_0",
+        "group": "Cylinder030_Material #28_0",
+        "role": "payload",
+        "side": "right",
+        "center": [
+          -0.3693,
+          -2.31648,
+          0.98739
+        ],
+        "size": [
+          0.19304,
+          0.34774,
+          0.08874
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Cylinder026_Material #28_0",
+        "group": "Cylinder026_Material #28_0",
+        "role": "body",
+        "side": "left",
+        "center": [
+          0.49007,
+          1.10952,
+          0.00337
+        ],
+        "size": [
+          0.19304,
+          0.34774,
+          0.08874
+        ],
+        "swappable": false
+      },
+      {
+        "node": "Tube008_Material #27_0",
+        "group": "Tube008_Material #27_0",
+        "role": "body",
+        "side": "left",
+        "center": [
+          0.02071,
+          1.83846,
+          0.02814
+        ],
+        "size": [
+          0.77483,
+          0.03431,
+          0.77483
+        ],
+        "swappable": false
+      },
+      {
+        "node": "Tube007_Material #27_0",
+        "group": "Tube007_Material #27_0",
+        "role": "body",
+        "side": "left",
+        "center": [
+          0.02071,
+          3.00776,
+          0.02814
+        ],
+        "size": [
+          0.77483,
+          0.03019,
+          0.77483
+        ],
+        "swappable": false
+      },
+      {
+        "node": "Tube003_Material #27_0",
+        "group": "Tube003_Material #27_0",
+        "role": "tail",
+        "side": "left",
+        "center": [
+          0.02071,
+          0.78304,
+          0.02814
+        ],
+        "size": [
+          0.77483,
+          0.03431,
+          0.77483
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Tube005_Material #27_0",
+        "group": "Tube005_Material #27_0",
+        "role": "tail",
+        "side": "left",
+        "center": [
+          0.02071,
+          0.84788,
+          0.02791
+        ],
+        "size": [
+          0.77483,
+          0.03019,
+          0.77483
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Tube001_Material #27_0",
+        "group": "Tube001_Material #27_0",
+        "role": "body",
+        "side": "right",
+        "center": [
+          -0.00914,
+          -4.4875,
+          0.02458
+        ],
+        "size": [
+          0.36284,
+          0.30202,
+          0.36284
+        ],
+        "swappable": false
+      },
+      {
+        "node": "ChamferBox002_Material #27_0",
+        "group": "ChamferBox002_Material #27_0",
+        "role": "body",
+        "side": "right",
+        "center": [
+          0.07224,
+          -3.64458,
+          -0.43989
+        ],
+        "size": [
+          0.75777,
+          0.25815,
+          0.3547
+        ],
+        "swappable": false
+      },
+      {
+        "node": "Cylinder004_Material #27_0",
+        "group": "Cylinder004_Material #27_0",
+        "role": "tail",
+        "side": "left",
+        "center": [
+          0.12215,
+          3.65855,
+          0.02466
+        ],
+        "size": [
+          0.21944,
+          0.24283,
+          0.24283
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Cylinder007_Material #27_0",
+        "group": "Cylinder007_Material #27_0",
+        "role": "gear",
+        "side": "right",
+        "center": [
+          -0.49759,
+          -2.25878,
+          0.00626
+        ],
+        "size": [
+          0.38529,
+          2.64492,
+          0.79096
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Cylinder001_Material #27_0",
+        "group": "Cylinder001_Material #27_0",
+        "role": "payload",
+        "side": "right",
+        "center": [
+          -0.49759,
+          -2.35484,
+          2.52276
+        ],
+        "size": [
+          0.12172,
+          0.86716,
+          4.69502
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Cylinder025_Material #27_0",
+        "group": "Cylinder025_Material #27_0",
+        "role": "payload",
+        "side": "right",
+        "center": [
+          -0.49759,
+          -2.35484,
+          -2.52276
+        ],
+        "size": [
+          0.12172,
+          0.86716,
+          4.69502
+        ],
+        "swappable": true
+      },
+      {
+        "node": "OilTank002_Material #27_0",
+        "group": "OilTank002_Material #27_0",
+        "role": "body",
+        "side": "right",
+        "center": [
+          0.0491,
+          -3.5009,
+          0.03743
+        ],
+        "size": [
+          0.70065,
+          0.38191,
+          0.38191
+        ],
+        "swappable": false
+      },
+      {
+        "node": "OilTank001_Material #27_0",
+        "group": "OilTank001_Material #27_0",
+        "role": "body",
+        "side": "right",
+        "center": [
+          0.00678,
+          -3.60496,
+          0.07343
+        ],
+        "size": [
+          0.38191,
+          0.38191,
+          0.70065
+        ],
+        "swappable": false
+      },
+      {
+        "node": "Cylinder024_Material #27_0",
+        "group": "Cylinder024_Material #27_0",
+        "role": "body",
+        "side": "right",
+        "center": [
+          0.62416,
+          -2.75301,
+          -0.2307
+        ],
+        "size": [
+          0.21242,
+          0.86278,
+          0.2157
+        ],
+        "swappable": false
+      },
+      {
+        "node": "Cylinder023_Material #27_0",
+        "group": "Cylinder023_Material #27_0",
+        "role": "payload",
+        "side": "right",
+        "center": [
+          -0.45418,
+          -4.51172,
+          0.46963
+        ],
+        "size": [
+          0.69901,
+          0.33838,
+          0.69901
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Cylinder022_Material #27_0",
+        "group": "Cylinder022_Material #27_0",
+        "role": "body",
+        "side": "right",
+        "center": [
+          0.43591,
+          -4.51172,
+          -0.42046
+        ],
+        "size": [
+          0.69901,
+          0.33838,
+          0.69901
+        ],
+        "swappable": false
+      },
+      {
+        "node": "Cylinder021_Material #27_0",
+        "group": "Cylinder021_Material #27_0",
+        "role": "gear",
+        "side": "right",
+        "center": [
+          -0.45418,
+          -4.51172,
+          -0.42046
+        ],
+        "size": [
+          0.69901,
+          0.33838,
+          0.69901
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Cylinder020_Material #27_0",
+        "group": "Cylinder020_Material #27_0",
+        "role": "body",
+        "side": "right",
+        "center": [
+          0.43591,
+          -4.51172,
+          0.46963
+        ],
+        "size": [
+          0.69901,
+          0.33838,
+          0.69901
+        ],
+        "swappable": false
+      },
+      {
+        "node": "Cylinder019_Material #27_0",
+        "group": "Cylinder019_Material #27_0",
+        "role": "body",
+        "side": "right",
+        "center": [
+          -0.00914,
+          -4.51172,
+          -0.60481
+        ],
+        "size": [
+          0.04387,
+          0.33838,
+          0.94469
+        ],
+        "swappable": false
+      },
+      {
+        "node": "Cylinder018_Material #27_0",
+        "group": "Cylinder018_Material #27_0",
+        "role": "body",
+        "side": "right",
+        "center": [
+          -0.00914,
+          -4.51172,
+          0.65397
+        ],
+        "size": [
+          0.04387,
+          0.33838,
+          0.94469
+        ],
+        "swappable": false
+      },
+      {
+        "node": "Cylinder002_Material #27_0",
+        "group": "Cylinder002_Material #27_0",
+        "role": "body",
+        "side": "right",
+        "center": [
+          0.62025,
+          -4.51172,
+          0.02458
+        ],
+        "size": [
+          0.94469,
+          0.33838,
+          0.04387
+        ],
+        "swappable": false
+      },
+      {
+        "node": "Cylinder017_Material #27_0",
+        "group": "Cylinder017_Material #27_0",
+        "role": "payload",
+        "side": "right",
+        "center": [
+          -0.63853,
+          -4.51172,
+          0.02458
+        ],
+        "size": [
+          0.94469,
+          0.33838,
+          0.04387
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Cylinder005_Material #27_0",
+        "group": "Cylinder005_Material #27_0",
+        "role": "tail",
+        "side": "left",
+        "center": [
+          0.31541,
+          3.65855,
+          0.02466
+        ],
+        "size": [
+          0.09406,
+          0.131,
+          0.13302
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Cylinder003_Material #27_0",
+        "group": "Cylinder003_Material #27_0",
+        "role": "body",
+        "side": "right",
+        "center": [
+          0.62416,
+          -2.75301,
+          0.1975
+        ],
+        "size": [
+          0.21242,
+          0.86278,
+          0.2157
+        ],
+        "swappable": false
+      },
+      {
+        "node": "object_4_Material #27_0",
+        "group": "object_4_Material #27_0",
+        "role": "gear",
+        "side": "left",
+        "center": [
+          -0.42032,
+          5.02544,
+          -0.00364
+        ],
+        "size": [
+          0.02255,
+          0.36742,
+          0.02309
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Cylinder032_Material #27_0",
+        "group": "Cylinder032_Material #27_0",
+        "role": "tail",
+        "side": "right",
+        "center": [
+          0.0178,
+          -3.06003,
+          -0.00053
+        ],
+        "size": [
+          0.2746,
+          0.63663,
+          1.00162
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Cylinder008_Material #27_0",
+        "group": "Cylinder008_Material #27_0",
+        "role": "gear",
+        "side": "left",
+        "center": [
+          -0.41892,
+          4.20883,
+          -0.00383
+        ],
+        "size": [
+          0.01765,
+          1.63338,
+          0.01792
+        ],
+        "swappable": true
+      },
+      {
+        "node": "C-Ext005_Material #27_0",
+        "group": "C-Ext005_Material #27_0",
+        "role": "tail",
+        "side": "right",
+        "center": [
+          0.39742,
+          -0.57085,
+          0.19285
+        ],
+        "size": [
+          0.033,
+          0.07505,
+          0.02428
+        ],
+        "swappable": true
+      },
+      {
+        "node": "C-Ext004_Material #27_0",
+        "group": "C-Ext004_Material #27_0",
+        "role": "hardpoint",
+        "side": "right",
+        "center": [
+          -0.14955,
+          -0.57085,
+          -0.35411
+        ],
+        "size": [
+          0.02428,
+          0.07505,
+          0.033
+        ],
+        "swappable": true
+      },
+      {
+        "node": "C-Ext003_Material #27_0",
+        "group": "C-Ext003_Material #27_0",
+        "role": "body",
+        "side": "right",
+        "center": [
+          0.19091,
+          -0.57085,
+          -0.35411
+        ],
+        "size": [
+          0.02428,
+          0.07505,
+          0.033
+        ],
+        "swappable": false
+      },
+      {
+        "node": "C-Ext002_Material #27_0",
+        "group": "C-Ext002_Material #27_0",
+        "role": "body",
+        "side": "right",
+        "center": [
+          0.19091,
+          -0.57085,
+          0.39936
+        ],
+        "size": [
+          0.02428,
+          0.07505,
+          0.033
+        ],
+        "swappable": false
+      },
+      {
+        "node": "C-Ext001_Material #27_0",
+        "group": "C-Ext001_Material #27_0",
+        "role": "gear",
+        "side": "right",
+        "center": [
+          -0.14955,
+          -0.57085,
+          0.39936
+        ],
+        "size": [
+          0.02428,
+          0.07505,
+          0.033
+        ],
+        "swappable": true
+      },
+      {
+        "node": "C-Ext006_Material #27_0",
+        "group": "C-Ext006_Material #27_0",
+        "role": "payload",
+        "side": "right",
+        "center": [
+          -0.35606,
+          -0.57085,
+          -0.1476
+        ],
+        "size": [
+          0.033,
+          0.07505,
+          0.02428
+        ],
+        "swappable": true
+      },
+      {
+        "node": "C-Ext007_Material #27_0",
+        "group": "C-Ext007_Material #27_0",
+        "role": "payload",
+        "side": "right",
+        "center": [
+          -0.35606,
+          -0.57085,
+          0.19285
+        ],
+        "size": [
+          0.033,
+          0.07505,
+          0.02428
+        ],
+        "swappable": true
+      },
+      {
+        "node": "C-Ext008_Material #27_0",
+        "group": "C-Ext008_Material #27_0",
+        "role": "body",
+        "side": "right",
+        "center": [
+          0.39742,
+          -0.57085,
+          -0.1476
+        ],
+        "size": [
+          0.033,
+          0.07505,
+          0.02428
+        ],
+        "swappable": false
+      },
+      {
+        "node": "Mesh007_Material #28_0",
+        "group": "Mesh007_Material #28_0",
+        "role": "tail",
+        "side": "left",
+        "center": [
+          0.39737,
+          3.80068,
+          0.03156
+        ],
+        "size": [
+          0.21624,
+          0,
+          0.09683
+        ],
+        "swappable": true
+      }
+    ],
+    "credit": {
+      "author": "KillCaptureDestroy",
+      "license": "CC-BY-4.0",
+      "licenseName": "CC Attribution 4.0",
+      "url": "https://sketchfab.com/3d-models/mq-35-v-bat-4543fb39c7794ccebf272052a0877dd8"
     }
   }
 ]

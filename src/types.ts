@@ -85,6 +85,13 @@ export interface AircraftSpec {
   // electric
   rotors?: number
   coaxial?: boolean
+  /**
+   * A helicopter's tail rotor. One main rotor cancels its own torque with
+   * nothing, so without this the model correctly says a single-rotor aircraft
+   * spins — which is right for a tricopter missing its servo and wrong for
+   * every helicopter ever built.
+   */
+  tail_rotor?: boolean
   rotor_diameter_m?: number
   rotor_rpm?: number
   motor_kv?: number

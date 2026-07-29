@@ -48,6 +48,9 @@ const PRESET_LOADOUT: Record<string, { powerplant: string; energy: string; paylo
   'px4-tiltrotor': { powerplant: 'e-5010-360', energy: 'lipo-4s-5000', payloads: ['gimbal-4k'] },
   'px4-omnicopter': { powerplant: 'e-2207-2450', energy: 'lipo-4s-2420', payloads: ['none'] },
   'px4-plane': { powerplant: 'e-2216-950', energy: 'lipo-4s-1500', payloads: ['fpv-cam'] },
+  'mq8-firescout': { powerplant: 'm250-c47b', energy: 'fuel-590', payloads: ['eo-ir'] },
+  'camcopter-s100': { powerplant: 'ae50r', energy: 'fuel-40', payloads: ['gimbal-4k'] },
+  vbat: { powerplant: 'vbat-2stroke', energy: 'fuel-12', payloads: ['gimbal-4k'] },
 }
 
 const FALLBACK = { powerplant: 'e-5010-360', energy: 'lipo-4s-5000', payloads: ['none'] }
