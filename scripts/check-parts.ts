@@ -12,7 +12,8 @@
  *
  *   npm run check:parts
  */
-import { AIRCRAFT } from '../src/data/aircraft.generated'
+import { AIRCRAFT, AIRCRAFT_BY_ID } from '../src/data/aircraft.generated'
+import { PAYLOADS } from '../src/data/catalog'
 import type { AircraftModel, PartRole } from '../src/types'
 import { SWAPPABLE_ROLES } from '../src/types'
 
@@ -102,6 +103,19 @@ for (const a of AIRCRAFT) {
         })
       }
     }
+  }
+}
+
+// Equipment borrows its shape from a part on a real aircraft. Reclassifying a
+// model can quietly take that part away, and the item then fits with no mesh
+// at all — mass and drag, nothing to see.
+for (const item of PAYLOADS) {
+  if (!item.mesh) continue
+  const donor = AIRCRAFT_BY_ID[item.mesh.aircraftId]
+  if (!donor) {
+    problems.push({ id: item.id, role: 'axes', why: `borrows a mesh from "${item.mesh.aircraftId}", which is not in the catalog` })
+  } else if (!donor.parts.some((p) => p.role === item.mesh!.role)) {
+    problems.push({ id: item.id, role: 'axes', why: `borrows a ${item.mesh.role} from ${donor.id}, which has none — it would fit invisibly` })
   }
 }
 
