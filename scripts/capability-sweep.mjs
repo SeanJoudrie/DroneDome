@@ -36,7 +36,7 @@ async function apply(baseId, slots) {
   }, [baseId, slots])
   try {
     await page.waitForFunction((w) => window.dronedome.report().buildId === w, want, {
-      timeout: 20000, polling: 100,
+      timeout: 40000, polling: 100,
     })
   } catch {
     return null
@@ -49,7 +49,7 @@ const shape = (ms) =>
   ms === null
     ? 'STALE'
     : ms
-        .map((m) => `${m.name}:${m.min.map((v) => v.toFixed(3))}:${m.max.map((v) => v.toFixed(3))}`)
+        .map((m) => `${m.name}:${m.clips}:${m.min.map((v) => v.toFixed(3))}:${m.max.map((v) => v.toFixed(3))}`)
         .sort()
         .join('|')
 

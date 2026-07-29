@@ -333,6 +333,13 @@ export interface MeshReport {
   role: string
   min: [number, number, number]
   max: [number, number, number]
+  /**
+   * How many clipping planes this mesh is drawn through. A cut removes a wing
+   * without touching the geometry's bounds, so measuring boxes alone cannot
+   * see it happen — on a TB2 or a Shahed, whose wings are only a cut, taking
+   * the wing off looked from outside like nothing at all.
+   */
+  clips: number
 }
 
 export interface ViewerHandle {
@@ -1038,9 +1045,10 @@ export function createViewer(container: HTMLElement): ViewerHandle {
     // Cameras, turrets and weapons borrow real meshes from other aircraft in
     // the catalog rather than being invented, and replace the host's own part
     // in that role so you don't end up with two sensor balls.
-    const equipment = build.payloadIds
-      .map((id) => PAYLOADS_BY_ID[id])
-      .filter((p) => p?.mesh)
+    const equipment =
+      build.slots.payload?.kind === 'none'
+        ? []
+        : build.payloadIds.map((id) => PAYLOADS_BY_ID[id]).filter((p) => p?.mesh)
     for (const item of equipment) {
       const spec = item.mesh!
       const donor = AIRCRAFT_BY_ID[spec.aircraftId]
@@ -1228,7 +1236,9 @@ export function createViewer(container: HTMLElement): ViewerHandle {
         }
         box.setFromObject(mesh)
         if (box.isEmpty()) return
+        const mats = Array.isArray(mesh.material) ? mesh.material : [mesh.material]
         out.push({
+          clips: mats.reduce((n, m) => n + ((m as THREE.Material).clippingPlanes?.length ?? 0), 0),
           name: mesh.name,
           // Resolved the same way the builder resolves it, so a test can ask
           // whether the app can actually find a part rather than guessing at
