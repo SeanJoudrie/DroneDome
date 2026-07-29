@@ -155,6 +155,16 @@ function scaleRole(
       if (side === 'right') pivot.x = box.min.x
       else if (side === 'left') pivot.x = box.max.x
     }
+    // A welded part knows exactly where it was cut from, and that beats
+    // measuring: clipping does not shrink a mesh's reported bounds, so the box
+    // above still describes the entire hull.
+    const stated = members.find((n) => Array.isArray(n.userData.ddMount))
+    if (stated) {
+      const [mx, my, mz] = stated.userData.ddMount as [number, number | null, number | null]
+      pivot.x = mx
+      if (my !== null) pivot.y = my
+      if (mz !== null) pivot.z = mz
+    }
     for (const node of members) {
       node.matrix.premultiply(new THREE.Matrix4().makeTranslation(-pivot.x, -pivot.y, -pivot.z))
     }
@@ -452,10 +462,21 @@ export function createViewer(container: HTMLElement): ViewerHandle {
     }
     keeps.push([...inside, planeBelow(0, keep), planeAbove(0, -keep)])
 
+    // Where the cut runs is where the part is attached, and the bands say how
+    // far along and how high it sits. A clipped mesh still reports the geometry
+    // of the whole hull it was cut from, so without this the pivot for the
+    // right wing came out at the left wingtip.
+    const band = (axis: 1 | 2) => {
+      const l = limits.find((x) => x.axis === axis)
+      return l ? (l.lo + l.hi) / 2 : null
+    }
     return {
       keeps,
       right: [...inside, planeAbove(0, keep)],
       left: [...inside, planeBelow(0, -keep)],
+      mountX: keep,
+      mountY: band(1),
+      mountZ: band(2),
     }
   }
 
@@ -564,6 +585,11 @@ export function createViewer(container: HTMLElement): ViewerHandle {
           clipMaterials(half, regions[side], false)
           half.userData.ddSide = side
           half.userData.ddGroup = `${mesh.name}:${side}`
+          half.userData.ddMount = [
+            side === 'right' ? regions.mountX : -regions.mountX,
+            regions.mountY,
+            regions.mountZ,
+          ]
           made.push(half)
         }
       }
