@@ -174,7 +174,14 @@ export function analyse(build: Build): Analysis {
     fitted[role] = slot
     if (!slot) continue
     const frac = STRUCTURE_FRACTION[role]
-    const kg = slot.donor.spec.empty_mass_kg * frac * s3 * slot.fitScale ** 3
+    // Mass follows the cube of size, but a quadcopter rotor stretched to span a
+    // Reaper is 40x linear and would be charged 64,000x its own mass - six
+    // tonnes of propeller. Real structures get relatively lighter as they grow
+    // (they become hollow shells, not solid scalings), so a borrowed part is
+    // capped at three times what the host's own equivalent would weigh.
+    const rawKg = slot.donor.spec.empty_mass_kg * frac * slot.fitScale ** 3
+    const hostEquivalentKg = base.spec.empty_mass_kg * frac
+    const kg = Math.min(rawKg, hostEquivalentKg * 3) * s3
     if (kg > 0.0001) {
       structure += kg
       const borrowed = slot.donor.id !== base.id

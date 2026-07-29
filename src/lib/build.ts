@@ -59,17 +59,35 @@ export function createBuild(baseId: string): Build {
 }
 
 /** Roles this aircraft actually has, either as parts or as a defined cut. */
+/**
+ * Slot order in the build panel. Roles the airframe already carries come first,
+ * because those are what you are most likely to change; everything else follows
+ * so it can still be bolted on.
+ */
+const ROLE_ORDER: PartRole[] = [
+  'wing',
+  'rotor',
+  'tail',
+  'gear',
+  'payload',
+  'hardpoint',
+  'solar',
+]
+
 export function availableRoles(baseId: string): PartRole[] {
   const base = AIRCRAFT_BY_ID[baseId]
   if (!base) return []
-  const present = new Set<PartRole>()
-  for (const p of base.parts) if (p.swappable) present.add(p.role)
-  for (const role of Object.keys(base.cuts) as PartRole[]) present.add(role)
-  // Rotors and wings can always be added, even to something that never had them —
-  // that is the entire point of the thing.
-  present.add('rotor')
-  present.add('wing')
-  return [...present]
+  // Every swappable role is offered on every airframe. Restricting the list to
+  // what a model happened to ship with meant you could not put solar panels on
+  // a Reaper or hardpoints on a whoop, which is exactly the sort of thing this
+  // is for. Roles the airframe already has sort to the top.
+  const owned = new Set<PartRole>()
+  for (const p of base.parts) if (p.swappable) owned.add(p.role)
+  for (const role of Object.keys(base.cuts) as PartRole[]) owned.add(role)
+  if (base.spec.wing_area_m2) owned.add('wing')
+  return [...ROLE_ORDER].sort(
+    (a, b) => Number(owned.has(b)) - Number(owned.has(a)),
+  )
 }
 
 /** Every aircraft that can donate a given role, for the picker. */

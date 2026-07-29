@@ -132,7 +132,7 @@ export function SlotList({
     const choice = build.slots[role]
     const value = slotLabel(build, role)
     rows.push({
-      key: role,
+      key: `role:${role}`,
       label: role,
       value,
       cls: choice?.kind === 'none' ? 'removed' : choice?.kind === 'donor' ? 'donor' : '',
@@ -146,24 +146,24 @@ export function SlotList({
     .map((id) => PAYLOADS.find((p) => p.id === id)?.name ?? '')
     .filter((n) => n && n !== 'Nothing')
 
-  rows.push({ key: 'plant', label: 'Powerplant', value: plant?.name ?? 'None', cls: '', t: { kind: 'powerplant' } })
-  rows.push({ key: 'energy', label: 'Energy', value: energy?.name ?? 'None', cls: '', t: { kind: 'energy' } })
+  rows.push({ key: 'cat:plant', label: 'Powerplant', value: plant?.name ?? 'None', cls: '', t: { kind: 'powerplant' } })
+  rows.push({ key: 'cat:energy', label: 'Energy', value: energy?.name ?? 'None', cls: '', t: { kind: 'energy' } })
   rows.push({
-    key: 'payload',
+    key: 'cat:payload',
     label: 'Equipment',
     value: payloadNames.length ? payloadNames.join(', ') : 'Nothing',
     cls: '',
     t: { kind: 'payload' },
   })
   rows.push({
-    key: 'paint',
+    key: 'cat:paint',
     label: 'Paint',
     value: PAINTS.find((p) => p.id === build.paint)?.name ?? 'As delivered',
     cls: '',
     t: { kind: 'paint' },
   })
   rows.push({
-    key: 'env',
+    key: 'cat:env',
     label: 'Environment',
     value: ENVIRONMENTS.find((e) => e.id === build.environment)?.name ?? 'Earth',
     cls: '',

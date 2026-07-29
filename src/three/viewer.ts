@@ -369,6 +369,29 @@ export function createViewer(container: HTMLElement): ViewerHandle {
           assembly.add(copy)
         }
       } else {
+        // The host never had this role, so there is no mounting point to copy.
+        // Put it where that kind of part belongs on an aircraft rather than
+        // leaving it at the donor's own coordinates, floating in space.
+        const hull = new THREE.Box3().setFromObject(baseClone)
+        const size = hull.getSize(new THREE.Vector3())
+        const mid = hull.getCenter(new THREE.Vector3())
+        switch (d.role) {
+          case 'tail':
+            group.position.set(0, mid.y + size.y * 0.25, hull.min.z + size.z * 0.06)
+            break
+          case 'gear':
+            group.position.set(0, hull.min.y, mid.z)
+            break
+          case 'solar':
+            group.position.set(0, hull.max.y, mid.z)
+            break
+          case 'hardpoint':
+          case 'payload':
+            group.position.set(0, hull.min.y + size.y * 0.1, mid.z + size.z * 0.15)
+            break
+          default:
+            group.position.set(0, mid.y, mid.z)
+        }
         assembly.add(group)
       }
     }
