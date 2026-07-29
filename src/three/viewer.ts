@@ -105,22 +105,65 @@ function scaleRole(
     relatives.set(n, new THREE.Matrix4().multiplyMatrices(invRoot, n.matrixWorld))
   }
 
-  // One group per physical part per side.
+  // Group by side, then by what actually touches what.
   //
   // Side, because dihedral and sweep mirror across the centreline: rolling
   // every panel the same way banks the aircraft instead of raising both tips.
   //
-  // Part, because each one has to grow about its own mount. Grouping a quad's
-  // two right-hand rotors together gave them a shared pivot halfway between,
-  // so at 3x they slid fore and aft off their own arms — which is the floating.
+  // Touch, because a group is only meaningful if its parts move together. A
+  // quad's four rotors are four separate things and each has to grow about its
+  // own motor — sharing a pivot slid them off their arms. A Black Hornet's tail
+  // is five pieces of one assembly, and giving each its own pivot pulled it
+  // apart. Whether parts touch tells the two cases apart without a rule per
+  // role.
+  const bounds = new Map<THREE.Object3D, THREE.Box3>()
+  for (const n of nodes) {
+    const mesh = n as THREE.Mesh
+    const b = new THREE.Box3()
+    if (mesh.isMesh && mesh.geometry) {
+      if (!mesh.geometry.boundingBox) mesh.geometry.computeBoundingBox()
+      b.copy(mesh.geometry.boundingBox!).applyMatrix4(relatives.get(n)!)
+    }
+    bounds.set(n, b)
+  }
+  const hull = new THREE.Box3()
+  for (const b of bounds.values()) if (!b.isEmpty()) hull.union(b)
+  const touchSlack = Math.max(...hull.getSize(new THREE.Vector3()).toArray()) * 0.02
+
   const sides = new Map<string, THREE.Object3D[]>()
+  const bySide = new Map<string, THREE.Object3D[]>()
   for (const n of nodes) {
     const side = typeof n.userData.ddSide === 'string' ? n.userData.ddSide : 'center'
-    const part = typeof n.userData.ddGroup === 'string' ? n.userData.ddGroup : n.uuid
-    const key = `${side}|${part}`
-    const list = sides.get(key) ?? []
+    const list = bySide.get(side) ?? []
     list.push(n)
-    sides.set(key, list)
+    bySide.set(side, list)
+  }
+  for (const [side, members] of bySide) {
+    const parent = members.map((_, i) => i)
+    const find = (i: number): number => (parent[i] === i ? i : (parent[i] = find(parent[i])))
+    for (let i = 0; i < members.length; i++) {
+      for (let j = i + 1; j < members.length; j++) {
+        const a = bounds.get(members[i])!
+        const b = bounds.get(members[j])!
+        if (a.isEmpty() || b.isEmpty()) continue
+        const touch =
+          a.min.x - touchSlack <= b.max.x && b.min.x - touchSlack <= a.max.x &&
+          a.min.y - touchSlack <= b.max.y && b.min.y - touchSlack <= a.max.y &&
+          a.min.z - touchSlack <= b.max.z && b.min.z - touchSlack <= a.max.z
+        if (touch) parent[find(i)] = find(j)
+      }
+    }
+    members.forEach((n, i) => {
+      // Repeated parts live off the centreline — four rotors, two mains, six
+      // pylons — and each needs its own mount. Parts on the centreline are one
+      // assembly even when they do not touch: a Black Hornet's tail is a boom
+      // and a rotor with air between them, and scaling those separately pulled
+      // the tail apart.
+      const key = side === 'center' ? `${side}|one` : `${side}|${find(i)}`
+      const list = sides.get(key) ?? []
+      list.push(n)
+      sides.set(key, list)
+    })
   }
 
   for (const [key, members] of sides) {
@@ -747,8 +790,27 @@ export function createViewer(container: HTMLElement): ViewerHandle {
         const dx = centre.x - midX
         o.userData.ddSide = dx > edge ? 'right' : dx < -edge ? 'left' : 'center'
         o.userData.ddGroup = part
+        o.userData.ddOffset = dx
+        o.userData.ddHalf = (bounds.max.x - bounds.min.x) / 2
         nodes.push(o)
       })
+      // Being off-centre is not the same as being one of a pair. A Black
+      // Hornet's tail sits three centimetres off the middle of a twenty-seven
+      // centimetre aircraft, and calling that a left-hand part split its tail
+      // into pieces that then scaled away from each other. A part is only
+      // sided if something of its own kind sits opposite it.
+      for (const o of nodes) {
+        if (o.userData.ddSide === 'center') continue
+        const dx = o.userData.ddOffset as number
+        const half = (o.userData.ddHalf as number) ?? 0
+        const partner = nodes.some((q) => {
+          if (q === o || q.userData.ddSide === o.userData.ddSide) return false
+          const qx = q.userData.ddOffset as number
+          return typeof qx === 'number' && Math.abs(qx + dx) <= Math.max(edge, half)
+        })
+        if (!partner) o.userData.ddSide = 'center'
+      }
+
       // A welded airframe has no node for this role, only a region of the hull.
       // Split it in two so the region can be transformed like a real part —
       // only once something is actually asking it to move, since the split
