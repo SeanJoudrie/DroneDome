@@ -65,7 +65,25 @@ A third mechanism exists for what is *not* the aircraft: `_exclude` in the same
 override file drops nodes by name glob, for uploads that ship with a display
 stand or, in the Matrice's case, its flight case.
 
-## 5. Working agreement
+## 5. How the catalog is checked
+
+Four gates, because each catches something the others cannot:
+
+- `npm run check:physics` — every preset against its published figures.
+- `npm run fuzz` — adversarial builds; every rendered number must be finite.
+- `npm run check:parts` — static. The span axis must measure what the manifest
+  says, the tail must sit behind the wing, every role must have a mesh or a
+  cut, and every equipment item must still resolve to real geometry.
+- `npm run check:geometry` — drives the real app across every airframe and
+  operation, then asks the renderer where each mesh ended up. Catches parts
+  drifting away from the aircraft, which no static check can see.
+- `npm run check:capability` — asks the prior question: does the change happen
+  at all. A control that silently does nothing raises no error and looks right
+  in a screenshot, which is how "how many" sat dead on stock wings for weeks.
+
+The last two need a built app being served; they drive it with Playwright.
+
+## 6. Working agreement
 
 - Push to `main` on every change, without asking. GitHub Pages deploys from it.
 - Scope changes get asked about, not announced mid-status-update. A roster
