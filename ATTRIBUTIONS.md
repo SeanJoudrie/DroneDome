@@ -27,6 +27,9 @@ model removed, please open an issue.
 | X3 research quadcopter | Open Robotics | CC Attribution 4.0 | [source](https://app.gazebosim.org/OpenRobotics/fuel/models/X3%20UAV%20Config%201) |
 | M100 research quadcopter | Open Robotics | CC Attribution 4.0 | [source](https://app.gazebosim.org/OpenRobotics/fuel/models/CERBERUS_M100_SENSOR_CONFIG_1) |
 | Cessna C-172 | Open Robotics | CC0 1.0 (public domain dedication) | [source](https://app.gazebosim.org/OpenRobotics/fuel/models/Cessna%20C-172) |
+| RQ-11B Raven | IV Aulls | CC Attribution 4.0 | [source](https://sketchfab.com/3d-models/rq-11-raven-uav-high-poly-model-04d3c684f459489eabc5deb498bd6919) |
+| DJI Phantom 4 Pro | dimazzis | CC Attribution 4.0 | [source](https://sketchfab.com/3d-models/dji-phantom-4-a24ca9c170874ca1a81da2de21e7945c) |
+| DJI Mavic 3 | llirikslon | CC Attribution 4.0 | [source](https://sketchfab.com/3d-models/dji-mavic-3-c5a5abae1dea468ab73b1bdc7d616fa6) |
 
 ## Sources
 

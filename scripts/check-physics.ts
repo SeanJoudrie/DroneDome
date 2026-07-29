@@ -33,6 +33,9 @@ const PUBLISHED: Record<string, { mtow: number; endurance: number; cruise: numbe
   'x3-uav': { mtow: 1.5, endurance: 0.22, cruise: 30 },
   m100: { mtow: 3.6, endurance: 0.3, cruise: 30 },
   'cessna-172': { mtow: 1111, endurance: 5.0, cruise: 226 },
+  'rq11-raven': { mtow: 1.9, endurance: 1.5, cruise: 50 },
+  'phantom-4': { mtow: 1.6, endurance: 0.5, cruise: 50 },
+  'mavic-3': { mtow: 1.05, endurance: 0.767, cruise: 50 },
 }
 
 const pick = (groups: StatGroup[], title: string, label: string) =>

@@ -1124,7 +1124,7 @@ export const AIRCRAFT: AircraftModel[] = [
     },
     "parts": [
       {
-        "node": "Global Hawk_8837f8",
+        "node": "Global Hawk_3592c9",
         "group": "Global Hawk",
         "role": "wing",
         "side": "center",
@@ -1141,7 +1141,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": true
       },
       {
-        "node": "Global Hawk_4ef8f0",
+        "node": "Global Hawk_b93315",
         "group": "Global Hawk",
         "role": "gear",
         "side": "center",
@@ -1158,7 +1158,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": true
       },
       {
-        "node": "Global Hawk_1dd932",
+        "node": "Global Hawk_a5f559",
         "group": "Global Hawk",
         "role": "body",
         "side": "center",
@@ -1175,7 +1175,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": false
       },
       {
-        "node": "Global Hawk_eedbf8",
+        "node": "Global Hawk_27d1aa",
         "group": "Global Hawk",
         "role": "body",
         "side": "center",
@@ -1192,7 +1192,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": false
       },
       {
-        "node": "Global Hawk_23ba1a",
+        "node": "Global Hawk_c07ef8",
         "group": "Global Hawk",
         "role": "body",
         "side": "center",
@@ -1209,7 +1209,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": false
       },
       {
-        "node": "Global Hawk_e491f6",
+        "node": "Global Hawk_f058e3",
         "group": "Global Hawk",
         "role": "body",
         "side": "center",
@@ -1278,7 +1278,7 @@ export const AIRCRAFT: AircraftModel[] = [
     "cuts": {},
     "parts": [
       {
-        "node": "rotors_02_2796f9",
+        "node": "rotors_02_a2640a",
         "group": "rotors_02",
         "role": "rotor",
         "side": "center",
@@ -1295,7 +1295,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": true
       },
       {
-        "node": "rotors_01_1bf4d5",
+        "node": "rotors_01_5a0b0f",
         "group": "rotors_01",
         "role": "rotor",
         "side": "center",
@@ -1312,7 +1312,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": true
       },
       {
-        "node": "rotors_02_35fc00",
+        "node": "rotors_02_d03965",
         "group": "rotors_02",
         "role": "rotor",
         "side": "center",
@@ -1329,7 +1329,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": true
       },
       {
-        "node": "rotors_01_ada8ff",
+        "node": "rotors_01_8ca61a",
         "group": "rotors_01",
         "role": "rotor",
         "side": "center",
@@ -1346,7 +1346,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": true
       },
       {
-        "node": "parts_02_a6e1cb",
+        "node": "parts_02_3a081c",
         "group": "parts_02",
         "role": "body",
         "side": "center",
@@ -1363,7 +1363,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": false
       },
       {
-        "node": "parts_01_187e2a",
+        "node": "parts_01_d1cf25",
         "group": "parts_01",
         "role": "body",
         "side": "center",
@@ -1380,7 +1380,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": false
       },
       {
-        "node": "leg_04_9bd0f4",
+        "node": "leg_04_e83604",
         "group": "leg_04",
         "role": "gear",
         "side": "right",
@@ -1397,7 +1397,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": true
       },
       {
-        "node": "leg_03_0004c3",
+        "node": "leg_03_b1f867",
         "group": "leg_03",
         "role": "gear",
         "side": "left",
@@ -1414,7 +1414,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": true
       },
       {
-        "node": "leg_02_c7deb6",
+        "node": "leg_02_a56b4b",
         "group": "leg_02",
         "role": "gear",
         "side": "right",
@@ -1431,7 +1431,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": true
       },
       {
-        "node": "leg_01_50d7ea",
+        "node": "leg_01_d9c839",
         "group": "leg_01",
         "role": "gear",
         "side": "left",
@@ -1448,7 +1448,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": true
       },
       {
-        "node": "solar_panel_d4fa56",
+        "node": "solar_panel_d4a9d9",
         "group": "solar_panel",
         "role": "solar",
         "side": "center",
@@ -1465,7 +1465,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": true
       },
       {
-        "node": "leg_04_41bcb5",
+        "node": "leg_04_ab38d8",
         "group": "leg_04",
         "role": "gear",
         "side": "right",
@@ -1482,7 +1482,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": true
       },
       {
-        "node": "leg_03_8500a3",
+        "node": "leg_03_42309f",
         "group": "leg_03",
         "role": "gear",
         "side": "left",
@@ -1499,7 +1499,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": true
       },
       {
-        "node": "leg_02_343186",
+        "node": "leg_02_f9dbe3",
         "group": "leg_02",
         "role": "gear",
         "side": "right",
@@ -1516,7 +1516,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": true
       },
       {
-        "node": "leg_01_393564",
+        "node": "leg_01_db14b0",
         "group": "leg_01",
         "role": "gear",
         "side": "left",
@@ -1533,7 +1533,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": true
       },
       {
-        "node": "rotors_02_501aab",
+        "node": "rotors_02_ceab30",
         "group": "rotors_02",
         "role": "rotor",
         "side": "center",
@@ -1550,7 +1550,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": true
       },
       {
-        "node": "rotors_01_f8d5d2",
+        "node": "rotors_01_cf816c",
         "group": "rotors_01",
         "role": "rotor",
         "side": "center",
@@ -1567,7 +1567,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": true
       },
       {
-        "node": "bus_eaceae",
+        "node": "bus_e25c0b",
         "group": "bus",
         "role": "body",
         "side": "center",
@@ -1584,7 +1584,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": false
       },
       {
-        "node": "leg_04_67f6dc",
+        "node": "leg_04_4cc57f",
         "group": "leg_04",
         "role": "gear",
         "side": "right",
@@ -1601,7 +1601,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": true
       },
       {
-        "node": "leg_03_24e744",
+        "node": "leg_03_d5d3ae",
         "group": "leg_03",
         "role": "gear",
         "side": "left",
@@ -1618,7 +1618,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": true
       },
       {
-        "node": "leg_02_1edb82",
+        "node": "leg_02_05f8ae",
         "group": "leg_02",
         "role": "gear",
         "side": "right",
@@ -1635,7 +1635,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": true
       },
       {
-        "node": "leg_01_ba7fb7",
+        "node": "leg_01_656603",
         "group": "leg_01",
         "role": "gear",
         "side": "left",
@@ -1652,7 +1652,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": true
       },
       {
-        "node": "parts_02_65f2cd",
+        "node": "parts_02_8c011a",
         "group": "parts_02",
         "role": "body",
         "side": "center",
@@ -1669,7 +1669,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": false
       },
       {
-        "node": "parts_01_8c1e75",
+        "node": "parts_01_60a176",
         "group": "parts_01",
         "role": "body",
         "side": "center",
@@ -1686,7 +1686,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": false
       },
       {
-        "node": "parts_02_33d826",
+        "node": "parts_02_e9d859",
         "group": "parts_02",
         "role": "body",
         "side": "center",
@@ -1703,7 +1703,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": false
       },
       {
-        "node": "parts_01_85e53d",
+        "node": "parts_01_429bbe",
         "group": "parts_01",
         "role": "body",
         "side": "center",
@@ -1720,7 +1720,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": false
       },
       {
-        "node": "solar_panel_0cd07b",
+        "node": "solar_panel_acf35a",
         "group": "solar_panel",
         "role": "solar",
         "side": "right",
@@ -1737,7 +1737,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": true
       },
       {
-        "node": "bus_750aa4",
+        "node": "bus_746d1d",
         "group": "bus",
         "role": "body",
         "side": "center",
@@ -1754,7 +1754,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": false
       },
       {
-        "node": "solar_panel_96c0e2",
+        "node": "solar_panel_5d7987",
         "group": "solar_panel",
         "role": "solar",
         "side": "center",
@@ -1771,7 +1771,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": true
       },
       {
-        "node": "rotors_01_36aedb",
+        "node": "rotors_01_387e7f",
         "group": "rotors_01",
         "role": "rotor",
         "side": "center",
@@ -1788,7 +1788,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": true
       },
       {
-        "node": "bus_3ed5d4",
+        "node": "bus_83d79e",
         "group": "bus",
         "role": "body",
         "side": "center",
@@ -1805,7 +1805,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": false
       },
       {
-        "node": "cams_4c9265",
+        "node": "cams_c44a4a",
         "group": "cams",
         "role": "payload",
         "side": "center",
@@ -1822,7 +1822,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": true
       },
       {
-        "node": "rotors_02_22b6de",
+        "node": "rotors_02_5a9f9c",
         "group": "rotors_02",
         "role": "rotor",
         "side": "center",
@@ -1839,7 +1839,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": true
       },
       {
-        "node": "solar_panel_960277",
+        "node": "solar_panel_59e19b",
         "group": "solar_panel",
         "role": "solar",
         "side": "center",
@@ -1856,7 +1856,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": true
       },
       {
-        "node": "cams_1898e4",
+        "node": "cams_46c204",
         "group": "cams",
         "role": "payload",
         "side": "center",
@@ -5673,6 +5673,5002 @@ export const AIRCRAFT: AircraftModel[] = [
       "license": "CC0-1.0",
       "licenseName": "CC0 1.0 (public domain dedication)",
       "url": "https://app.gazebosim.org/OpenRobotics/fuel/models/Cessna%20C-172"
+    }
+  },
+  {
+    "id": "rq11-raven",
+    "name": "RQ-11B Raven",
+    "family": "military",
+    "blurb": "Hand-thrown, lands by breaking apart on impact. The most-produced military drone there is.",
+    "environment": "earth",
+    "model": "models/rq11-raven.glb",
+    "spec": {
+      "span_m": 1.37,
+      "length_m": 0.91,
+      "wing_area_m2": 0.14,
+      "empty_mass_kg": 1.7,
+      "mtow_kg": 1.9,
+      "powertrain": "electric",
+      "rotors": 1,
+      "rotor_diameter_m": 0.19,
+      "battery_wh": 100,
+      "battery_cells": 4,
+      "payload_kg": 0.2,
+      "cruise_kmh": 50,
+      "max_speed_kmh": 81,
+      "endurance_h": 1.5,
+      "ceiling_m": 4267
+    },
+    "axes": {
+      "span": 2,
+      "length": 0,
+      "vertical": 1
+    },
+    "aftSign": 1,
+    "scaleToMetres": 5.482477175544917,
+    "modelExtent": [
+      0.21849538314725336,
+      0.06276221015835828,
+      0.2498870412285542
+    ],
+    "origin": [
+      0.00006419181680250574,
+      -0.011545796732325923,
+      0.0006542301031746758
+    ],
+    "cuts": {},
+    "parts": [
+      {
+        "node": "DroneBody_high_lambert14_0",
+        "group": "DroneBody_high_lambert14_0",
+        "role": "body",
+        "side": "left",
+        "center": [
+          -0.00211,
+          -0.00314,
+          0.03646
+        ],
+        "size": [
+          0.01695,
+          0.04271,
+          0.09627
+        ],
+        "swappable": false
+      },
+      {
+        "node": "DroneBody_high_DroneMainBody1_0",
+        "group": "DroneBody_high_DroneMainBody1_0",
+        "role": "body",
+        "side": "center",
+        "center": [
+          0.00029,
+          -0.00373,
+          -0.0022
+        ],
+        "size": [
+          0.0212,
+          0.0439,
+          0.19974
+        ],
+        "swappable": false
+      },
+      {
+        "node": "CameraHoodPiece_high_lambert14_0",
+        "group": "CameraHoodPiece_high_lambert14_0",
+        "role": "body",
+        "side": "left",
+        "center": [
+          0,
+          -0.01111,
+          0.11127
+        ],
+        "size": [
+          0.02178,
+          0.02913,
+          0.02735
+        ],
+        "swappable": false
+      },
+      {
+        "node": "VentPiece_high_VentPiece1_0",
+        "group": "VentPiece_high_VentPiece1_0",
+        "role": "body",
+        "side": "left",
+        "center": [
+          -0.01041,
+          -0.01455,
+          0.073
+        ],
+        "size": [
+          0.0005,
+          0.01188,
+          0.00623
+        ],
+        "swappable": false
+      },
+      {
+        "node": "TailFin_high_WingPieces1_0",
+        "group": "TailFin_high_WingPieces1_0",
+        "role": "wing",
+        "side": "right",
+        "center": [
+          0,
+          0.0004,
+          -0.08352
+        ],
+        "size": [
+          0.00279,
+          0.04424,
+          0.03703
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Wings_high_WingPieces1_0",
+        "group": "Wings_high_WingPieces1_0",
+        "role": "wing",
+        "side": "left",
+        "center": [
+          0,
+          0.02489,
+          0.05287
+        ],
+        "size": [
+          0.2185,
+          0.01299,
+          0.04144
+        ],
+        "swappable": true
+      },
+      {
+        "node": "TopTailFinPiece_1_high_HingePieces1_0",
+        "group": "TopTailFinPiece_1_high_HingePieces1_0",
+        "role": "tail",
+        "side": "right",
+        "center": [
+          0.00216,
+          0.0039,
+          -0.08231
+        ],
+        "size": [
+          0.00397,
+          0.00139,
+          0.00355
+        ],
+        "swappable": true
+      },
+      {
+        "node": "HeadCameraPod_high_CameraPod1_0",
+        "group": "HeadCameraPod_high_CameraPod1_0",
+        "role": "tail",
+        "side": "left",
+        "center": [
+          0,
+          -0.01577,
+          0.11512
+        ],
+        "size": [
+          0.01673,
+          0.01705,
+          0.01705
+        ],
+        "swappable": true
+      },
+      {
+        "node": "TopTailFinPiece_4_high1_HingePieces1_0",
+        "group": "TopTailFinPiece_4_high1_HingePieces1_0",
+        "role": "tail",
+        "side": "right",
+        "center": [
+          0.00311,
+          0.0039,
+          -0.09209
+        ],
+        "size": [
+          0.00127,
+          0.00169,
+          0.00492
+        ],
+        "swappable": true
+      },
+      {
+        "node": "BottomTailFinPiece_2_high_HingePieces1_0",
+        "group": "BottomTailFinPiece_2_high_HingePieces1_0",
+        "role": "tail",
+        "side": "right",
+        "center": [
+          0.00382,
+          -0.01711,
+          -0.08274
+        ],
+        "size": [
+          0.00172,
+          0.00238,
+          0.00592
+        ],
+        "swappable": true
+      },
+      {
+        "node": "TopTailFinPiece_2_high1_HingePieces1_0",
+        "group": "TopTailFinPiece_2_high1_HingePieces1_0",
+        "role": "tail",
+        "side": "right",
+        "center": [
+          0.0031,
+          0.0039,
+          -0.08509
+        ],
+        "size": [
+          0.00125,
+          0.00236,
+          0.00558
+        ],
+        "swappable": true
+      },
+      {
+        "node": "PropellorBlades_high_Propeller2_0",
+        "group": "PropellorBlades_high_Propeller2_0",
+        "role": "rotor",
+        "side": "left",
+        "center": [
+          -0.00005,
+          0.01124,
+          0.02139
+        ],
+        "size": [
+          0.00618,
+          0.03556,
+          0.00492
+        ],
+        "swappable": true
+      },
+      {
+        "node": "RightCameraSupport_high_CameraSupport1_0",
+        "group": "RightCameraSupport_high_CameraSupport1_0",
+        "role": "body",
+        "side": "left",
+        "center": [
+          -0.00903,
+          -0.01392,
+          0.11512
+        ],
+        "size": [
+          0.00138,
+          0.01153,
+          0.00783
+        ],
+        "swappable": false
+      },
+      {
+        "node": "LeftCameraSupport_high_CameraSupport1_0",
+        "group": "LeftCameraSupport_high_CameraSupport1_0",
+        "role": "body",
+        "side": "left",
+        "center": [
+          0.00905,
+          -0.01392,
+          0.11512
+        ],
+        "size": [
+          0.00138,
+          0.01153,
+          0.00783
+        ],
+        "swappable": false
+      },
+      {
+        "node": "SecondaryCameraBolts_CameraPieces1_0",
+        "group": "SecondaryCameraBolts_CameraPieces1_0",
+        "role": "payload",
+        "side": "left",
+        "center": [
+          0.00148,
+          -0.02143,
+          0.11837
+        ],
+        "size": [
+          0.00243,
+          0.00311,
+          0.00044
+        ],
+        "swappable": true
+      },
+      {
+        "node": "BottomTailFinPiece_1_high_HingePieces1_0",
+        "group": "BottomTailFinPiece_1_high_HingePieces1_0",
+        "role": "tail",
+        "side": "right",
+        "center": [
+          0.00182,
+          -0.01716,
+          -0.0825
+        ],
+        "size": [
+          0.00614,
+          0.002,
+          0.00633
+        ],
+        "swappable": true
+      },
+      {
+        "node": "PropellorBase_high_Propeller2_0",
+        "group": "PropellorBase_high_Propeller2_0",
+        "role": "rotor",
+        "side": "left",
+        "center": [
+          0,
+          0.0114,
+          0.02055
+        ],
+        "size": [
+          0.01012,
+          0.01033,
+          0.00964
+        ],
+        "swappable": true
+      },
+      {
+        "node": "WingBolt_high_lambert14_0",
+        "group": "WingBolt_high_lambert14_0",
+        "role": "wing",
+        "side": "left",
+        "center": [
+          0.00001,
+          0.01878,
+          0.03497
+        ],
+        "size": [
+          0.00292,
+          0.00099,
+          0.00293
+        ],
+        "swappable": true
+      },
+      {
+        "node": "BottomTailFinPiece_3_high_HingePieces1_0",
+        "group": "BottomTailFinPiece_3_high_HingePieces1_0",
+        "role": "tail",
+        "side": "right",
+        "center": [
+          0.00179,
+          -0.01965,
+          -0.09463
+        ],
+        "size": [
+          0.00387,
+          0.00569,
+          0.01809
+        ],
+        "swappable": true
+      },
+      {
+        "node": "DroneBody_high_DroneMainBody_0",
+        "group": "DroneBody_high_DroneMainBody_0",
+        "role": "body",
+        "side": "left",
+        "center": [
+          0.00001,
+          0.01826,
+          0.04972
+        ],
+        "size": [
+          0.01764,
+          0.00111,
+          0.04089
+        ],
+        "swappable": false
+      },
+      {
+        "node": "RightCameraSupportBolts_CameraPieces1_0",
+        "group": "RightCameraSupportBolts_CameraPieces1_0",
+        "role": "body",
+        "side": "left",
+        "center": [
+          -0.00939,
+          -0.01594,
+          0.11518
+        ],
+        "size": [
+          0.00068,
+          0.0036,
+          0.00358
+        ],
+        "swappable": false
+      },
+      {
+        "node": "LeftCameraSupportBolts_CameraPieces1_0",
+        "group": "LeftCameraSupportBolts_CameraPieces1_0",
+        "role": "body",
+        "side": "left",
+        "center": [
+          0.0094,
+          -0.01594,
+          0.11518
+        ],
+        "size": [
+          0.00068,
+          0.0036,
+          0.00358
+        ],
+        "swappable": false
+      },
+      {
+        "node": "PrimaryCameraLens_high_CameraPieces1_0",
+        "group": "PrimaryCameraLens_high_CameraPieces1_0",
+        "role": "payload",
+        "side": "left",
+        "center": [
+          -0.00259,
+          -0.02128,
+          0.11844
+        ],
+        "size": [
+          0.00459,
+          0.00461,
+          0.00075
+        ],
+        "swappable": true
+      },
+      {
+        "node": "SecondaryCamera_high_CameraPieces1_0",
+        "group": "SecondaryCamera_high_CameraPieces1_0",
+        "role": "payload",
+        "side": "left",
+        "center": [
+          0.00152,
+          -0.02136,
+          0.11841
+        ],
+        "size": [
+          0.0017,
+          0.00171,
+          0.00023
+        ],
+        "swappable": true
+      },
+      {
+        "node": "TopTailPieceHinge_high_HingePieces1_0",
+        "group": "TopTailPieceHinge_high_HingePieces1_0",
+        "role": "tail",
+        "side": "right",
+        "center": [
+          0.00234,
+          0.0039,
+          -0.09623
+        ],
+        "size": [
+          0.00296,
+          0.00125,
+          0.0061
+        ],
+        "swappable": true
+      },
+      {
+        "node": "TailWing_high_WingPieces1_0",
+        "group": "TailWing_high_WingPieces1_0",
+        "role": "wing",
+        "side": "right",
+        "center": [
+          -0.00006,
+          -0.01897,
+          -0.11341
+        ],
+        "size": [
+          0.07062,
+          0.01266,
+          0.02308
+        ],
+        "swappable": true
+      },
+      {
+        "node": "TailEndAttachment_high_HingePieces1_0",
+        "group": "TailEndAttachment_high_HingePieces1_0",
+        "role": "tail",
+        "side": "right",
+        "center": [
+          0.00003,
+          -0.02363,
+          -0.10363
+        ],
+        "size": [
+          0.0033,
+          0.00293,
+          0.00361
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Underside_high_Belly1_0",
+        "group": "Underside_high_Belly1_0",
+        "role": "motor",
+        "side": "left",
+        "center": [
+          0,
+          -0.0285,
+          0.0729
+        ],
+        "size": [
+          0.01635,
+          0.00575,
+          0.04716
+        ],
+        "swappable": false
+      },
+      {
+        "node": "SmallestCameraLens1_CameraPieces1_0",
+        "group": "SmallestCameraLens1_CameraPieces1_0",
+        "role": "gear",
+        "side": "left",
+        "center": [
+          0.00364,
+          -0.02285,
+          0.11835
+        ],
+        "size": [
+          0.00094,
+          0.00091,
+          0.00022
+        ],
+        "swappable": true
+      },
+      {
+        "node": "TailEndAttachmentScrew_high_HingePieces1_0",
+        "group": "TailEndAttachmentScrew_high_HingePieces1_0",
+        "role": "tail",
+        "side": "right",
+        "center": [
+          0,
+          -0.02389,
+          -0.10377
+        ],
+        "size": [
+          0.00552,
+          0.00173,
+          0.00169
+        ],
+        "swappable": true
+      },
+      {
+        "node": "TopTailFinPiece_3_high_HingePieces1_0",
+        "group": "TopTailFinPiece_3_high_HingePieces1_0",
+        "role": "tail",
+        "side": "right",
+        "center": [
+          0.00315,
+          0.00388,
+          -0.0887
+        ],
+        "size": [
+          0.00066,
+          0.00066,
+          0.00197
+        ],
+        "swappable": true
+      }
+    ],
+    "credit": {
+      "author": "IV Aulls",
+      "license": "CC-BY-4.0",
+      "licenseName": "CC Attribution 4.0",
+      "url": "https://sketchfab.com/3d-models/rq-11-raven-uav-high-poly-model-04d3c684f459489eabc5deb498bd6919"
+    }
+  },
+  {
+    "id": "phantom-4",
+    "name": "DJI Phantom 4 Pro",
+    "family": "consumer",
+    "blurb": "The white quadcopter that made 'drone' a household word.",
+    "environment": "earth",
+    "model": "models/phantom-4.glb",
+    "spec": {
+      "span_m": 0.35,
+      "length_m": 0.35,
+      "empty_mass_kg": 1.388,
+      "mtow_kg": 1.6,
+      "powertrain": "electric",
+      "rotors": 4,
+      "rotor_diameter_m": 0.239,
+      "battery_wh": 89.2,
+      "battery_cells": 4,
+      "payload_kg": 0.2,
+      "cruise_kmh": 50,
+      "max_speed_kmh": 72,
+      "endurance_h": 0.5,
+      "ceiling_m": 6000
+    },
+    "axes": {
+      "span": 0,
+      "length": 2,
+      "vertical": 1
+    },
+    "aftSign": 1,
+    "scaleToMetres": 1.6270824709772593,
+    "modelExtent": [
+      0.2151089488351397,
+      0.0644370636842311,
+      0.1407109498690306
+    ],
+    "origin": [
+      0.03426651695686747,
+      0.05668357722423424,
+      0.06206487424967868
+    ],
+    "cuts": {},
+    "parts": [
+      {
+        "node": "polySurface116_Main_White_0",
+        "group": "polySurface116_Main_White_0",
+        "role": "rotor",
+        "side": "left",
+        "center": [
+          0.03462,
+          0.01159,
+          -0.00139
+        ],
+        "size": [
+          0.09614,
+          0.02387,
+          0.0943
+        ],
+        "swappable": true
+      },
+      {
+        "node": "pCylinder116_White2_0",
+        "group": "pCylinder116_White2_0",
+        "role": "arm",
+        "side": "left",
+        "center": [
+          0.03486,
+          0.0062,
+          0.01854
+        ],
+        "size": [
+          0.00809,
+          0.00254,
+          0.00463
+        ],
+        "swappable": false
+      },
+      {
+        "node": "pCylinder115_White2_0",
+        "group": "pCylinder115_White2_0",
+        "role": "rotor",
+        "side": "left",
+        "center": [
+          0.03474,
+          0.0207,
+          0.01565
+        ],
+        "size": [
+          0.00771,
+          0.00193,
+          0.00447
+        ],
+        "swappable": true
+      },
+      {
+        "node": "polySurface122_Metall_1",
+        "group": "polySurface122_Metall_1",
+        "role": "arm",
+        "side": "center",
+        "center": [
+          -0.00581,
+          0.0196,
+          -0.04213
+        ],
+        "size": [
+          0.00956,
+          0.01306,
+          0.00956
+        ],
+        "swappable": false
+      },
+      {
+        "node": "polySurface122_Metall_0",
+        "group": "polySurface122_Metall_0",
+        "role": "arm",
+        "side": "right",
+        "center": [
+          -0.00656,
+          0.0196,
+          0.03938
+        ],
+        "size": [
+          0.00956,
+          0.01306,
+          0.00956
+        ],
+        "swappable": false
+      },
+      {
+        "node": "polySurface151_Metall_0",
+        "group": "polySurface151_Metall_0",
+        "role": "arm",
+        "side": "left",
+        "center": [
+          0.0759,
+          0.01948,
+          -0.04268
+        ],
+        "size": [
+          0.00956,
+          0.0133,
+          0.00956
+        ],
+        "swappable": false
+      },
+      {
+        "node": "polySurface145_Metall_0",
+        "group": "polySurface145_Metall_0",
+        "role": "arm",
+        "side": "left",
+        "center": [
+          0.07589,
+          0.01948,
+          0.03938
+        ],
+        "size": [
+          0.00956,
+          0.0133,
+          0.00956
+        ],
+        "swappable": false
+      },
+      {
+        "node": "polySurface133_White3_0",
+        "group": "polySurface133_White3_0",
+        "role": "gear",
+        "side": "left",
+        "center": [
+          0.05454,
+          -0.01086,
+          -0.00155
+        ],
+        "size": [
+          0.01597,
+          0.04186,
+          0.05225
+        ],
+        "swappable": true
+      },
+      {
+        "node": "polySurface108_White3_0",
+        "group": "polySurface108_White3_0",
+        "role": "gear",
+        "side": "left",
+        "center": [
+          0.01479,
+          -0.01086,
+          -0.00155
+        ],
+        "size": [
+          0.01597,
+          0.04186,
+          0.05225
+        ],
+        "swappable": true
+      },
+      {
+        "node": "polySurface87_Main_White_0",
+        "group": "polySurface87_Main_White_0",
+        "role": "gear",
+        "side": "left",
+        "center": [
+          0.04188,
+          -0.01868,
+          -0.0068
+        ],
+        "size": [
+          0.0081,
+          0.00547,
+          0.00774
+        ],
+        "swappable": true
+      },
+      {
+        "node": "polySurface100_White2_0",
+        "group": "polySurface100_White2_0",
+        "role": "gear",
+        "side": "left",
+        "center": [
+          0.0352,
+          -0.00501,
+          -0.00981
+        ],
+        "size": [
+          0.01215,
+          0.0062,
+          0.01215
+        ],
+        "swappable": true
+      },
+      {
+        "node": "polySurface105_Main_White_0",
+        "group": "polySurface105_Main_White_0",
+        "role": "body",
+        "side": "left",
+        "center": [
+          0.02955,
+          -0.00034,
+          0.00704
+        ],
+        "size": [
+          0.00887,
+          0.00401,
+          0.00887
+        ],
+        "swappable": false
+      },
+      {
+        "node": "polySurface130_Main_White_0",
+        "group": "polySurface130_Main_White_0",
+        "role": "arm",
+        "side": "left",
+        "center": [
+          0.03978,
+          -0.00034,
+          0.00704
+        ],
+        "size": [
+          0.00887,
+          0.00401,
+          0.00887
+        ],
+        "swappable": false
+      },
+      {
+        "node": "pCylinder16_Black1_0",
+        "group": "pCylinder16_Black1_0",
+        "role": "gear",
+        "side": "left",
+        "center": [
+          0.03461,
+          -0.01854,
+          -0.0197
+        ],
+        "size": [
+          0.00974,
+          0.00943,
+          0.00553
+        ],
+        "swappable": true
+      },
+      {
+        "node": "polySurface19_White2_0",
+        "group": "polySurface19_White2_0",
+        "role": "gear",
+        "side": "left",
+        "center": [
+          0.0353,
+          -0.01458,
+          -0.00044
+        ],
+        "size": [
+          0.0065,
+          0.01475,
+          0.00465
+        ],
+        "swappable": true
+      },
+      {
+        "node": "polySurface96_Main_White_0",
+        "group": "polySurface96_Main_White_0",
+        "role": "gear",
+        "side": "left",
+        "center": [
+          0.02902,
+          -0.01868,
+          -0.0068
+        ],
+        "size": [
+          0.00721,
+          0.00542,
+          0.00774
+        ],
+        "swappable": true
+      },
+      {
+        "node": "polySurface58_White2_0",
+        "group": "polySurface58_White2_0",
+        "role": "gear",
+        "side": "left",
+        "center": [
+          0.03461,
+          -0.01847,
+          -0.01207
+        ],
+        "size": [
+          0.01397,
+          0.01123,
+          0.00714
+        ],
+        "swappable": true
+      },
+      {
+        "node": "polySurface84_Green_0",
+        "group": "polySurface84_Green_0",
+        "role": "arm",
+        "side": "left",
+        "center": [
+          0.03435,
+          0.01436,
+          0.02318
+        ],
+        "size": [
+          0.01732,
+          0.0042,
+          0.00081
+        ],
+        "swappable": false
+      },
+      {
+        "node": "pCylinder19_Main_White_0",
+        "group": "pCylinder19_Main_White_0",
+        "role": "gear",
+        "side": "left",
+        "center": [
+          0.0278,
+          -0.01866,
+          -0.01314
+        ],
+        "size": [
+          0.00253,
+          0.0074,
+          0.0074
+        ],
+        "swappable": true
+      },
+      {
+        "node": "polySurface84_Main_White_0",
+        "group": "polySurface84_Main_White_0",
+        "role": "arm",
+        "side": "left",
+        "center": [
+          0.03418,
+          0.01221,
+          0.01623
+        ],
+        "size": [
+          0.02964,
+          0.01976,
+          0.01561
+        ],
+        "swappable": false
+      },
+      {
+        "node": "polySurface146_Main_White_0",
+        "group": "polySurface146_Main_White_0",
+        "role": "arm",
+        "side": "left",
+        "center": [
+          0.07506,
+          0.02882,
+          -0.04204
+        ],
+        "size": [
+          0.00829,
+          0.00681,
+          0.00829
+        ],
+        "swappable": false
+      },
+      {
+        "node": "polySurface144_Main_White_0",
+        "group": "polySurface144_Main_White_0",
+        "role": "arm",
+        "side": "left",
+        "center": [
+          0.07632,
+          0.02882,
+          0.03963
+        ],
+        "size": [
+          0.00829,
+          0.00681,
+          0.00829
+        ],
+        "swappable": false
+      },
+      {
+        "node": "polySurface123_Main_White_0",
+        "group": "polySurface123_Main_White_0",
+        "role": "arm",
+        "side": "center",
+        "center": [
+          -0.00574,
+          0.02882,
+          -0.04204
+        ],
+        "size": [
+          0.00829,
+          0.00681,
+          0.00829
+        ],
+        "swappable": false
+      },
+      {
+        "node": "polySurface121_Main_White_0",
+        "group": "polySurface121_Main_White_0",
+        "role": "arm",
+        "side": "right",
+        "center": [
+          -0.007,
+          0.02882,
+          0.03963
+        ],
+        "size": [
+          0.00829,
+          0.00681,
+          0.00829
+        ],
+        "swappable": false
+      },
+      {
+        "node": "polySurface154_White2_0",
+        "group": "polySurface154_White2_0",
+        "role": "rotor",
+        "side": "center",
+        "center": [
+          -0.00621,
+          0.02898,
+          0.04
+        ],
+        "size": [
+          0.05717,
+          0.00226,
+          0.06071
+        ],
+        "swappable": true
+      },
+      {
+        "node": "polySurface153_White2_0",
+        "group": "polySurface153_White2_0",
+        "role": "rotor",
+        "side": "center",
+        "center": [
+          -0.00507,
+          0.02898,
+          -0.04235
+        ],
+        "size": [
+          0.0617,
+          0.00226,
+          0.056
+        ],
+        "swappable": true
+      },
+      {
+        "node": "polySurface152_White2_0",
+        "group": "polySurface152_White2_0",
+        "role": "rotor",
+        "side": "left",
+        "center": [
+          0.07507,
+          0.02898,
+          -0.04172
+        ],
+        "size": [
+          0.06497,
+          0.00226,
+          0.05266
+        ],
+        "swappable": true
+      },
+      {
+        "node": "polySurface147_White2_0",
+        "group": "polySurface147_White2_0",
+        "role": "rotor",
+        "side": "left",
+        "center": [
+          0.0756,
+          0.02898,
+          0.04034
+        ],
+        "size": [
+          0.05963,
+          0.00226,
+          0.05838
+        ],
+        "swappable": true
+      },
+      {
+        "node": "pCylinder16_Main_White_0",
+        "group": "pCylinder16_Main_White_0",
+        "role": "gear",
+        "side": "left",
+        "center": [
+          0.03461,
+          -0.01854,
+          -0.01884
+        ],
+        "size": [
+          0.01049,
+          0.01016,
+          0.00726
+        ],
+        "swappable": true
+      },
+      {
+        "node": "pCylinder13_Main_White_0",
+        "group": "pCylinder13_Main_White_0",
+        "role": "gear",
+        "side": "left",
+        "center": [
+          0.03518,
+          -0.01871,
+          -0.00254
+        ],
+        "size": [
+          0.00658,
+          0.00692,
+          0.00253
+        ],
+        "swappable": true
+      },
+      {
+        "node": "pCylinder14_White3_0",
+        "group": "pCylinder14_White3_0",
+        "role": "gear",
+        "side": "left",
+        "center": [
+          0.04323,
+          -0.01866,
+          -0.01314
+        ],
+        "size": [
+          0.00622,
+          0.0074,
+          0.0074
+        ],
+        "swappable": true
+      },
+      {
+        "node": "pCube10_Main_White_0",
+        "group": "pCube10_Main_White_0",
+        "role": "gear",
+        "side": "left",
+        "center": [
+          0.03522,
+          -0.0063,
+          -0.00344
+        ],
+        "size": [
+          0.00342,
+          0.00482,
+          0.00587
+        ],
+        "swappable": true
+      },
+      {
+        "node": "pCylinder19_White3_0",
+        "group": "pCylinder19_White3_0",
+        "role": "gear",
+        "side": "left",
+        "center": [
+          0.02646,
+          -0.01866,
+          -0.01314
+        ],
+        "size": [
+          0.00242,
+          0.0074,
+          0.0074
+        ],
+        "swappable": true
+      },
+      {
+        "node": "pTorus1_lambert1_0",
+        "group": "pTorus1_lambert1_0",
+        "role": "arm",
+        "side": "left",
+        "center": [
+          0.04044,
+          0.01236,
+          0.02067
+        ],
+        "size": [
+          0.00438,
+          0.00438,
+          0.00041
+        ],
+        "swappable": false
+      },
+      {
+        "node": "polySurface131_Main_White_0",
+        "group": "polySurface131_Main_White_0",
+        "role": "arm",
+        "side": "left",
+        "center": [
+          0.04602,
+          0.00101,
+          0.01027
+        ],
+        "size": [
+          0.00308,
+          0.00295,
+          0.00308
+        ],
+        "swappable": false
+      },
+      {
+        "node": "polySurface106_Main_White_0",
+        "group": "polySurface106_Main_White_0",
+        "role": "body",
+        "side": "left",
+        "center": [
+          0.02331,
+          0.00101,
+          0.01027
+        ],
+        "size": [
+          0.00308,
+          0.00295,
+          0.00308
+        ],
+        "swappable": false
+      },
+      {
+        "node": "polySurface146_Black1_0",
+        "group": "polySurface146_Black1_0",
+        "role": "rotor",
+        "side": "left",
+        "center": [
+          0.07506,
+          0.03062,
+          -0.04204
+        ],
+        "size": [
+          0.00636,
+          0.0003,
+          0.00636
+        ],
+        "swappable": true
+      },
+      {
+        "node": "polySurface144_Black1_0",
+        "group": "polySurface144_Black1_0",
+        "role": "rotor",
+        "side": "left",
+        "center": [
+          0.07632,
+          0.03062,
+          0.03963
+        ],
+        "size": [
+          0.00636,
+          0.0003,
+          0.00636
+        ],
+        "swappable": true
+      },
+      {
+        "node": "polySurface123_Black1_0",
+        "group": "polySurface123_Black1_0",
+        "role": "rotor",
+        "side": "center",
+        "center": [
+          -0.00574,
+          0.03062,
+          -0.04204
+        ],
+        "size": [
+          0.00636,
+          0.0003,
+          0.00636
+        ],
+        "swappable": true
+      },
+      {
+        "node": "polySurface121_Black1_0",
+        "group": "polySurface121_Black1_0",
+        "role": "rotor",
+        "side": "right",
+        "center": [
+          -0.007,
+          0.03062,
+          0.03963
+        ],
+        "size": [
+          0.00636,
+          0.0003,
+          0.00636
+        ],
+        "swappable": true
+      },
+      {
+        "node": "polySurface101_Main_White_0",
+        "group": "polySurface101_Main_White_0",
+        "role": "gear",
+        "side": "left",
+        "center": [
+          0.02751,
+          -0.01637,
+          -0.01036
+        ],
+        "size": [
+          0.00022,
+          0.0032,
+          0.00316
+        ],
+        "swappable": true
+      },
+      {
+        "node": "polySurface143_White3_0",
+        "group": "polySurface143_White3_0",
+        "role": "arm",
+        "side": "left",
+        "center": [
+          0.05579,
+          0.00169,
+          0.0225
+        ],
+        "size": [
+          0.00542,
+          0.00542,
+          0.0052
+        ],
+        "swappable": false
+      },
+      {
+        "node": "polySurface142_White3_0",
+        "group": "polySurface142_White3_0",
+        "role": "arm",
+        "side": "left",
+        "center": [
+          0.05579,
+          0.00169,
+          -0.02529
+        ],
+        "size": [
+          0.00542,
+          0.00542,
+          0.0052
+        ],
+        "swappable": false
+      },
+      {
+        "node": "polySurface120_White3_0",
+        "group": "polySurface120_White3_0",
+        "role": "arm",
+        "side": "left",
+        "center": [
+          0.01354,
+          0.00169,
+          0.0225
+        ],
+        "size": [
+          0.00542,
+          0.00542,
+          0.0052
+        ],
+        "swappable": false
+      },
+      {
+        "node": "polySurface119_White3_0",
+        "group": "polySurface119_White3_0",
+        "role": "arm",
+        "side": "left",
+        "center": [
+          0.01354,
+          0.00169,
+          -0.02529
+        ],
+        "size": [
+          0.00542,
+          0.00542,
+          0.0052
+        ],
+        "swappable": false
+      },
+      {
+        "node": "pPipe1_White3_0",
+        "group": "pPipe1_White3_0",
+        "role": "gear",
+        "side": "left",
+        "center": [
+          0.04319,
+          -0.01866,
+          -0.01336
+        ],
+        "size": [
+          0.00315,
+          0.00748,
+          0.0072
+        ],
+        "swappable": true
+      },
+      {
+        "node": "polySurface122_Black_1",
+        "group": "polySurface122_Black_1",
+        "role": "rotor",
+        "side": "center",
+        "center": [
+          -0.00581,
+          0.01863,
+          -0.04213
+        ],
+        "size": [
+          0.00836,
+          0.00125,
+          0.00836
+        ],
+        "swappable": true
+      },
+      {
+        "node": "polySurface122_Black_0",
+        "group": "polySurface122_Black_0",
+        "role": "rotor",
+        "side": "right",
+        "center": [
+          -0.00656,
+          0.01863,
+          0.03938
+        ],
+        "size": [
+          0.00836,
+          0.00125,
+          0.00836
+        ],
+        "swappable": true
+      },
+      {
+        "node": "polySurface151_Black_0",
+        "group": "polySurface151_Black_0",
+        "role": "rotor",
+        "side": "left",
+        "center": [
+          0.0759,
+          0.01863,
+          -0.04268
+        ],
+        "size": [
+          0.00836,
+          0.00125,
+          0.00836
+        ],
+        "swappable": true
+      },
+      {
+        "node": "polySurface145_Black_0",
+        "group": "polySurface145_Black_0",
+        "role": "rotor",
+        "side": "left",
+        "center": [
+          0.07589,
+          0.01863,
+          0.03938
+        ],
+        "size": [
+          0.00836,
+          0.00125,
+          0.00836
+        ],
+        "swappable": true
+      },
+      {
+        "node": "polySurface135_Main_White_0",
+        "group": "polySurface135_Main_White_0",
+        "role": "arm",
+        "side": "left",
+        "center": [
+          0.04967,
+          0.0022,
+          -0.01892
+        ],
+        "size": [
+          0.00218,
+          0.00226,
+          0.00218
+        ],
+        "swappable": false
+      },
+      {
+        "node": "polySurface134_Main_White_0",
+        "group": "polySurface134_Main_White_0",
+        "role": "arm",
+        "side": "left",
+        "center": [
+          0.0515,
+          0.00288,
+          0.01511
+        ],
+        "size": [
+          0.00208,
+          0.00218,
+          0.00222
+        ],
+        "swappable": false
+      },
+      {
+        "node": "polySurface110_Main_White_0",
+        "group": "polySurface110_Main_White_0",
+        "role": "body",
+        "side": "left",
+        "center": [
+          0.01966,
+          0.0022,
+          -0.01892
+        ],
+        "size": [
+          0.00218,
+          0.00226,
+          0.00218
+        ],
+        "swappable": false
+      },
+      {
+        "node": "polySurface109_Main_White_0",
+        "group": "polySurface109_Main_White_0",
+        "role": "body",
+        "side": "left",
+        "center": [
+          0.01783,
+          0.00288,
+          0.01511
+        ],
+        "size": [
+          0.00208,
+          0.00218,
+          0.00222
+        ],
+        "swappable": false
+      },
+      {
+        "node": "polySurface112_Main_White_0",
+        "group": "polySurface112_Main_White_0",
+        "role": "arm",
+        "side": "left",
+        "center": [
+          0.03466,
+          0.0101,
+          0.01479
+        ],
+        "size": [
+          0.01105,
+          0.00369,
+          0.00249
+        ],
+        "swappable": false
+      },
+      {
+        "node": "polySurface150_Bolt_0",
+        "group": "polySurface150_Bolt_0",
+        "role": "arm",
+        "side": "left",
+        "center": [
+          0.05038,
+          0.00505,
+          -0.00452
+        ],
+        "size": [
+          0.00107,
+          0.00105,
+          0.00101
+        ],
+        "swappable": false
+      },
+      {
+        "node": "polySurface149_Bolt_0",
+        "group": "polySurface149_Bolt_0",
+        "role": "arm",
+        "side": "left",
+        "center": [
+          0.05234,
+          0.00502,
+          0.00677
+        ],
+        "size": [
+          0.0012,
+          0.00109,
+          0.00121
+        ],
+        "swappable": false
+      },
+      {
+        "node": "polySurface137_Bolt_0",
+        "group": "polySurface137_Bolt_0",
+        "role": "arm",
+        "side": "left",
+        "center": [
+          0.04325,
+          0.00058,
+          0.01327
+        ],
+        "size": [
+          0.00102,
+          0.00114,
+          0.00114
+        ],
+        "swappable": false
+      },
+      {
+        "node": "polySurface127_Bolt_0",
+        "group": "polySurface127_Bolt_0",
+        "role": "body",
+        "side": "left",
+        "center": [
+          0.01895,
+          0.00505,
+          -0.00452
+        ],
+        "size": [
+          0.00107,
+          0.00105,
+          0.00101
+        ],
+        "swappable": false
+      },
+      {
+        "node": "polySurface126_Bolt_0",
+        "group": "polySurface126_Bolt_0",
+        "role": "body",
+        "side": "left",
+        "center": [
+          0.01699,
+          0.00502,
+          0.00677
+        ],
+        "size": [
+          0.0012,
+          0.00109,
+          0.00121
+        ],
+        "swappable": false
+      },
+      {
+        "node": "polySurface113_Bolt_0",
+        "group": "polySurface113_Bolt_0",
+        "role": "body",
+        "side": "left",
+        "center": [
+          0.02607,
+          0.00058,
+          0.01327
+        ],
+        "size": [
+          0.00102,
+          0.00114,
+          0.00114
+        ],
+        "swappable": false
+      },
+      {
+        "node": "polySurface94_Main_White_0",
+        "group": "polySurface94_Main_White_0",
+        "role": "gear",
+        "side": "left",
+        "center": [
+          0.03397,
+          -0.01873,
+          -0.00325
+        ],
+        "size": [
+          0.00619,
+          0.00276,
+          0.00058
+        ],
+        "swappable": true
+      },
+      {
+        "node": "polySurface90_Bolt_0",
+        "group": "polySurface90_Bolt_0",
+        "role": "gear",
+        "side": "left",
+        "center": [
+          0.03634,
+          -0.01873,
+          -0.00325
+        ],
+        "size": [
+          0.00619,
+          0.00276,
+          0.00058
+        ],
+        "swappable": true
+      },
+      {
+        "node": "pCylinder19_Metall_0",
+        "group": "pCylinder19_Metall_0",
+        "role": "gear",
+        "side": "left",
+        "center": [
+          0.02505,
+          -0.01866,
+          -0.01314
+        ],
+        "size": [
+          0.00039,
+          0.00651,
+          0.00651
+        ],
+        "swappable": true
+      },
+      {
+        "node": "pSphere8_blinn4_0",
+        "group": "pSphere8_blinn4_0",
+        "role": "gear",
+        "side": "left",
+        "center": [
+          0.0346,
+          -0.01853,
+          -0.01882
+        ],
+        "size": [
+          0.00452,
+          0.00542,
+          0.0012
+        ],
+        "swappable": true
+      },
+      {
+        "node": "polySurface97_Bolt_0",
+        "group": "polySurface97_Bolt_0",
+        "role": "gear",
+        "side": "left",
+        "center": [
+          0.03157,
+          -0.01864,
+          -0.00314
+        ],
+        "size": [
+          0.00057,
+          0.00059,
+          0.00039
+        ],
+        "swappable": true
+      },
+      {
+        "node": "polySurface91_Main_White_0",
+        "group": "polySurface91_Main_White_0",
+        "role": "gear",
+        "side": "left",
+        "center": [
+          0.03874,
+          -0.01882,
+          -0.0032
+        ],
+        "size": [
+          0.00057,
+          0.00059,
+          0.00039
+        ],
+        "swappable": true
+      },
+      {
+        "node": "polySurface93_phong1_0",
+        "group": "polySurface93_phong1_0",
+        "role": "gear",
+        "side": "right",
+        "center": [
+          -0.10727,
+          -0.01994,
+          -0.00486
+        ],
+        "size": [
+          0.00057,
+          0.00059,
+          0.00039
+        ],
+        "swappable": true
+      },
+      {
+        "node": "pCube14_Main_White_0",
+        "group": "pCube14_Main_White_0",
+        "role": "gear",
+        "side": "left",
+        "center": [
+          0.03546,
+          -0.00959,
+          -0.00401
+        ],
+        "size": [
+          0.00042,
+          0.00825,
+          0.00432
+        ],
+        "swappable": true
+      },
+      {
+        "node": "pCylinder40_Bolt_0",
+        "group": "pCylinder40_Bolt_0",
+        "role": "gear",
+        "side": "left",
+        "center": [
+          0.04013,
+          -0.01412,
+          -0.00897
+        ],
+        "size": [
+          0.00108,
+          0.00115,
+          0.00111
+        ],
+        "swappable": true
+      },
+      {
+        "node": "pCylinder42_Bolt_0",
+        "group": "pCylinder42_Bolt_0",
+        "role": "gear",
+        "side": "left",
+        "center": [
+          0.029,
+          -0.02274,
+          -0.00897
+        ],
+        "size": [
+          0.00108,
+          0.00115,
+          0.00111
+        ],
+        "swappable": true
+      },
+      {
+        "node": "pCylinder37_Bolt_0",
+        "group": "pCylinder37_Bolt_0",
+        "role": "gear",
+        "side": "left",
+        "center": [
+          0.03773,
+          -0.00828,
+          0.00152
+        ],
+        "size": [
+          0.00097,
+          0.00103,
+          0.00099
+        ],
+        "swappable": true
+      },
+      {
+        "node": "pCylinder41_Bolt_0",
+        "group": "pCylinder41_Bolt_0",
+        "role": "gear",
+        "side": "left",
+        "center": [
+          0.04016,
+          -0.02273,
+          -0.00897
+        ],
+        "size": [
+          0.00108,
+          0.00115,
+          0.00111
+        ],
+        "swappable": true
+      },
+      {
+        "node": "pCylinder35_Bolt_0",
+        "group": "pCylinder35_Bolt_0",
+        "role": "gear",
+        "side": "left",
+        "center": [
+          0.03305,
+          -0.01835,
+          0.00152
+        ],
+        "size": [
+          0.00097,
+          0.00103,
+          0.00099
+        ],
+        "swappable": true
+      },
+      {
+        "node": "pCylinder38_Bolt_0",
+        "group": "pCylinder38_Bolt_0",
+        "role": "gear",
+        "side": "left",
+        "center": [
+          0.03305,
+          -0.00828,
+          0.00152
+        ],
+        "size": [
+          0.00097,
+          0.00103,
+          0.00099
+        ],
+        "swappable": true
+      },
+      {
+        "node": "pCylinder36_Bolt_0",
+        "group": "pCylinder36_Bolt_0",
+        "role": "gear",
+        "side": "left",
+        "center": [
+          0.03773,
+          -0.01835,
+          0.00152
+        ],
+        "size": [
+          0.00097,
+          0.00103,
+          0.00099
+        ],
+        "swappable": true
+      },
+      {
+        "node": "pCylinder130_Bolt_0",
+        "group": "pCylinder130_Bolt_0",
+        "role": "gear",
+        "side": "left",
+        "center": [
+          0.03343,
+          -0.00774,
+          -0.00763
+        ],
+        "size": [
+          0.00075,
+          0.00076,
+          0.00078
+        ],
+        "swappable": true
+      },
+      {
+        "node": "pCylinder126_Bolt_0",
+        "group": "pCylinder126_Bolt_0",
+        "role": "gear",
+        "side": "left",
+        "center": [
+          0.03687,
+          -0.00774,
+          -0.00763
+        ],
+        "size": [
+          0.00075,
+          0.00076,
+          0.00078
+        ],
+        "swappable": true
+      },
+      {
+        "node": "pCylinder124_Bolt_0",
+        "group": "pCylinder124_Bolt_0",
+        "role": "gear",
+        "side": "left",
+        "center": [
+          0.02762,
+          -0.0156,
+          -0.00953
+        ],
+        "size": [
+          0.00049,
+          0.00077,
+          0.00075
+        ],
+        "swappable": true
+      },
+      {
+        "node": "pCylinder44_Main_White_0",
+        "group": "pCylinder44_Main_White_0",
+        "role": "gear",
+        "side": "left",
+        "center": [
+          0.02601,
+          -0.01896,
+          -0.00813
+        ],
+        "size": [
+          0.00061,
+          0.00061,
+          0.00058
+        ],
+        "swappable": true
+      },
+      {
+        "node": "pCylinder45_Bolt_0",
+        "group": "pCylinder45_Bolt_0",
+        "role": "gear",
+        "side": "left",
+        "center": [
+          0.04515,
+          -0.01817,
+          -0.00823
+        ],
+        "size": [
+          0.00074,
+          0.00075,
+          0.00069
+        ],
+        "swappable": true
+      },
+      {
+        "node": "pCylinder46_Bolt_0",
+        "group": "pCylinder46_Bolt_0",
+        "role": "gear",
+        "side": "left",
+        "center": [
+          0.04515,
+          -0.01914,
+          -0.00823
+        ],
+        "size": [
+          0.00074,
+          0.00075,
+          0.00069
+        ],
+        "swappable": true
+      },
+      {
+        "node": "pCylinder43_Main_White_0",
+        "group": "pCylinder43_Main_White_0",
+        "role": "gear",
+        "side": "left",
+        "center": [
+          0.02601,
+          -0.01811,
+          -0.00813
+        ],
+        "size": [
+          0.00061,
+          0.00061,
+          0.00058
+        ],
+        "swappable": true
+      },
+      {
+        "node": "pCylinder39_Bolt_0",
+        "group": "pCylinder39_Bolt_0",
+        "role": "gear",
+        "side": "left",
+        "center": [
+          0.02901,
+          -0.01414,
+          -0.00897
+        ],
+        "size": [
+          0.00108,
+          0.00112,
+          0.00111
+        ],
+        "swappable": true
+      },
+      {
+        "node": "pCylinder16_White3_0",
+        "group": "pCylinder16_White3_0",
+        "role": "gear",
+        "side": "left",
+        "center": [
+          0.03461,
+          -0.01854,
+          -0.01884
+        ],
+        "size": [
+          0.01049,
+          0.01016,
+          0.00726
+        ],
+        "swappable": true
+      },
+      {
+        "node": "pCylinder17_Main_White_0",
+        "group": "pCylinder17_Main_White_0",
+        "role": "gear",
+        "side": "left",
+        "center": [
+          0.03514,
+          -0.01863,
+          -0.00202
+        ],
+        "size": [
+          0.00606,
+          0.00606,
+          0.00283
+        ],
+        "swappable": true
+      },
+      {
+        "node": "pCylinder18_Main_White_0",
+        "group": "pCylinder18_Main_White_0",
+        "role": "gear",
+        "side": "left",
+        "center": [
+          0.04164,
+          -0.01836,
+          -0.01249
+        ],
+        "size": [
+          0.0069,
+          0.00389,
+          0.00402
+        ],
+        "swappable": true
+      },
+      {
+        "node": "pCylinder47_White3_0",
+        "group": "pCylinder47_White3_0",
+        "role": "gear",
+        "side": "left",
+        "center": [
+          0.04114,
+          -0.01866,
+          -0.01314
+        ],
+        "size": [
+          0.00085,
+          0.00797,
+          0.00797
+        ],
+        "swappable": true
+      },
+      {
+        "node": "pCylinder48_White3_0",
+        "group": "pCylinder48_White3_0",
+        "role": "gear",
+        "side": "left",
+        "center": [
+          0.02812,
+          -0.01866,
+          -0.01314
+        ],
+        "size": [
+          0.00084,
+          0.00788,
+          0.00788
+        ],
+        "swappable": true
+      },
+      {
+        "node": "polySurface104_Red_1",
+        "group": "polySurface104_Red_1",
+        "role": "rotor",
+        "side": "center",
+        "center": [
+          -0.00581,
+          0.01367,
+          -0.04215
+        ],
+        "size": [
+          0.00684,
+          0.00172,
+          0.00684
+        ],
+        "swappable": true
+      },
+      {
+        "node": "polySurface104_Red_0",
+        "group": "polySurface104_Red_0",
+        "role": "rotor",
+        "side": "right",
+        "center": [
+          -0.00655,
+          0.01367,
+          0.03935
+        ],
+        "size": [
+          0.00684,
+          0.00172,
+          0.00684
+        ],
+        "swappable": true
+      },
+      {
+        "node": "polySurface136_Red_0",
+        "group": "polySurface136_Red_0",
+        "role": "rotor",
+        "side": "left",
+        "center": [
+          0.07588,
+          0.0132,
+          -0.04272
+        ],
+        "size": [
+          0.00512,
+          0.00129,
+          0.00512
+        ],
+        "swappable": true
+      },
+      {
+        "node": "polySurface129_Red_0",
+        "group": "polySurface129_Red_0",
+        "role": "rotor",
+        "side": "left",
+        "center": [
+          0.07588,
+          0.0132,
+          0.03935
+        ],
+        "size": [
+          0.00512,
+          0.00129,
+          0.00512
+        ],
+        "swappable": true
+      },
+      {
+        "node": "polySurface116_Grey_0",
+        "group": "polySurface116_Grey_0",
+        "role": "rotor",
+        "side": "left",
+        "center": [
+          0.03462,
+          0.0021,
+          -0.0015
+        ],
+        "size": [
+          0.03705,
+          0.00947,
+          0.04006
+        ],
+        "swappable": true
+      },
+      {
+        "node": "polySurface107_Main_White_0",
+        "group": "polySurface107_Main_White_0",
+        "role": "body",
+        "side": "left",
+        "center": [
+          0.01637,
+          0.01061,
+          -0.01049
+        ],
+        "size": [
+          0.00363,
+          0.00476,
+          0.00477
+        ],
+        "swappable": false
+      },
+      {
+        "node": "polySurface138_Main_White_0",
+        "group": "polySurface138_Main_White_0",
+        "role": "gear",
+        "side": "left",
+        "center": [
+          0.06094,
+          -0.03168,
+          -0.00143
+        ],
+        "size": [
+          0.00107,
+          0.00107,
+          0.039
+        ],
+        "swappable": true
+      },
+      {
+        "node": "polySurface114_Main_White_0",
+        "group": "polySurface114_Main_White_0",
+        "role": "gear",
+        "side": "left",
+        "center": [
+          0.00839,
+          -0.03168,
+          -0.00143
+        ],
+        "size": [
+          0.00107,
+          0.00107,
+          0.039
+        ],
+        "swappable": true
+      },
+      {
+        "node": "polySurface143_Hole_0",
+        "group": "polySurface143_Hole_0",
+        "role": "arm",
+        "side": "left",
+        "center": [
+          0.05579,
+          0.00169,
+          0.02452
+        ],
+        "size": [
+          0.00289,
+          0.00289,
+          0.00041
+        ],
+        "swappable": false
+      },
+      {
+        "node": "polySurface142_Hole_0",
+        "group": "polySurface142_Hole_0",
+        "role": "arm",
+        "side": "left",
+        "center": [
+          0.05579,
+          0.00169,
+          -0.02731
+        ],
+        "size": [
+          0.00289,
+          0.00289,
+          0.00041
+        ],
+        "swappable": false
+      },
+      {
+        "node": "polySurface131_Black_0",
+        "group": "polySurface131_Black_0",
+        "role": "rotor",
+        "side": "left",
+        "center": [
+          0.04602,
+          -0.00002,
+          0.01017
+        ],
+        "size": [
+          0.00225,
+          0.00004,
+          0.00205
+        ],
+        "swappable": true
+      },
+      {
+        "node": "polySurface130_Black_0",
+        "group": "polySurface130_Black_0",
+        "role": "rotor",
+        "side": "left",
+        "center": [
+          0.03978,
+          -0.00177,
+          0.00712
+        ],
+        "size": [
+          0.00431,
+          0,
+          0.00431
+        ],
+        "swappable": true
+      },
+      {
+        "node": "polySurface120_Hole_0",
+        "group": "polySurface120_Hole_0",
+        "role": "arm",
+        "side": "left",
+        "center": [
+          0.01354,
+          0.00169,
+          0.02452
+        ],
+        "size": [
+          0.00289,
+          0.00289,
+          0.00041
+        ],
+        "swappable": false
+      },
+      {
+        "node": "polySurface119_Hole_0",
+        "group": "polySurface119_Hole_0",
+        "role": "arm",
+        "side": "left",
+        "center": [
+          0.01354,
+          0.00169,
+          -0.02731
+        ],
+        "size": [
+          0.00289,
+          0.00289,
+          0.00041
+        ],
+        "swappable": false
+      },
+      {
+        "node": "polySurface106_Black1_0",
+        "group": "polySurface106_Black1_0",
+        "role": "rotor",
+        "side": "left",
+        "center": [
+          0.02331,
+          -0.00002,
+          0.01017
+        ],
+        "size": [
+          0.00225,
+          0.00004,
+          0.00205
+        ],
+        "swappable": true
+      },
+      {
+        "node": "polySurface105_Black_0",
+        "group": "polySurface105_Black_0",
+        "role": "rotor",
+        "side": "left",
+        "center": [
+          0.02955,
+          -0.00177,
+          0.00712
+        ],
+        "size": [
+          0.00431,
+          0,
+          0.00431
+        ],
+        "swappable": true
+      },
+      {
+        "node": "polySurface115_Black1_0",
+        "group": "polySurface115_Black1_0",
+        "role": "body",
+        "side": "left",
+        "center": [
+          0.01731,
+          0.01067,
+          0.00024
+        ],
+        "size": [
+          0.00229,
+          0.0038,
+          0.01206
+        ],
+        "swappable": false
+      },
+      {
+        "node": "polySurface107_Black1_0",
+        "group": "polySurface107_Black1_0",
+        "role": "body",
+        "side": "left",
+        "center": [
+          0.01552,
+          0.01068,
+          -0.01034
+        ],
+        "size": [
+          0.00192,
+          0.00369,
+          0.00369
+        ],
+        "swappable": false
+      }
+    ],
+    "credit": {
+      "author": "dimazzis",
+      "license": "CC-BY-4.0",
+      "licenseName": "CC Attribution 4.0",
+      "url": "https://sketchfab.com/3d-models/dji-phantom-4-a24ca9c170874ca1a81da2de21e7945c"
+    }
+  },
+  {
+    "id": "mavic-3",
+    "name": "DJI Mavic 3",
+    "family": "consumer",
+    "blurb": "Folding arms, 46 minutes aloft, a Four Thirds sensor. The modern default.",
+    "environment": "earth",
+    "model": "models/mavic-3.glb",
+    "spec": {
+      "span_m": 0.3801,
+      "length_m": 0.3475,
+      "empty_mass_kg": 0.895,
+      "mtow_kg": 1.05,
+      "powertrain": "electric",
+      "rotors": 4,
+      "rotor_diameter_m": 0.239,
+      "battery_wh": 77,
+      "battery_cells": 4,
+      "payload_kg": 0.1,
+      "cruise_kmh": 50,
+      "max_speed_kmh": 75.6,
+      "endurance_h": 0.767,
+      "ceiling_m": 6000
+    },
+    "axes": {
+      "span": 2,
+      "length": 0,
+      "vertical": 1
+    },
+    "aftSign": 1,
+    "scaleToMetres": 0.00866992984251315,
+    "modelExtent": [
+      43.63674089976427,
+      10.744743108749393,
+      43.8411852119233
+    ],
+    "origin": [
+      0.00038422359863332645,
+      0.8896384239196777,
+      0.8001324468006548
+    ],
+    "cuts": {},
+    "parts": [
+      {
+        "node": "Object_350",
+        "group": "Object_350",
+        "role": "gear",
+        "side": "center",
+        "center": [
+          -0.00038,
+          -1.76214,
+          0.15494
+        ],
+        "size": [
+          5.35485,
+          1.045,
+          12.21005
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Object_296",
+        "group": "Object_296",
+        "role": "body",
+        "side": "right",
+        "center": [
+          -0.00038,
+          1.00747,
+          -2.86414
+        ],
+        "size": [
+          8.44019,
+          5.57092,
+          19.4689
+        ],
+        "swappable": false
+      },
+      {
+        "node": "Object_59",
+        "group": "Object_59",
+        "role": "arm",
+        "side": "right",
+        "center": [
+          0.00254,
+          -0.28179,
+          -11.36583
+        ],
+        "size": [
+          4.41853,
+          3.95791,
+          3.58407
+        ],
+        "swappable": false
+      },
+      {
+        "node": "Object_23",
+        "group": "Object_23",
+        "role": "arm",
+        "side": "right",
+        "center": [
+          -0.00038,
+          1.45154,
+          -9.35683
+        ],
+        "size": [
+          3.37765,
+          5.36,
+          6.29051
+        ],
+        "swappable": false
+      },
+      {
+        "node": "Object_344",
+        "group": "Object_344",
+        "role": "body",
+        "side": "left",
+        "center": [
+          -0.00038,
+          3.47346,
+          4.28964
+        ],
+        "size": [
+          6.46912,
+          2.69449,
+          4.48366
+        ],
+        "swappable": false
+      },
+      {
+        "node": "Object_181",
+        "group": "Object_181",
+        "role": "arm",
+        "side": "right",
+        "center": [
+          16.19078,
+          1.21234,
+          -10.64337
+        ],
+        "size": [
+          1.62546,
+          1.16114,
+          2.54009
+        ],
+        "swappable": false
+      },
+      {
+        "node": "Object_123",
+        "group": "Object_123",
+        "role": "arm",
+        "side": "right",
+        "center": [
+          -16.19305,
+          1.22393,
+          -10.64356
+        ],
+        "size": [
+          1.62546,
+          1.16114,
+          2.54009
+        ],
+        "swappable": false
+      },
+      {
+        "node": "Object_311",
+        "group": "Object_311",
+        "role": "body",
+        "side": "left",
+        "center": [
+          2.54689,
+          2.2508,
+          5.77933
+        ],
+        "size": [
+          0.70497,
+          1.02363,
+          1.36735
+        ],
+        "swappable": false
+      },
+      {
+        "node": "Object_308",
+        "group": "Object_308",
+        "role": "body",
+        "side": "left",
+        "center": [
+          -2.54766,
+          2.2508,
+          5.77933
+        ],
+        "size": [
+          0.70497,
+          1.02363,
+          1.36735
+        ],
+        "swappable": false
+      },
+      {
+        "node": "Object_149",
+        "group": "Object_149",
+        "role": "arm",
+        "side": "left",
+        "center": [
+          -12.9145,
+          0.57879,
+          13.5836
+        ],
+        "size": [
+          2.21541,
+          1.24657,
+          2.09016
+        ],
+        "swappable": false
+      },
+      {
+        "node": "Object_85",
+        "group": "Object_85",
+        "role": "arm",
+        "side": "left",
+        "center": [
+          12.91449,
+          0.58411,
+          13.58346
+        ],
+        "size": [
+          2.21541,
+          1.24657,
+          2.09016
+        ],
+        "swappable": false
+      },
+      {
+        "node": "Object_455",
+        "group": "Object_455",
+        "role": "gear",
+        "side": "left",
+        "center": [
+          12.63594,
+          -1.09306,
+          13.62794
+        ],
+        "size": [
+          2.38616,
+          1.63575,
+          2.41663
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Object_416",
+        "group": "Object_416",
+        "role": "gear",
+        "side": "left",
+        "center": [
+          -12.63671,
+          -1.09306,
+          13.62794
+        ],
+        "size": [
+          2.38616,
+          1.63575,
+          2.41663
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Object_302",
+        "group": "Object_302",
+        "role": "body",
+        "side": "right",
+        "center": [
+          -0.00038,
+          4.3466,
+          -4.7496
+        ],
+        "size": [
+          7.95849,
+          2.05154,
+          15.80534
+        ],
+        "swappable": false
+      },
+      {
+        "node": "Object_260",
+        "group": "Object_260",
+        "role": "gear",
+        "side": "right",
+        "center": [
+          16.19028,
+          -0.44081,
+          -10.61357
+        ],
+        "size": [
+          1.98909,
+          1.64245,
+          2.40751
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Object_221",
+        "group": "Object_221",
+        "role": "gear",
+        "side": "right",
+        "center": [
+          -16.19105,
+          -0.44081,
+          -10.61357
+        ],
+        "size": [
+          1.98909,
+          1.64245,
+          2.40751
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Object_314",
+        "group": "Object_314",
+        "role": "body",
+        "side": "left",
+        "center": [
+          -0.00038,
+          4.23339,
+          2.85866
+        ],
+        "size": [
+          2.08966,
+          0.74557,
+          2.24094
+        ],
+        "swappable": false
+      },
+      {
+        "node": "Object_278",
+        "group": "Object_278",
+        "role": "arm",
+        "side": "right",
+        "center": [
+          -0.00038,
+          4.79472,
+          -10.86541
+        ],
+        "size": [
+          3.99747,
+          0.47662,
+          0.83219
+        ],
+        "swappable": false
+      },
+      {
+        "node": "Object_20",
+        "group": "Object_20",
+        "role": "arm",
+        "side": "right",
+        "center": [
+          -0.00038,
+          1.14434,
+          -9.09347
+        ],
+        "size": [
+          5.03526,
+          4.18301,
+          6.32947
+        ],
+        "swappable": false
+      },
+      {
+        "node": "Object_386",
+        "group": "Object_386",
+        "role": "gear",
+        "side": "right",
+        "center": [
+          -0.00038,
+          -1.77792,
+          -5.27872
+        ],
+        "size": [
+          5.37361,
+          1.22649,
+          3.62286
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Object_254",
+        "group": "Object_254",
+        "role": "arm",
+        "side": "right",
+        "center": [
+          10.8088,
+          0.04222,
+          -9.35739
+        ],
+        "size": [
+          12.66941,
+          4.33118,
+          4.91455
+        ],
+        "swappable": false
+      },
+      {
+        "node": "Object_215",
+        "group": "Object_215",
+        "role": "arm",
+        "side": "right",
+        "center": [
+          -10.80957,
+          0.04222,
+          -9.35739
+        ],
+        "size": [
+          12.66941,
+          4.33118,
+          4.91455
+        ],
+        "swappable": false
+      },
+      {
+        "node": "Object_269",
+        "group": "Object_269",
+        "role": "gear",
+        "side": "right",
+        "center": [
+          15.53597,
+          -3.32089,
+          -10.61348
+        ],
+        "size": [
+          2.97406,
+          3.91012,
+          2.09763
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Object_230",
+        "group": "Object_230",
+        "role": "gear",
+        "side": "right",
+        "center": [
+          -15.53673,
+          -3.32089,
+          -10.61348
+        ],
+        "size": [
+          2.97406,
+          3.91012,
+          2.09763
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Object_317",
+        "group": "Object_317",
+        "role": "arm",
+        "side": "right",
+        "center": [
+          -0.00038,
+          3.80251,
+          -12.21271
+        ],
+        "size": [
+          7.85045,
+          2.20555,
+          2.46118
+        ],
+        "swappable": false
+      },
+      {
+        "node": "Object_187",
+        "group": "Object_187",
+        "role": "rotor",
+        "side": "right",
+        "center": [
+          16.15581,
+          0.73473,
+          -10.63341
+        ],
+        "size": [
+          2.39647,
+          0.44883,
+          2.4079
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Object_137",
+        "group": "Object_137",
+        "role": "rotor",
+        "side": "left",
+        "center": [
+          -12.82671,
+          0.0624,
+          13.59857
+        ],
+        "size": [
+          2.39352,
+          0.46035,
+          2.40902
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Object_105",
+        "group": "Object_105",
+        "role": "rotor",
+        "side": "right",
+        "center": [
+          -16.15808,
+          0.74632,
+          -10.6336
+        ],
+        "size": [
+          2.39647,
+          0.44883,
+          2.4079
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Object_73",
+        "group": "Object_73",
+        "role": "rotor",
+        "side": "left",
+        "center": [
+          12.82671,
+          0.06773,
+          13.59843
+        ],
+        "size": [
+          2.39352,
+          0.46035,
+          2.40902
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Object_299",
+        "group": "Object_299",
+        "role": "arm",
+        "side": "left",
+        "center": [
+          -0.00093,
+          0.99764,
+          6.60761
+        ],
+        "size": [
+          4.41916,
+          4.17718,
+          0.89471
+        ],
+        "swappable": false
+      },
+      {
+        "node": "Object_194",
+        "group": "Object_194",
+        "role": "arm",
+        "side": "right",
+        "center": [
+          -9.03587,
+          0.69048,
+          -3.60394
+        ],
+        "size": [
+          14.64104,
+          5.40038,
+          16.76686
+        ],
+        "swappable": false
+      },
+      {
+        "node": "Object_341",
+        "group": "Object_341",
+        "role": "body",
+        "side": "left",
+        "center": [
+          -2.01789,
+          4.41368,
+          3.91095
+        ],
+        "size": [
+          1.19935,
+          0.30852,
+          1.19935
+        ],
+        "swappable": false
+      },
+      {
+        "node": "Object_290",
+        "group": "Object_290",
+        "role": "body",
+        "side": "left",
+        "center": [
+          2.01712,
+          4.41368,
+          3.91095
+        ],
+        "size": [
+          1.19935,
+          0.30852,
+          1.19935
+        ],
+        "swappable": false
+      },
+      {
+        "node": "Object_449",
+        "group": "Object_449",
+        "role": "gear",
+        "side": "left",
+        "center": [
+          9.15503,
+          -1.20529,
+          9.82378
+        ],
+        "size": [
+          9.25967,
+          3.05105,
+          10.06073
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Object_410",
+        "group": "Object_410",
+        "role": "gear",
+        "side": "left",
+        "center": [
+          -9.1558,
+          -1.20529,
+          9.82378
+        ],
+        "size": [
+          9.25967,
+          3.05105,
+          10.06073
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Object_191",
+        "group": "Object_191",
+        "role": "arm",
+        "side": "right",
+        "center": [
+          9.0351,
+          0.69048,
+          -3.60394
+        ],
+        "size": [
+          14.64104,
+          5.40038,
+          16.76686
+        ],
+        "swappable": false
+      },
+      {
+        "node": "Object_233",
+        "group": "Object_233",
+        "role": "body",
+        "side": "right",
+        "center": [
+          -4.5433,
+          1.54581,
+          -6.51055
+        ],
+        "size": [
+          3.76912,
+          2.40606,
+          1.88638
+        ],
+        "swappable": false
+      },
+      {
+        "node": "Object_248",
+        "group": "Object_248",
+        "role": "body",
+        "side": "right",
+        "center": [
+          4.54253,
+          1.54581,
+          -6.51055
+        ],
+        "size": [
+          3.76912,
+          2.40606,
+          1.88638
+        ],
+        "swappable": false
+      },
+      {
+        "node": "Object_428",
+        "group": "Object_428",
+        "role": "body",
+        "side": "left",
+        "center": [
+          -3.77369,
+          -0.34256,
+          5.33592
+        ],
+        "size": [
+          2.39899,
+          2.08901,
+          3.00832
+        ],
+        "swappable": false
+      },
+      {
+        "node": "Object_197",
+        "group": "Object_197",
+        "role": "body",
+        "side": "left",
+        "center": [
+          3.77292,
+          -0.34256,
+          5.33592
+        ],
+        "size": [
+          2.39899,
+          2.08901,
+          3.00832
+        ],
+        "swappable": false
+      },
+      {
+        "node": "Object_320",
+        "group": "Object_320",
+        "role": "body",
+        "side": "left",
+        "center": [
+          2.36157,
+          2.26772,
+          5.71346
+        ],
+        "size": [
+          0.57711,
+          1.57979,
+          2.06231
+        ],
+        "swappable": false
+      },
+      {
+        "node": "Object_305",
+        "group": "Object_305",
+        "role": "body",
+        "side": "left",
+        "center": [
+          -2.35023,
+          2.26772,
+          5.72124
+        ],
+        "size": [
+          0.60133,
+          1.57979,
+          2.07788
+        ],
+        "swappable": false
+      },
+      {
+        "node": "Object_56",
+        "group": "Object_56",
+        "role": "arm",
+        "side": "right",
+        "center": [
+          -0.00038,
+          -0.25063,
+          -10.39308
+        ],
+        "size": [
+          6.16002,
+          2.39636,
+          4.61589
+        ],
+        "swappable": false
+      },
+      {
+        "node": "Object_169",
+        "group": "Object_169",
+        "role": "arm",
+        "side": "right",
+        "center": [
+          16.54902,
+          1.33248,
+          -9.8014
+        ],
+        "size": [
+          0.31583,
+          0.65319,
+          0.2511
+        ],
+        "swappable": false
+      },
+      {
+        "node": "Object_111",
+        "group": "Object_111",
+        "role": "arm",
+        "side": "right",
+        "center": [
+          -16.55129,
+          1.34406,
+          -9.80159
+        ],
+        "size": [
+          0.31583,
+          0.65319,
+          0.2511
+        ],
+        "swappable": false
+      },
+      {
+        "node": "Object_166",
+        "group": "Object_166",
+        "role": "arm",
+        "side": "right",
+        "center": [
+          15.93852,
+          1.38334,
+          -11.49394
+        ],
+        "size": [
+          0.31582,
+          0.65319,
+          0.2511
+        ],
+        "swappable": false
+      },
+      {
+        "node": "Object_108",
+        "group": "Object_108",
+        "role": "arm",
+        "side": "right",
+        "center": [
+          -15.94079,
+          1.39492,
+          -11.49413
+        ],
+        "size": [
+          0.31582,
+          0.65319,
+          0.2511
+        ],
+        "swappable": false
+      },
+      {
+        "node": "Object_47",
+        "group": "Object_47",
+        "role": "arm",
+        "side": "right",
+        "center": [
+          -0.00003,
+          -0.08544,
+          -13.26677
+        ],
+        "size": [
+          3.44747,
+          3.39662,
+          0.24378
+        ],
+        "swappable": false
+      },
+      {
+        "node": "Object_172",
+        "group": "Object_172",
+        "role": "arm",
+        "side": "right",
+        "center": [
+          14.06893,
+          1.4639,
+          -16.49499
+        ],
+        "size": [
+          4.59963,
+          1.2396,
+          10.85082
+        ],
+        "swappable": false
+      },
+      {
+        "node": "Object_120",
+        "group": "Object_120",
+        "role": "arm",
+        "side": "right",
+        "center": [
+          -14.0712,
+          1.47549,
+          -16.49518
+        ],
+        "size": [
+          4.59963,
+          1.2396,
+          10.85082
+        ],
+        "swappable": false
+      },
+      {
+        "node": "Object_178",
+        "group": "Object_178",
+        "role": "arm",
+        "side": "right",
+        "center": [
+          18.43175,
+          1.26595,
+          -4.79538
+        ],
+        "size": [
+          4.73719,
+          0.56867,
+          10.83372
+        ],
+        "swappable": false
+      },
+      {
+        "node": "Object_117",
+        "group": "Object_117",
+        "role": "arm",
+        "side": "right",
+        "center": [
+          -18.43402,
+          1.27754,
+          -4.79557
+        ],
+        "size": [
+          4.73719,
+          0.56867,
+          10.83372
+        ],
+        "swappable": false
+      },
+      {
+        "node": "Object_143",
+        "group": "Object_143",
+        "role": "arm",
+        "side": "left",
+        "center": [
+          -13.56699,
+          0.56825,
+          12.9582
+        ],
+        "size": [
+          0.32449,
+          0.6549,
+          0.25699
+        ],
+        "swappable": false
+      },
+      {
+        "node": "Object_140",
+        "group": "Object_140",
+        "role": "arm",
+        "side": "left",
+        "center": [
+          -12.27793,
+          0.78676,
+          14.19553
+        ],
+        "size": [
+          0.32449,
+          0.6549,
+          0.25699
+        ],
+        "swappable": false
+      },
+      {
+        "node": "Object_79",
+        "group": "Object_79",
+        "role": "arm",
+        "side": "left",
+        "center": [
+          13.56698,
+          0.57357,
+          12.95806
+        ],
+        "size": [
+          0.32449,
+          0.6549,
+          0.25699
+        ],
+        "swappable": false
+      },
+      {
+        "node": "Object_76",
+        "group": "Object_76",
+        "role": "arm",
+        "side": "left",
+        "center": [
+          12.27792,
+          0.79209,
+          14.19539
+        ],
+        "size": [
+          0.32449,
+          0.6549,
+          0.25699
+        ],
+        "swappable": false
+      },
+      {
+        "node": "Object_26",
+        "group": "Object_26",
+        "role": "arm",
+        "side": "right",
+        "center": [
+          -0.00038,
+          0.89616,
+          -9.01331
+        ],
+        "size": [
+          2.35914,
+          4.6516,
+          3.61662
+        ],
+        "swappable": false
+      },
+      {
+        "node": "Object_440",
+        "group": "Object_440",
+        "role": "gear",
+        "side": "left",
+        "center": [
+          12.51769,
+          -2.56687,
+          13.65874
+        ],
+        "size": [
+          2.31677,
+          1.60931,
+          2.31078
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Object_401",
+        "group": "Object_401",
+        "role": "gear",
+        "side": "left",
+        "center": [
+          -12.51846,
+          -2.56687,
+          13.65874
+        ],
+        "size": [
+          2.31677,
+          1.60931,
+          2.31078
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Object_395",
+        "group": "Object_395",
+        "role": "body",
+        "side": "left",
+        "center": [
+          2.91324,
+          1.4292,
+          4.568
+        ],
+        "size": [
+          1.72195,
+          1.53337,
+          4.63796
+        ],
+        "swappable": false
+      },
+      {
+        "node": "Object_323",
+        "group": "Object_323",
+        "role": "body",
+        "side": "left",
+        "center": [
+          -0.00038,
+          3.64267,
+          6.2324
+        ],
+        "size": [
+          2.24426,
+          1.07033,
+          0.64937
+        ],
+        "swappable": false
+      },
+      {
+        "node": "Object_152",
+        "group": "Object_152",
+        "role": "rotor",
+        "side": "left",
+        "center": [
+          -8.41045,
+          1.49369,
+          17.85015
+        ],
+        "size": [
+          8.5983,
+          1.9906,
+          8.14088
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Object_91",
+        "group": "Object_91",
+        "role": "rotor",
+        "side": "left",
+        "center": [
+          8.41045,
+          1.49901,
+          17.85001
+        ],
+        "size": [
+          8.5983,
+          1.99061,
+          8.14088
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Object_155",
+        "group": "Object_155",
+        "role": "rotor",
+        "side": "left",
+        "center": [
+          -17.47115,
+          0.11552,
+          9.30958
+        ],
+        "size": [
+          8.69444,
+          1.34901,
+          8.14156
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Object_88",
+        "group": "Object_88",
+        "role": "rotor",
+        "side": "left",
+        "center": [
+          17.47115,
+          0.12084,
+          9.30944
+        ],
+        "size": [
+          8.69444,
+          1.34901,
+          8.14156
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Object_338",
+        "group": "Object_338",
+        "role": "body",
+        "side": "right",
+        "center": [
+          -3.25188,
+          0.45871,
+          -5.91587
+        ],
+        "size": [
+          1.20588,
+          1.09408,
+          2.92093
+        ],
+        "swappable": false
+      },
+      {
+        "node": "Object_281",
+        "group": "Object_281",
+        "role": "body",
+        "side": "right",
+        "center": [
+          3.25112,
+          0.45871,
+          -5.91587
+        ],
+        "size": [
+          1.20588,
+          1.09408,
+          2.92093
+        ],
+        "swappable": false
+      },
+      {
+        "node": "Object_128",
+        "group": "Object_128",
+        "role": "gear",
+        "side": "left",
+        "center": [
+          -12.709,
+          -0.76425,
+          13.62068
+        ],
+        "size": [
+          2.51425,
+          1.25926,
+          2.42988
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Object_64",
+        "group": "Object_64",
+        "role": "gear",
+        "side": "left",
+        "center": [
+          12.70899,
+          -0.75892,
+          13.62054
+        ],
+        "size": [
+          2.51425,
+          1.25926,
+          2.42988
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Object_392",
+        "group": "Object_392",
+        "role": "body",
+        "side": "left",
+        "center": [
+          -2.914,
+          1.4292,
+          4.568
+        ],
+        "size": [
+          1.72195,
+          1.53337,
+          4.63796
+        ],
+        "swappable": false
+      },
+      {
+        "node": "Object_368",
+        "group": "Object_368",
+        "role": "arm",
+        "side": "left",
+        "center": [
+          1.20392,
+          1.13471,
+          6.91056
+        ],
+        "size": [
+          1.07594,
+          0.77327,
+          0.22139
+        ],
+        "swappable": false
+      },
+      {
+        "node": "Object_175",
+        "group": "Object_175",
+        "role": "arm",
+        "side": "right",
+        "center": [
+          16.12287,
+          0.48242,
+          -10.62788
+        ],
+        "size": [
+          0.60217,
+          2.4628,
+          0.3328
+        ],
+        "swappable": false
+      },
+      {
+        "node": "Object_114",
+        "group": "Object_114",
+        "role": "arm",
+        "side": "right",
+        "center": [
+          -16.12515,
+          0.49401,
+          -10.62808
+        ],
+        "size": [
+          0.60217,
+          2.4628,
+          0.3328
+        ],
+        "swappable": false
+      },
+      {
+        "node": "Object_398",
+        "group": "Object_398",
+        "role": "gear",
+        "side": "left",
+        "center": [
+          -1.71678,
+          -2.17917,
+          3.8166
+        ],
+        "size": [
+          0.4988,
+          0.51825,
+          2.13233
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Object_389",
+        "group": "Object_389",
+        "role": "gear",
+        "side": "left",
+        "center": [
+          1.71601,
+          -2.17917,
+          3.8166
+        ],
+        "size": [
+          0.4988,
+          0.51825,
+          2.13233
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Object_160",
+        "group": "Object_160",
+        "role": "arm",
+        "side": "right",
+        "center": [
+          16.05556,
+          -0.08963,
+          -10.62361
+        ],
+        "size": [
+          2.49632,
+          1.22492,
+          2.42372
+        ],
+        "swappable": false
+      },
+      {
+        "node": "Object_96",
+        "group": "Object_96",
+        "role": "arm",
+        "side": "right",
+        "center": [
+          -16.05784,
+          -0.07804,
+          -10.6238
+        ],
+        "size": [
+          2.49632,
+          1.22492,
+          2.42372
+        ],
+        "swappable": false
+      },
+      {
+        "node": "Object_44",
+        "group": "Object_44",
+        "role": "gear",
+        "side": "right",
+        "center": [
+          -0.00056,
+          -0.49252,
+          -12.64628
+        ],
+        "size": [
+          1.3273,
+          1.00694,
+          0.22018
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Object_41",
+        "group": "Object_41",
+        "role": "gear",
+        "side": "right",
+        "center": [
+          0.04252,
+          -0.5333,
+          -12.98505
+        ],
+        "size": [
+          2.65193,
+          1.84009,
+          0.47696
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Object_275",
+        "group": "Object_275",
+        "role": "body",
+        "side": "right",
+        "center": [
+          3.36914,
+          1.75927,
+          -6.15077
+        ],
+        "size": [
+          2.66301,
+          0.84776,
+          1.88923
+        ],
+        "swappable": false
+      },
+      {
+        "node": "Object_236",
+        "group": "Object_236",
+        "role": "body",
+        "side": "right",
+        "center": [
+          -3.36991,
+          1.75927,
+          -6.15077
+        ],
+        "size": [
+          2.66301,
+          0.84776,
+          1.88923
+        ],
+        "swappable": false
+      },
+      {
+        "node": "Object_146",
+        "group": "Object_146",
+        "role": "arm",
+        "side": "left",
+        "center": [
+          -12.89138,
+          0.51036,
+          13.58662
+        ],
+        "size": [
+          0.43598,
+          1.08713,
+          0.32024
+        ],
+        "swappable": false
+      },
+      {
+        "node": "Object_82",
+        "group": "Object_82",
+        "role": "arm",
+        "side": "left",
+        "center": [
+          12.89138,
+          0.51568,
+          13.58648
+        ],
+        "size": [
+          0.43598,
+          1.08713,
+          0.32024
+        ],
+        "swappable": false
+      },
+      {
+        "node": "Object_29",
+        "group": "Object_29",
+        "role": "arm",
+        "side": "right",
+        "center": [
+          0.0064,
+          -0.24964,
+          -9.80365
+        ],
+        "size": [
+          4.50797,
+          2.26832,
+          1.55703
+        ],
+        "swappable": false
+      },
+      {
+        "node": "Object_11",
+        "group": "Object_11",
+        "role": "arm",
+        "side": "right",
+        "center": [
+          -0.1854,
+          1.00682,
+          -13.20222
+        ],
+        "size": [
+          2.19412,
+          0.84809,
+          0.08559
+        ],
+        "swappable": false
+      },
+      {
+        "node": "Object_184",
+        "group": "Object_184",
+        "role": "rotor",
+        "side": "right",
+        "center": [
+          16.13915,
+          0.59777,
+          -10.6304
+        ],
+        "size": [
+          2.39747,
+          0.39183,
+          2.40705
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Object_163",
+        "group": "Object_163",
+        "role": "rotor",
+        "side": "right",
+        "center": [
+          16.11789,
+          0.43411,
+          -10.6279
+        ],
+        "size": [
+          2.40563,
+          0.44151,
+          2.40718
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Object_134",
+        "group": "Object_134",
+        "role": "rotor",
+        "side": "left",
+        "center": [
+          -12.80752,
+          -0.08389,
+          13.60196
+        ],
+        "size": [
+          2.3934,
+          0.42545,
+          2.40909
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Object_131",
+        "group": "Object_131",
+        "role": "rotor",
+        "side": "left",
+        "center": [
+          -12.78372,
+          -0.24715,
+          13.60574
+        ],
+        "size": [
+          2.40132,
+          0.47487,
+          2.40971
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Object_102",
+        "group": "Object_102",
+        "role": "rotor",
+        "side": "right",
+        "center": [
+          -16.12016,
+          0.4457,
+          -10.62809
+        ],
+        "size": [
+          2.40563,
+          0.44151,
+          2.40718
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Object_99",
+        "group": "Object_99",
+        "role": "rotor",
+        "side": "right",
+        "center": [
+          -16.14143,
+          0.60936,
+          -10.63059
+        ],
+        "size": [
+          2.39747,
+          0.39183,
+          2.40705
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Object_70",
+        "group": "Object_70",
+        "role": "rotor",
+        "side": "left",
+        "center": [
+          12.78372,
+          -0.24183,
+          13.6056
+        ],
+        "size": [
+          2.40132,
+          0.47487,
+          2.40971
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Object_67",
+        "group": "Object_67",
+        "role": "rotor",
+        "side": "left",
+        "center": [
+          12.80752,
+          -0.07856,
+          13.60181
+        ],
+        "size": [
+          2.3934,
+          0.42545,
+          2.40909
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Object_50",
+        "group": "Object_50",
+        "role": "arm",
+        "side": "right",
+        "center": [
+          0.04177,
+          -0.00083,
+          -13.25933
+        ],
+        "size": [
+          2.53926,
+          2.82642,
+          0.06139
+        ],
+        "swappable": false
+      },
+      {
+        "node": "Object_251",
+        "group": "Object_251",
+        "role": "arm",
+        "side": "right",
+        "center": [
+          16.08312,
+          0.11706,
+          -10.62732
+        ],
+        "size": [
+          0.73075,
+          0.29217,
+          0.71235
+        ],
+        "swappable": false
+      },
+      {
+        "node": "Object_212",
+        "group": "Object_212",
+        "role": "arm",
+        "side": "right",
+        "center": [
+          -16.08389,
+          0.11706,
+          -10.62732
+        ],
+        "size": [
+          0.73075,
+          0.29217,
+          0.71235
+        ],
+        "swappable": false
+      },
+      {
+        "node": "Object_32",
+        "group": "Object_32",
+        "role": "arm",
+        "side": "right",
+        "center": [
+          -0.00023,
+          1.67678,
+          -9.33893
+        ],
+        "size": [
+          1.87532,
+          1.83712,
+          2.7276
+        ],
+        "swappable": false
+      },
+      {
+        "node": "Object_383",
+        "group": "Object_383",
+        "role": "body",
+        "side": "left",
+        "center": [
+          -2.54725,
+          3.86278,
+          5.59514
+        ],
+        "size": [
+          1.04634,
+          1.4404,
+          1.04645
+        ],
+        "swappable": false
+      },
+      {
+        "node": "Object_359",
+        "group": "Object_359",
+        "role": "body",
+        "side": "left",
+        "center": [
+          2.54648,
+          3.86278,
+          5.59514
+        ],
+        "size": [
+          1.04634,
+          1.4404,
+          1.04645
+        ],
+        "swappable": false
+      },
+      {
+        "node": "Object_17",
+        "group": "Object_17",
+        "role": "arm",
+        "side": "right",
+        "center": [
+          -0.5122,
+          0.98131,
+          -13.00073
+        ],
+        "size": [
+          1.66252,
+          1.26155,
+          0.38889
+        ],
+        "swappable": false
+      },
+      {
+        "node": "Object_14",
+        "group": "Object_14",
+        "role": "gear",
+        "side": "right",
+        "center": [
+          -0.00038,
+          -0.49648,
+          -12.55982
+        ],
+        "size": [
+          0.42116,
+          0.42116,
+          0.12631
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Object_365",
+        "group": "Object_365",
+        "role": "arm",
+        "side": "right",
+        "center": [
+          -3.06353,
+          3.8317,
+          -12.11062
+        ],
+        "size": [
+          1.04017,
+          1.4162,
+          1.04029
+        ],
+        "swappable": false
+      },
+      {
+        "node": "Object_284",
+        "group": "Object_284",
+        "role": "arm",
+        "side": "right",
+        "center": [
+          3.06276,
+          3.8317,
+          -12.11062
+        ],
+        "size": [
+          1.04017,
+          1.4162,
+          1.04029
+        ],
+        "swappable": false
+      },
+      {
+        "node": "Object_377",
+        "group": "Object_377",
+        "role": "gear",
+        "side": "left",
+        "center": [
+          -0.00064,
+          -2.27395,
+          2.64988
+        ],
+        "size": [
+          0.93908,
+          0.20233,
+          0.93982
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Object_374",
+        "group": "Object_374",
+        "role": "gear",
+        "side": "right",
+        "center": [
+          -0.00064,
+          -2.27395,
+          -1.8507
+        ],
+        "size": [
+          0.93908,
+          0.20233,
+          0.93982
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Object_362",
+        "group": "Object_362",
+        "role": "arm",
+        "side": "right",
+        "center": [
+          -3.16897,
+          3.82993,
+          -12.21393
+        ],
+        "size": [
+          0.6787,
+          0.93982,
+          0.67878
+        ],
+        "swappable": false
+      },
+      {
+        "node": "Object_356",
+        "group": "Object_356",
+        "role": "body",
+        "side": "left",
+        "center": [
+          2.65282,
+          3.86096,
+          5.70371
+        ],
+        "size": [
+          0.67878,
+          0.93982,
+          0.6787
+        ],
+        "swappable": false
+      },
+      {
+        "node": "Object_347",
+        "group": "Object_347",
+        "role": "body",
+        "side": "left",
+        "center": [
+          -2.65359,
+          3.86096,
+          5.70371
+        ],
+        "size": [
+          0.67878,
+          0.93982,
+          0.6787
+        ],
+        "swappable": false
+      },
+      {
+        "node": "Object_287",
+        "group": "Object_287",
+        "role": "arm",
+        "side": "right",
+        "center": [
+          3.1682,
+          3.82993,
+          -12.21393
+        ],
+        "size": [
+          0.6787,
+          0.93982,
+          0.67878
+        ],
+        "swappable": false
+      },
+      {
+        "node": "Object_380",
+        "group": "Object_380",
+        "role": "gear",
+        "side": "right",
+        "center": [
+          -0.00165,
+          -2.11593,
+          -1.84893
+        ],
+        "size": [
+          1.2955,
+          0.21518,
+          1.29492
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Object_371",
+        "group": "Object_371",
+        "role": "gear",
+        "side": "left",
+        "center": [
+          0.00072,
+          -2.11592,
+          2.64825
+        ],
+        "size": [
+          1.29582,
+          0.21519,
+          1.29535
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Object_266",
+        "group": "Object_266",
+        "role": "gear",
+        "side": "right",
+        "center": [
+          13.55731,
+          -0.87502,
+          -9.18325
+        ],
+        "size": [
+          0.47907,
+          0.4729,
+          0.36391
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Object_227",
+        "group": "Object_227",
+        "role": "gear",
+        "side": "right",
+        "center": [
+          -13.55808,
+          -0.87502,
+          -9.18325
+        ],
+        "size": [
+          0.47907,
+          0.4729,
+          0.36391
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Object_38",
+        "group": "Object_38",
+        "role": "arm",
+        "side": "right",
+        "center": [
+          -3.0697,
+          -0.24964,
+          -11.47513
+        ],
+        "size": [
+          0.18491,
+          1.95822,
+          1.96
+        ],
+        "swappable": false
+      },
+      {
+        "node": "Object_35",
+        "group": "Object_35",
+        "role": "arm",
+        "side": "right",
+        "center": [
+          3.06911,
+          -0.24964,
+          -11.47513
+        ],
+        "size": [
+          0.18491,
+          1.95822,
+          1.96
+        ],
+        "swappable": false
+      },
+      {
+        "node": "Object_446",
+        "group": "Object_446",
+        "role": "gear",
+        "side": "left",
+        "center": [
+          13.37552,
+          -2.55659,
+          14.48336
+        ],
+        "size": [
+          0.60901,
+          1.1086,
+          0.52137
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Object_407",
+        "group": "Object_407",
+        "role": "gear",
+        "side": "left",
+        "center": [
+          -13.37629,
+          -2.55659,
+          14.48336
+        ],
+        "size": [
+          0.60901,
+          1.1086,
+          0.52137
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Object_272",
+        "group": "Object_272",
+        "role": "gear",
+        "side": "right",
+        "center": [
+          16.63391,
+          -2.29245,
+          -11.14114
+        ],
+        "size": [
+          0.76787,
+          0.98504,
+          0.75103
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Object_209",
+        "group": "Object_209",
+        "role": "gear",
+        "side": "right",
+        "center": [
+          -16.63468,
+          -2.29245,
+          -11.14114
+        ],
+        "size": [
+          0.76787,
+          0.98504,
+          0.75103
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Object_53",
+        "group": "Object_53",
+        "role": "arm",
+        "side": "right",
+        "center": [
+          -0.01398,
+          -0.25786,
+          -10.80212
+        ],
+        "size": [
+          3.7466,
+          2.74381,
+          0.75339
+        ],
+        "swappable": false
+      },
+      {
+        "node": "Object_257",
+        "group": "Object_257",
+        "role": "gear",
+        "side": "right",
+        "center": [
+          14.49947,
+          -5.22317,
+          -10.07757
+        ],
+        "size": [
+          0.92011,
+          0.29841,
+          0.91931
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Object_218",
+        "group": "Object_218",
+        "role": "gear",
+        "side": "right",
+        "center": [
+          -14.50024,
+          -5.22317,
+          -10.07757
+        ],
+        "size": [
+          0.92011,
+          0.29841,
+          0.91931
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Object_452",
+        "group": "Object_452",
+        "role": "gear",
+        "side": "left",
+        "center": [
+          13.00296,
+          -3.35581,
+          13.93663
+        ],
+        "size": [
+          0.76268,
+          0.22868,
+          1.46203
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Object_413",
+        "group": "Object_413",
+        "role": "gear",
+        "side": "left",
+        "center": [
+          -13.00372,
+          -3.35581,
+          13.93663
+        ],
+        "size": [
+          0.76268,
+          0.22868,
+          1.46203
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Object_329",
+        "group": "Object_329",
+        "role": "arm",
+        "side": "left",
+        "center": [
+          -0.39089,
+          1.1328,
+          6.90262
+        ],
+        "size": [
+          0.09212,
+          0.24294,
+          0.24087
+        ],
+        "swappable": false
+      },
+      {
+        "node": "Object_332",
+        "group": "Object_332",
+        "role": "arm",
+        "side": "left",
+        "center": [
+          0.18443,
+          1.13357,
+          6.90498
+        ],
+        "size": [
+          0.09098,
+          0.24339,
+          0.24566
+        ],
+        "swappable": false
+      },
+      {
+        "node": "Object_335",
+        "group": "Object_335",
+        "role": "arm",
+        "side": "left",
+        "center": [
+          -1.53931,
+          1.13341,
+          6.84187
+        ],
+        "size": [
+          0.09087,
+          0.24194,
+          0.21509
+        ],
+        "swappable": false
+      },
+      {
+        "node": "Object_326",
+        "group": "Object_326",
+        "role": "arm",
+        "side": "left",
+        "center": [
+          -0.9646,
+          1.13241,
+          6.88979
+        ],
+        "size": [
+          0.09087,
+          0.24194,
+          0.21509
+        ],
+        "swappable": false
+      },
+      {
+        "node": "Object_437",
+        "group": "Object_437",
+        "role": "gear",
+        "side": "left",
+        "center": [
+          13.2923,
+          -2.5273,
+          14.41181
+        ],
+        "size": [
+          0.20852,
+          0.17666,
+          0.19549
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Object_434",
+        "group": "Object_434",
+        "role": "gear",
+        "side": "left",
+        "center": [
+          13.33608,
+          -2.3033,
+          14.41766
+        ],
+        "size": [
+          0.20852,
+          0.17666,
+          0.19549
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Object_431",
+        "group": "Object_431",
+        "role": "gear",
+        "side": "left",
+        "center": [
+          13.24901,
+          -2.7487,
+          14.40603
+        ],
+        "size": [
+          0.20852,
+          0.17666,
+          0.19549
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Object_425",
+        "group": "Object_425",
+        "role": "gear",
+        "side": "left",
+        "center": [
+          -13.29306,
+          -2.5273,
+          14.41181
+        ],
+        "size": [
+          0.20852,
+          0.17666,
+          0.19549
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Object_422",
+        "group": "Object_422",
+        "role": "gear",
+        "side": "left",
+        "center": [
+          -13.33685,
+          -2.3033,
+          14.41766
+        ],
+        "size": [
+          0.20852,
+          0.17666,
+          0.19549
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Object_419",
+        "group": "Object_419",
+        "role": "gear",
+        "side": "left",
+        "center": [
+          -13.24977,
+          -2.7487,
+          14.40603
+        ],
+        "size": [
+          0.20852,
+          0.17666,
+          0.19549
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Object_245",
+        "group": "Object_245",
+        "role": "gear",
+        "side": "right",
+        "center": [
+          16.70282,
+          -2.03633,
+          -11.18395
+        ],
+        "size": [
+          0.2194,
+          0.16791,
+          0.23102
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Object_242",
+        "group": "Object_242",
+        "role": "gear",
+        "side": "right",
+        "center": [
+          16.60553,
+          -2.2318,
+          -11.11724
+        ],
+        "size": [
+          0.2194,
+          0.16791,
+          0.23103
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Object_239",
+        "group": "Object_239",
+        "role": "gear",
+        "side": "right",
+        "center": [
+          16.50936,
+          -2.42502,
+          -11.05129
+        ],
+        "size": [
+          0.2194,
+          0.16791,
+          0.23103
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Object_206",
+        "group": "Object_206",
+        "role": "gear",
+        "side": "right",
+        "center": [
+          -16.70358,
+          -2.03633,
+          -11.18395
+        ],
+        "size": [
+          0.2194,
+          0.16791,
+          0.23102
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Object_203",
+        "group": "Object_203",
+        "role": "gear",
+        "side": "right",
+        "center": [
+          -16.6063,
+          -2.2318,
+          -11.11724
+        ],
+        "size": [
+          0.2194,
+          0.16791,
+          0.23103
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Object_200",
+        "group": "Object_200",
+        "role": "gear",
+        "side": "right",
+        "center": [
+          -16.51012,
+          -2.42502,
+          -11.05129
+        ],
+        "size": [
+          0.2194,
+          0.16791,
+          0.23103
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Object_443",
+        "group": "Object_443",
+        "role": "gear",
+        "side": "left",
+        "center": [
+          13.23944,
+          -2.52735,
+          14.36557
+        ],
+        "size": [
+          0.3963,
+          0.73859,
+          0.31225
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Object_404",
+        "group": "Object_404",
+        "role": "gear",
+        "side": "left",
+        "center": [
+          -13.24021,
+          -2.52735,
+          14.36557
+        ],
+        "size": [
+          0.3963,
+          0.73859,
+          0.31225
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Object_263",
+        "group": "Object_263",
+        "role": "gear",
+        "side": "right",
+        "center": [
+          16.5519,
+          -2.20574,
+          -11.08013
+        ],
+        "size": [
+          0.51236,
+          0.64822,
+          0.50001
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Object_224",
+        "group": "Object_224",
+        "role": "gear",
+        "side": "right",
+        "center": [
+          -16.55266,
+          -2.20574,
+          -11.08013
+        ],
+        "size": [
+          0.51236,
+          0.64822,
+          0.50001
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Object_353",
+        "group": "Object_353",
+        "role": "gear",
+        "side": "right",
+        "center": [
+          -0.00038,
+          -2.28454,
+          -3.82029
+        ],
+        "size": [
+          2.23274,
+          0.0002,
+          1.03793
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Object_293",
+        "group": "Object_293",
+        "role": "body",
+        "side": "left",
+        "center": [
+          0.00021,
+          4.37959,
+          2.08873
+        ],
+        "size": [
+          2.92414,
+          0.86036,
+          0.05138
+        ],
+        "swappable": false
+      },
+      {
+        "node": "Object_7",
+        "group": "Object_7",
+        "role": "body",
+        "side": "right",
+        "center": [
+          -0.00038,
+          1.03015,
+          -3.77504
+        ],
+        "size": [
+          4.22739,
+          5.66638,
+          15.35349
+        ],
+        "swappable": false
+      }
+    ],
+    "credit": {
+      "author": "llirikslon",
+      "license": "CC-BY-4.0",
+      "licenseName": "CC Attribution 4.0",
+      "url": "https://sketchfab.com/3d-models/dji-mavic-3-c5a5abae1dea468ab73b1bdc7d616fa6"
     }
   }
 ]

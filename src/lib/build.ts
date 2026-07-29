@@ -30,6 +30,12 @@ const PRESET_LOADOUT: Record<string, { powerplant: string; energy: string; paylo
   'x3-uav': { powerplant: 'e-2216-950', energy: 'lipo-4s-5000', payloads: ['none'] },
   m100: { powerplant: 'e-5010-360', energy: 'lipo-6s-8000', payloads: ['lidar'] },
   'cessna-172': { powerplant: 'lycoming-io360', energy: 'fuel-160', payloads: ['comms-relay'] },
+  // Its camera is part of the airframe, not a fitted payload.
+  'rq11-raven': { powerplant: 'e-2216-950', energy: 'lipo-4s-5000', payloads: ['none'] },
+  // Both carry their gimbal as part of the airframe mass, so fitting a separate
+  // camera counts it twice and puts them over their own MTOW.
+  'phantom-4': { powerplant: 'e-2216-950', energy: 'lipo-4s-5000', payloads: ['none'] },
+  'mavic-3': { powerplant: 'e-2216-950', energy: 'lipo-4s-5000', payloads: ['none'] },
 }
 
 const FALLBACK = { powerplant: 'e-5010-360', energy: 'lipo-4s-5000', payloads: ['none'] }

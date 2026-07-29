@@ -562,6 +562,94 @@
         "endurance_h": 5.0,
         "ceiling_m": 4100
       }
+    },
+    {
+      "id": "rq11-raven",
+      "name": "RQ-11B Raven",
+      "family": "military",
+      "blurb": "Hand-thrown, lands by breaking apart on impact. The most-produced military drone there is.",
+      "source": {
+        "kind": "sketchfab",
+        "uid": "04d3c684f459489eabc5deb498bd6919",
+        "author": "IV Aulls",
+        "license": "CC-BY-4.0",
+        "url": "https://sketchfab.com/3d-models/rq-11-raven-uav-high-poly-model-04d3c684f459489eabc5deb498bd6919"
+      },
+      "spec": {
+        "span_m": 1.37,
+        "length_m": 0.91,
+        "wing_area_m2": 0.14,
+        "empty_mass_kg": 1.7,
+        "mtow_kg": 1.9,
+        "powertrain": "electric",
+        "rotors": 1,
+        "rotor_diameter_m": 0.19,
+        "battery_wh": 100,
+        "battery_cells": 4,
+        "payload_kg": 0.2,
+        "cruise_kmh": 50,
+        "max_speed_kmh": 81,
+        "endurance_h": 1.5,
+        "ceiling_m": 4267
+      }
+    },
+    {
+      "id": "phantom-4",
+      "name": "DJI Phantom 4 Pro",
+      "family": "consumer",
+      "blurb": "The white quadcopter that made 'drone' a household word.",
+      "source": {
+        "kind": "sketchfab",
+        "uid": "a24ca9c170874ca1a81da2de21e7945c",
+        "author": "dimazzis",
+        "license": "CC-BY-4.0",
+        "url": "https://sketchfab.com/3d-models/dji-phantom-4-a24ca9c170874ca1a81da2de21e7945c"
+      },
+      "spec": {
+        "span_m": 0.35,
+        "length_m": 0.35,
+        "empty_mass_kg": 1.388,
+        "mtow_kg": 1.6,
+        "powertrain": "electric",
+        "rotors": 4,
+        "rotor_diameter_m": 0.239,
+        "battery_wh": 89.2,
+        "battery_cells": 4,
+        "payload_kg": 0.2,
+        "cruise_kmh": 50,
+        "max_speed_kmh": 72,
+        "endurance_h": 0.5,
+        "ceiling_m": 6000
+      }
+    },
+    {
+      "id": "mavic-3",
+      "name": "DJI Mavic 3",
+      "family": "consumer",
+      "blurb": "Folding arms, 46 minutes aloft, a Four Thirds sensor. The modern default.",
+      "source": {
+        "kind": "sketchfab",
+        "uid": "c5a5abae1dea468ab73b1bdc7d616fa6",
+        "author": "llirikslon",
+        "license": "CC-BY-4.0",
+        "url": "https://sketchfab.com/3d-models/dji-mavic-3-c5a5abae1dea468ab73b1bdc7d616fa6"
+      },
+      "spec": {
+        "span_m": 0.3801,
+        "length_m": 0.3475,
+        "empty_mass_kg": 0.895,
+        "mtow_kg": 1.05,
+        "powertrain": "electric",
+        "rotors": 4,
+        "rotor_diameter_m": 0.239,
+        "battery_wh": 77,
+        "battery_cells": 4,
+        "payload_kg": 0.1,
+        "cruise_kmh": 50,
+        "max_speed_kmh": 75.6,
+        "endurance_h": 0.767,
+        "ceiling_m": 6000
+      }
     }
   ]
 }
