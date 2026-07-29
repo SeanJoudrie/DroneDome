@@ -37,6 +37,9 @@ jobs:
       - name: Check physics against published figures
         run: npm run check:physics
 
+      - name: Fuzz the physics model with adversarial builds
+        run: npm run fuzz
+
       - name: Build
         run: npm run build
 
