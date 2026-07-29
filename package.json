@@ -14,7 +14,8 @@
     "fuzz": "tsx scripts/fuzz-physics.ts",
     "check:parts": "tsx scripts/check-parts.ts",
     "check:geometry": "node scripts/geometry-sweep.mjs",
-    "check:capability": "node scripts/capability-sweep.mjs"
+    "check:capability": "node scripts/capability-sweep.mjs",
+    "check:removal": "node scripts/removal-sweep.mjs"
   },
   "dependencies": {
     "react": "^18.3.1",

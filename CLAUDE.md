@@ -67,21 +67,33 @@ stand or, in the Matrice's case, its flight case.
 
 ## 5. How the catalog is checked
 
-Five gates, because each catches something the others cannot:
+Six gates, because each catches something the others cannot:
 
 - `npm run check:physics` — every preset against its published figures.
 - `npm run fuzz` — adversarial builds; every rendered number must be finite.
 - `npm run check:parts` — static. The span axis must measure what the manifest
   says, the tail must sit behind the wing, every role must have a mesh or a
-  cut, and every equipment item must still resolve to real geometry.
+  cut, every equipment item must still resolve to real geometry, and every part
+  name in the catalog must resolve back to its own role through the same
+  resolver the app uses.
 - `npm run check:geometry` — drives the real app across every airframe and
   operation, then asks the renderer where each mesh ended up. Catches parts
   drifting away from the aircraft, which no static check can see.
 - `npm run check:capability` — asks the prior question: does the change happen
   at all. A control that silently does nothing raises no error and looks right
   in a screenshot, which is how "how many" sat dead on stock wings for weeks.
+- `npm run check:removal` — taking one part off must not take the aircraft with
+  it. Its own failure mode: removing the Global Hawk's wing emptied the screen,
+  and nothing else noticed, because an aircraft that is simply gone has no
+  parts left to drift and the change did technically happen.
 
-The last two need a built app being served; they drive it with Playwright.
+The last three need a built app being served; they drive it with Playwright.
+
+Name resolution lives in one place, `src/lib/names.ts`. A part name has to
+survive the classifier writing it, the optimiser rewriting the file and three.js
+loading it, and it has broken at every one of those — each time appearing as a
+control that silently did nothing on one airframe. The renderer and the checks
+must ask the same resolver, or a gate passes on a rule the app does not follow.
 
 ## 6. Working agreement
 

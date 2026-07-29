@@ -16,6 +16,7 @@ import { AIRCRAFT, AIRCRAFT_BY_ID } from '../src/data/aircraft.generated'
 import { PAYLOADS } from '../src/data/catalog'
 import type { AircraftModel, PartRole } from '../src/types'
 import { SWAPPABLE_ROLES } from '../src/types'
+import { roleOf } from '../src/lib/names'
 
 /** Roles this airframe genuinely has, from the published spec and the meshes. */
 function rolesPresent(a: AircraftModel): PartRole[] {
@@ -103,6 +104,42 @@ for (const a of AIRCRAFT) {
         })
       }
     }
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Can the app still find its own parts by name?
+//
+// Every part in the catalog is a name the app has to match against a node in a
+// GLB, and that name has to survive the classifier writing it, the optimiser
+// rewriting the file, and three.js loading it. It has broken at each of those:
+// three.js sanitising names, multi-primitive meshes being renumbered, prune()
+// folding named nodes into their children, and a suffix being stripped that was
+// part of the name on Gazebo models.
+//
+// Every one of those failures looked the same from outside — a control that
+// silently did nothing on one airframe — and each was found by hand, one
+// airframe at a time. This asks the resolver the app actually uses to name each
+// part back, so the next way a name breaks fails the build instead.
+for (const a of AIRCRAFT) {
+  const unresolved: string[] = []
+  const misresolved: string[] = []
+  for (const p of a.parts) {
+    const got = roleOf(a, p.node)
+    if (got === null) unresolved.push(p.node)
+    else if (got !== p.role) misresolved.push(`${p.node} reads as ${got}, not ${p.role}`)
+  }
+  if (unresolved.length) {
+    problems.push({
+      id: a.id,
+      role: 'axes',
+      why:
+        `${unresolved.length} of ${a.parts.length} part name(s) do not resolve — ` +
+        `e.g. "${unresolved[0]}". Those parts cannot be removed or replaced.`,
+    })
+  }
+  if (misresolved.length) {
+    problems.push({ id: a.id, role: 'axes', why: `${misresolved.length} name(s) resolve to the wrong role: ${misresolved[0]}` })
   }
 }
 
