@@ -12,7 +12,8 @@
     "assets:repack": "node scripts/normalize.mjs && python3 scripts/classify.py && node scripts/optimize.mjs && node scripts/build-catalog.mjs",
     "check:physics": "tsx scripts/check-physics.ts",
     "fuzz": "tsx scripts/fuzz-physics.ts",
-    "check:parts": "tsx scripts/check-parts.ts"
+    "check:parts": "tsx scripts/check-parts.ts",
+    "check:geometry": "node scripts/geometry-sweep.mjs"
   },
   "dependencies": {
     "react": "^18.3.1",

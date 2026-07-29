@@ -226,7 +226,7 @@ export interface ViewerHandle {
    * times, is a transform NaN — across every airframe and every operation,
    * rather than a handful someone thought to look at.
    */
-  report(): MeshReport[]
+  report(): { buildId: string; meshes: MeshReport[] }
 }
 
 export function createViewer(container: HTMLElement): ViewerHandle {
@@ -321,6 +321,7 @@ export function createViewer(container: HTMLElement): ViewerHandle {
   let framedReach = 0
 
   let lastAssembly: THREE.Object3D | null = null
+  let lastBuildKey = ''
 
   function clearRoot() {
     for (const child of [...root.children]) root.remove(child)
@@ -903,6 +904,7 @@ export function createViewer(container: HTMLElement): ViewerHandle {
     assembly.position.sub(new THREE.Vector3(centre.x, box.min.y, centre.z))
     root.add(assembly)
     lastAssembly = assembly
+    lastBuildKey = JSON.stringify([build.baseId, build.slots, build.scale])
 
     // Now that the assembly has stopped moving, carry the cuts into world space,
     // which is the only space three.js clips in.
@@ -980,7 +982,11 @@ export function createViewer(container: HTMLElement): ViewerHandle {
     screenshot: () => renderer.domElement.toDataURL('image/png'),
     report() {
       const out: MeshReport[] = []
-      if (!lastAssembly) return out
+      // Stamped with the build it belongs to, so a test can tell the difference
+      // between "this aircraft has finished loading" and "you are still looking
+      // at the last one". Without it a slow model made every later reading look
+      // five times too big.
+      if (!lastAssembly) return { buildId: lastBuildKey, meshes: out }
       lastAssembly.updateMatrixWorld(true)
       const box = new THREE.Box3()
       lastAssembly.traverse((o) => {
@@ -999,7 +1005,7 @@ export function createViewer(container: HTMLElement): ViewerHandle {
           max: [box.max.x, box.max.y, box.max.z],
         })
       })
-      return out
+      return { buildId: lastBuildKey, meshes: out }
     },
     dispose() {
       disposed = true

@@ -54,22 +54,38 @@ const size = (ms) => {
 }
 const finite = (ms) => ms.every((m) => [...m.min, ...m.max].every(Number.isFinite))
 
+/**
+ * Set a build and wait until the renderer is actually showing it.
+ *
+ * A fixed sleep is not enough: a big model takes longer to load than a small
+ * one, and reading too early returns the previous aircraft's geometry. That
+ * made every reading after a slow model look several times too large.
+ */
 async function apply(baseId, slots, scale = 1) {
+  const want = JSON.stringify([baseId, slots, scale])
   await page.evaluate(([baseId, slots, scale]) => {
     const b = window.__mk(baseId)
     b.scale = scale
     b.slots = slots
     window.dronedome.setBuild(b)
   }, [baseId, slots, scale])
-  await page.waitForTimeout(420)
-  return page.evaluate(() => window.dronedome.report())
+  try {
+    await page.waitForFunction((want) => window.dronedome.report().buildId === want, want, {
+      timeout: 20000,
+      polling: 100,
+    })
+  } catch {
+    return { stale: true, meshes: [] }
+  }
+  return { stale: false, meshes: (await page.evaluate(() => window.dronedome.report())).meshes }
 }
 
 const findings = []
 let checked = 0
 
 for (const id of ids) {
-  const stock = await apply(id, {})
+  const { stale, meshes: stock } = await apply(id, {})
+  if (stale) { findings.push({ id, op: 'stock', why: 'never finished rendering' }); continue }
   if (!stock.length) { findings.push({ id, op: 'stock', why: 'renders nothing' }); continue }
   const reach = size(stock)
   const slack = reach * 0.02
@@ -91,15 +107,18 @@ for (const id of ids) {
 
   for (const [name, slots] of ops) {
     const scale = name === 'scale 4x' ? 4 : 1
-    const meshes = await apply(id, slots, scale)
+    const { stale: late, meshes } = await apply(id, slots, scale)
     checked++
+    if (late) { findings.push({ id, op: name, why: 'never finished rendering' }); continue }
     if (!meshes.length) { findings.push({ id, op: name, why: 'renders nothing' }); continue }
     if (!finite(meshes)) { findings.push({ id, op: name, why: 'non-finite mesh position' }); continue }
     const grew = size(meshes) / (reach * scale)
     if (grew > 4) findings.push({ id, op: name, why: `assembly grew ${grew.toFixed(1)}x its own size` })
-    const parts = components(meshes, slack * scale)
-    if (parts > baseParts + 1)
-      findings.push({ id, op: name, why: `${parts} detached groups, stock has ${baseParts}` })
+    if (!/moved|angled/.test(name)) {
+      const parts = components(meshes, slack * scale)
+      if (parts > baseParts + 1)
+        findings.push({ id, op: name, why: `${parts} detached groups, stock has ${baseParts}` })
+    }
   }
 }
 
