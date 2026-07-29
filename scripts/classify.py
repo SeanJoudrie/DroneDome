@@ -236,6 +236,18 @@ def classify(aid, spec):
         if p["node"] in overrides:
             p["role"] = overrides[p["node"]]
 
+    # ---- which end is the nose, take two ----------------------------------
+    # The first guess used the biggest symmetric pair, which on a Cessna is its
+    # ailerons - so it decided the wing was the tail and flew the aircraft
+    # backwards, with the centre of gravity and the fore/aft control inverted
+    # to match. Now that the roles are settled, including the overrides, the
+    # tail parts say which end is aft, because that is what a tail is.
+    tails = [p for p in parts if p["role"] == "tail"]
+    if tails:
+        mean_l = sum(p["l"] for p in tails) / len(tails)
+        if abs(mean_l) > total_len * 0.05:
+            aft_sign = 1.0 if mean_l > 0 else -1.0
+
     # Welded models can't toggle a node off, so a role can instead be defined as
     # a region of the mesh to clip away at runtime.
     #

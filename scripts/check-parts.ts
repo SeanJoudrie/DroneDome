@@ -57,6 +57,23 @@ for (const a of AIRCRAFT) {
   }
 }
 
+// A tail forward of the wing means the aircraft is oriented backwards, which
+// inverts the centre of gravity, the static margin and the fore/aft control.
+for (const a of AIRCRAFT) {
+  const station = (role: PartRole) => {
+    const ps = a.parts.filter((p) => p.role === role)
+    if (!ps.length) return null
+    return (
+      (ps.reduce((sum, p) => sum + p.center[a.axes.length], 0) / ps.length) * (a.aftSign || 1)
+    )
+  }
+  const tail = station('tail')
+  const wing = station('wing')
+  if (tail !== null && wing !== null && tail <= wing) {
+    problems.push({ id: a.id, role: 'axes', why: 'tail sits forward of the wing — nose and tail are swapped' })
+  }
+}
+
 for (const a of AIRCRAFT) {
   for (const role of rolesPresent(a)) {
     const nodes = a.parts.filter((p) => p.role === role)
