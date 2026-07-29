@@ -296,6 +296,10 @@ export function createViewer(container: HTMLElement): ViewerHandle {
       const mat = (m as THREE.Material).clone()
       mat.clippingPlanes = planes
       mat.clipIntersection = union
+      // Off by default, and without it the shadow pass ignores the planes — a
+      // Global Hawk with its wings removed still laid a full 40 m wingspan of
+      // shadow across the grid.
+      mat.clipShadows = true
       mat.side = THREE.DoubleSide
       mat.needsUpdate = true
       return mat
@@ -519,11 +523,28 @@ export function createViewer(container: HTMLElement): ViewerHandle {
       const span = new THREE.Box3().setFromObject(baseClone)
       const midX = (span.max.x + span.min.x) / 2
       const edge = Math.max((span.max.x - span.min.x) * 0.05, 1e-4)
+      const bounds = new THREE.Box3()
       const centre = new THREE.Vector3()
       const nodes: THREE.Object3D[] = []
+      // Dihedral and sweep are mirrored, so a part that reaches across the
+      // centreline has to become two halves first. The MQ-9's wing is one mesh
+      // spanning both tips; rotating it whole banks the aircraft instead of
+      // raising both tips together.
+      const mirrored = !!(place.rollDeg || place.yawDeg)
       baseClone.traverse((o) => {
         if (roleOf(base, o.name) !== role || !(o as THREE.Mesh).isMesh) return
-        new THREE.Box3().setFromObject(o).getCenter(centre)
+        bounds.setFromObject(o).getCenter(centre)
+        const straddles = bounds.min.x < midX - edge && bounds.max.x > midX + edge
+        if (mirrored && straddles) {
+          const other = (o as THREE.Mesh).clone(false)
+          o.parent?.add(other)
+          clipMaterials(o as THREE.Mesh, [planeBelow(0, midX)], false)
+          clipMaterials(other, [planeAbove(0, midX)], false)
+          o.userData.ddSide = 'left'
+          other.userData.ddSide = 'right'
+          nodes.push(o, other)
+          return
+        }
         const dx = centre.x - midX
         o.userData.ddSide = dx > edge ? 'right' : dx < -edge ? 'left' : 'center'
         nodes.push(o)
