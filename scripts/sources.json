@@ -833,6 +833,160 @@
         "endurance_h": 0.3,
         "ceiling_m": 5000
       }
+    },
+    {
+      "id": "px4-vtol",
+      "name": "Standard VTOL",
+      "family": "experimental",
+      "blurb": "Quadplane. Four rotors to get up, a wing and a pusher to go anywhere.",
+      "source": {
+        "kind": "fuel",
+        "owner": "PX4",
+        "model": "Standard VTOL",
+        "author": "PX4 / Open Robotics",
+        "license": "BSD-3-Clause",
+        "url": "https://app.gazebosim.org/PX4/fuel/models/Standard%20VTOL"
+      },
+      "spec": {
+        "span_m": 2.0,
+        "length_m": 1.2,
+        "wing_area_m2": 0.45,
+        "empty_mass_kg": 5.025,
+        "mtow_kg": 7.0,
+        "powertrain": "electric",
+        "rotors": 4,
+        "rotor_diameter_m": 0.254,
+        "battery_wh": 74,
+        "battery_cells": 6,
+        "payload_kg": 1.97,
+        "cruise_kmh": 60,
+        "max_speed_kmh": 90,
+        "endurance_h": 0.5,
+        "ceiling_m": 1500
+      }
+    },
+    {
+      "id": "px4-tailsitter",
+      "name": "Quad tailsitter",
+      "family": "experimental",
+      "blurb": "Sits on its tail, takes off straight up, then tips over and flies on its wing.",
+      "source": {
+        "kind": "fuel",
+        "owner": "PX4",
+        "model": "quadtailsitter",
+        "author": "PX4 / Open Robotics",
+        "license": "BSD-3-Clause",
+        "url": "https://app.gazebosim.org/PX4/fuel/models/quadtailsitter"
+      },
+      "spec": {
+        "span_m": 1.0,
+        "length_m": 0.6,
+        "wing_area_m2": 0.25,
+        "empty_mass_kg": 1.62,
+        "mtow_kg": 2.4,
+        "powertrain": "electric",
+        "rotors": 4,
+        "rotor_diameter_m": 0.203,
+        "battery_wh": 22,
+        "battery_cells": 4,
+        "payload_kg": 0.78,
+        "cruise_kmh": 55,
+        "max_speed_kmh": 80,
+        "endurance_h": 0.4,
+        "ceiling_m": 1000
+      }
+    },
+    {
+      "id": "px4-tiltrotor",
+      "name": "Tiltrotor VTOL",
+      "family": "experimental",
+      "blurb": "The rotors themselves swivel forward. No dead weight once it is up.",
+      "source": {
+        "kind": "fuel",
+        "owner": "PX4",
+        "model": "tiltrotor",
+        "author": "PX4 / Open Robotics",
+        "license": "BSD-3-Clause",
+        "url": "https://app.gazebosim.org/PX4/fuel/models/tiltrotor"
+      },
+      "spec": {
+        "span_m": 2.0,
+        "length_m": 1.1,
+        "wing_area_m2": 0.4,
+        "empty_mass_kg": 5.12,
+        "mtow_kg": 7.0,
+        "powertrain": "electric",
+        "rotors": 4,
+        "rotor_diameter_m": 0.254,
+        "battery_wh": 74,
+        "battery_cells": 6,
+        "payload_kg": 1.88,
+        "cruise_kmh": 65,
+        "max_speed_kmh": 95,
+        "endurance_h": 0.5,
+        "ceiling_m": 1500
+      }
+    },
+    {
+      "id": "px4-omnicopter",
+      "name": "Omnicopter",
+      "family": "experimental",
+      "blurb": "Eight rotors, none of them pointing the same way. Can hold any attitude it likes.",
+      "source": {
+        "kind": "fuel",
+        "owner": "PX4",
+        "model": "Omnicopter",
+        "author": "PX4 / Open Robotics",
+        "license": "BSD-3-Clause",
+        "url": "https://app.gazebosim.org/PX4/fuel/models/Omnicopter"
+      },
+      "spec": {
+        "span_m": 0.6,
+        "length_m": 0.6,
+        "empty_mass_kg": 1.54,
+        "mtow_kg": 2.3,
+        "powertrain": "electric",
+        "rotors": 8,
+        "rotor_diameter_m": 0.152,
+        "battery_wh": 35.7,
+        "battery_cells": 4,
+        "payload_kg": 0.76,
+        "cruise_kmh": 30,
+        "max_speed_kmh": 50,
+        "endurance_h": 0.2,
+        "ceiling_m": 500
+      }
+    },
+    {
+      "id": "px4-plane",
+      "name": "Advanced Plane",
+      "family": "experimental",
+      "blurb": "Plain fixed-wing trainer. The airframe every autopilot is tuned against first.",
+      "source": {
+        "kind": "fuel",
+        "owner": "PX4",
+        "model": "Advanced Plane",
+        "author": "PX4 / Open Robotics",
+        "license": "BSD-3-Clause",
+        "url": "https://app.gazebosim.org/PX4/fuel/models/Advanced%20Plane"
+      },
+      "spec": {
+        "span_m": 2.0,
+        "length_m": 1.1,
+        "wing_area_m2": 0.3,
+        "empty_mass_kg": 1.005,
+        "mtow_kg": 1.8,
+        "powertrain": "electric",
+        "rotors": 1,
+        "rotor_diameter_m": 0.254,
+        "battery_wh": 22,
+        "battery_cells": 4,
+        "payload_kg": 0.8,
+        "cruise_kmh": 60,
+        "max_speed_kmh": 100,
+        "endurance_h": 0.6,
+        "ceiling_m": 1500
+      }
     }
   ]
 }

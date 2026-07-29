@@ -1129,7 +1129,7 @@ export const AIRCRAFT: AircraftModel[] = [
     "hidden": [],
     "parts": [
       {
-        "node": "Global Hawk_177b6e",
+        "node": "Global Hawk_66c1ea",
         "group": "Global Hawk",
         "role": "wing",
         "side": "center",
@@ -1146,7 +1146,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": true
       },
       {
-        "node": "Global Hawk_055fc4",
+        "node": "Global Hawk_31eba6",
         "group": "Global Hawk",
         "role": "gear",
         "side": "center",
@@ -1163,7 +1163,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": true
       },
       {
-        "node": "Global Hawk_69a0f2",
+        "node": "Global Hawk_4728a3",
         "group": "Global Hawk",
         "role": "body",
         "side": "center",
@@ -1180,7 +1180,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": false
       },
       {
-        "node": "Global Hawk_83295e",
+        "node": "Global Hawk_5baa04",
         "group": "Global Hawk",
         "role": "body",
         "side": "center",
@@ -1197,7 +1197,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": false
       },
       {
-        "node": "Global Hawk_aefe08",
+        "node": "Global Hawk_b89a5d",
         "group": "Global Hawk",
         "role": "body",
         "side": "center",
@@ -1214,7 +1214,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": false
       },
       {
-        "node": "Global Hawk_87c616",
+        "node": "Global Hawk_4789f5",
         "group": "Global Hawk",
         "role": "body",
         "side": "center",
@@ -1284,7 +1284,7 @@ export const AIRCRAFT: AircraftModel[] = [
     "hidden": [],
     "parts": [
       {
-        "node": "rotors_02_ef5986",
+        "node": "rotors_02_b646e1",
         "group": "rotors_02",
         "role": "rotor",
         "side": "center",
@@ -1301,7 +1301,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": true
       },
       {
-        "node": "rotors_01_10b74a",
+        "node": "rotors_01_058fc3",
         "group": "rotors_01",
         "role": "rotor",
         "side": "center",
@@ -1318,7 +1318,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": true
       },
       {
-        "node": "rotors_02_ed2877",
+        "node": "rotors_02_afe4bf",
         "group": "rotors_02",
         "role": "rotor",
         "side": "center",
@@ -1335,7 +1335,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": true
       },
       {
-        "node": "rotors_01_d9715e",
+        "node": "rotors_01_b3cd57",
         "group": "rotors_01",
         "role": "rotor",
         "side": "center",
@@ -1352,7 +1352,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": true
       },
       {
-        "node": "parts_02_cd04b1",
+        "node": "parts_02_da8480",
         "group": "parts_02",
         "role": "body",
         "side": "center",
@@ -1369,7 +1369,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": false
       },
       {
-        "node": "parts_01_0ce452",
+        "node": "parts_01_bfeac4",
         "group": "parts_01",
         "role": "body",
         "side": "center",
@@ -1386,7 +1386,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": false
       },
       {
-        "node": "leg_04_1e3a50",
+        "node": "leg_04_3dcac9",
         "group": "leg_04",
         "role": "gear",
         "side": "right",
@@ -1403,7 +1403,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": true
       },
       {
-        "node": "leg_03_73cd93",
+        "node": "leg_03_d8fe45",
         "group": "leg_03",
         "role": "gear",
         "side": "left",
@@ -1420,7 +1420,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": true
       },
       {
-        "node": "leg_02_4e344d",
+        "node": "leg_02_ac5a0d",
         "group": "leg_02",
         "role": "gear",
         "side": "right",
@@ -1437,7 +1437,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": true
       },
       {
-        "node": "leg_01_ecd7e3",
+        "node": "leg_01_e91f1f",
         "group": "leg_01",
         "role": "gear",
         "side": "left",
@@ -1454,7 +1454,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": true
       },
       {
-        "node": "solar_panel_479285",
+        "node": "solar_panel_e108ed",
         "group": "solar_panel",
         "role": "solar",
         "side": "center",
@@ -1471,7 +1471,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": true
       },
       {
-        "node": "leg_04_416c19",
+        "node": "leg_04_8b24cf",
         "group": "leg_04",
         "role": "gear",
         "side": "right",
@@ -1488,7 +1488,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": true
       },
       {
-        "node": "leg_03_784ca8",
+        "node": "leg_03_183ae9",
         "group": "leg_03",
         "role": "gear",
         "side": "left",
@@ -1505,7 +1505,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": true
       },
       {
-        "node": "leg_02_ccf843",
+        "node": "leg_02_098d38",
         "group": "leg_02",
         "role": "gear",
         "side": "right",
@@ -1522,7 +1522,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": true
       },
       {
-        "node": "leg_01_179b29",
+        "node": "leg_01_f312a2",
         "group": "leg_01",
         "role": "gear",
         "side": "left",
@@ -1539,7 +1539,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": true
       },
       {
-        "node": "rotors_02_76fbf4",
+        "node": "rotors_02_bb9356",
         "group": "rotors_02",
         "role": "rotor",
         "side": "center",
@@ -1556,7 +1556,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": true
       },
       {
-        "node": "rotors_01_c6cf71",
+        "node": "rotors_01_88e0b7",
         "group": "rotors_01",
         "role": "rotor",
         "side": "center",
@@ -1573,7 +1573,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": true
       },
       {
-        "node": "bus_a20faf",
+        "node": "bus_a5e92f",
         "group": "bus",
         "role": "body",
         "side": "center",
@@ -1590,7 +1590,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": false
       },
       {
-        "node": "leg_04_99ca75",
+        "node": "leg_04_4c09a4",
         "group": "leg_04",
         "role": "gear",
         "side": "right",
@@ -1607,7 +1607,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": true
       },
       {
-        "node": "leg_03_eaebae",
+        "node": "leg_03_50e8b0",
         "group": "leg_03",
         "role": "gear",
         "side": "left",
@@ -1624,7 +1624,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": true
       },
       {
-        "node": "leg_02_db78db",
+        "node": "leg_02_057709",
         "group": "leg_02",
         "role": "gear",
         "side": "right",
@@ -1641,7 +1641,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": true
       },
       {
-        "node": "leg_01_1b7778",
+        "node": "leg_01_0c1307",
         "group": "leg_01",
         "role": "gear",
         "side": "left",
@@ -1658,7 +1658,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": true
       },
       {
-        "node": "parts_02_da92a3",
+        "node": "parts_02_c65b12",
         "group": "parts_02",
         "role": "body",
         "side": "center",
@@ -1675,7 +1675,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": false
       },
       {
-        "node": "parts_01_3f2d2f",
+        "node": "parts_01_37a3ed",
         "group": "parts_01",
         "role": "body",
         "side": "center",
@@ -1692,7 +1692,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": false
       },
       {
-        "node": "parts_02_2bb442",
+        "node": "parts_02_4673ca",
         "group": "parts_02",
         "role": "body",
         "side": "center",
@@ -1709,7 +1709,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": false
       },
       {
-        "node": "parts_01_abc499",
+        "node": "parts_01_99bc63",
         "group": "parts_01",
         "role": "body",
         "side": "center",
@@ -1726,7 +1726,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": false
       },
       {
-        "node": "solar_panel_e08c13",
+        "node": "solar_panel_979aef",
         "group": "solar_panel",
         "role": "solar",
         "side": "right",
@@ -1743,7 +1743,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": true
       },
       {
-        "node": "bus_f382d2",
+        "node": "bus_045fad",
         "group": "bus",
         "role": "body",
         "side": "center",
@@ -1760,7 +1760,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": false
       },
       {
-        "node": "solar_panel_73e97e",
+        "node": "solar_panel_c05bcd",
         "group": "solar_panel",
         "role": "solar",
         "side": "center",
@@ -1777,7 +1777,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": true
       },
       {
-        "node": "rotors_01_2f4ac9",
+        "node": "rotors_01_81d2f0",
         "group": "rotors_01",
         "role": "rotor",
         "side": "center",
@@ -1794,7 +1794,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": true
       },
       {
-        "node": "bus_4b2194",
+        "node": "bus_d5b0e6",
         "group": "bus",
         "role": "body",
         "side": "center",
@@ -1811,7 +1811,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": false
       },
       {
-        "node": "cams_4902bb",
+        "node": "cams_c0607c",
         "group": "cams",
         "role": "payload",
         "side": "center",
@@ -1828,7 +1828,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": true
       },
       {
-        "node": "rotors_02_9bfede",
+        "node": "rotors_02_f519f2",
         "group": "rotors_02",
         "role": "rotor",
         "side": "center",
@@ -1845,7 +1845,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": true
       },
       {
-        "node": "solar_panel_c32283",
+        "node": "solar_panel_633dd8",
         "group": "solar_panel",
         "role": "solar",
         "side": "center",
@@ -1862,7 +1862,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": true
       },
       {
-        "node": "cams_efc502",
+        "node": "cams_e0b481",
         "group": "cams",
         "role": "payload",
         "side": "center",
@@ -15070,6 +15070,926 @@ export const AIRCRAFT: AircraftModel[] = [
       "license": "CC-BY-4.0",
       "licenseName": "CC Attribution 4.0",
       "url": "https://sketchfab.com/3d-models/dji-avata-b338aae3a00145dc8dbb7c60135ba2bb"
+    }
+  },
+  {
+    "id": "px4-vtol",
+    "name": "Standard VTOL",
+    "family": "experimental",
+    "blurb": "Quadplane. Four rotors to get up, a wing and a pusher to go anywhere.",
+    "environment": "earth",
+    "model": "models/px4-vtol.glb",
+    "spec": {
+      "span_m": 2,
+      "length_m": 1.2,
+      "wing_area_m2": 0.45,
+      "empty_mass_kg": 5.025,
+      "mtow_kg": 7,
+      "powertrain": "electric",
+      "rotors": 4,
+      "rotor_diameter_m": 0.254,
+      "battery_wh": 74,
+      "battery_cells": 6,
+      "payload_kg": 1.97,
+      "cruise_kmh": 60,
+      "max_speed_kmh": 90,
+      "endurance_h": 0.5,
+      "ceiling_m": 1500
+    },
+    "axes": {
+      "span": 1,
+      "length": 0,
+      "vertical": 2
+    },
+    "aftSign": -1,
+    "scaleToMetres": 0.9298794459057069,
+    "modelExtent": [
+      1.01303950420589,
+      2.150816440567724,
+      0.3073487880810744
+    ],
+    "origin": [
+      0.023245047885034287,
+      0.00350168037430465,
+      0.05401959404422335
+    ],
+    "cuts": {
+      "wing": {
+        "axis": 1,
+        "axisName": "span",
+        "keep": 0.129049,
+        "origin": 0.003502
+      }
+    },
+    "hidden": [],
+    "parts": [
+      {
+        "node": "base_link",
+        "group": "base_link",
+        "role": "body",
+        "side": "center",
+        "center": [
+          0.04113,
+          0,
+          0
+        ],
+        "size": [
+          0.93077,
+          2.15082,
+          0.30735
+        ],
+        "swappable": false
+      },
+      {
+        "node": "rotor_puller",
+        "group": "rotor_puller",
+        "role": "rotor",
+        "side": "center",
+        "center": [
+          -0.28336,
+          -0.00385,
+          -0.05053
+        ],
+        "size": [
+          0.00827,
+          0.02244,
+          0.20619
+        ],
+        "swappable": true
+      },
+      {
+        "node": "rotor_3",
+        "group": "rotor_3",
+        "role": "rotor",
+        "side": "right",
+        "center": [
+          -0.37765,
+          -0.35393,
+          0.01585
+        ],
+        "size": [
+          0.25774,
+          0.02804,
+          0.01031
+        ],
+        "swappable": true
+      },
+      {
+        "node": "rotor_2",
+        "group": "rotor_2",
+        "role": "rotor",
+        "side": "left",
+        "center": [
+          0.32235,
+          0.34607,
+          0.01585
+        ],
+        "size": [
+          0.25774,
+          0.02804,
+          0.01031
+        ],
+        "swappable": true
+      },
+      {
+        "node": "rotor_1",
+        "group": "rotor_1",
+        "role": "rotor",
+        "side": "left",
+        "center": [
+          -0.37765,
+          0.34607,
+          0.01585
+        ],
+        "size": [
+          0.25774,
+          0.02804,
+          0.01031
+        ],
+        "swappable": true
+      },
+      {
+        "node": "rotor_0",
+        "group": "rotor_0",
+        "role": "rotor",
+        "side": "right",
+        "center": [
+          0.32235,
+          -0.35393,
+          0.01585
+        ],
+        "size": [
+          0.25774,
+          0.02804,
+          0.01031
+        ],
+        "swappable": true
+      },
+      {
+        "node": "right_elevon",
+        "group": "right_elevon",
+        "role": "wing",
+        "side": "right",
+        "center": [
+          -0.26203,
+          -0.73704,
+          -0.05977
+        ],
+        "size": [
+          0.18358,
+          0.485,
+          0.01157
+        ],
+        "swappable": true
+      },
+      {
+        "node": "left_elevon",
+        "group": "left_elevon",
+        "role": "wing",
+        "side": "left",
+        "center": [
+          -0.26291,
+          0.738,
+          -0.05977
+        ],
+        "size": [
+          0.18358,
+          0.485,
+          0.01157
+        ],
+        "swappable": true
+      }
+    ],
+    "credit": {
+      "author": "PX4 / Open Robotics",
+      "license": "BSD-3-Clause",
+      "licenseName": "BSD 3-Clause",
+      "url": "https://app.gazebosim.org/PX4/fuel/models/Standard%20VTOL"
+    }
+  },
+  {
+    "id": "px4-tailsitter",
+    "name": "Quad tailsitter",
+    "family": "experimental",
+    "blurb": "Sits on its tail, takes off straight up, then tips over and flies on its wing.",
+    "environment": "earth",
+    "model": "models/px4-tailsitter.glb",
+    "spec": {
+      "span_m": 1,
+      "length_m": 0.6,
+      "wing_area_m2": 0.25,
+      "empty_mass_kg": 1.62,
+      "mtow_kg": 2.4,
+      "powertrain": "electric",
+      "rotors": 4,
+      "rotor_diameter_m": 0.203,
+      "battery_wh": 22,
+      "battery_cells": 4,
+      "payload_kg": 0.78,
+      "cruise_kmh": 55,
+      "max_speed_kmh": 80,
+      "endurance_h": 0.4,
+      "ceiling_m": 1000
+    },
+    "axes": {
+      "span": 1,
+      "length": 0,
+      "vertical": 2
+    },
+    "aftSign": -1,
+    "scaleToMetres": 0.9345482437366108,
+    "modelExtent": [
+      0.5475765092472888,
+      1.0700357169381571,
+      0.5020089894533157
+    ],
+    "origin": [
+      -0.002473247873905682,
+      -0.0000036815656340172254,
+      0.45622249096632006
+    ],
+    "cuts": {
+      "wing": {
+        "axis": 1,
+        "axisName": "span",
+        "keep": 0.080253,
+        "origin": -0.000004
+      }
+    },
+    "hidden": [],
+    "parts": [
+      {
+        "node": "base_link",
+        "group": "base_link",
+        "role": "body",
+        "side": "center",
+        "center": [
+          -0.00229,
+          0,
+          0
+        ],
+        "size": [
+          0.33571,
+          1.07004,
+          0.50201
+        ],
+        "swappable": false
+      },
+      {
+        "node": "rotor_3",
+        "group": "rotor_3",
+        "role": "rotor",
+        "side": "right",
+        "center": [
+          -0.14319,
+          -0.22978,
+          0.00473
+        ],
+        "size": [
+          0.25405,
+          0.02828,
+          0.04468
+        ],
+        "swappable": true
+      },
+      {
+        "node": "rotor_2",
+        "group": "rotor_2",
+        "role": "rotor",
+        "side": "left",
+        "center": [
+          0.14677,
+          0.22998,
+          0.00446
+        ],
+        "size": [
+          0.25405,
+          0.02828,
+          0.04468
+        ],
+        "swappable": true
+      },
+      {
+        "node": "rotor_1",
+        "group": "rotor_1",
+        "role": "rotor",
+        "side": "left",
+        "center": [
+          -0.14679,
+          0.22946,
+          0.00538
+        ],
+        "size": [
+          0.254,
+          0.02828,
+          0.04466
+        ],
+        "swappable": true
+      },
+      {
+        "node": "rotor_0",
+        "group": "rotor_0",
+        "role": "rotor",
+        "side": "right",
+        "center": [
+          0.14312,
+          -0.2303,
+          0.00374
+        ],
+        "size": [
+          0.25405,
+          0.02829,
+          0.04468
+        ],
+        "swappable": true
+      }
+    ],
+    "credit": {
+      "author": "PX4 / Open Robotics",
+      "license": "BSD-3-Clause",
+      "licenseName": "BSD 3-Clause",
+      "url": "https://app.gazebosim.org/PX4/fuel/models/quadtailsitter"
+    }
+  },
+  {
+    "id": "px4-tiltrotor",
+    "name": "Tiltrotor VTOL",
+    "family": "experimental",
+    "blurb": "The rotors themselves swivel forward. No dead weight once it is up.",
+    "environment": "earth",
+    "model": "models/px4-tiltrotor.glb",
+    "spec": {
+      "span_m": 2,
+      "length_m": 1.1,
+      "wing_area_m2": 0.4,
+      "empty_mass_kg": 5.12,
+      "mtow_kg": 7,
+      "powertrain": "electric",
+      "rotors": 4,
+      "rotor_diameter_m": 0.254,
+      "battery_wh": 74,
+      "battery_cells": 6,
+      "payload_kg": 1.88,
+      "cruise_kmh": 65,
+      "max_speed_kmh": 95,
+      "endurance_h": 0.5,
+      "ceiling_m": 1500
+    },
+    "axes": {
+      "span": 1,
+      "length": 0,
+      "vertical": 2
+    },
+    "aftSign": -1,
+    "scaleToMetres": 0.9298794459057069,
+    "modelExtent": [
+      1.01303950420589,
+      2.150816440567724,
+      0.3073487880810744
+    ],
+    "origin": [
+      0.023245047885034287,
+      0.00350168037430465,
+      0.05401959404422335
+    ],
+    "cuts": {
+      "wing": {
+        "axis": 1,
+        "axisName": "span",
+        "keep": 0.129049,
+        "origin": 0.003502
+      }
+    },
+    "hidden": [],
+    "parts": [
+      {
+        "node": "base_link",
+        "group": "base_link",
+        "role": "body",
+        "side": "center",
+        "center": [
+          0.04113,
+          0,
+          0
+        ],
+        "size": [
+          0.93077,
+          2.15082,
+          0.30735
+        ],
+        "swappable": false
+      },
+      {
+        "node": "rotor_3",
+        "group": "rotor_3",
+        "role": "rotor",
+        "side": "right",
+        "center": [
+          -0.37394,
+          -0.3534,
+          0.01588
+        ],
+        "size": [
+          0.25768,
+          0.02804,
+          0.01031
+        ],
+        "swappable": true
+      },
+      {
+        "node": "rotor_2",
+        "group": "rotor_2",
+        "role": "rotor",
+        "side": "left",
+        "center": [
+          0.32606,
+          0.3466,
+          0.01588
+        ],
+        "size": [
+          0.25768,
+          0.02804,
+          0.01031
+        ],
+        "swappable": true
+      },
+      {
+        "node": "rotor_1",
+        "group": "rotor_1",
+        "role": "rotor",
+        "side": "left",
+        "center": [
+          -0.37765,
+          0.34607,
+          0.01585
+        ],
+        "size": [
+          0.25774,
+          0.02804,
+          0.01031
+        ],
+        "swappable": true
+      },
+      {
+        "node": "rotor_0",
+        "group": "rotor_0",
+        "role": "rotor",
+        "side": "right",
+        "center": [
+          0.32235,
+          -0.35393,
+          0.01585
+        ],
+        "size": [
+          0.25774,
+          0.02804,
+          0.01031
+        ],
+        "swappable": true
+      },
+      {
+        "node": "right_elevon",
+        "group": "right_elevon",
+        "role": "wing",
+        "side": "right",
+        "center": [
+          -0.26203,
+          -0.73704,
+          -0.05977
+        ],
+        "size": [
+          0.18358,
+          0.485,
+          0.01157
+        ],
+        "swappable": true
+      },
+      {
+        "node": "left_elevon",
+        "group": "left_elevon",
+        "role": "wing",
+        "side": "left",
+        "center": [
+          -0.26291,
+          0.738,
+          -0.05977
+        ],
+        "size": [
+          0.18358,
+          0.485,
+          0.01157
+        ],
+        "swappable": true
+      }
+    ],
+    "credit": {
+      "author": "PX4 / Open Robotics",
+      "license": "BSD-3-Clause",
+      "licenseName": "BSD 3-Clause",
+      "url": "https://app.gazebosim.org/PX4/fuel/models/tiltrotor"
+    }
+  },
+  {
+    "id": "px4-omnicopter",
+    "name": "Omnicopter",
+    "family": "experimental",
+    "blurb": "Eight rotors, none of them pointing the same way. Can hold any attitude it likes.",
+    "environment": "earth",
+    "model": "models/px4-omnicopter.glb",
+    "spec": {
+      "span_m": 0.6,
+      "length_m": 0.6,
+      "empty_mass_kg": 1.54,
+      "mtow_kg": 2.3,
+      "powertrain": "electric",
+      "rotors": 8,
+      "rotor_diameter_m": 0.152,
+      "battery_wh": 35.7,
+      "battery_cells": 4,
+      "payload_kg": 0.76,
+      "cruise_kmh": 30,
+      "max_speed_kmh": 50,
+      "endurance_h": 0.2,
+      "ceiling_m": 500
+    },
+    "axes": {
+      "span": 1,
+      "length": 2,
+      "vertical": 0
+    },
+    "aftSign": 1,
+    "scaleToMetres": 1.619405720404423,
+    "modelExtent": [
+      0.37044040113687515,
+      0.37050628662109375,
+      0.3704753816127777
+    ],
+    "origin": [
+      0.0026909713447093864,
+      -0.009661353826522834,
+      -0.011659201979637157
+    ],
+    "cuts": {},
+    "hidden": [],
+    "parts": [
+      {
+        "node": "base_link",
+        "group": "base_link",
+        "role": "body",
+        "side": "center",
+        "center": [
+          0,
+          0,
+          0
+        ],
+        "size": [
+          0.37044,
+          0.37051,
+          0.37048
+        ],
+        "swappable": false
+      },
+      {
+        "node": "rotor_7",
+        "group": "rotor_7",
+        "role": "rotor",
+        "side": "right",
+        "center": [
+          -0.1029,
+          -0.09045,
+          -0.0885
+        ],
+        "size": [
+          0.07828,
+          0.02266,
+          0.1018
+        ],
+        "swappable": true
+      },
+      {
+        "node": "rotor_6",
+        "group": "rotor_6",
+        "role": "rotor",
+        "side": "right",
+        "center": [
+          0.09705,
+          -0.09027,
+          -0.08817
+        ],
+        "size": [
+          0.11567,
+          0.05283,
+          0.03216
+        ],
+        "swappable": true
+      },
+      {
+        "node": "rotor_5",
+        "group": "rotor_5",
+        "role": "rotor",
+        "side": "left",
+        "center": [
+          -0.1031,
+          0.10982,
+          -0.08824
+        ],
+        "size": [
+          0.11567,
+          0.05283,
+          0.03216
+        ],
+        "swappable": true
+      },
+      {
+        "node": "rotor_4",
+        "group": "rotor_4",
+        "role": "rotor",
+        "side": "left",
+        "center": [
+          0.09711,
+          0.10979,
+          -0.08793
+        ],
+        "size": [
+          0.07828,
+          0.02266,
+          0.1018
+        ],
+        "swappable": true
+      },
+      {
+        "node": "rotor_3",
+        "group": "rotor_3",
+        "role": "rotor",
+        "side": "right",
+        "center": [
+          -0.10289,
+          -0.09021,
+          0.11207
+        ],
+        "size": [
+          0.07828,
+          0.02266,
+          0.1018
+        ],
+        "swappable": true
+      },
+      {
+        "node": "rotor_2",
+        "group": "rotor_2",
+        "role": "rotor",
+        "side": "right",
+        "center": [
+          0.0969,
+          -0.09018,
+          0.11176
+        ],
+        "size": [
+          0.11567,
+          0.05283,
+          0.03216
+        ],
+        "swappable": true
+      },
+      {
+        "node": "rotor_1",
+        "group": "rotor_1",
+        "role": "rotor",
+        "side": "left",
+        "center": [
+          -0.1046,
+          0.11098,
+          0.11177
+        ],
+        "size": [
+          0.11645,
+          0.052,
+          0.0312
+        ],
+        "swappable": true
+      },
+      {
+        "node": "rotor_0",
+        "group": "rotor_0",
+        "role": "rotor",
+        "side": "left",
+        "center": [
+          0.0958,
+          0.1096,
+          0.10994
+        ],
+        "size": [
+          0.07813,
+          0.02191,
+          0.10206
+        ],
+        "swappable": true
+      }
+    ],
+    "credit": {
+      "author": "PX4 / Open Robotics",
+      "license": "BSD-3-Clause",
+      "licenseName": "BSD 3-Clause",
+      "url": "https://app.gazebosim.org/PX4/fuel/models/Omnicopter"
+    }
+  },
+  {
+    "id": "px4-plane",
+    "name": "Advanced Plane",
+    "family": "experimental",
+    "blurb": "Plain fixed-wing trainer. The airframe every autopilot is tuned against first.",
+    "environment": "earth",
+    "model": "models/px4-plane.glb",
+    "spec": {
+      "span_m": 2,
+      "length_m": 1.1,
+      "wing_area_m2": 0.3,
+      "empty_mass_kg": 1.005,
+      "mtow_kg": 1.8,
+      "powertrain": "electric",
+      "rotors": 1,
+      "rotor_diameter_m": 0.254,
+      "battery_wh": 22,
+      "battery_cells": 4,
+      "payload_kg": 0.8,
+      "cruise_kmh": 60,
+      "max_speed_kmh": 100,
+      "endurance_h": 0.6,
+      "ceiling_m": 1500
+    },
+    "axes": {
+      "span": 1,
+      "length": 0,
+      "vertical": 2
+    },
+    "aftSign": 1,
+    "scaleToMetres": 0.04604555329460049,
+    "modelExtent": [
+      31.564301013946533,
+      43.43524742126465,
+      10.322258472442627
+    ],
+    "origin": [
+      -10.4343466091156,
+      0.01959514617919922,
+      3.6714750957489013
+    ],
+    "cuts": {
+      "wing": {
+        "axis": 1,
+        "axisName": "span",
+        "keep": 2.171762,
+        "origin": 0.019595,
+        "bandLength": [
+          -4.734645,
+          14.203935
+        ]
+      }
+    },
+    "hidden": [],
+    "parts": [
+      {
+        "node": "base_link",
+        "group": "base_link",
+        "role": "body",
+        "side": "center",
+        "center": [
+          0.76146,
+          0,
+          0
+        ],
+        "size": [
+          30.04139,
+          43.43525,
+          10.32226
+        ],
+        "swappable": false
+      },
+      {
+        "node": "rotor_puller",
+        "group": "rotor_puller",
+        "role": "rotor",
+        "side": "center",
+        "center": [
+          10.6442,
+          -0.02003,
+          -3.66714
+        ],
+        "size": [
+          0.01034,
+          0.02804,
+          0.25774
+        ],
+        "swappable": true
+      },
+      {
+        "node": "rudder",
+        "group": "rudder",
+        "role": "tail",
+        "side": "center",
+        "center": [
+          -13.58616,
+          0.02231,
+          1.1946
+        ],
+        "size": [
+          4.39197,
+          0.3404,
+          7.11346
+        ],
+        "swappable": true
+      },
+      {
+        "node": "elevator",
+        "group": "elevator",
+        "role": "tail",
+        "side": "center",
+        "center": [
+          -12.43604,
+          0.02517,
+          -1.48842
+        ],
+        "size": [
+          2.23557,
+          11.77849,
+          0.27835
+        ],
+        "swappable": true
+      },
+      {
+        "node": "right_elevon",
+        "group": "right_elevon",
+        "role": "wing",
+        "side": "right",
+        "center": [
+          3.87819,
+          -14.53897,
+          2.08378
+        ],
+        "size": [
+          2.13414,
+          8.82223,
+          0.78866
+        ],
+        "swappable": true
+      },
+      {
+        "node": "left_elevon",
+        "group": "left_elevon",
+        "role": "wing",
+        "side": "left",
+        "center": [
+          3.92894,
+          14.54497,
+          2.08378
+        ],
+        "size": [
+          2.16487,
+          8.81452,
+          0.78866
+        ],
+        "swappable": true
+      },
+      {
+        "node": "right_flap",
+        "group": "right_flap",
+        "role": "wing",
+        "side": "right",
+        "center": [
+          3.50399,
+          -6.17867,
+          1.82862
+        ],
+        "size": [
+          1.51817,
+          7.90999,
+          0.85052
+        ],
+        "swappable": true
+      },
+      {
+        "node": "left_flap",
+        "group": "left_flap",
+        "role": "wing",
+        "side": "left",
+        "center": [
+          3.5239,
+          6.18998,
+          1.81316
+        ],
+        "size": [
+          1.52155,
+          7.90985,
+          0.83506
+        ],
+        "swappable": true
+      }
+    ],
+    "credit": {
+      "author": "PX4 / Open Robotics",
+      "license": "BSD-3-Clause",
+      "licenseName": "BSD 3-Clause",
+      "url": "https://app.gazebosim.org/PX4/fuel/models/Advanced%20Plane"
     }
   }
 ]

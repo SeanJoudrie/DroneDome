@@ -101,14 +101,48 @@ def load_mesh(path, scale_text):
     return m
 
 
-def fetch_fuel(owner, model, dest):
-    url = (f"https://fuel.gazebosim.org/1.0/{urllib.parse.quote(owner)}"
-           f"/models/{urllib.parse.quote(model)}.zip")
-    blob = get(url)
-    zf = zipfile.ZipFile(io.BytesIO(blob))
+def fuel_package(owner, model):
+    """Download and unpack one Fuel package, cached on disk."""
     tmp = OUT / "_fuel" / model.replace(" ", "_")
-    tmp.mkdir(parents=True, exist_ok=True)
-    zf.extractall(tmp)
+    if not any(tmp.rglob("*.sdf")):
+        url = (f"https://fuel.gazebosim.org/1.0/{urllib.parse.quote(owner)}"
+               f"/models/{urllib.parse.quote(model)}.zip")
+        tmp.mkdir(parents=True, exist_ok=True)
+        zipfile.ZipFile(io.BytesIO(get(url))).extractall(tmp)
+    return tmp
+
+
+def resolve_mesh(uri, owner, home):
+    """
+    Find the file a <uri> points at.
+
+    PX4's airframes borrow from each other - the tiltrotor's wing and props are
+    `model://standard_vtol/meshes/...` - so a URI naming a different package
+    means fetching that package too, not giving up on the model.
+    """
+    fname = uri.split("/")[-1]
+    found = next((p for p in home.rglob(fname)), None)
+    if found is not None:
+        return found
+    if not uri.startswith("model://"):
+        return None
+    pkg = uri[len("model://"):].split("/")[0]
+    if pkg.replace(" ", "_").lower() == home.name.lower():
+        return None
+    for candidate in (pkg, pkg.replace("_", " "), pkg.replace("_", " ").title()):
+        try:
+            other = fuel_package(owner, candidate)
+        except Exception:
+            continue
+        hit = next((p for p in other.rglob(fname)), None)
+        if hit is not None:
+            log(f"    borrowed {fname} from {candidate}")
+            return hit
+    return None
+
+
+def fetch_fuel(owner, model, dest):
+    tmp = fuel_package(owner, model)
 
     sdf_path = next((p for p in tmp.rglob("*.sdf")), None)
     if sdf_path is None:
@@ -127,8 +161,7 @@ def fetch_fuel(owner, model, dest):
             if mesh_el is None:
                 continue
             uri = (mesh_el.findtext("uri") or "").strip()
-            fname = uri.split("/")[-1]
-            found = next((p for p in tmp.rglob(fname)), None)
+            found = resolve_mesh(uri, owner, tmp)
             if found is None:
                 continue
             m = load_mesh(found, (mesh_el.findtext("scale") or "").strip())

@@ -42,6 +42,13 @@ const PUBLISHED: Record<string, { mtow: number; endurance: number; cruise: numbe
   'matrice-300': { mtow: 9.0, endurance: 0.92, cruise: 50 },
   'inspire-2': { mtow: 4.25, endurance: 0.45, cruise: 50 },
   avata: { mtow: 0.5, endurance: 0.3, cruise: 40 },
+  // Simulator airframes: the reference is the SDF's own modelled mass and the
+  // figures in the PX4 airframe docs, not a manufacturer datasheet.
+  'px4-vtol': { mtow: 7.0, endurance: 0.5, cruise: 60 },
+  'px4-tailsitter': { mtow: 2.4, endurance: 0.4, cruise: 55 },
+  'px4-tiltrotor': { mtow: 7.0, endurance: 0.5, cruise: 65 },
+  'px4-omnicopter': { mtow: 2.3, endurance: 0.2, cruise: 30 },
+  'px4-plane': { mtow: 1.8, endurance: 0.6, cruise: 60 },
 }
 
 const pick = (groups: StatGroup[], title: string, label: string) =>

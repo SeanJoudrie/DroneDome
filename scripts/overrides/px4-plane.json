@@ -1,0 +1,15 @@
+{
+  "_note": "Wings welded into base_link. The classifier reads anything flat and spanwise as a tail, which puts the ailerons and flaps in the wrong place - they sit on the wing and go with it. The rudder and elevator are genuinely tail and stay.",
+  "right_elevon": "wing",
+  "left_elevon": "wing",
+  "right_flap": "wing",
+  "left_flap": "wing",
+  "_cuts": {
+    "wing": {
+      "axis": "span",
+      "keepBand": 0.1,
+      "lengthBand": [0.35, 0.95],
+      "comment": "keeps the fuselage out of a 2.0 m span, and closes the box ahead of the tailplane"
+    }
+  }
+}

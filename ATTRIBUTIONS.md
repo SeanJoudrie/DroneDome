@@ -36,6 +36,11 @@ model removed, please open an issue.
 | DJI Matrice 300 RTK | 19vitali99 | CC Attribution 4.0 | [source](https://sketchfab.com/3d-models/quadcopter-dji-matrice-300-rtk-6677d02d66df4b73aad0d8e7bb9e3d9c) |
 | DJI Inspire 2 | Leon Heytens | CC Attribution 4.0 | [source](https://sketchfab.com/3d-models/dji-inspire-2-c0e0841b557446b0926476152456dbbb) |
 | DJI Avata | Archive RO_BG | CC Attribution 4.0 | [source](https://sketchfab.com/3d-models/dji-avata-b338aae3a00145dc8dbb7c60135ba2bb) |
+| Standard VTOL | PX4 / Open Robotics | BSD 3-Clause | [source](https://app.gazebosim.org/PX4/fuel/models/Standard%20VTOL) |
+| Quad tailsitter | PX4 / Open Robotics | BSD 3-Clause | [source](https://app.gazebosim.org/PX4/fuel/models/quadtailsitter) |
+| Tiltrotor VTOL | PX4 / Open Robotics | BSD 3-Clause | [source](https://app.gazebosim.org/PX4/fuel/models/tiltrotor) |
+| Omnicopter | PX4 / Open Robotics | BSD 3-Clause | [source](https://app.gazebosim.org/PX4/fuel/models/Omnicopter) |
+| Advanced Plane | PX4 / Open Robotics | BSD 3-Clause | [source](https://app.gazebosim.org/PX4/fuel/models/Advanced%20Plane) |
 
 ## Sources
 

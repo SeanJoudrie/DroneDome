@@ -1,0 +1,12 @@
+{
+  "_note": "An X8 flying wing with a quad lift frame bolted on. The wing is the airframe - base_link is the whole thing - so removing it is a cut around the centre pod. The elevons are separate nodes but they ride on the wing, not the undercarriage.",
+  "right_elevon": "wing",
+  "left_elevon": "wing",
+  "_cuts": {
+    "wing": {
+      "axis": "span",
+      "keepBand": 0.12,
+      "comment": "keeps the centre pod out of a 2.0 m span"
+    }
+  }
+}

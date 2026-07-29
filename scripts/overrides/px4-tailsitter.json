@@ -1,0 +1,10 @@
+{
+  "_note": "The wing is the entire airframe: base_link spans tip to tip and there is nothing else to it. Removing the wing leaves the centre spine the rotors are bolted to.",
+  "_cuts": {
+    "wing": {
+      "axis": "span",
+      "keepBand": 0.15,
+      "comment": "keeps the centre spine out of a 1.0 m span"
+    }
+  }
+}
