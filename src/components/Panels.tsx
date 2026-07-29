@@ -41,6 +41,12 @@ function slotNum(choice: SlotChoice | undefined, key: SlotNumber, fallback = 0):
   return typeof v === 'number' ? v : fallback
 }
 
+/** How multiples are arranged, defaulting to a ring. */
+function slotLayout(choice: SlotChoice | undefined): NonNullable<SlotPlacement['layout']> {
+  if (!choice || choice.kind === 'none') return 'ring'
+  return choice.layout ?? 'ring'
+}
+
 /** Headline numbers used for the before/after comparison in the picker. */
 function headline(build: Build) {
   const a = analyse(build)
@@ -498,7 +504,7 @@ export function Picker({
           </div>
         )}
 
-        {role === 'rotor' && choice?.kind === 'donor' && (
+        {role === 'rotor' && (hasOwn || choice?.kind === 'donor') && (
           <>
             <div className="sub-bar">
               <span className="panel-title">Spread</span>
@@ -507,11 +513,11 @@ export function Picker({
                 min={0}
                 max={1}
                 step={0.05}
-                value={choice.spread ?? 0.5}
+                value={slotNum(choice, 'spread', 0.5)}
                 onChange={(e) => setSlot({ spread: Number(e.target.value) })}
               />
               <span className="scale-value">
-                {((choice.spread ?? 0.5) * 100).toFixed(0)}
+                {(slotNum(choice, 'spread', 0.5) * 100).toFixed(0)}
               </span>
             </div>
             <div className="sub-bar">
@@ -520,7 +526,7 @@ export function Picker({
                 {(['ring', 'plus', 'tandem', 'stacked'] as const).map((l) => (
                   <button
                     key={l}
-                    className={(choice.layout ?? 'ring') === l ? 'on' : ''}
+                    className={slotLayout(choice) === l ? 'on' : ''}
                     onClick={() => setSlot({ layout: l })}
                   >
                     {l}
@@ -531,14 +537,14 @@ export function Picker({
           </>
         )}
 
-        {role === 'rotor' && choice?.kind === 'donor' && (
+        {role === 'rotor' && (hasOwn || choice?.kind === 'donor') && (
           <div className="sub-bar">
             <span className="panel-title">How many</span>
             <div className="seg">
               {[2, 3, 4, 6, 8].map((n) => (
                 <button
                   key={n}
-                  className={(choice.count ?? 4) === n ? 'on' : ''}
+                  className={slotNum(choice, 'count', 4) === n ? 'on' : ''}
                   onClick={() => setSlot({ count: n })}
                 >
                   {n}
@@ -750,6 +756,56 @@ export function Stats({ analysis, system }: { analysis: Analysis; system: UnitSy
               </div>
             )
           })}
+      </section>
+
+      {/* The physics has always worked out where the weight sits and whether the
+          aircraft is stable about it. None of it was ever on screen, which for a
+          builder whose whole point is moving parts around is the one number you
+          most want after you move one. */}
+      <section className="panel">
+        <div className="panel-head">
+          <span className="panel-title">Balance</span>
+        </div>
+        <StatLine
+          row={{ label: 'Centre of gravity', value: analysis.balance.cgM, unit: 'm',
+                 hint: 'Where the whole aircraft balances, measured aft of its own origin.' }}
+          system={system}
+        />
+        {analysis.balance.macM !== null && (
+          <StatLine
+            row={{ label: 'Mean chord', value: analysis.balance.macM, unit: 'm',
+                   hint: 'Average wing chord, which is the yardstick stability is measured in.' }}
+            system={system}
+          />
+        )}
+        {analysis.balance.staticMarginPct !== null && (
+          <StatLine
+            row={{
+              label: 'Static margin',
+              value: analysis.balance.staticMarginPct,
+              unit: 'percent',
+              hint:
+                analysis.balance.staticMarginPct < 0
+                  ? 'Negative: the lift acts ahead of the weight, so it diverges instead of settling. Move the wing aft or the mass forward.'
+                  : analysis.balance.staticMarginPct > 40
+                    ? 'Very stable, and correspondingly reluctant to manoeuvre.'
+                    : 'Positive is stable: nose-down when it speeds up, nose-up when it slows.',
+            }}
+            system={system}
+          />
+        )}
+        {analysis.balance.rotorOffsetRatio !== null && (
+          <StatLine
+            row={{
+              label: 'CG off rotor centre',
+              value: analysis.balance.rotorOffsetRatio * 100,
+              unit: 'percent',
+              hint: 'How far the weight sits from the middle of the rotors, as a fraction of arm length. Past 100% no amount of throttle differential holds it level.',
+              gauge: { max: 100, invert: true },
+            }}
+            system={system}
+          />
+        )}
       </section>
 
       {analysis.warnings.length > 0 && (

@@ -192,6 +192,23 @@ export default function App() {
               <button className="btn" onClick={() => viewerRef.current?.frame()}>
                 Recentre
               </button>
+              {/* The renderer has always been able to hand back a PNG. Nothing
+                  ever asked it for one, so there was no way to keep a picture
+                  of a build you liked. */}
+              <button
+                className="btn"
+                title="Save a PNG of this build"
+                onClick={() => {
+                  const png = viewerRef.current?.screenshot()
+                  if (!png) return
+                  const a = document.createElement('a')
+                  a.href = png
+                  a.download = `${build.name.replace(/[^\w-]+/g, '-').toLowerCase()}.png`
+                  a.click()
+                }}
+              >
+                Snapshot
+              </button>
             </div>
             <div className="viewer-hint">drag to orbit · scroll to zoom</div>
           </div>

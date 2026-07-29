@@ -485,6 +485,25 @@ export function createViewer(container: HTMLElement): ViewerHandle {
     }[] = []
     for (const role of SWAP_ROLES) {
       const choice = build.slots[role]
+      // Rearranging an aircraft's own rotors is the same job as mounting
+      // borrowed ones: take one as the template and lay `count` of them out.
+      // Doing it any other way meant you had to borrow rotors from another
+      // drone before you could turn a quad into a hexacopter.
+      if (choice?.kind === 'stock' && role === 'rotor') {
+        const wants = choice.count !== undefined || choice.layout || choice.spread !== undefined
+        if (wants && base.parts.some((pt) => pt.role === 'rotor')) {
+          removed.add(role)
+          donors.push({
+            role,
+            fromRole: role,
+            model: base,
+            fit: choice.scale ?? 1,
+            count: choice.count ?? base.spec.rotors ?? 4,
+            place: choice,
+          })
+        }
+        continue
+      }
       if (!choice || choice.kind === 'stock') continue
       removed.add(role)
       if (choice.kind === 'donor') {
