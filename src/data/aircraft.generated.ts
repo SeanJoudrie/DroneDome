@@ -2455,8 +2455,7 @@ export const AIRCRAFT: AircraftModel[] = [
       "cruise_kmh": 55,
       "max_speed_kmh": 110,
       "endurance_h": 0.6,
-      "ceiling_m": 400,
-      "_length_note": "Measured off the mesh. Both of these are Gazebo simulation airframes with no manufacturer datasheet, so the model is the reference; the figure here before was a guess, and being 2.5x out made the fore/aft control move parts by the wrong amount."
+      "ceiling_m": 400
     },
     "axes": {
       "span": 0,
@@ -5057,8 +5056,7 @@ export const AIRCRAFT: AircraftModel[] = [
       "cruise_kmh": 30,
       "max_speed_kmh": 55,
       "endurance_h": 0.22,
-      "ceiling_m": 400,
-      "_length_note": "Measured off the mesh. Both of these are Gazebo simulation airframes with no manufacturer datasheet, so the model is the reference; the figure here before was a guess, and being 2.5x out made the fore/aft control move parts by the wrong amount."
+      "ceiling_m": 400
     },
     "axes": {
       "span": 1,

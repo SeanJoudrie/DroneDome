@@ -37,7 +37,9 @@ for (const ac of sources.aircraft) {
     blurb: ac.blurb,
     environment: ac.environment ?? 'earth',
     model: `models/${ac.id}.glb`,
-    spec: ac.spec,
+    // Underscore keys in the manifest are notes to whoever reads it next, not
+    // data the app has a type for.
+    spec: Object.fromEntries(Object.entries(ac.spec).filter(([k]) => !k.startsWith('_'))),
     axes: geo.axes,
     aftSign: geo.aftSign,
     scaleToMetres: geo.scaleToMetres,
