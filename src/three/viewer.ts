@@ -80,23 +80,17 @@ function canonical(name: string): string {
 
 /** name -> part, built once per model rather than scanned for every node. */
 const partIndex = new WeakMap<AircraftModel, Map<string, AircraftPart>>()
+/** Bases shared by more than one part, where a bare name means nothing useful. */
+const ambiguousBase = new WeakMap<AircraftModel, Set<string>>()
 
 function lookupPart(model: AircraftModel, objectName: string): AircraftPart | undefined {
   let index = partIndex.get(model)
   if (!index) {
     index = new Map()
-    for (const p of model.parts) {
-      for (const key of [p.node, p.group]) {
-        const c = canonical(key)
-        if (!index.has(c)) index.set(c, p)
-      }
-    }
-    // One glTF mesh can hold several primitives. three.js splits those into
-    // Meshes called "Global Hawk_0", "Global Hawk_1" and so on, while the
-    // classifier saw them as separate geometries and gave each its own hash.
-    // Strip the hash and they all collapse onto one name, so pair them up in
-    // order instead — otherwise a Global Hawk's six pieces all answered to the
-    // first one, and its wing and gear could not be touched at all.
+    const ambiguous = new Set<string>()
+
+    // Group the parts by the name they reduce to, because that decides how a
+    // name can safely be used.
     const byBase = new Map<string, AircraftPart[]>()
     for (const p of model.parts) {
       const base = canonical(p.node)
@@ -104,14 +98,38 @@ function lookupPart(model: AircraftModel, objectName: string): AircraftPart | un
       list.push(p)
       byBase.set(base, list)
     }
+
     for (const [base, list] of byBase) {
-      if (list.length < 2) continue
-      list.forEach((p, i) => index!.set(`${base}_${i}`, p))
+      if (list.length === 1) {
+        index.set(base, list[0])
+        continue
+      }
+      // Several parts reduce to this name, so the name alone identifies
+      // nothing. three.js splits a multi-primitive mesh into children numbered
+      // from one and wraps them in a Group that carries the bare name — and
+      // mapping that bare name to the first part made the Group answer as the
+      // Global Hawk's wing. Hiding the wing then hid the Group, and with it the
+      // entire aircraft.
+      ambiguous.add(base)
+      list.forEach((p, i) => index!.set(`${base}_${i + 1}`, p))
     }
+
+    // Group names are a second way in, but only where they are unambiguous.
+    for (const p of model.parts) {
+      const g = canonical(p.group)
+      if (!index.has(g) && !ambiguous.has(g)) index.set(g, p)
+    }
+
     partIndex.set(model, index)
+    ambiguousBase.set(model, ambiguous)
   }
+
   const name = canonical(objectName)
-  return index.get(name) ?? index.get(name.replace(/_\d+$/, ''))
+  const hit = index.get(name)
+  if (hit) return hit
+  const base = name.replace(/_\d+$/, '')
+  if (ambiguousBase.get(model)?.has(base)) return undefined
+  return index.get(base)
 }
 
 /** Roles present on this node, resolved through the classifier output. */
@@ -603,67 +621,6 @@ export function createViewer(container: HTMLElement): ViewerHandle {
   }
 
   /**
-   * Hide anything left hanging in the air once a part has been removed.
-   *
-   * Works on touch, not on names: two meshes belong together if their boxes
-   * meet. Whatever is still joined to the biggest remaining piece stays; a
-   * group that used to reach it only through something now hidden goes too.
-   */
-  function hideOrphans(root: THREE.Object3D) {
-    root.updateMatrixWorld(true)
-    const all: { mesh: THREE.Mesh; box: THREE.Box3; vol: number; kept: boolean }[] = []
-    root.traverse((o) => {
-      const mesh = o as THREE.Mesh
-      if (!mesh.isMesh || !mesh.geometry) return
-      const box = new THREE.Box3().setFromObject(mesh)
-      if (box.isEmpty()) return
-      const d = box.getSize(new THREE.Vector3())
-      all.push({ mesh, box, vol: d.x * d.y * d.z, kept: mesh.visible })
-    })
-    if (all.length < 2) return
-
-    const hull = new THREE.Box3()
-    for (const a of all) hull.union(a.box)
-    const slack = Math.max(...hull.getSize(new THREE.Vector3()).toArray()) * 0.02
-
-    const link = (subset: typeof all) => {
-      const parent = subset.map((_, i) => i)
-      const find = (i: number): number => (parent[i] === i ? i : (parent[i] = find(parent[i])))
-      for (let i = 0; i < subset.length; i++) {
-        for (let j = i + 1; j < subset.length; j++) {
-          const a = subset[i].box
-          const b = subset[j].box
-          const touch =
-            a.min.x - slack <= b.max.x && b.min.x - slack <= a.max.x &&
-            a.min.y - slack <= b.max.y && b.min.y - slack <= a.max.y &&
-            a.min.z - slack <= b.max.z && b.min.z - slack <= a.max.z
-          if (touch) parent[find(i)] = find(j)
-        }
-      }
-      return (i: number) => find(i)
-    }
-
-    const before = link(all)
-    const kept = all.filter((a) => a.kept)
-    if (kept.length < 2) return
-    const after = link(kept)
-
-    // The aircraft is whatever the largest surviving piece is joined to.
-    let anchor = 0
-    for (let i = 1; i < kept.length; i++) if (kept[i].vol > kept[anchor].vol) anchor = i
-    const anchorBefore = before(all.indexOf(kept[anchor]))
-    const anchorAfter = after(anchor)
-
-    for (let i = 0; i < kept.length; i++) {
-      if (after(i) === anchorAfter) continue
-      // Only things that used to be connected. A model that ships with a
-      // genuinely detached propeller keeps it.
-      if (before(all.indexOf(kept[i])) !== anchorBefore) continue
-      kept[i].mesh.visible = false
-    }
-  }
-
-  /**
    * Hide the part of a welded mesh that a role occupies. NASA's Global Hawk has
    * its wings fused into the fuselage, so removing them means keeping only
    * what falls outside the box.
@@ -807,13 +764,15 @@ export function createViewer(container: HTMLElement): ViewerHandle {
     })
     for (const role of removed) applyCut(baseClone, base, role)
 
-    // Take off whatever was only held on by the part that just came off.
-    //
-    // An Akinci's hardpoints hang under its wing. Removing the wing used to
-    // leave them in mid-air, along with anything else the removed part was
-    // carrying. This finds the pieces that were attached to the aircraft only
-    // through something that has gone, and takes them with it.
-    if (removed.size) hideOrphans(baseClone)
+    // There used to be a pass here that hid anything left hanging once a part
+    // came off — an Akinci's hardpoints when its wing goes. It is gone, but not
+    // for the reason first written here: it was blamed for the Global Hawk
+    // emptying its screen and it was innocent. That was lookupPart above,
+    // mapping a bare group name onto the wing. The reason it stays out is
+    // narrower — deciding what is debris from bounding-box adjacency is a guess,
+    // and a guess is not allowed to delete an aeroplane. So a pylon may hang in
+    // the air where its wing was. That is the smaller lie, and it is the honest
+    // one: you did take the wing off.
 
     // Resize the aircraft's own parts wherever a size has been dialled in.
     for (const role of SWAP_ROLES) {
