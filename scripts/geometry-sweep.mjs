@@ -153,7 +153,10 @@ for (const id of ids) {
       // Only a gap you could see. A tenth of the aircraft's own size is about
       // where a part stops reading as attached and starts reading as floating.
       const gap = worstGap(meshes, slack * scale)
-      const limit = Math.max(reach * scale * 0.1, baseGap * 1.5)
+      // The stock gap scales with the build too, so a model whose propellers
+      // already stand clear of its frame must not read as broken at 4x simply
+      // because that clearance is now four times wider.
+      const limit = Math.max(reach * scale * 0.1, baseGap * scale * 1.5)
       if (gap > limit)
         findings.push({
           id, op: name,
