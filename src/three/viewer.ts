@@ -87,6 +87,13 @@ function scaleRole(
   offset?: THREE.Vector3,
   tiltDeg = 0,
   place?: SlotPlacement,
+  /**
+   * Where the part is bolted on. A wing or a tailplane joins the aircraft at
+   * its root, so it grows outboard from there. A propeller, a wheel or a
+   * sensor pod hangs off its own middle, and growing one from its inboard
+   * edge slides it off its own motor.
+   */
+  mountAtRoot = false,
 ) {
   const angled = !!(place?.rollDeg || place?.pitchDeg || place?.yawDeg)
   const moved = offset && offset.lengthSq() > 1e-9
@@ -98,18 +105,26 @@ function scaleRole(
     relatives.set(n, new THREE.Matrix4().multiplyMatrices(invRoot, n.matrixWorld))
   }
 
-  // One group per side. Dihedral and sweep have to mirror across the
-  // centreline — rolling every panel the same way banks the aircraft instead of
-  // raising both tips, and yawing them together makes one wing sweep forward.
+  // One group per physical part per side.
+  //
+  // Side, because dihedral and sweep mirror across the centreline: rolling
+  // every panel the same way banks the aircraft instead of raising both tips.
+  //
+  // Part, because each one has to grow about its own mount. Grouping a quad's
+  // two right-hand rotors together gave them a shared pivot halfway between,
+  // so at 3x they slid fore and aft off their own arms — which is the floating.
   const sides = new Map<string, THREE.Object3D[]>()
   for (const n of nodes) {
     const side = typeof n.userData.ddSide === 'string' ? n.userData.ddSide : 'center'
-    const list = sides.get(side) ?? []
+    const part = typeof n.userData.ddGroup === 'string' ? n.userData.ddGroup : n.uuid
+    const key = `${side}|${part}`
+    const list = sides.get(key) ?? []
     list.push(n)
-    sides.set(side, list)
+    sides.set(key, list)
   }
 
-  for (const [side, members] of sides) {
+  for (const [key, members] of sides) {
+    const side = key.slice(0, key.indexOf('|'))
     const group = new THREE.Group()
     container.add(group)
     for (const node of members) {
@@ -117,6 +132,34 @@ function scaleRole(
       node.matrixAutoUpdate = false
       node.matrix.copy(relatives.get(node)!)
     }
+
+    // Grow and swivel the part about where it is bolted on, not about the
+    // aircraft's centre. Scaling about the centre multiplies a part's distance
+    // from it too, so a rotor 35 cm out at 3x ended up a metre out — floating
+    // beside its own arm. The mount is the part's inboard edge, which for a
+    // wing is its root and for a centreline part is simply its middle.
+    // Measured from the geometry through each node's own relative matrix, so
+    // the box is in the container's frame. expandByObject would have answered
+    // in world space, which is a different thing the moment the assembly moves.
+    const box = new THREE.Box3()
+    const one = new THREE.Box3()
+    for (const node of members) {
+      const mesh = node as THREE.Mesh
+      if (!mesh.isMesh || !mesh.geometry) continue
+      if (!mesh.geometry.boundingBox) mesh.geometry.computeBoundingBox()
+      one.copy(mesh.geometry.boundingBox!).applyMatrix4(relatives.get(node)!)
+      box.union(one)
+    }
+    const pivot = box.getCenter(new THREE.Vector3())
+    if (mountAtRoot && !box.isEmpty()) {
+      if (side === 'right') pivot.x = box.min.x
+      else if (side === 'left') pivot.x = box.max.x
+    }
+    for (const node of members) {
+      node.matrix.premultiply(new THREE.Matrix4().makeTranslation(-pivot.x, -pivot.y, -pivot.z))
+    }
+    group.position.copy(pivot)
+
     group.scale.setScalar(factor)
     if (offset) group.position.add(offset)
     if (tiltDeg) group.rotateX((-tiltDeg * Math.PI) / 180)
@@ -439,6 +482,7 @@ export function createViewer(container: HTMLElement): ViewerHandle {
           mesh.parent?.add(half)
           clipMaterials(half, regions[side], false)
           half.userData.ddSide = side
+          half.userData.ddGroup = `${mesh.name}:${side}`
           made.push(half)
         }
       }
@@ -572,6 +616,7 @@ export function createViewer(container: HTMLElement): ViewerHandle {
         if (roleOf(base, o.name) !== role || !(o as THREE.Mesh).isMesh) return
         bounds.setFromObject(o).getCenter(centre)
         const straddles = bounds.min.x < midX - edge && bounds.max.x > midX + edge
+        const part = groupOf(base, o.name)
         if (mirrored && straddles) {
           const other = (o as THREE.Mesh).clone(false)
           o.parent?.add(other)
@@ -579,11 +624,14 @@ export function createViewer(container: HTMLElement): ViewerHandle {
           clipMaterials(other, [planeAbove(0, midX)], false)
           o.userData.ddSide = 'left'
           other.userData.ddSide = 'right'
+          o.userData.ddGroup = `${part}:l`
+          other.userData.ddGroup = `${part}:r`
           nodes.push(o, other)
           return
         }
         const dx = centre.x - midX
         o.userData.ddSide = dx > edge ? 'right' : dx < -edge ? 'left' : 'center'
+        o.userData.ddGroup = part
         nodes.push(o)
       })
       // A welded airframe has no node for this role, only a region of the hull.
@@ -608,6 +656,7 @@ export function createViewer(container: HTMLElement): ViewerHandle {
           for (const node of originals) {
             const copy = bakeWorld(node)
             copy.userData.ddSide = node.userData.ddSide
+            copy.userData.ddGroup = `${node.userData.ddGroup ?? node.name}#${i}`
             if (place.layout === 'tandem') copy.position.z += step * i
             else copy.position.y += step * i
             assembly.add(copy)
@@ -620,7 +669,7 @@ export function createViewer(container: HTMLElement): ViewerHandle {
         (place.rise ?? 0) * size.y * 0.5,
         (place.fore ?? 0) * size.z * -0.5,
       )
-      scaleRole(assembly, nodes, factor, off, tilt, place)
+      scaleRole(assembly, nodes, factor, off, tilt, place, role === 'wing' || role === 'tail')
     }
 
     // Bolt on whatever is replacing them.
