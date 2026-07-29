@@ -457,6 +457,15 @@ export function createViewer(container: HTMLElement): ViewerHandle {
     cutPlanes = []
     const baseClone = baseScene.clone(true)
     baseClone.applyMatrix4(normaliseTransform(base))
+    // Scenery that came with the upload and is not the aircraft. The classifier
+    // already refused to measure it; this stops it being drawn, which is how the
+    // Matrice spent a while sitting on top of its own flight case.
+    if (base.hidden.length) {
+      const scenery = new Set(base.hidden)
+      baseClone.traverse((o) => {
+        if (scenery.has(o.name)) o.visible = false
+      })
+    }
     assembly.add(baseClone)
 
     // Work out what each role is doing before touching the scene graph.

@@ -58,6 +58,12 @@ Two mechanisms, in order of preference:
    lets that region be moved and angled like a real part.
 
 An airframe that can only be looked at does not belong in the catalog.
+`npm run check:parts` enforces this across the whole catalog and fails the
+build if a role has neither a mesh nor a cut.
+
+A third mechanism exists for what is *not* the aircraft: `_exclude` in the same
+override file drops nodes by name glob, for uploads that ship with a display
+stand or, in the Matrice's case, its flight case.
 
 ## 5. Working agreement
 

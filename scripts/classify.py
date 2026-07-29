@@ -17,6 +17,7 @@ node name -> role and is merged in last.
 
 Output: assets-src/<id>.parts.json
 """
+import fnmatch
 import json
 import re
 import sys
@@ -96,6 +97,29 @@ def classify(aid, spec):
     parts = collect(scene)
     if not parts:
         return None
+
+    ovr_path = OVERRIDES / f"{aid}.json"
+    overrides = json.loads(ovr_path.read_text()) if ovr_path.is_file() else {}
+
+    # Published models often ship with scenery: a display stand, a pilot, or in
+    # the Matrice's case the flight case it travels in. That geometry is not the
+    # aircraft, and leaving it in wrecks the bounding box, and with it the scale,
+    # the axes and every dimension derived from them. Dropped before anything is
+    # measured, by node-name glob.
+    drop = overrides.get("_exclude") or []
+    hidden = []
+    if drop:
+        keep = []
+        for part in parts:
+            if any(fnmatch.fnmatch(part["node"], pat) for pat in drop):
+                hidden.append(part["node"])
+            else:
+                keep.append(part)
+        if not keep:
+            raise RuntimeError(f"{aid}: _exclude removed every part")
+        parts = keep
+        print(f"  {aid}: excluded {len(hidden)} node(s) as scenery")
+
     span_check = np.max([p["max"] for p in parts], axis=0) - np.min([p["min"] for p in parts], axis=0)
     if float(np.max(span_check)) < 1e-9:
         raise RuntimeError(
@@ -197,8 +221,6 @@ def classify(aid, spec):
             best = max(pool, key=bladeness)
             best["role"] = "rotor"
 
-    ovr_path = OVERRIDES / f"{aid}.json"
-    overrides = json.loads(ovr_path.read_text()) if ovr_path.is_file() else {}
     for p in parts:
         if p["node"] in overrides:
             p["role"] = overrides[p["node"]]
@@ -249,6 +271,7 @@ def classify(aid, spec):
         "origin": [float(x) for x in origin],
         "scaleToMetres": scale,
         "cuts": cuts,
+        "hidden": hidden,
         "parts": [{
             "node": p["node"],
             # several visuals can belong to one physical link (a rotor's blade

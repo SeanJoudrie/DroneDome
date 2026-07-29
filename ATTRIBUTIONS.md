@@ -30,6 +30,12 @@ model removed, please open an issue.
 | RQ-11B Raven | IV Aulls | CC Attribution 4.0 | [source](https://sketchfab.com/3d-models/rq-11-raven-uav-high-poly-model-04d3c684f459489eabc5deb498bd6919) |
 | DJI Phantom 4 Pro | dimazzis | CC Attribution 4.0 | [source](https://sketchfab.com/3d-models/dji-phantom-4-a24ca9c170874ca1a81da2de21e7945c) |
 | DJI Mavic 3 | llirikslon | CC Attribution 4.0 | [source](https://sketchfab.com/3d-models/dji-mavic-3-c5a5abae1dea468ab73b1bdc7d616fa6) |
+| Bayraktar Akıncı | Yusuf | CC Attribution 4.0 | [source](https://sketchfab.com/3d-models/akinci-tiha-5c878dbad37442e9a219d962540a75c2) |
+| Shahed-136 | Chenzoss | CC Attribution 4.0 | [source](https://sketchfab.com/3d-models/iranian-shahed-136-military-drone-af8ac3d45ade494fb280c99922513ae2) |
+| Anduril ALTIUS 700M | KillCaptureDestroy | CC Attribution 4.0 | [source](https://sketchfab.com/3d-models/anduril-altius-700m-4e7fe35b0279418d85af34d33faa9db5) |
+| DJI Matrice 300 RTK | 19vitali99 | CC Attribution 4.0 | [source](https://sketchfab.com/3d-models/quadcopter-dji-matrice-300-rtk-6677d02d66df4b73aad0d8e7bb9e3d9c) |
+| DJI Inspire 2 | Leon Heytens | CC Attribution 4.0 | [source](https://sketchfab.com/3d-models/dji-inspire-2-c0e0841b557446b0926476152456dbbb) |
+| DJI Avata | Archive RO_BG | CC Attribution 4.0 | [source](https://sketchfab.com/3d-models/dji-avata-b338aae3a00145dc8dbb7c60135ba2bb) |
 
 ## Sources
 

@@ -650,6 +650,189 @@
         "endurance_h": 0.767,
         "ceiling_m": 6000
       }
+    },
+    {
+      "id": "akinci",
+      "name": "Bayraktar Akıncı",
+      "family": "military",
+      "blurb": "Twenty-metre twin-turboprop UCAV. Carries more than a Reaper, flies as high as a jet.",
+      "source": {
+        "kind": "sketchfab",
+        "uid": "5c878dbad37442e9a219d962540a75c2",
+        "author": "Yusuf",
+        "license": "CC-BY-4.0",
+        "url": "https://sketchfab.com/3d-models/akinci-tiha-5c878dbad37442e9a219d962540a75c2"
+      },
+      "spec": {
+        "span_m": 20.0,
+        "length_m": 12.2,
+        "wing_area_m2": 30.0,
+        "empty_mass_kg": 2800,
+        "mtow_kg": 5500,
+        "powertrain": "fuel",
+        "fuel_capacity_kg": 1350,
+        "engine": "2 × Ivchenko AI-450T turboprop",
+        "shaft_power_kw": 670,
+        "sfc_kg_per_kwh": 0.33,
+        "prop_diameter_m": 2.3,
+        "prop_blades": 3,
+        "payload_kg": 1350,
+        "cruise_kmh": 241,
+        "max_speed_kmh": 361,
+        "endurance_h": 24,
+        "ceiling_m": 12192
+      }
+    },
+    {
+      "id": "shahed-136",
+      "name": "Shahed-136",
+      "family": "military",
+      "blurb": "Delta-wing loitering munition. A moped engine, a warhead, and two thousand kilometres.",
+      "source": {
+        "kind": "sketchfab",
+        "uid": "af8ac3d45ade494fb280c99922513ae2",
+        "author": "Chenzoss",
+        "license": "CC-BY-4.0",
+        "url": "https://sketchfab.com/3d-models/iranian-shahed-136-military-drone-af8ac3d45ade494fb280c99922513ae2"
+      },
+      "spec": {
+        "span_m": 2.5,
+        "length_m": 3.5,
+        "wing_area_m2": 2.0,
+        "empty_mass_kg": 110,
+        "mtow_kg": 200,
+        "powertrain": "fuel",
+        "fuel_capacity_kg": 40,
+        "engine": "MADO MD-550 two-stroke",
+        "shaft_power_kw": 37,
+        "sfc_kg_per_kwh": 0.42,
+        "prop_diameter_m": 0.8,
+        "prop_blades": 2,
+        "payload_kg": 50,
+        "cruise_kmh": 185,
+        "max_speed_kmh": 185,
+        "endurance_h": 13.5,
+        "ceiling_m": 4000
+      }
+    },
+    {
+      "id": "altius-700",
+      "name": "Anduril ALTIUS 700M",
+      "family": "military",
+      "blurb": "Folds into a tube, launches from one, unfolds its wing in the air.",
+      "source": {
+        "kind": "sketchfab",
+        "uid": "4e7fe35b0279418d85af34d33faa9db5",
+        "author": "KillCaptureDestroy",
+        "license": "CC-BY-4.0",
+        "url": "https://sketchfab.com/3d-models/anduril-altius-700m-4e7fe35b0279418d85af34d33faa9db5"
+      },
+      "spec": {
+        "span_m": 3.05,
+        "length_m": 2.1,
+        "wing_area_m2": 1.5,
+        "empty_mass_kg": 120,
+        "mtow_kg": 227,
+        "powertrain": "fuel",
+        "fuel_capacity_kg": 37,
+        "engine": "Piston pusher",
+        "shaft_power_kw": 37,
+        "sfc_kg_per_kwh": 0.42,
+        "prop_diameter_m": 0.6,
+        "prop_blades": 2,
+        "payload_kg": 30,
+        "cruise_kmh": 185,
+        "max_speed_kmh": 222,
+        "endurance_h": 4,
+        "ceiling_m": 7620
+      }
+    },
+    {
+      "id": "matrice-300",
+      "name": "DJI Matrice 300 RTK",
+      "family": "consumer",
+      "blurb": "Folding-arm industrial quad. Hot-swappable packs, six kilos of it, fifty-five minutes.",
+      "source": {
+        "kind": "sketchfab",
+        "uid": "6677d02d66df4b73aad0d8e7bb9e3d9c",
+        "author": "19vitali99",
+        "license": "CC-BY-4.0",
+        "url": "https://sketchfab.com/3d-models/quadcopter-dji-matrice-300-rtk-6677d02d66df4b73aad0d8e7bb9e3d9c"
+      },
+      "spec": {
+        "span_m": 0.895,
+        "length_m": 0.81,
+        "empty_mass_kg": 6.3,
+        "mtow_kg": 9.0,
+        "powertrain": "electric",
+        "rotors": 4,
+        "rotor_diameter_m": 0.533,
+        "battery_wh": 548,
+        "battery_cells": 12,
+        "payload_kg": 2.7,
+        "cruise_kmh": 50,
+        "max_speed_kmh": 82,
+        "endurance_h": 0.92,
+        "ceiling_m": 5000
+      }
+    },
+    {
+      "id": "inspire-2",
+      "name": "DJI Inspire 2",
+      "family": "consumer",
+      "blurb": "Transforming gear: the arms lift out of shot once it is airborne.",
+      "source": {
+        "kind": "sketchfab",
+        "uid": "c0e0841b557446b0926476152456dbbb",
+        "author": "Leon Heytens",
+        "license": "CC-BY-4.0",
+        "url": "https://sketchfab.com/3d-models/dji-inspire-2-c0e0841b557446b0926476152456dbbb"
+      },
+      "spec": {
+        "span_m": 0.605,
+        "length_m": 0.605,
+        "empty_mass_kg": 3.44,
+        "mtow_kg": 4.25,
+        "powertrain": "electric",
+        "rotors": 4,
+        "rotor_diameter_m": 0.381,
+        "battery_wh": 195,
+        "battery_cells": 6,
+        "payload_kg": 0.81,
+        "cruise_kmh": 50,
+        "max_speed_kmh": 94,
+        "endurance_h": 0.45,
+        "ceiling_m": 5000
+      }
+    },
+    {
+      "id": "avata",
+      "name": "DJI Avata",
+      "family": "consumer",
+      "blurb": "Ducted cinewhoop. Bounces off things and keeps flying.",
+      "source": {
+        "kind": "sketchfab",
+        "uid": "b338aae3a00145dc8dbb7c60135ba2bb",
+        "author": "Archive RO_BG",
+        "license": "CC-BY-4.0",
+        "url": "https://sketchfab.com/3d-models/dji-avata-b338aae3a00145dc8dbb7c60135ba2bb"
+      },
+      "spec": {
+        "span_m": 0.18,
+        "length_m": 0.18,
+        "empty_mass_kg": 0.41,
+        "mtow_kg": 0.5,
+        "powertrain": "electric",
+        "rotors": 4,
+        "rotor_diameter_m": 0.076,
+        "battery_wh": 35.7,
+        "battery_cells": 4,
+        "payload_kg": 0.05,
+        "cruise_kmh": 40,
+        "max_speed_kmh": 97,
+        "endurance_h": 0.3,
+        "ceiling_m": 5000
+      }
     }
   ]
 }

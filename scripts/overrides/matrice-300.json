@@ -1,0 +1,4 @@
+{
+  "_note": "The upload includes the rolling flight case the drone ships in, sitting under it as a separate mesh group. It is not part of the aircraft, and leaving it in made the Matrice measure a metre tall and weigh its bounding box in luggage.",
+  "_exclude": ["polySurface4181_*"]
+}

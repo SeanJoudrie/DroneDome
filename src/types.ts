@@ -116,6 +116,11 @@ export interface AircraftModel {
   modelExtent: [number, number, number]
   origin: [number, number, number]
   cuts: Partial<Record<PartRole, AircraftCut>>
+  /**
+   * Nodes that are in the file but are not the aircraft — a display stand, the
+   * flight case the Matrice ships in. Never drawn, never measured.
+   */
+  hidden: string[]
   parts: AircraftPart[]
   credit: Credit
 }

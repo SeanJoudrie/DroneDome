@@ -49,6 +49,7 @@ export const AIRCRAFT: AircraftModel[] = [
       -5.040018180579864e-9
     ],
     "cuts": {},
+    "hidden": [],
     "parts": [
       {
         "node": "defaultMaterial",
@@ -595,6 +596,7 @@ export const AIRCRAFT: AircraftModel[] = [
       -0.22551631927490234
     ],
     "cuts": {},
+    "hidden": [],
     "parts": [
       {
         "node": "Object_12",
@@ -961,6 +963,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "origin": 0
       }
     },
+    "hidden": [],
     "parts": [
       {
         "node": "bayraktar_tb2_mat_bay_tb2_0",
@@ -1030,6 +1033,7 @@ export const AIRCRAFT: AircraftModel[] = [
       -1.950678726309147
     ],
     "cuts": {},
+    "hidden": [],
     "parts": [
       {
         "node": "Cube.001_Material.001_0",
@@ -1122,9 +1126,10 @@ export const AIRCRAFT: AircraftModel[] = [
         "origin": -0.040771
       }
     },
+    "hidden": [],
     "parts": [
       {
-        "node": "Global Hawk_3592c9",
+        "node": "Global Hawk_177b6e",
         "group": "Global Hawk",
         "role": "wing",
         "side": "center",
@@ -1141,7 +1146,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": true
       },
       {
-        "node": "Global Hawk_b93315",
+        "node": "Global Hawk_055fc4",
         "group": "Global Hawk",
         "role": "gear",
         "side": "center",
@@ -1158,7 +1163,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": true
       },
       {
-        "node": "Global Hawk_a5f559",
+        "node": "Global Hawk_69a0f2",
         "group": "Global Hawk",
         "role": "body",
         "side": "center",
@@ -1175,7 +1180,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": false
       },
       {
-        "node": "Global Hawk_27d1aa",
+        "node": "Global Hawk_83295e",
         "group": "Global Hawk",
         "role": "body",
         "side": "center",
@@ -1192,7 +1197,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": false
       },
       {
-        "node": "Global Hawk_c07ef8",
+        "node": "Global Hawk_aefe08",
         "group": "Global Hawk",
         "role": "body",
         "side": "center",
@@ -1209,7 +1214,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": false
       },
       {
-        "node": "Global Hawk_f058e3",
+        "node": "Global Hawk_87c616",
         "group": "Global Hawk",
         "role": "body",
         "side": "center",
@@ -1276,9 +1281,10 @@ export const AIRCRAFT: AircraftModel[] = [
       0.00031231333580822307
     ],
     "cuts": {},
+    "hidden": [],
     "parts": [
       {
-        "node": "rotors_02_a2640a",
+        "node": "rotors_02_ef5986",
         "group": "rotors_02",
         "role": "rotor",
         "side": "center",
@@ -1295,7 +1301,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": true
       },
       {
-        "node": "rotors_01_5a0b0f",
+        "node": "rotors_01_10b74a",
         "group": "rotors_01",
         "role": "rotor",
         "side": "center",
@@ -1312,7 +1318,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": true
       },
       {
-        "node": "rotors_02_d03965",
+        "node": "rotors_02_ed2877",
         "group": "rotors_02",
         "role": "rotor",
         "side": "center",
@@ -1329,7 +1335,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": true
       },
       {
-        "node": "rotors_01_8ca61a",
+        "node": "rotors_01_d9715e",
         "group": "rotors_01",
         "role": "rotor",
         "side": "center",
@@ -1346,7 +1352,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": true
       },
       {
-        "node": "parts_02_3a081c",
+        "node": "parts_02_cd04b1",
         "group": "parts_02",
         "role": "body",
         "side": "center",
@@ -1363,7 +1369,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": false
       },
       {
-        "node": "parts_01_d1cf25",
+        "node": "parts_01_0ce452",
         "group": "parts_01",
         "role": "body",
         "side": "center",
@@ -1380,7 +1386,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": false
       },
       {
-        "node": "leg_04_e83604",
+        "node": "leg_04_1e3a50",
         "group": "leg_04",
         "role": "gear",
         "side": "right",
@@ -1397,7 +1403,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": true
       },
       {
-        "node": "leg_03_b1f867",
+        "node": "leg_03_73cd93",
         "group": "leg_03",
         "role": "gear",
         "side": "left",
@@ -1414,7 +1420,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": true
       },
       {
-        "node": "leg_02_a56b4b",
+        "node": "leg_02_4e344d",
         "group": "leg_02",
         "role": "gear",
         "side": "right",
@@ -1431,7 +1437,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": true
       },
       {
-        "node": "leg_01_d9c839",
+        "node": "leg_01_ecd7e3",
         "group": "leg_01",
         "role": "gear",
         "side": "left",
@@ -1448,7 +1454,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": true
       },
       {
-        "node": "solar_panel_d4a9d9",
+        "node": "solar_panel_479285",
         "group": "solar_panel",
         "role": "solar",
         "side": "center",
@@ -1465,7 +1471,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": true
       },
       {
-        "node": "leg_04_ab38d8",
+        "node": "leg_04_416c19",
         "group": "leg_04",
         "role": "gear",
         "side": "right",
@@ -1482,7 +1488,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": true
       },
       {
-        "node": "leg_03_42309f",
+        "node": "leg_03_784ca8",
         "group": "leg_03",
         "role": "gear",
         "side": "left",
@@ -1499,7 +1505,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": true
       },
       {
-        "node": "leg_02_f9dbe3",
+        "node": "leg_02_ccf843",
         "group": "leg_02",
         "role": "gear",
         "side": "right",
@@ -1516,7 +1522,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": true
       },
       {
-        "node": "leg_01_db14b0",
+        "node": "leg_01_179b29",
         "group": "leg_01",
         "role": "gear",
         "side": "left",
@@ -1533,7 +1539,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": true
       },
       {
-        "node": "rotors_02_ceab30",
+        "node": "rotors_02_76fbf4",
         "group": "rotors_02",
         "role": "rotor",
         "side": "center",
@@ -1550,7 +1556,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": true
       },
       {
-        "node": "rotors_01_cf816c",
+        "node": "rotors_01_c6cf71",
         "group": "rotors_01",
         "role": "rotor",
         "side": "center",
@@ -1567,7 +1573,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": true
       },
       {
-        "node": "bus_e25c0b",
+        "node": "bus_a20faf",
         "group": "bus",
         "role": "body",
         "side": "center",
@@ -1584,7 +1590,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": false
       },
       {
-        "node": "leg_04_4cc57f",
+        "node": "leg_04_99ca75",
         "group": "leg_04",
         "role": "gear",
         "side": "right",
@@ -1601,7 +1607,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": true
       },
       {
-        "node": "leg_03_d5d3ae",
+        "node": "leg_03_eaebae",
         "group": "leg_03",
         "role": "gear",
         "side": "left",
@@ -1618,7 +1624,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": true
       },
       {
-        "node": "leg_02_05f8ae",
+        "node": "leg_02_db78db",
         "group": "leg_02",
         "role": "gear",
         "side": "right",
@@ -1635,7 +1641,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": true
       },
       {
-        "node": "leg_01_656603",
+        "node": "leg_01_1b7778",
         "group": "leg_01",
         "role": "gear",
         "side": "left",
@@ -1652,7 +1658,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": true
       },
       {
-        "node": "parts_02_8c011a",
+        "node": "parts_02_da92a3",
         "group": "parts_02",
         "role": "body",
         "side": "center",
@@ -1669,7 +1675,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": false
       },
       {
-        "node": "parts_01_60a176",
+        "node": "parts_01_3f2d2f",
         "group": "parts_01",
         "role": "body",
         "side": "center",
@@ -1686,7 +1692,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": false
       },
       {
-        "node": "parts_02_e9d859",
+        "node": "parts_02_2bb442",
         "group": "parts_02",
         "role": "body",
         "side": "center",
@@ -1703,7 +1709,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": false
       },
       {
-        "node": "parts_01_429bbe",
+        "node": "parts_01_abc499",
         "group": "parts_01",
         "role": "body",
         "side": "center",
@@ -1720,7 +1726,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": false
       },
       {
-        "node": "solar_panel_acf35a",
+        "node": "solar_panel_e08c13",
         "group": "solar_panel",
         "role": "solar",
         "side": "right",
@@ -1737,7 +1743,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": true
       },
       {
-        "node": "bus_746d1d",
+        "node": "bus_f382d2",
         "group": "bus",
         "role": "body",
         "side": "center",
@@ -1754,7 +1760,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": false
       },
       {
-        "node": "solar_panel_5d7987",
+        "node": "solar_panel_73e97e",
         "group": "solar_panel",
         "role": "solar",
         "side": "center",
@@ -1771,7 +1777,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": true
       },
       {
-        "node": "rotors_01_387e7f",
+        "node": "rotors_01_2f4ac9",
         "group": "rotors_01",
         "role": "rotor",
         "side": "center",
@@ -1788,7 +1794,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": true
       },
       {
-        "node": "bus_83d79e",
+        "node": "bus_4b2194",
         "group": "bus",
         "role": "body",
         "side": "center",
@@ -1805,7 +1811,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": false
       },
       {
-        "node": "cams_c44a4a",
+        "node": "cams_4902bb",
         "group": "cams",
         "role": "payload",
         "side": "center",
@@ -1822,7 +1828,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": true
       },
       {
-        "node": "rotors_02_5a9f9c",
+        "node": "rotors_02_9bfede",
         "group": "rotors_02",
         "role": "rotor",
         "side": "center",
@@ -1839,7 +1845,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": true
       },
       {
-        "node": "solar_panel_59e19b",
+        "node": "solar_panel_c32283",
         "group": "solar_panel",
         "role": "solar",
         "side": "center",
@@ -1856,7 +1862,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": true
       },
       {
-        "node": "cams_46c204",
+        "node": "cams_efc502",
         "group": "cams",
         "role": "payload",
         "side": "center",
@@ -1922,6 +1928,7 @@ export const AIRCRAFT: AircraftModel[] = [
       -0.07910744666308164
     ],
     "cuts": {},
+    "hidden": [],
     "parts": [
       {
         "node": "base_link",
@@ -2194,6 +2201,7 @@ export const AIRCRAFT: AircraftModel[] = [
       -0.06873327866196632
     ],
     "cuts": {},
+    "hidden": [],
     "parts": [
       {
         "node": "base_link",
@@ -2467,6 +2475,7 @@ export const AIRCRAFT: AircraftModel[] = [
       0.005997039179248986
     ],
     "cuts": {},
+    "hidden": [],
     "parts": [
       {
         "node": "flap_right",
@@ -2588,7 +2597,15 @@ export const AIRCRAFT: AircraftModel[] = [
       142.10099604539576,
       -0.0002593994140625
     ],
-    "cuts": {},
+    "cuts": {
+      "wing": {
+        "axis": 0,
+        "axisName": "span",
+        "keep": 67.460428,
+        "origin": -0.000305
+      }
+    },
+    "hidden": [],
     "parts": [
       {
         "node": "Object_3",
@@ -2691,6 +2708,7 @@ export const AIRCRAFT: AircraftModel[] = [
       -0.001892369927136539
     ],
     "cuts": {},
+    "hidden": [],
     "parts": [
       {
         "node": "Object_58",
@@ -3048,6 +3066,7 @@ export const AIRCRAFT: AircraftModel[] = [
       0.04724029557608092
     ],
     "cuts": {},
+    "hidden": [],
     "parts": [
       {
         "node": "polySurface194_mycheckered_0",
@@ -3983,6 +4002,7 @@ export const AIRCRAFT: AircraftModel[] = [
       0
     ],
     "cuts": {},
+    "hidden": [],
     "parts": [
       {
         "node": "pCylinder19_Drone_0",
@@ -4816,6 +4836,7 @@ export const AIRCRAFT: AircraftModel[] = [
       -7.956699371337892
     ],
     "cuts": {},
+    "hidden": [],
     "parts": [
       {
         "node": "Object_3",
@@ -4918,6 +4939,7 @@ export const AIRCRAFT: AircraftModel[] = [
       -0.010136798024177551
     ],
     "cuts": {},
+    "hidden": [],
     "parts": [
       {
         "node": "base_link",
@@ -5054,6 +5076,7 @@ export const AIRCRAFT: AircraftModel[] = [
       0.028191305331717098
     ],
     "cuts": {},
+    "hidden": [],
     "parts": [
       {
         "node": "base_link",
@@ -5292,6 +5315,7 @@ export const AIRCRAFT: AircraftModel[] = [
       -0.06790000945329666
     ],
     "cuts": {},
+    "hidden": [],
     "parts": [
       {
         "node": "base_link",
@@ -5479,6 +5503,7 @@ export const AIRCRAFT: AircraftModel[] = [
         ]
       }
     },
+    "hidden": [],
     "parts": [
       {
         "node": "body",
@@ -5717,6 +5742,7 @@ export const AIRCRAFT: AircraftModel[] = [
       0.0006542301031746758
     ],
     "cuts": {},
+    "hidden": [],
     "parts": [
       {
         "node": "DroneBody_high_lambert14_0",
@@ -6294,6 +6320,7 @@ export const AIRCRAFT: AircraftModel[] = [
       0.06206487424967868
     ],
     "cuts": {},
+    "hidden": [],
     "parts": [
       {
         "node": "polySurface116_Main_White_0",
@@ -8163,6 +8190,7 @@ export const AIRCRAFT: AircraftModel[] = [
       0.8001324468006548
     ],
     "cuts": {},
+    "hidden": [],
     "parts": [
       {
         "node": "Object_350",
@@ -10669,6 +10697,4379 @@ export const AIRCRAFT: AircraftModel[] = [
       "license": "CC-BY-4.0",
       "licenseName": "CC Attribution 4.0",
       "url": "https://sketchfab.com/3d-models/dji-mavic-3-c5a5abae1dea468ab73b1bdc7d616fa6"
+    }
+  },
+  {
+    "id": "akinci",
+    "name": "Bayraktar Akıncı",
+    "family": "military",
+    "blurb": "Twenty-metre twin-turboprop UCAV. Carries more than a Reaper, flies as high as a jet.",
+    "environment": "earth",
+    "model": "models/akinci.glb",
+    "spec": {
+      "span_m": 20,
+      "length_m": 12.2,
+      "wing_area_m2": 30,
+      "empty_mass_kg": 2800,
+      "mtow_kg": 5500,
+      "powertrain": "fuel",
+      "fuel_capacity_kg": 1350,
+      "engine": "2 × Ivchenko AI-450T turboprop",
+      "shaft_power_kw": 670,
+      "sfc_kg_per_kwh": 0.33,
+      "prop_diameter_m": 2.3,
+      "prop_blades": 3,
+      "payload_kg": 1350,
+      "cruise_kmh": 241,
+      "max_speed_kmh": 361,
+      "endurance_h": 24,
+      "ceiling_m": 12192
+    },
+    "axes": {
+      "span": 2,
+      "length": 0,
+      "vertical": 1
+    },
+    "aftSign": 1,
+    "scaleToMetres": 2.5432618733693193,
+    "modelExtent": [
+      4.8699844410775945,
+      1.7798509563192852,
+      7.863916889338633
+    ],
+    "origin": [
+      0.014628336384715945,
+      0.12542751516646677,
+      0
+    ],
+    "cuts": {},
+    "hidden": [],
+    "parts": [
+      {
+        "node": "Cube_govde_0",
+        "group": "Cube_govde_0",
+        "role": "wing",
+        "side": "center",
+        "center": [
+          0,
+          0.22709,
+          0
+        ],
+        "size": [
+          4.86998,
+          1.32567,
+          7.86392
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Plane.010_pervane.001_0",
+        "group": "Plane.010_pervane.001_0",
+        "role": "tail",
+        "side": "left",
+        "center": [
+          1.37069,
+          -0.14192,
+          1.13775
+        ],
+        "size": [
+          0.08394,
+          0.83193,
+          1.12375
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Plane.011_pervane.001_0",
+        "group": "Plane.011_pervane.001_0",
+        "role": "tail",
+        "side": "right",
+        "center": [
+          1.37069,
+          -0.14278,
+          -1.17437
+        ],
+        "size": [
+          0.08394,
+          0.95125,
+          0.92382
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Cone.004_govde_0",
+        "group": "Cone.004_govde_0",
+        "role": "tail",
+        "side": "right",
+        "center": [
+          0.87662,
+          -0.21497,
+          -1.21132
+        ],
+        "size": [
+          0.86968,
+          0.48023,
+          0.34528
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Cone.003_govde_0",
+        "group": "Cone.003_govde_0",
+        "role": "tail",
+        "side": "left",
+        "center": [
+          0.87662,
+          -0.21497,
+          1.10095
+        ],
+        "size": [
+          0.86968,
+          0.48023,
+          0.34528
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Cone.005_pervana_g_0",
+        "group": "Cone.005_pervana_g_0",
+        "role": "tail",
+        "side": "left",
+        "center": [
+          1.4074,
+          -0.14475,
+          1.10074
+        ],
+        "size": [
+          0.19187,
+          0.23693,
+          0.23693
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Cone.002_pervana_g_0",
+        "group": "Cone.002_pervana_g_0",
+        "role": "tail",
+        "side": "right",
+        "center": [
+          1.4074,
+          -0.14475,
+          -1.21132
+        ],
+        "size": [
+          0.19187,
+          0.23693,
+          0.23693
+        ],
+        "swappable": true
+      },
+      {
+        "node": "umtas.003_Material.007_0",
+        "group": "umtas.003_Material.007_0",
+        "role": "tail",
+        "side": "right",
+        "center": [
+          0.62052,
+          -0.18604,
+          -2.76702
+        ],
+        "size": [
+          0.50622,
+          0.09608,
+          0.09252
+        ],
+        "swappable": true
+      },
+      {
+        "node": "umtas.002_Material.007_0",
+        "group": "umtas.002_Material.007_0",
+        "role": "tail",
+        "side": "right",
+        "center": [
+          0.62052,
+          -0.16921,
+          -2.49279
+        ],
+        "size": [
+          0.50622,
+          0.09608,
+          0.09252
+        ],
+        "swappable": true
+      },
+      {
+        "node": "umtas.001_Material.007_0",
+        "group": "umtas.001_Material.007_0",
+        "role": "tail",
+        "side": "left",
+        "center": [
+          0.62052,
+          -0.16921,
+          2.49403
+        ],
+        "size": [
+          0.50622,
+          0.09608,
+          0.09252
+        ],
+        "swappable": true
+      },
+      {
+        "node": "umtas_Material.007_0",
+        "group": "umtas_Material.007_0",
+        "role": "tail",
+        "side": "left",
+        "center": [
+          0.62052,
+          -0.19591,
+          2.76655
+        ],
+        "size": [
+          0.50622,
+          0.09608,
+          0.09252
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Cube.013_Material.006_0",
+        "group": "Cube.013_Material.006_0",
+        "role": "tail",
+        "side": "right",
+        "center": [
+          0.74994,
+          -0.2178,
+          -1.98679
+        ],
+        "size": [
+          0.97435,
+          0.14855,
+          0.21929
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Cube.010_Material.006_0",
+        "group": "Cube.010_Material.006_0",
+        "role": "tail",
+        "side": "left",
+        "center": [
+          0.74994,
+          -0.2178,
+          1.9808
+        ],
+        "size": [
+          0.97435,
+          0.14855,
+          0.21929
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Cube.011_govde_0",
+        "group": "Cube.011_govde_0",
+        "role": "wing",
+        "side": "center",
+        "center": [
+          -0.76752,
+          0.16023,
+          0
+        ],
+        "size": [
+          3.21618,
+          0.71763,
+          7.2644
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Torus.001_Material_0",
+        "group": "Torus.001_Material_0",
+        "role": "hardpoint",
+        "side": "right",
+        "center": [
+          0.53048,
+          -0.78412,
+          -0.79448
+        ],
+        "size": [
+          0.21162,
+          0.21162,
+          0.05039
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Torus.005_Material_0",
+        "group": "Torus.005_Material_0",
+        "role": "hardpoint",
+        "side": "left",
+        "center": [
+          0.5365,
+          -0.78412,
+          0.77975
+        ],
+        "size": [
+          0.21162,
+          0.21162,
+          0.05039
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Torus.003_Material_0",
+        "group": "Torus.003_Material_0",
+        "role": "payload",
+        "side": "center",
+        "center": [
+          1.42075,
+          -0.78412,
+          0
+        ],
+        "size": [
+          0.21162,
+          0.21162,
+          0.05039
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Icosphere.002_Material.006_0",
+        "group": "Icosphere.002_Material.006_0",
+        "role": "gear",
+        "side": "center",
+        "center": [
+          -0.75146,
+          -0.47741,
+          0
+        ],
+        "size": [
+          0.20989,
+          0.2029,
+          0.1241
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Sphere_Material.006_0",
+        "group": "Sphere_Material.006_0",
+        "role": "payload",
+        "side": "center",
+        "center": [
+          -0.75534,
+          -0.43494,
+          0
+        ],
+        "size": [
+          0.16209,
+          0.24837,
+          0.1887
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Cube.014_Material.006_0",
+        "group": "Cube.014_Material.006_0",
+        "role": "tail",
+        "side": "right",
+        "center": [
+          0.60792,
+          -0.1321,
+          -1.98679
+        ],
+        "size": [
+          0.21977,
+          0.02748,
+          0.56077
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Cube.009_Material.006_0",
+        "group": "Cube.009_Material.006_0",
+        "role": "tail",
+        "side": "left",
+        "center": [
+          0.60792,
+          -0.1321,
+          1.9808
+        ],
+        "size": [
+          0.21977,
+          0.02748,
+          0.56077
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Cube.016_Material.006_0",
+        "group": "Cube.016_Material.006_0",
+        "role": "hardpoint",
+        "side": "right",
+        "center": [
+          0.48282,
+          -0.29458,
+          -1.98679
+        ],
+        "size": [
+          0.14683,
+          0.04453,
+          0.14054
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Cube.005_Material.006_0",
+        "group": "Cube.005_Material.006_0",
+        "role": "hardpoint",
+        "side": "left",
+        "center": [
+          0.48282,
+          -0.29458,
+          1.9808
+        ],
+        "size": [
+          0.14683,
+          0.04453,
+          0.14054
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Torus.002_Material.001_0",
+        "group": "Torus.002_Material.001_0",
+        "role": "hardpoint",
+        "side": "right",
+        "center": [
+          0.53048,
+          -0.78412,
+          -0.79152
+        ],
+        "size": [
+          0.12716,
+          0.12716,
+          0.03743
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Torus.006_Material.001_0",
+        "group": "Torus.006_Material.001_0",
+        "role": "hardpoint",
+        "side": "left",
+        "center": [
+          0.5365,
+          -0.78412,
+          0.77679
+        ],
+        "size": [
+          0.12716,
+          0.12716,
+          0.03743
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Torus.004_Material.001_0",
+        "group": "Torus.004_Material.001_0",
+        "role": "payload",
+        "side": "center",
+        "center": [
+          1.42075,
+          -0.78412,
+          -0.00296
+        ],
+        "size": [
+          0.12716,
+          0.12716,
+          0.03743
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Icosphere.003_Material.006_0",
+        "group": "Icosphere.003_Material.006_0",
+        "role": "tail",
+        "side": "right",
+        "center": [
+          0.77192,
+          -0.12934,
+          -1.98679
+        ],
+        "size": [
+          0.42168,
+          0.03781,
+          0.17357
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Icosphere.010_Material.006_0",
+        "group": "Icosphere.010_Material.006_0",
+        "role": "tail",
+        "side": "left",
+        "center": [
+          0.77192,
+          -0.12934,
+          1.9808
+        ],
+        "size": [
+          0.42168,
+          0.03781,
+          0.17357
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Cylinder.015_Material.003_0",
+        "group": "Cylinder.015_Material.003_0",
+        "role": "gear",
+        "side": "center",
+        "center": [
+          -0.75477,
+          -0.42652,
+          0.00006
+        ],
+        "size": [
+          0.21593,
+          0.03443,
+          0.21593
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Cylinder.020_Material.004_0",
+        "group": "Cylinder.020_Material.004_0",
+        "role": "tail",
+        "side": "right",
+        "center": [
+          0.90103,
+          -0.21305,
+          -2.07194
+        ],
+        "size": [
+          0.01591,
+          0.00271,
+          0.01691
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Cylinder.019_Material.004_0",
+        "group": "Cylinder.019_Material.004_0",
+        "role": "tail",
+        "side": "right",
+        "center": [
+          0.90103,
+          -0.21305,
+          -1.90203
+        ],
+        "size": [
+          0.01591,
+          0.00271,
+          0.01691
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Cylinder.018_Material.004_0",
+        "group": "Cylinder.018_Material.004_0",
+        "role": "tail",
+        "side": "right",
+        "center": [
+          0.57669,
+          -0.10158,
+          -1.98898
+        ],
+        "size": [
+          0.00316,
+          0.01971,
+          0.01855
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Cylinder.017_Material.004_0",
+        "group": "Cylinder.017_Material.004_0",
+        "role": "tail",
+        "side": "right",
+        "center": [
+          0.81377,
+          -0.10158,
+          -1.98898
+        ],
+        "size": [
+          0.00316,
+          0.01971,
+          0.01855
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Cylinder.005_Material.004_0",
+        "group": "Cylinder.005_Material.004_0",
+        "role": "tail",
+        "side": "left",
+        "center": [
+          0.90103,
+          -0.21305,
+          1.89565
+        ],
+        "size": [
+          0.01591,
+          0.00271,
+          0.01691
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Cylinder.012_Material.004_0",
+        "group": "Cylinder.012_Material.004_0",
+        "role": "tail",
+        "side": "left",
+        "center": [
+          0.90103,
+          -0.21305,
+          2.06556
+        ],
+        "size": [
+          0.01591,
+          0.00271,
+          0.01691
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Cylinder.013_Material.004_0",
+        "group": "Cylinder.013_Material.004_0",
+        "role": "tail",
+        "side": "left",
+        "center": [
+          0.57669,
+          -0.10158,
+          1.97861
+        ],
+        "size": [
+          0.00316,
+          0.01971,
+          0.01855
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Cylinder.014_Material.004_0",
+        "group": "Cylinder.014_Material.004_0",
+        "role": "tail",
+        "side": "left",
+        "center": [
+          0.81377,
+          -0.10158,
+          1.97861
+        ],
+        "size": [
+          0.00316,
+          0.01971,
+          0.01855
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Cube.012_Material.008_0",
+        "group": "Cube.012_Material.008_0",
+        "role": "hardpoint",
+        "side": "right",
+        "center": [
+          0.53349,
+          -0.49569,
+          -0.45798
+        ],
+        "size": [
+          0.13682,
+          0.58711,
+          0.66979
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Cube.003_Material.008_0",
+        "group": "Cube.003_Material.008_0",
+        "role": "hardpoint",
+        "side": "left",
+        "center": [
+          0.53349,
+          -0.49569,
+          0.44325
+        ],
+        "size": [
+          0.13682,
+          0.58711,
+          0.66979
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Cube.007_Material.008_0",
+        "group": "Cube.007_Material.008_0",
+        "role": "payload",
+        "side": "center",
+        "center": [
+          1.47052,
+          -0.67437,
+          0
+        ],
+        "size": [
+          0.11068,
+          0.23809,
+          0.07459
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Cylinder.003_govde_0",
+        "group": "Cylinder.003_govde_0",
+        "role": "payload",
+        "side": "center",
+        "center": [
+          1.86839,
+          -0.39634,
+          0.11891
+        ],
+        "size": [
+          0.05898,
+          0.08033,
+          0.06706
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Cylinder.004_govde_0",
+        "group": "Cylinder.004_govde_0",
+        "role": "payload",
+        "side": "center",
+        "center": [
+          1.86839,
+          -0.39634,
+          -0.11684
+        ],
+        "size": [
+          0.05898,
+          0.08033,
+          0.06706
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Cube.015_Material.006_0",
+        "group": "Cube.015_Material.006_0",
+        "role": "tail",
+        "side": "right",
+        "center": [
+          0.31603,
+          -0.21246,
+          -1.98679
+        ],
+        "size": [
+          0.0722,
+          0.17726,
+          0.27178
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Cube.008_Material.006_0",
+        "group": "Cube.008_Material.006_0",
+        "role": "tail",
+        "side": "left",
+        "center": [
+          0.31603,
+          -0.21246,
+          1.9808
+        ],
+        "size": [
+          0.0722,
+          0.17726,
+          0.27178
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Cylinder.002_govde_0",
+        "group": "Cylinder.002_govde_0",
+        "role": "body",
+        "side": "center",
+        "center": [
+          -2.049,
+          0.84384,
+          0
+        ],
+        "size": [
+          0.20772,
+          0.02475,
+          0.02475
+        ],
+        "swappable": false
+      },
+      {
+        "node": "Cylinder_govde_0",
+        "group": "Cylinder_govde_0",
+        "role": "body",
+        "side": "center",
+        "center": [
+          -1.99968,
+          0.63506,
+          0
+        ],
+        "size": [
+          0.08944,
+          0.06222,
+          0.06222
+        ],
+        "swappable": false
+      },
+      {
+        "node": "Plane.025_dot_0",
+        "group": "Plane.025_dot_0",
+        "role": "tail",
+        "side": "left",
+        "center": [
+          0.68109,
+          -0.03767,
+          1.57675
+        ],
+        "size": [
+          0.29445,
+          0.03299,
+          0.29404
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Plane.024_dot_0",
+        "group": "Plane.024_dot_0",
+        "role": "body",
+        "side": "center",
+        "center": [
+          -1.24961,
+          -0.24106,
+          0.14049
+        ],
+        "size": [
+          0.12491,
+          0.10219,
+          0.03881
+        ],
+        "swappable": false
+      },
+      {
+        "node": "Plane.009_baykar_0",
+        "group": "Plane.009_baykar_0",
+        "role": "body",
+        "side": "center",
+        "center": [
+          -1.97699,
+          0.23481,
+          0.05865
+        ],
+        "size": [
+          0.13556,
+          0.09247,
+          0.0085
+        ],
+        "swappable": false
+      },
+      {
+        "node": "Plane.008_bayrak_0",
+        "group": "Plane.008_bayrak_0",
+        "role": "body",
+        "side": "center",
+        "center": [
+          -2.0662,
+          0.4202,
+          0.05138
+        ],
+        "size": [
+          0.13545,
+          0.09265,
+          0.00787
+        ],
+        "swappable": false
+      },
+      {
+        "node": "Plane.007_baykar.001_0",
+        "group": "Plane.007_baykar.001_0",
+        "role": "body",
+        "side": "center",
+        "center": [
+          1.72576,
+          -0.17678,
+          0.19588
+        ],
+        "size": [
+          0.30067,
+          0.08317,
+          0.04969
+        ],
+        "swappable": false
+      },
+      {
+        "node": "Plane.005_dot_0",
+        "group": "Plane.005_dot_0",
+        "role": "tail",
+        "side": "right",
+        "center": [
+          0.68107,
+          -0.03628,
+          -1.55949
+        ],
+        "size": [
+          0.29465,
+          0.03303,
+          0.29389
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Plane.023_dot_0",
+        "group": "Plane.023_dot_0",
+        "role": "body",
+        "side": "center",
+        "center": [
+          -1.24976,
+          -0.24036,
+          -0.14042
+        ],
+        "size": [
+          0.12494,
+          0.10331,
+          0.03891
+        ],
+        "swappable": false
+      },
+      {
+        "node": "Plane.017_baykar.001_0",
+        "group": "Plane.017_baykar.001_0",
+        "role": "body",
+        "side": "center",
+        "center": [
+          1.72574,
+          -0.17694,
+          -0.19587
+        ],
+        "size": [
+          0.30067,
+          0.08289,
+          0.04972
+        ],
+        "swappable": false
+      },
+      {
+        "node": "Plane.016_baykar.001_0",
+        "group": "Plane.016_baykar.001_0",
+        "role": "body",
+        "side": "center",
+        "center": [
+          -0.53767,
+          -0.21614,
+          -0.19249
+        ],
+        "size": [
+          0.63374,
+          0.17124,
+          0.08498
+        ],
+        "swappable": false
+      },
+      {
+        "node": "Plane.015_baykar_0",
+        "group": "Plane.015_baykar_0",
+        "role": "body",
+        "side": "center",
+        "center": [
+          -1.97699,
+          0.23484,
+          -0.05865
+        ],
+        "size": [
+          0.13557,
+          0.09245,
+          0.00851
+        ],
+        "swappable": false
+      },
+      {
+        "node": "Plane.014_bayrak_0",
+        "group": "Plane.014_bayrak_0",
+        "role": "body",
+        "side": "center",
+        "center": [
+          -2.0662,
+          0.42056,
+          -0.05132
+        ],
+        "size": [
+          0.13558,
+          0.09244,
+          0.00794
+        ],
+        "swappable": false
+      },
+      {
+        "node": "dikkat.001_dikkat_0",
+        "group": "dikkat.001_dikkat_0",
+        "role": "body",
+        "side": "center",
+        "center": [
+          1.47436,
+          -0.07951,
+          -0.1798
+        ],
+        "size": [
+          0.17183,
+          0.21668,
+          0.12245
+        ],
+        "swappable": false
+      },
+      {
+        "node": "dikkat_dikkat_0",
+        "group": "dikkat_dikkat_0",
+        "role": "body",
+        "side": "center",
+        "center": [
+          1.47429,
+          -0.08042,
+          0.18075
+        ],
+        "size": [
+          0.17181,
+          0.21495,
+          0.12061
+        ],
+        "swappable": false
+      },
+      {
+        "node": "model.001_model_0",
+        "group": "model.001_model_0",
+        "role": "body",
+        "side": "center",
+        "center": [
+          -1.87942,
+          0.04259,
+          0.06803
+        ],
+        "size": [
+          0.17499,
+          0.07871,
+          0.01056
+        ],
+        "swappable": false
+      },
+      {
+        "node": "model_model_0",
+        "group": "model_model_0",
+        "role": "body",
+        "side": "center",
+        "center": [
+          -1.87949,
+          0.04188,
+          -0.06882
+        ],
+        "size": [
+          0.17479,
+          0.07915,
+          0.01198
+        ],
+        "swappable": false
+      },
+      {
+        "node": "turk_bayragi.003_turk_bayragi_0",
+        "group": "turk_bayragi.003_turk_bayragi_0",
+        "role": "tail",
+        "side": "right",
+        "center": [
+          1.07915,
+          -0.20871,
+          -2.06287
+        ],
+        "size": [
+          0.03499,
+          0.02353,
+          0.00321
+        ],
+        "swappable": true
+      },
+      {
+        "node": "roketsan.003_roketsan_0",
+        "group": "roketsan.003_roketsan_0",
+        "role": "tail",
+        "side": "right",
+        "center": [
+          0.9942,
+          -0.20874,
+          -2.065
+        ],
+        "size": [
+          0.11071,
+          0.01943,
+          0.00155
+        ],
+        "swappable": true
+      },
+      {
+        "node": "turk_bayragi.002_turk_bayragi_0",
+        "group": "turk_bayragi.002_turk_bayragi_0",
+        "role": "tail",
+        "side": "right",
+        "center": [
+          1.07912,
+          -0.20871,
+          -1.91071
+        ],
+        "size": [
+          0.03498,
+          0.02353,
+          0.00321
+        ],
+        "swappable": true
+      },
+      {
+        "node": "roketsan.002_roketsan_0",
+        "group": "roketsan.002_roketsan_0",
+        "role": "tail",
+        "side": "right",
+        "center": [
+          0.99419,
+          -0.20874,
+          -1.90779
+        ],
+        "size": [
+          0.11071,
+          0.01943,
+          0.00155
+        ],
+        "swappable": true
+      },
+      {
+        "node": "turk_bayragi.001_turk_bayragi_0",
+        "group": "turk_bayragi.001_turk_bayragi_0",
+        "role": "tail",
+        "side": "left",
+        "center": [
+          1.07915,
+          -0.20871,
+          1.90472
+        ],
+        "size": [
+          0.03499,
+          0.02353,
+          0.00321
+        ],
+        "swappable": true
+      },
+      {
+        "node": "roketsan.001_roketsan_0",
+        "group": "roketsan.001_roketsan_0",
+        "role": "tail",
+        "side": "left",
+        "center": [
+          0.9942,
+          -0.20874,
+          1.90258
+        ],
+        "size": [
+          0.11071,
+          0.01943,
+          0.00155
+        ],
+        "swappable": true
+      },
+      {
+        "node": "turk_bayragi_turk_bayragi_0",
+        "group": "turk_bayragi_turk_bayragi_0",
+        "role": "tail",
+        "side": "left",
+        "center": [
+          1.07912,
+          -0.20871,
+          2.05688
+        ],
+        "size": [
+          0.03498,
+          0.02353,
+          0.00321
+        ],
+        "swappable": true
+      },
+      {
+        "node": "roketsan_roketsan_0",
+        "group": "roketsan_roketsan_0",
+        "role": "tail",
+        "side": "left",
+        "center": [
+          0.99419,
+          -0.20874,
+          2.0598
+        ],
+        "size": [
+          0.11071,
+          0.01943,
+          0.00155
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Cube.017_Material.006_0",
+        "group": "Cube.017_Material.006_0",
+        "role": "tail",
+        "side": "right",
+        "center": [
+          1.0471,
+          -0.14553,
+          -1.98665
+        ],
+        "size": [
+          0.0297,
+          0.00747,
+          0.02811
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Cube.004_Material.006_0",
+        "group": "Cube.004_Material.006_0",
+        "role": "tail",
+        "side": "left",
+        "center": [
+          1.0471,
+          -0.14553,
+          1.98094
+        ],
+        "size": [
+          0.0297,
+          0.00747,
+          0.02811
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Icosphere.001_Material.013_0",
+        "group": "Icosphere.001_Material.013_0",
+        "role": "body",
+        "side": "center",
+        "center": [
+          -1.96039,
+          0.63506,
+          0
+        ],
+        "size": [
+          0.05668,
+          0.0596,
+          0.0596
+        ],
+        "swappable": false
+      },
+      {
+        "node": "Cylinder.016_Material.009_0",
+        "group": "Cylinder.016_Material.009_0",
+        "role": "hardpoint",
+        "side": "right",
+        "center": [
+          0.53048,
+          -0.78412,
+          -0.80083
+        ],
+        "size": [
+          0.05667,
+          0.05667,
+          0.0862
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Cylinder.011_Material.009_0",
+        "group": "Cylinder.011_Material.009_0",
+        "role": "hardpoint",
+        "side": "left",
+        "center": [
+          0.5365,
+          -0.78412,
+          0.7861
+        ],
+        "size": [
+          0.05667,
+          0.05667,
+          0.0862
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Cylinder.008_Material.009_0",
+        "group": "Cylinder.008_Material.009_0",
+        "role": "payload",
+        "side": "center",
+        "center": [
+          1.42075,
+          -0.78412,
+          0.00635
+        ],
+        "size": [
+          0.05667,
+          0.05667,
+          0.0862
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Icosphere.002_optics_0",
+        "group": "Icosphere.002_optics_0",
+        "role": "payload",
+        "side": "center",
+        "center": [
+          -0.68096,
+          -0.52254,
+          0.00099
+        ],
+        "size": [
+          0.06233,
+          0.09326,
+          0.11348
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Cylinder.010_Material.010_0",
+        "group": "Cylinder.010_Material.010_0",
+        "role": "payload",
+        "side": "center",
+        "center": [
+          1.52482,
+          -0.51965,
+          0
+        ],
+        "size": [
+          0.07212,
+          0.1046,
+          0.02594
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Cylinder.009_piston_0",
+        "group": "Cylinder.009_piston_0",
+        "role": "payload",
+        "side": "center",
+        "center": [
+          1.57288,
+          -0.4317,
+          0
+        ],
+        "size": [
+          0.09837,
+          0.1388,
+          0.0387
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Cylinder.007_Material.010_0",
+        "group": "Cylinder.007_Material.010_0",
+        "role": "payload",
+        "side": "center",
+        "center": [
+          1.43756,
+          -0.61884,
+          0
+        ],
+        "size": [
+          0.02442,
+          0.10604,
+          0.02442
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Cylinder.006_piston_0",
+        "group": "Cylinder.006_piston_0",
+        "role": "payload",
+        "side": "center",
+        "center": [
+          1.43756,
+          -0.53256,
+          0
+        ],
+        "size": [
+          0.03677,
+          0.11558,
+          0.03677
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Plane.006_baykar.001_0",
+        "group": "Plane.006_baykar.001_0",
+        "role": "body",
+        "side": "center",
+        "center": [
+          -0.53765,
+          -0.21639,
+          0.1925
+        ],
+        "size": [
+          0.63374,
+          0.1708,
+          0.08498
+        ],
+        "swappable": false
+      },
+      {
+        "node": "Cube.002_govde_0",
+        "group": "Cube.002_govde_0",
+        "role": "payload",
+        "side": "center",
+        "center": [
+          -1.63943,
+          -0.3741,
+          -0.03174
+        ],
+        "size": [
+          0.07988,
+          0.09873,
+          0.01869
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Cube.001_govde_0",
+        "group": "Cube.001_govde_0",
+        "role": "payload",
+        "side": "center",
+        "center": [
+          -1.32276,
+          -0.42515,
+          -0.03174
+        ],
+        "size": [
+          0.05237,
+          0.07879,
+          0.01492
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Cube.006_Material.008_0",
+        "group": "Cube.006_Material.008_0",
+        "role": "payload",
+        "side": "center",
+        "center": [
+          1.43769,
+          -0.46716,
+          0
+        ],
+        "size": [
+          0.18332,
+          0.23467,
+          0.04757
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Cube.013_optics_0",
+        "group": "Cube.013_optics_0",
+        "role": "tail",
+        "side": "right",
+        "center": [
+          1.22728,
+          -0.20782,
+          -1.98679
+        ],
+        "size": [
+          0.01967,
+          0.05967,
+          0.09153
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Cube.010_optics_0",
+        "group": "Cube.010_optics_0",
+        "role": "tail",
+        "side": "left",
+        "center": [
+          1.22728,
+          -0.20782,
+          1.9808
+        ],
+        "size": [
+          0.01967,
+          0.05967,
+          0.09153
+        ],
+        "swappable": true
+      }
+    ],
+    "credit": {
+      "author": "Yusuf",
+      "license": "CC-BY-4.0",
+      "licenseName": "CC Attribution 4.0",
+      "url": "https://sketchfab.com/3d-models/akinci-tiha-5c878dbad37442e9a219d962540a75c2"
+    }
+  },
+  {
+    "id": "shahed-136",
+    "name": "Shahed-136",
+    "family": "military",
+    "blurb": "Delta-wing loitering munition. A moped engine, a warhead, and two thousand kilometres.",
+    "environment": "earth",
+    "model": "models/shahed-136.glb",
+    "spec": {
+      "span_m": 2.5,
+      "length_m": 3.5,
+      "wing_area_m2": 2,
+      "empty_mass_kg": 110,
+      "mtow_kg": 200,
+      "powertrain": "fuel",
+      "fuel_capacity_kg": 40,
+      "engine": "MADO MD-550 two-stroke",
+      "shaft_power_kw": 37,
+      "sfc_kg_per_kwh": 0.42,
+      "prop_diameter_m": 0.8,
+      "prop_blades": 2,
+      "payload_kg": 50,
+      "cruise_kmh": 185,
+      "max_speed_kmh": 185,
+      "endurance_h": 13.5,
+      "ceiling_m": 4000
+    },
+    "axes": {
+      "span": 2,
+      "length": 0,
+      "vertical": 1
+    },
+    "aftSign": 1,
+    "scaleToMetres": 1.3170552415015033,
+    "modelExtent": [
+      1.436394989490509,
+      0.3373150080442429,
+      1.8981739878654484
+    ],
+    "origin": [
+      -0.00012949109077453613,
+      0.0010394975543022156,
+      -0.000326007604598999
+    ],
+    "cuts": {
+      "wing": {
+        "axis": 2,
+        "axisName": "span",
+        "keep": 0.132872,
+        "origin": -0.000326
+      }
+    },
+    "hidden": [],
+    "parts": [
+      {
+        "node": "Object_2",
+        "group": "Object_2",
+        "role": "body",
+        "side": "center",
+        "center": [
+          0.00493,
+          0,
+          0
+        ],
+        "size": [
+          1.42653,
+          0.33732,
+          1.89817
+        ],
+        "swappable": false
+      },
+      {
+        "node": "Object_3",
+        "group": "Object_3",
+        "role": "body",
+        "side": "center",
+        "center": [
+          -0.00034,
+          0.00005,
+          0.00277
+        ],
+        "size": [
+          1.43572,
+          0.33722,
+          1.89222
+        ],
+        "swappable": false
+      }
+    ],
+    "credit": {
+      "author": "Chenzoss",
+      "license": "CC-BY-4.0",
+      "licenseName": "CC Attribution 4.0",
+      "url": "https://sketchfab.com/3d-models/iranian-shahed-136-military-drone-af8ac3d45ade494fb280c99922513ae2"
+    }
+  },
+  {
+    "id": "altius-700",
+    "name": "Anduril ALTIUS 700M",
+    "family": "military",
+    "blurb": "Folds into a tube, launches from one, unfolds its wing in the air.",
+    "environment": "earth",
+    "model": "models/altius-700.glb",
+    "spec": {
+      "span_m": 3.05,
+      "length_m": 2.1,
+      "wing_area_m2": 1.5,
+      "empty_mass_kg": 120,
+      "mtow_kg": 227,
+      "powertrain": "fuel",
+      "fuel_capacity_kg": 37,
+      "engine": "Piston pusher",
+      "shaft_power_kw": 37,
+      "sfc_kg_per_kwh": 0.42,
+      "prop_diameter_m": 0.6,
+      "prop_blades": 2,
+      "payload_kg": 30,
+      "cruise_kmh": 185,
+      "max_speed_kmh": 222,
+      "endurance_h": 4,
+      "ceiling_m": 7620
+    },
+    "axes": {
+      "span": 0,
+      "length": 2,
+      "vertical": 1
+    },
+    "aftSign": -1,
+    "scaleToMetres": 0.0027637559537364415,
+    "modelExtent": [
+      1103.5706665331911,
+      258.1964394270058,
+      1052.7131290509647
+    ],
+    "origin": [
+      2.438789324416007,
+      1.5404075808744722,
+      -268.9450715783918
+    ],
+    "cuts": {},
+    "hidden": [],
+    "parts": [
+      {
+        "node": "Mesh003_Material #25_0",
+        "group": "Mesh003_Material #25_0",
+        "role": "body",
+        "side": "center",
+        "center": [
+          -2.57596,
+          -1.0274,
+          16.76782
+        ],
+        "size": [
+          111.23403,
+          149.85765,
+          1019.17749
+        ],
+        "swappable": false
+      },
+      {
+        "node": "Sphere006_Material #25_0",
+        "group": "Sphere006_Material #25_0",
+        "role": "payload",
+        "side": "center",
+        "center": [
+          -2.22646,
+          -36.77069,
+          440.08973
+        ],
+        "size": [
+          71.79946,
+          71.79946,
+          66.00045
+        ],
+        "swappable": true
+      },
+      {
+        "node": "C-Ext002_Material #25_0",
+        "group": "C-Ext002_Material #25_0",
+        "role": "hardpoint",
+        "side": "right",
+        "center": [
+          -74.79497,
+          -48.62726,
+          -434.26047
+        ],
+        "size": [
+          107.23295,
+          144.51067,
+          50.29948
+        ],
+        "swappable": true
+      },
+      {
+        "node": "C-Ext001_Material #25_0",
+        "group": "C-Ext001_Material #25_0",
+        "role": "hardpoint",
+        "side": "left",
+        "center": [
+          64.78177,
+          -49.86861,
+          -434.26044
+        ],
+        "size": [
+          107.23286,
+          144.51068,
+          50.29949
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Sphere007_Material #26_0",
+        "group": "Sphere007_Material #26_0",
+        "role": "payload",
+        "side": "center",
+        "center": [
+          -2.54697,
+          -36.68846,
+          470.14618
+        ],
+        "size": [
+          43.15291,
+          43.15291,
+          2.02149
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Capsule002_Material #25_0",
+        "group": "Capsule002_Material #25_0",
+        "role": "body",
+        "side": "center",
+        "center": [
+          -3.07189,
+          -19.49816,
+          441.03714
+        ],
+        "size": [
+          79.14027,
+          89.76035,
+          79.14028
+        ],
+        "swappable": false
+      },
+      {
+        "node": "Tube001_Material #25_0",
+        "group": "Tube001_Material #25_0",
+        "role": "payload",
+        "side": "center",
+        "center": [
+          -2.11971,
+          -36.90209,
+          470.08937
+        ],
+        "size": [
+          47.85465,
+          47.85465,
+          4.27258
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Mesh002_Material #25_0",
+        "group": "Mesh002_Material #25_0",
+        "role": "tail",
+        "side": "center",
+        "center": [
+          -2.576,
+          -0.4177,
+          -509.5885
+        ],
+        "size": [
+          41.51321,
+          40.06336,
+          33.53614
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Cylinder006_Material #25_0",
+        "group": "Cylinder006_Material #25_0",
+        "role": "payload",
+        "side": "center",
+        "center": [
+          -1.99705,
+          -74.41732,
+          -503.86305
+        ],
+        "size": [
+          12.32802,
+          109.3618,
+          6.61181
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Cylinder012_Material #25_0",
+        "group": "Cylinder012_Material #25_0",
+        "role": "tail",
+        "side": "center",
+        "center": [
+          -1.99705,
+          74.41733,
+          -503.86297
+        ],
+        "size": [
+          12.32802,
+          109.36177,
+          6.61182
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Cylinder007_Material #25_0",
+        "group": "Cylinder007_Material #25_0",
+        "role": "body",
+        "side": "center",
+        "center": [
+          -1.99705,
+          -21.04913,
+          -503.72173
+        ],
+        "size": [
+          12.36737,
+          4.47674,
+          4.5458
+        ],
+        "swappable": false
+      },
+      {
+        "node": "Cylinder010_Material #25_0",
+        "group": "Cylinder010_Material #25_0",
+        "role": "body",
+        "side": "center",
+        "center": [
+          -1.99705,
+          21.04912,
+          -503.72179
+        ],
+        "size": [
+          12.36737,
+          4.47671,
+          4.54582
+        ],
+        "swappable": false
+      },
+      {
+        "node": "Cylinder008_Material #25_0",
+        "group": "Cylinder008_Material #25_0",
+        "role": "tail",
+        "side": "center",
+        "center": [
+          -1.99705,
+          -12.76116,
+          -503.72181
+        ],
+        "size": [
+          12.24032,
+          27.77101,
+          12.05437
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Cylinder011_Material #25_0",
+        "group": "Cylinder011_Material #25_0",
+        "role": "tail",
+        "side": "center",
+        "center": [
+          -1.99705,
+          12.76112,
+          -503.7218
+        ],
+        "size": [
+          12.24033,
+          27.77101,
+          12.05438
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Cylinder004_Material #25_0",
+        "group": "Cylinder004_Material #25_0",
+        "role": "wing",
+        "side": "left",
+        "center": [
+          269.56824,
+          24.68952,
+          219.26553
+        ],
+        "size": [
+          564.43418,
+          36.07457,
+          71.61546
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Cylinder002_Material #25_0",
+        "group": "Cylinder002_Material #25_0",
+        "role": "wing",
+        "side": "right",
+        "center": [
+          -269.56822,
+          25.11615,
+          214.36933
+        ],
+        "size": [
+          564.43424,
+          36.07479,
+          71.61529
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Cylinder016__0",
+        "group": "Cylinder016",
+        "role": "tail",
+        "side": "center",
+        "center": [
+          -19.60518,
+          -4.36703,
+          -434.11511
+        ],
+        "size": [
+          21.9943,
+          20.87079,
+          16.83179
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Cylinder015__0",
+        "group": "Cylinder015",
+        "role": "tail",
+        "side": "center",
+        "center": [
+          9.59201,
+          -5.60837,
+          -434.1151
+        ],
+        "size": [
+          21.9943,
+          20.87078,
+          16.83179
+        ],
+        "swappable": true
+      }
+    ],
+    "credit": {
+      "author": "KillCaptureDestroy",
+      "license": "CC-BY-4.0",
+      "licenseName": "CC Attribution 4.0",
+      "url": "https://sketchfab.com/3d-models/anduril-altius-700m-4e7fe35b0279418d85af34d33faa9db5"
+    }
+  },
+  {
+    "id": "matrice-300",
+    "name": "DJI Matrice 300 RTK",
+    "family": "consumer",
+    "blurb": "Folding-arm industrial quad. Hot-swappable packs, six kilos of it, fifty-five minutes.",
+    "environment": "earth",
+    "model": "models/matrice-300.glb",
+    "spec": {
+      "span_m": 0.895,
+      "length_m": 0.81,
+      "empty_mass_kg": 6.3,
+      "mtow_kg": 9,
+      "powertrain": "electric",
+      "rotors": 4,
+      "rotor_diameter_m": 0.533,
+      "battery_wh": 548,
+      "battery_cells": 12,
+      "payload_kg": 2.7,
+      "cruise_kmh": 50,
+      "max_speed_kmh": 82,
+      "endurance_h": 0.92,
+      "ceiling_m": 5000
+    },
+    "axes": {
+      "span": 2,
+      "length": 0,
+      "vertical": 1
+    },
+    "aftSign": 1,
+    "scaleToMetres": 0.08109757390084965,
+    "modelExtent": [
+      10.312294006347656,
+      4.88865375518799,
+      11.036088466644292
+    ],
+    "origin": [
+      0.029606567695736885,
+      6.535761356353762,
+      0.3868156671524048
+    ],
+    "cuts": {},
+    "hidden": [
+      "polySurface4181_lambert33_0",
+      "polySurface4181_lambert32_0",
+      "polySurface4181_lambert35_0",
+      "polySurface4181_lambert34_0"
+    ],
+    "parts": [
+      {
+        "node": "polySurface4387_lambert19_0_8",
+        "group": "polySurface4387_lambert19_0_8",
+        "role": "body",
+        "side": "center",
+        "center": [
+          0,
+          0.48505,
+          -0.02999
+        ],
+        "size": [
+          8.29025,
+          3.70458,
+          7.01683
+        ],
+        "swappable": false
+      },
+      {
+        "node": "polySurface4387_lambert19_0_4",
+        "group": "polySurface4387_lambert19_0_4",
+        "role": "gear",
+        "side": "right",
+        "center": [
+          -0.22364,
+          0.20768,
+          -3.21175
+        ],
+        "size": [
+          7.02905,
+          0.4385,
+          0.69255
+        ],
+        "swappable": true
+      },
+      {
+        "node": "polySurface4387_lambert19_0_3",
+        "group": "polySurface4387_lambert19_0_3",
+        "role": "gear",
+        "side": "right",
+        "center": [
+          0.04749,
+          0.15539,
+          -3.2114
+        ],
+        "size": [
+          7.34842,
+          0.3816,
+          0.69099
+        ],
+        "swappable": true
+      },
+      {
+        "node": "polySurface4387_lambert19_0_6",
+        "group": "polySurface4387_lambert19_0_6",
+        "role": "gear",
+        "side": "left",
+        "center": [
+          3.78446,
+          0.20768,
+          3.13098
+        ],
+        "size": [
+          0.72133,
+          0.4385,
+          0.69489
+        ],
+        "swappable": true
+      },
+      {
+        "node": "polySurface4387_lambert19_0",
+        "group": "polySurface4387_lambert19_0",
+        "role": "body",
+        "side": "center",
+        "center": [
+          -0.11184,
+          0.43255,
+          0.04772
+        ],
+        "size": [
+          8.01474,
+          3.84183,
+          6.849
+        ],
+        "swappable": false
+      },
+      {
+        "node": "polySurface4387_lambert19_0_9",
+        "group": "polySurface4387_lambert19_0_9",
+        "role": "body",
+        "side": "center",
+        "center": [
+          0,
+          1.30635,
+          0.15204
+        ],
+        "size": [
+          1.23214,
+          2.09423,
+          2.32051
+        ],
+        "swappable": false
+      },
+      {
+        "node": "polySurface4387_lambert19_0_7",
+        "group": "polySurface4387_lambert19_0_7",
+        "role": "body",
+        "side": "left",
+        "center": [
+          0.02239,
+          0.50667,
+          0.82661
+        ],
+        "size": [
+          8.24547,
+          3.66134,
+          5.26535
+        ],
+        "swappable": false
+      },
+      {
+        "node": "polySurface4387_lambert19_0_5",
+        "group": "polySurface4387_lambert19_0_5",
+        "role": "body",
+        "side": "center",
+        "center": [
+          0.0713,
+          0.34504,
+          0.13135
+        ],
+        "size": [
+          7.586,
+          0.0023,
+          6.68136
+        ],
+        "swappable": false
+      },
+      {
+        "node": "polySurface4387_lambert19_0_2",
+        "group": "polySurface4387_lambert19_0_2",
+        "role": "gear",
+        "side": "right",
+        "center": [
+          0.14782,
+          0.19576,
+          -3.21175
+        ],
+        "size": [
+          7.18067,
+          0.46235,
+          0.69255
+        ],
+        "swappable": true
+      },
+      {
+        "node": "polySurface4387_lambert19_1",
+        "group": "polySurface4387_lambert19_1",
+        "role": "body",
+        "side": "center",
+        "center": [
+          -0.35131,
+          0.38541,
+          -0.04234
+        ],
+        "size": [
+          7.58764,
+          0.08305,
+          7.02911
+        ],
+        "swappable": false
+      },
+      {
+        "node": "polySurface4387_Copper_1",
+        "group": "polySurface4387_Copper_1",
+        "role": "gear",
+        "side": "center",
+        "center": [
+          0.02811,
+          0.22333,
+          -0.04129
+        ],
+        "size": [
+          8.15797,
+          0.21857,
+          6.98917
+        ],
+        "swappable": true
+      },
+      {
+        "node": "polySurface4387_Copper_0",
+        "group": "polySurface4387_Copper_0",
+        "role": "gear",
+        "side": "center",
+        "center": [
+          0,
+          0.22333,
+          -0.00098
+        ],
+        "size": [
+          8.21591,
+          0.21857,
+          6.90854
+        ],
+        "swappable": true
+      },
+      {
+        "node": "polySurface4387_lambert19_0_10",
+        "group": "polySurface4387_lambert19_0_10",
+        "role": "arm",
+        "side": "right",
+        "center": [
+          -1.30701,
+          1.34176,
+          -1.8085
+        ],
+        "size": [
+          3.59924,
+          1.99115,
+          2.70027
+        ],
+        "swappable": false
+      },
+      {
+        "node": "polySurface4387_Copper_0_2",
+        "group": "polySurface4387_Copper_0_2",
+        "role": "gear",
+        "side": "right",
+        "center": [
+          -0.00345,
+          0.22333,
+          -3.21175
+        ],
+        "size": [
+          7.40539,
+          0.21857,
+          0.64825
+        ],
+        "swappable": true
+      },
+      {
+        "node": "polySurface4387_lambert18_0",
+        "group": "polySurface4387_lambert18_0",
+        "role": "body",
+        "side": "center",
+        "center": [
+          0,
+          0.37138,
+          -0.05712
+        ],
+        "size": [
+          8.30245,
+          3.98446,
+          7.10738
+        ],
+        "swappable": false
+      },
+      {
+        "node": "polySurface4387_lambert25_0",
+        "group": "polySurface4387_lambert25_0",
+        "role": "gear",
+        "side": "center",
+        "center": [
+          0,
+          -0.38778,
+          -0.04922
+        ],
+        "size": [
+          3.76343,
+          4.11309,
+          3.82235
+        ],
+        "swappable": true
+      },
+      {
+        "node": "polySurface4387_lambert3_0",
+        "group": "polySurface4387_lambert3_0",
+        "role": "body",
+        "side": "center",
+        "center": [
+          0,
+          0.36154,
+          -0.04456
+        ],
+        "size": [
+          8.25067,
+          3.8652,
+          6.97211
+        ],
+        "swappable": false
+      },
+      {
+        "node": "polySurface4387_lambert20_0",
+        "group": "polySurface4387_lambert20_0",
+        "role": "body",
+        "side": "center",
+        "center": [
+          0,
+          0.40356,
+          0
+        ],
+        "size": [
+          10.31229,
+          1.1119,
+          11.03609
+        ],
+        "swappable": false
+      },
+      {
+        "node": "polySurface4387_lambert7_0",
+        "group": "polySurface4387_lambert7_0",
+        "role": "body",
+        "side": "center",
+        "center": [
+          0,
+          0.66373,
+          0.24372
+        ],
+        "size": [
+          1.57175,
+          3.28677,
+          3.57074
+        ],
+        "swappable": false
+      },
+      {
+        "node": "polySurface4387_lambert5_0",
+        "group": "polySurface4387_lambert5_0",
+        "role": "gear",
+        "side": "center",
+        "center": [
+          0,
+          -0.52288,
+          -0.04033
+        ],
+        "size": [
+          7.63397,
+          1.85475,
+          6.40531
+        ],
+        "swappable": true
+      },
+      {
+        "node": "polySurface4387_lambert4_0",
+        "group": "polySurface4387_lambert4_0",
+        "role": "rotor",
+        "side": "center",
+        "center": [
+          0,
+          0.66495,
+          -0.04293
+        ],
+        "size": [
+          2.29889,
+          0.40647,
+          2.94635
+        ],
+        "swappable": true
+      },
+      {
+        "node": "polySurface4387_lambert8_0",
+        "group": "polySurface4387_lambert8_0",
+        "role": "body",
+        "side": "center",
+        "center": [
+          0,
+          0.68834,
+          0.22481
+        ],
+        "size": [
+          1.60123,
+          3.34066,
+          3.61429
+        ],
+        "swappable": false
+      },
+      {
+        "node": "polySurface4387_lambert21_0",
+        "group": "polySurface4387_lambert21_0",
+        "role": "gear",
+        "side": "left",
+        "center": [
+          0,
+          -0.05201,
+          1.48798
+        ],
+        "size": [
+          1.38383,
+          0.13787,
+          1.42624
+        ],
+        "swappable": true
+      },
+      {
+        "node": "polySurface4387_lambert12_0",
+        "group": "polySurface4387_lambert12_0",
+        "role": "arm",
+        "side": "left",
+        "center": [
+          0.26364,
+          0.26318,
+          1.91054
+        ],
+        "size": [
+          0.94873,
+          3.68398,
+          0.90026
+        ],
+        "swappable": false
+      },
+      {
+        "node": "polySurface4387_lambert23_0",
+        "group": "polySurface4387_lambert23_0",
+        "role": "body",
+        "side": "right",
+        "center": [
+          0,
+          1.42262,
+          -0.59757
+        ],
+        "size": [
+          1.65291,
+          1.20545,
+          1.97726
+        ],
+        "swappable": false
+      },
+      {
+        "node": "polySurface4387_lambert29_0",
+        "group": "polySurface4387_lambert29_0",
+        "role": "body",
+        "side": "right",
+        "center": [
+          0,
+          1.40511,
+          -1.59227
+        ],
+        "size": [
+          7.45791,
+          1.87708,
+          3.78884
+        ],
+        "swappable": false
+      },
+      {
+        "node": "polySurface4387_lambert27_0",
+        "group": "polySurface4387_lambert27_0",
+        "role": "gear",
+        "side": "center",
+        "center": [
+          0,
+          -0.82107,
+          -0.03827
+        ],
+        "size": [
+          7.75497,
+          3.20248,
+          6.59021
+        ],
+        "swappable": true
+      },
+      {
+        "node": "polySurface4387_lambert31_0",
+        "group": "polySurface4387_lambert31_0",
+        "role": "gear",
+        "side": "left",
+        "center": [
+          0.39985,
+          0.15924,
+          1.20864
+        ],
+        "size": [
+          0.40762,
+          0.15799,
+          0.41638
+        ],
+        "swappable": true
+      },
+      {
+        "node": "polySurface4387_lambert30_0",
+        "group": "polySurface4387_lambert30_0",
+        "role": "body",
+        "side": "left",
+        "center": [
+          0.41236,
+          0.2599,
+          1.1649
+        ],
+        "size": [
+          0.44031,
+          0.32594,
+          0.51154
+        ],
+        "swappable": false
+      },
+      {
+        "node": "polySurface4387_Glass_2_0",
+        "group": "polySurface4387_Glass_2_0",
+        "role": "body",
+        "side": "right",
+        "center": [
+          0,
+          1.37138,
+          -0.63912
+        ],
+        "size": [
+          0.21792,
+          2.14589,
+          0.95437
+        ],
+        "swappable": false
+      },
+      {
+        "node": "polySurface4387_Yellow_lamp_0",
+        "group": "polySurface4387_Yellow_lamp_0",
+        "role": "body",
+        "side": "right",
+        "center": [
+          0,
+          1.37138,
+          -0.63912
+        ],
+        "size": [
+          0.12817,
+          2.05266,
+          0.86462
+        ],
+        "swappable": false
+      },
+      {
+        "node": "polySurface4387_lambert1_0",
+        "group": "polySurface4387_lambert1_0",
+        "role": "body",
+        "side": "left",
+        "center": [
+          0.41246,
+          0.62901,
+          0.38913
+        ],
+        "size": [
+          1.06551,
+          3.43019,
+          3.03352
+        ],
+        "swappable": false
+      },
+      {
+        "node": "polySurface4387_Glass_sensor_0",
+        "group": "polySurface4387_Glass_sensor_0",
+        "role": "payload",
+        "side": "center",
+        "center": [
+          0,
+          0.67531,
+          0.23518
+        ],
+        "size": [
+          1.5753,
+          3.26716,
+          3.55722
+        ],
+        "swappable": true
+      },
+      {
+        "node": "polySurface4387_lambert24_0",
+        "group": "polySurface4387_lambert24_0",
+        "role": "body",
+        "side": "right",
+        "center": [
+          0,
+          1.42262,
+          -0.54625
+        ],
+        "size": [
+          1.65291,
+          1.00708,
+          1.79033
+        ],
+        "swappable": false
+      },
+      {
+        "node": "polySurface4387_lambert28_0",
+        "group": "polySurface4387_lambert28_0",
+        "role": "arm",
+        "side": "left",
+        "center": [
+          0,
+          0.66284,
+          3.31641
+        ],
+        "size": [
+          8.28536,
+          0.39254,
+          0.14125
+        ],
+        "swappable": false
+      },
+      {
+        "node": "polySurface4387_lambert11_0",
+        "group": "polySurface4387_lambert11_0",
+        "role": "body",
+        "side": "right",
+        "center": [
+          0,
+          1.38245,
+          -0.75195
+        ],
+        "size": [
+          0.82224,
+          1.95245,
+          1.18028
+        ],
+        "swappable": false
+      },
+      {
+        "node": "polySurface4387_Glass_camera_5_0",
+        "group": "polySurface4387_Glass_camera_5_0",
+        "role": "gear",
+        "side": "left",
+        "center": [
+          0.66554,
+          -0.91451,
+          1.96436
+        ],
+        "size": [
+          0.04489,
+          0.0669,
+          0.05231
+        ],
+        "swappable": true
+      },
+      {
+        "node": "polySurface4387_Glass_camera_4_0",
+        "group": "polySurface4387_Glass_camera_4_0",
+        "role": "gear",
+        "side": "left",
+        "center": [
+          0.63975,
+          -1.32876,
+          1.59203
+        ],
+        "size": [
+          0.12601,
+          0.18782,
+          0.14686
+        ],
+        "swappable": true
+      },
+      {
+        "node": "polySurface4387_Glass_Camera_3_0",
+        "group": "polySurface4387_Glass_Camera_3_0",
+        "role": "gear",
+        "side": "left",
+        "center": [
+          0.52039,
+          -1.30823,
+          2.14267
+        ],
+        "size": [
+          0.36161,
+          0.53897,
+          0.42143
+        ],
+        "swappable": true
+      },
+      {
+        "node": "polySurface4387_Glass_Camera_1_0",
+        "group": "polySurface4387_Glass_Camera_1_0",
+        "role": "gear",
+        "side": "left",
+        "center": [
+          0.37182,
+          -1.28938,
+          2.01634
+        ],
+        "size": [
+          0.29002,
+          0.43228,
+          0.33801
+        ],
+        "swappable": true
+      },
+      {
+        "node": "polySurface4387_Glass_Camera_2_0",
+        "group": "polySurface4387_Glass_Camera_2_0",
+        "role": "gear",
+        "side": "left",
+        "center": [
+          0.44761,
+          -1.299,
+          2.08079
+        ],
+        "size": [
+          0.32945,
+          0.49104,
+          0.38395
+        ],
+        "swappable": true
+      },
+      {
+        "node": "polySurface4387_lambert26_0",
+        "group": "polySurface4387_lambert26_0",
+        "role": "body",
+        "side": "right",
+        "center": [
+          0,
+          1.42262,
+          -1.57791
+        ],
+        "size": [
+          0.09248,
+          0.31961,
+          0.04673
+        ],
+        "swappable": false
+      }
+    ],
+    "credit": {
+      "author": "19vitali99",
+      "license": "CC-BY-4.0",
+      "licenseName": "CC Attribution 4.0",
+      "url": "https://sketchfab.com/3d-models/quadcopter-dji-matrice-300-rtk-6677d02d66df4b73aad0d8e7bb9e3d9c"
+    }
+  },
+  {
+    "id": "inspire-2",
+    "name": "DJI Inspire 2",
+    "family": "consumer",
+    "blurb": "Transforming gear: the arms lift out of shot once it is airborne.",
+    "environment": "earth",
+    "model": "models/inspire-2.glb",
+    "spec": {
+      "span_m": 0.605,
+      "length_m": 0.605,
+      "empty_mass_kg": 3.44,
+      "mtow_kg": 4.25,
+      "powertrain": "electric",
+      "rotors": 4,
+      "rotor_diameter_m": 0.381,
+      "battery_wh": 195,
+      "battery_cells": 6,
+      "payload_kg": 0.81,
+      "cruise_kmh": 50,
+      "max_speed_kmh": 94,
+      "endurance_h": 0.45,
+      "ceiling_m": 5000
+    },
+    "axes": {
+      "span": 2,
+      "length": 0,
+      "vertical": 1
+    },
+    "aftSign": 1,
+    "scaleToMetres": 0.5334381671662033,
+    "modelExtent": [
+      1.0116514581967455,
+      0.4225204659435049,
+      1.1341520671720142
+    ],
+    "origin": [
+      -0.028897601602644735,
+      -0.00579834925088997,
+      0.07252923370662986
+    ],
+    "cuts": {},
+    "hidden": [],
+    "parts": [
+      {
+        "node": "MotorProtect_LowPoly1_DroneBody2_0",
+        "group": "MotorProtect_LowPoly1_DroneBody2_0",
+        "role": "motor",
+        "side": "left",
+        "center": [
+          0.30667,
+          0.01817,
+          0.30942
+        ],
+        "size": [
+          0.05176,
+          0.04829,
+          0.05176
+        ],
+        "swappable": false
+      },
+      {
+        "node": "MotorProtect_LowPoly3_DroneBody2_0",
+        "group": "MotorProtect_LowPoly3_DroneBody2_0",
+        "role": "motor",
+        "side": "left",
+        "center": [
+          -0.26777,
+          0.01817,
+          0.30942
+        ],
+        "size": [
+          0.05176,
+          0.04829,
+          0.05176
+        ],
+        "swappable": false
+      },
+      {
+        "node": "MotorProtect_LowPoly2_DroneBody2_0",
+        "group": "MotorProtect_LowPoly2_DroneBody2_0",
+        "role": "motor",
+        "side": "right",
+        "center": [
+          -0.26777,
+          0.01817,
+          -0.32805
+        ],
+        "size": [
+          0.05176,
+          0.04829,
+          0.05176
+        ],
+        "swappable": false
+      },
+      {
+        "node": "MotorProtect_LowPoly_DroneBody2_0",
+        "group": "MotorProtect_LowPoly_DroneBody2_0",
+        "role": "motor",
+        "side": "right",
+        "center": [
+          0.30667,
+          0.01817,
+          -0.32805
+        ],
+        "size": [
+          0.05176,
+          0.04829,
+          0.05176
+        ],
+        "swappable": false
+      },
+      {
+        "node": "Body_LowPoly_DroneBody2_0",
+        "group": "Body_LowPoly_DroneBody2_0",
+        "role": "body",
+        "side": "right",
+        "center": [
+          0.01929,
+          0.09157,
+          -0.08488
+        ],
+        "size": [
+          0.11029,
+          0.23939,
+          0.48201
+        ],
+        "swappable": false
+      },
+      {
+        "node": "Camera_LowPoly_DroneBody2_0",
+        "group": "Camera_LowPoly_DroneBody2_0",
+        "role": "body",
+        "side": "right",
+        "center": [
+          0.01771,
+          -0.14145,
+          -0.26134
+        ],
+        "size": [
+          0.10108,
+          0.06915,
+          0.10028
+        ],
+        "swappable": false
+      },
+      {
+        "node": "LensFrontRight_LowPoly_Lens1_0",
+        "group": "LensFrontRight_LowPoly_Lens1_0",
+        "role": "gear",
+        "side": "right",
+        "center": [
+          0.09306,
+          -0.0018,
+          -0.30966
+        ],
+        "size": [
+          0.01461,
+          0.0153,
+          0.00588
+        ],
+        "swappable": true
+      },
+      {
+        "node": "LensFrontLeft_LowPoly_Lens1_0",
+        "group": "LensFrontLeft_LowPoly_Lens1_0",
+        "role": "gear",
+        "side": "right",
+        "center": [
+          -0.05466,
+          -0.00147,
+          -0.30966
+        ],
+        "size": [
+          0.01461,
+          0.0153,
+          0.00588
+        ],
+        "swappable": true
+      },
+      {
+        "node": "LensFrontMid_LowPoly_Lens1_0",
+        "group": "LensFrontMid_LowPoly_Lens1_0",
+        "role": "gear",
+        "side": "right",
+        "center": [
+          0.01865,
+          0.00906,
+          -0.3305
+        ],
+        "size": [
+          0.008,
+          0.00838,
+          0.00322
+        ],
+        "swappable": true
+      },
+      {
+        "node": "LensFront_LowPoly_Lens1_0",
+        "group": "LensFront_LowPoly_Lens1_0",
+        "role": "gear",
+        "side": "right",
+        "center": [
+          0.01732,
+          -0.14189,
+          -0.28725
+        ],
+        "size": [
+          0.03489,
+          0.03655,
+          0.01405
+        ],
+        "swappable": true
+      },
+      {
+        "node": "CameraBase_LowPoly_DroneBody2_0",
+        "group": "CameraBase_LowPoly_DroneBody2_0",
+        "role": "body",
+        "side": "right",
+        "center": [
+          0.01897,
+          -0.01962,
+          -0.23446
+        ],
+        "size": [
+          0.17495,
+          0.04907,
+          0.11852
+        ],
+        "swappable": false
+      },
+      {
+        "node": "MotorLeg_LowPoly1_DroneBody2_0",
+        "group": "MotorLeg_LowPoly1_DroneBody2_0",
+        "role": "motor",
+        "side": "left",
+        "center": [
+          0.30621,
+          -0.10868,
+          0.27789
+        ],
+        "size": [
+          0.05424,
+          0.20516,
+          0.11632
+        ],
+        "swappable": false
+      },
+      {
+        "node": "MotorLeg_LowPoly3_DroneBody2_0",
+        "group": "MotorLeg_LowPoly3_DroneBody2_0",
+        "role": "motor",
+        "side": "left",
+        "center": [
+          -0.26823,
+          -0.10868,
+          0.27789
+        ],
+        "size": [
+          0.05424,
+          0.20516,
+          0.11632
+        ],
+        "swappable": false
+      },
+      {
+        "node": "MotorLeg_LowPoly2_DroneBody2_0",
+        "group": "MotorLeg_LowPoly2_DroneBody2_0",
+        "role": "motor",
+        "side": "right",
+        "center": [
+          -0.26823,
+          -0.10868,
+          -0.29703
+        ],
+        "size": [
+          0.05424,
+          0.20516,
+          0.11632
+        ],
+        "swappable": false
+      },
+      {
+        "node": "MotorLeg_LowPoly_DroneBody2_0",
+        "group": "MotorLeg_LowPoly_DroneBody2_0",
+        "role": "motor",
+        "side": "right",
+        "center": [
+          0.30621,
+          -0.10868,
+          -0.29703
+        ],
+        "size": [
+          0.05424,
+          0.20516,
+          0.11632
+        ],
+        "swappable": false
+      },
+      {
+        "node": "Blade_LowPoly1_DroneBody2_0",
+        "group": "Blade_LowPoly1_DroneBody2_0",
+        "role": "rotor",
+        "side": "left",
+        "center": [
+          0.30666,
+          0.0551,
+          0.30946
+        ],
+        "size": [
+          0.39833,
+          0.01752,
+          0.38088
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Blade_LowPoly3_DroneBody2_0",
+        "group": "Blade_LowPoly3_DroneBody2_0",
+        "role": "rotor",
+        "side": "left",
+        "center": [
+          -0.26765,
+          0.0551,
+          0.3095
+        ],
+        "size": [
+          0.17215,
+          0.01752,
+          0.51515
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Blade_LowPoly2_DroneBody2_0",
+        "group": "Blade_LowPoly2_DroneBody2_0",
+        "role": "rotor",
+        "side": "right",
+        "center": [
+          -0.26785,
+          0.0551,
+          -0.32788
+        ],
+        "size": [
+          0.47595,
+          0.01752,
+          0.27214
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Blade_LowPoly_DroneBody2_0",
+        "group": "Blade_LowPoly_DroneBody2_0",
+        "role": "rotor",
+        "side": "right",
+        "center": [
+          0.30663,
+          0.0551,
+          -0.32799
+        ],
+        "size": [
+          0.26783,
+          0.01752,
+          0.47818
+        ],
+        "swappable": true
+      },
+      {
+        "node": "SideCamera_LowPoly_DroneBody2_0",
+        "group": "SideCamera_LowPoly_DroneBody2_0",
+        "role": "body",
+        "side": "right",
+        "center": [
+          0.01897,
+          0.0047,
+          -0.29269
+        ],
+        "size": [
+          0.17478,
+          0.03932,
+          0.04797
+        ],
+        "swappable": false
+      },
+      {
+        "node": "CameraArm_LowPoly_DroneBody2_0",
+        "group": "CameraArm_LowPoly_DroneBody2_0",
+        "role": "body",
+        "side": "right",
+        "center": [
+          0.01724,
+          -0.10423,
+          -0.22713
+        ],
+        "size": [
+          0.12162,
+          0.11903,
+          0.12923
+        ],
+        "swappable": false
+      },
+      {
+        "node": "MidPart_LowPoly_DroneBody2_0",
+        "group": "MidPart_LowPoly_DroneBody2_0",
+        "role": "body",
+        "side": "right",
+        "center": [
+          0.01897,
+          0.06247,
+          -0.12489
+        ],
+        "size": [
+          0.04561,
+          0.14304,
+          0.05909
+        ],
+        "swappable": false
+      },
+      {
+        "node": "Tube03_LowPoly2_DroneBody2_0",
+        "group": "Tube03_LowPoly2_DroneBody2_0",
+        "role": "body",
+        "side": "right",
+        "center": [
+          -0.01029,
+          0.14408,
+          -0.18513
+        ],
+        "size": [
+          0.04219,
+          0.05389,
+          0.05275
+        ],
+        "swappable": false
+      },
+      {
+        "node": "Tube03_LowPoly_DroneBody2_0",
+        "group": "Tube03_LowPoly_DroneBody2_0",
+        "role": "body",
+        "side": "right",
+        "center": [
+          0.04823,
+          0.14408,
+          -0.18513
+        ],
+        "size": [
+          0.04219,
+          0.05389,
+          0.05275
+        ],
+        "swappable": false
+      },
+      {
+        "node": "Tube04_LowPoly2_DroneBody2_0",
+        "group": "Tube04_LowPoly2_DroneBody2_0",
+        "role": "body",
+        "side": "right",
+        "center": [
+          -0.01175,
+          0.13791,
+          -0.18513
+        ],
+        "size": [
+          0.04295,
+          0.05659,
+          0.05275
+        ],
+        "swappable": false
+      },
+      {
+        "node": "Tube04_LowPoly_DroneBody2_0",
+        "group": "Tube04_LowPoly_DroneBody2_0",
+        "role": "body",
+        "side": "right",
+        "center": [
+          0.04969,
+          0.13791,
+          -0.18513
+        ],
+        "size": [
+          0.04295,
+          0.05659,
+          0.05275
+        ],
+        "swappable": false
+      },
+      {
+        "node": "MiddleBackPartLeg_LowPoly2_DroneBody2_0",
+        "group": "MiddleBackPartLeg_LowPoly2_DroneBody2_0",
+        "role": "body",
+        "side": "left",
+        "center": [
+          -0.26391,
+          -0.04067,
+          0.03589
+        ],
+        "size": [
+          0.04909,
+          0.06889,
+          0.03129
+        ],
+        "swappable": false
+      },
+      {
+        "node": "MiddleBackPartLeg_LowPoly_DroneBody2_0",
+        "group": "MiddleBackPartLeg_LowPoly_DroneBody2_0",
+        "role": "body",
+        "side": "left",
+        "center": [
+          0.30184,
+          -0.04067,
+          0.03589
+        ],
+        "size": [
+          0.04909,
+          0.06889,
+          0.03129
+        ],
+        "swappable": false
+      },
+      {
+        "node": "Tube01_LowPoly_DroneBody2_0",
+        "group": "Tube01_LowPoly_DroneBody2_0",
+        "role": "body",
+        "side": "right",
+        "center": [
+          0.02532,
+          0.05061,
+          -0.15644
+        ],
+        "size": [
+          0.00582,
+          0.08448,
+          0.01854
+        ],
+        "swappable": false
+      },
+      {
+        "node": "Tube02_LowPoly_DroneBody2_0",
+        "group": "Tube02_LowPoly_DroneBody2_0",
+        "role": "body",
+        "side": "right",
+        "center": [
+          0.01798,
+          0.0506,
+          -0.15475
+        ],
+        "size": [
+          0.00413,
+          0.08445,
+          0.01654
+        ],
+        "swappable": false
+      },
+      {
+        "node": "Softer_LowPoly_DroneBody2_0",
+        "group": "Softer_LowPoly_DroneBody2_0",
+        "role": "body",
+        "side": "right",
+        "center": [
+          0.01897,
+          -0.01373,
+          -0.28153
+        ],
+        "size": [
+          0.17447,
+          0.02001,
+          0.0225
+        ],
+        "swappable": false
+      },
+      {
+        "node": "ScrewHolder_LowPoly_DroneBody2_0",
+        "group": "ScrewHolder_LowPoly_DroneBody2_0",
+        "role": "body",
+        "side": "right",
+        "center": [
+          0.01897,
+          0.0813,
+          -0.12486
+        ],
+        "size": [
+          0.04731,
+          0.05762,
+          0.02515
+        ],
+        "swappable": false
+      },
+      {
+        "node": "MiddleTopLeg_LowPoly6_DroneBody2_0",
+        "group": "MiddleTopLeg_LowPoly6_DroneBody2_0",
+        "role": "body",
+        "side": "right",
+        "center": [
+          -0.03365,
+          0.102,
+          -0.12172
+        ],
+        "size": [
+          0.06869,
+          0.05986,
+          0.08493
+        ],
+        "swappable": false
+      },
+      {
+        "node": "MiddleTopLeg_LowPoly_DroneBody2_0",
+        "group": "MiddleTopLeg_LowPoly_DroneBody2_0",
+        "role": "body",
+        "side": "right",
+        "center": [
+          0.07158,
+          0.102,
+          -0.12172
+        ],
+        "size": [
+          0.06869,
+          0.05986,
+          0.08493
+        ],
+        "swappable": false
+      },
+      {
+        "node": "BladeHolder01_LowPoly1_DroneBody2_0",
+        "group": "BladeHolder01_LowPoly1_DroneBody2_0",
+        "role": "rotor",
+        "side": "left",
+        "center": [
+          0.30666,
+          0.05029,
+          0.30945
+        ],
+        "size": [
+          0.03202,
+          0.01633,
+          0.03335
+        ],
+        "swappable": true
+      },
+      {
+        "node": "BladeHolder01_LowPoly3_DroneBody2_0",
+        "group": "BladeHolder01_LowPoly3_DroneBody2_0",
+        "role": "rotor",
+        "side": "left",
+        "center": [
+          -0.26778,
+          0.05029,
+          0.30945
+        ],
+        "size": [
+          0.03905,
+          0.01633,
+          0.03052
+        ],
+        "swappable": true
+      },
+      {
+        "node": "BladeHolder01_LowPoly2_DroneBody2_0",
+        "group": "BladeHolder01_LowPoly2_DroneBody2_0",
+        "role": "rotor",
+        "side": "right",
+        "center": [
+          -0.26778,
+          0.05029,
+          -0.32802
+        ],
+        "size": [
+          0.03049,
+          0.01633,
+          0.03657
+        ],
+        "swappable": true
+      },
+      {
+        "node": "BladeHolder01_LowPoly_DroneBody2_0",
+        "group": "BladeHolder01_LowPoly_DroneBody2_0",
+        "role": "rotor",
+        "side": "right",
+        "center": [
+          0.30667,
+          0.05029,
+          -0.32802
+        ],
+        "size": [
+          0.03672,
+          0.01633,
+          0.03051
+        ],
+        "swappable": true
+      },
+      {
+        "node": "MiddleSmallTube_LowPoly_DroneBody2_0",
+        "group": "MiddleSmallTube_LowPoly_DroneBody2_0",
+        "role": "body",
+        "side": "right",
+        "center": [
+          0.01897,
+          0.05161,
+          -0.0971
+        ],
+        "size": [
+          0.04102,
+          0.01515,
+          0.02624
+        ],
+        "swappable": false
+      },
+      {
+        "node": "FrontCameraHolder_LowPoly_DroneBody2_0",
+        "group": "FrontCameraHolder_LowPoly_DroneBody2_0",
+        "role": "body",
+        "side": "right",
+        "center": [
+          0.01897,
+          0.00948,
+          -0.31062
+        ],
+        "size": [
+          0.03268,
+          0.02474,
+          0.03221
+        ],
+        "swappable": false
+      },
+      {
+        "node": "MiddlePartLeg_LowPoly2_DroneBody2_0",
+        "group": "MiddlePartLeg_LowPoly2_DroneBody2_0",
+        "role": "body",
+        "side": "center",
+        "center": [
+          -0.25297,
+          -0.01756,
+          -0.02226
+        ],
+        "size": [
+          0.07096,
+          0.05643,
+          0.09646
+        ],
+        "swappable": false
+      },
+      {
+        "node": "MiddlePartLeg_LowPoly_DroneBody2_0",
+        "group": "MiddlePartLeg_LowPoly_DroneBody2_0",
+        "role": "body",
+        "side": "center",
+        "center": [
+          0.29091,
+          -0.01756,
+          -0.02226
+        ],
+        "size": [
+          0.07096,
+          0.05643,
+          0.09646
+        ],
+        "swappable": false
+      },
+      {
+        "node": "ScrewLegHolder_LowPoly_DroneBody2_0",
+        "group": "ScrewLegHolder_LowPoly_DroneBody2_0",
+        "role": "body",
+        "side": "right",
+        "center": [
+          0.03632,
+          0.05705,
+          -0.12491
+        ],
+        "size": [
+          0.00572,
+          0.00572,
+          0.02344
+        ],
+        "swappable": false
+      },
+      {
+        "node": "TubeEndPoint_LowPoly7_DroneBody2_0",
+        "group": "TubeEndPoint_LowPoly7_DroneBody2_0",
+        "role": "body",
+        "side": "right",
+        "center": [
+          -0.03123,
+          0.1122,
+          -0.16508
+        ],
+        "size": [
+          0.00575,
+          0.00575,
+          0.00199
+        ],
+        "swappable": false
+      },
+      {
+        "node": "TubeEndPoint_LowPoly6_DroneBody2_0",
+        "group": "TubeEndPoint_LowPoly6_DroneBody2_0",
+        "role": "body",
+        "side": "right",
+        "center": [
+          -0.02982,
+          0.1197,
+          -0.16508
+        ],
+        "size": [
+          0.00575,
+          0.00575,
+          0.00199
+        ],
+        "swappable": false
+      },
+      {
+        "node": "TubeEndPoint_LowPoly5_DroneBody2_0",
+        "group": "TubeEndPoint_LowPoly5_DroneBody2_0",
+        "role": "body",
+        "side": "right",
+        "center": [
+          0.06781,
+          0.11947,
+          -0.16508
+        ],
+        "size": [
+          0.00575,
+          0.00575,
+          0.00199
+        ],
+        "swappable": false
+      },
+      {
+        "node": "TubeEndPoint_LowPoly4_DroneBody2_0",
+        "group": "TubeEndPoint_LowPoly4_DroneBody2_0",
+        "role": "body",
+        "side": "right",
+        "center": [
+          0.06926,
+          0.1122,
+          -0.16508
+        ],
+        "size": [
+          0.00575,
+          0.00575,
+          0.00199
+        ],
+        "swappable": false
+      },
+      {
+        "node": "TubeEndPoint_LowPoly3_DroneBody2_0",
+        "group": "TubeEndPoint_LowPoly3_DroneBody2_0",
+        "role": "body",
+        "side": "right",
+        "center": [
+          0.01809,
+          0.01062,
+          -0.14849
+        ],
+        "size": [
+          0.00575,
+          0.00575,
+          0.00199
+        ],
+        "swappable": false
+      },
+      {
+        "node": "TubeEndPoint_LowPoly2_DroneBody2_0",
+        "group": "TubeEndPoint_LowPoly2_DroneBody2_0",
+        "role": "body",
+        "side": "right",
+        "center": [
+          0.02658,
+          0.01062,
+          -0.14849
+        ],
+        "size": [
+          0.00575,
+          0.00575,
+          0.00199
+        ],
+        "swappable": false
+      },
+      {
+        "node": "TubeEndPoint_LowPoly1_DroneBody2_0",
+        "group": "TubeEndPoint_LowPoly1_DroneBody2_0",
+        "role": "body",
+        "side": "right",
+        "center": [
+          0.02459,
+          0.09074,
+          -0.14849
+        ],
+        "size": [
+          0.00575,
+          0.00575,
+          0.00199
+        ],
+        "swappable": false
+      },
+      {
+        "node": "TubeEndPoint_LowPoly_DroneBody2_0",
+        "group": "TubeEndPoint_LowPoly_DroneBody2_0",
+        "role": "body",
+        "side": "right",
+        "center": [
+          0.01772,
+          0.09074,
+          -0.14849
+        ],
+        "size": [
+          0.00575,
+          0.00575,
+          0.00199
+        ],
+        "swappable": false
+      },
+      {
+        "node": "BodyKnob_LowPoly_DroneBody2_0",
+        "group": "BodyKnob_LowPoly_DroneBody2_0",
+        "role": "body",
+        "side": "left",
+        "center": [
+          0.01897,
+          0.17627,
+          0.07697
+        ],
+        "size": [
+          0.03248,
+          0.01368,
+          0.03334
+        ],
+        "swappable": false
+      },
+      {
+        "node": "FrontCamera_LowPoly_DroneBody2_0",
+        "group": "FrontCamera_LowPoly_DroneBody2_0",
+        "role": "body",
+        "side": "right",
+        "center": [
+          0.01897,
+          0.01075,
+          -0.32432
+        ],
+        "size": [
+          0.02044,
+          0.01839,
+          0.01393
+        ],
+        "swappable": false
+      },
+      {
+        "node": "Battery_LowPoly2_DroneBody2_0",
+        "group": "Battery_LowPoly2_DroneBody2_0",
+        "role": "battery",
+        "side": "left",
+        "center": [
+          -0.02312,
+          0.07909,
+          0.0495
+        ],
+        "size": [
+          0.05132,
+          0.13157,
+          0.17667
+        ],
+        "swappable": false
+      },
+      {
+        "node": "Battery_LowPoly3_DroneBody2_0",
+        "group": "Battery_LowPoly3_DroneBody2_0",
+        "role": "battery",
+        "side": "left",
+        "center": [
+          0.05995,
+          0.07909,
+          0.0495
+        ],
+        "size": [
+          0.05132,
+          0.13157,
+          0.17667
+        ],
+        "swappable": false
+      },
+      {
+        "node": "Brain_LowPoly_DroneBody2_0",
+        "group": "Brain_LowPoly_DroneBody2_0",
+        "role": "body",
+        "side": "right",
+        "center": [
+          0.01897,
+          0.08482,
+          -0.22568
+        ],
+        "size": [
+          0.08137,
+          0.13747,
+          0.1293
+        ],
+        "swappable": false
+      },
+      {
+        "node": "LegHolderRight_LowPoly2_DroneBody2_0",
+        "group": "LegHolderRight_LowPoly2_DroneBody2_0",
+        "role": "body",
+        "side": "right",
+        "center": [
+          -0.00341,
+          0.07478,
+          -0.12468
+        ],
+        "size": [
+          0.01593,
+          0.03997,
+          0.03759
+        ],
+        "swappable": false
+      },
+      {
+        "node": "LegHolderRight_LowPoly_DroneBody2_0",
+        "group": "LegHolderRight_LowPoly_DroneBody2_0",
+        "role": "body",
+        "side": "right",
+        "center": [
+          0.04134,
+          0.07478,
+          -0.12468
+        ],
+        "size": [
+          0.01593,
+          0.03997,
+          0.03759
+        ],
+        "swappable": false
+      },
+      {
+        "node": "TopBrain_LowPoly_DroneBody2_0",
+        "group": "TopBrain_LowPoly_DroneBody2_0",
+        "role": "body",
+        "side": "right",
+        "center": [
+          0.01897,
+          0.14673,
+          -0.17093
+        ],
+        "size": [
+          0.06068,
+          0.02094,
+          0.06346
+        ],
+        "swappable": false
+      },
+      {
+        "node": "TopBoxScrew_LowPoly_DroneBody2_0",
+        "group": "TopBoxScrew_LowPoly_DroneBody2_0",
+        "role": "body",
+        "side": "right",
+        "center": [
+          0.01897,
+          0.1604,
+          -0.10948
+        ],
+        "size": [
+          0.06068,
+          0.0483,
+          0.06908
+        ],
+        "swappable": false
+      },
+      {
+        "node": "SmallLegTube_LowPoly2_DroneBody2_0",
+        "group": "SmallLegTube_LowPoly2_DroneBody2_0",
+        "role": "body",
+        "side": "center",
+        "center": [
+          -0.12357,
+          -0.00702,
+          -0.03271
+        ],
+        "size": [
+          0.24763,
+          0.12641,
+          0.12726
+        ],
+        "swappable": false
+      },
+      {
+        "node": "SmallLegTube_LowPoly3_DroneBody2_0",
+        "group": "SmallLegTube_LowPoly3_DroneBody2_0",
+        "role": "body",
+        "side": "center",
+        "center": [
+          0.16151,
+          -0.00702,
+          -0.03271
+        ],
+        "size": [
+          0.24763,
+          0.12641,
+          0.12726
+        ],
+        "swappable": false
+      },
+      {
+        "node": "BigLegTube_LowPoly1_DroneBody2_0",
+        "group": "BigLegTube_LowPoly1_DroneBody2_0",
+        "role": "body",
+        "side": "right",
+        "center": [
+          -0.13389,
+          0.04765,
+          -0.07721
+        ],
+        "size": [
+          0.21885,
+          0.14251,
+          0.12701
+        ],
+        "swappable": false
+      },
+      {
+        "node": "Motor_LowPoly1_DroneBody2_0",
+        "group": "Motor_LowPoly1_DroneBody2_0",
+        "role": "motor",
+        "side": "left",
+        "center": [
+          0.30667,
+          0.01833,
+          0.30942
+        ],
+        "size": [
+          0.03096,
+          0.04641,
+          0.03096
+        ],
+        "swappable": false
+      },
+      {
+        "node": "Motor_LowPoly3_DroneBody2_0",
+        "group": "Motor_LowPoly3_DroneBody2_0",
+        "role": "motor",
+        "side": "left",
+        "center": [
+          -0.26777,
+          0.01833,
+          0.30942
+        ],
+        "size": [
+          0.03096,
+          0.04641,
+          0.03096
+        ],
+        "swappable": false
+      },
+      {
+        "node": "Motor_LowPoly2_DroneBody2_0",
+        "group": "Motor_LowPoly2_DroneBody2_0",
+        "role": "motor",
+        "side": "right",
+        "center": [
+          -0.26777,
+          0.01833,
+          -0.32805
+        ],
+        "size": [
+          0.03096,
+          0.04641,
+          0.03096
+        ],
+        "swappable": false
+      },
+      {
+        "node": "LegTube_LowPoly2_DroneBody2_0",
+        "group": "LegTube_LowPoly2_DroneBody2_0",
+        "role": "body",
+        "side": "right",
+        "center": [
+          -0.26815,
+          -0.026,
+          -0.15526
+        ],
+        "size": [
+          0.03042,
+          0.03018,
+          0.16985
+        ],
+        "swappable": false
+      },
+      {
+        "node": "LegTube_LowPoly3_DroneBody2_0",
+        "group": "LegTube_LowPoly3_DroneBody2_0",
+        "role": "body",
+        "side": "left",
+        "center": [
+          -0.26768,
+          -0.026,
+          0.13474
+        ],
+        "size": [
+          0.03042,
+          0.03018,
+          0.16985
+        ],
+        "swappable": false
+      },
+      {
+        "node": "LegTube_LowPoly1_DroneBody2_0",
+        "group": "LegTube_LowPoly1_DroneBody2_0",
+        "role": "body",
+        "side": "left",
+        "center": [
+          0.30677,
+          -0.026,
+          0.13474
+        ],
+        "size": [
+          0.03042,
+          0.03018,
+          0.16985
+        ],
+        "swappable": false
+      },
+      {
+        "node": "Motor_LowPoly_DroneBody2_0",
+        "group": "Motor_LowPoly_DroneBody2_0",
+        "role": "motor",
+        "side": "right",
+        "center": [
+          0.30667,
+          0.01833,
+          -0.32805
+        ],
+        "size": [
+          0.03096,
+          0.04641,
+          0.03096
+        ],
+        "swappable": false
+      },
+      {
+        "node": "BigLegTube_LowPoly_DroneBody2_0",
+        "group": "BigLegTube_LowPoly_DroneBody2_0",
+        "role": "body",
+        "side": "right",
+        "center": [
+          0.16753,
+          0.04895,
+          -0.07791
+        ],
+        "size": [
+          0.21885,
+          0.14251,
+          0.12701
+        ],
+        "swappable": false
+      },
+      {
+        "node": "LegTube_LowPoly_DroneBody2_0",
+        "group": "LegTube_LowPoly_DroneBody2_0",
+        "role": "body",
+        "side": "right",
+        "center": [
+          0.30629,
+          -0.026,
+          -0.15526
+        ],
+        "size": [
+          0.03042,
+          0.03018,
+          0.16985
+        ],
+        "swappable": false
+      },
+      {
+        "node": "BatteryKnob_LowPoly1_DroneBody2_0",
+        "group": "BatteryKnob_LowPoly1_DroneBody2_0",
+        "role": "battery",
+        "side": "center",
+        "center": [
+          -0.04819,
+          0.11045,
+          -0.02423
+        ],
+        "size": [
+          0.00373,
+          0.01726,
+          0.01735
+        ],
+        "swappable": false
+      },
+      {
+        "node": "Memory_LowPoly_DroneBody2_0",
+        "group": "Memory_LowPoly_DroneBody2_0",
+        "role": "body",
+        "side": "left",
+        "center": [
+          0.01897,
+          0.04502,
+          0.14148
+        ],
+        "size": [
+          0.02931,
+          0.03013,
+          0.01459
+        ],
+        "swappable": false
+      },
+      {
+        "node": "BatteryKnob_LowPoly2_DroneBody2_0",
+        "group": "BatteryKnob_LowPoly2_DroneBody2_0",
+        "role": "battery",
+        "side": "center",
+        "center": [
+          0.08426,
+          0.11045,
+          -0.02452
+        ],
+        "size": [
+          0.00257,
+          0.01726,
+          0.01726
+        ],
+        "swappable": false
+      },
+      {
+        "node": "Screw_LowPoly_DroneBody2_0",
+        "group": "Screw_LowPoly_DroneBody2_0",
+        "role": "body",
+        "side": "right",
+        "center": [
+          0.01911,
+          0.04136,
+          -0.12486
+        ],
+        "size": [
+          0.00981,
+          0.03137,
+          0.00981
+        ],
+        "swappable": false
+      },
+      {
+        "node": "RandomCube_LowPoly_DroneBody2_0",
+        "group": "RandomCube_LowPoly_DroneBody2_0",
+        "role": "body",
+        "side": "right",
+        "center": [
+          0.01897,
+          0.13456,
+          -0.12151
+        ],
+        "size": [
+          0.06563,
+          0.002,
+          0.08528
+        ],
+        "swappable": false
+      },
+      {
+        "node": "FrontHolder_LowPoly_DroneBody2_0",
+        "group": "FrontHolder_LowPoly_DroneBody2_0",
+        "role": "body",
+        "side": "right",
+        "center": [
+          0.0192,
+          0.01315,
+          -0.25253
+        ],
+        "size": [
+          0.04078,
+          0.01916,
+          0.06503
+        ],
+        "swappable": false
+      }
+    ],
+    "credit": {
+      "author": "Leon Heytens",
+      "license": "CC-BY-4.0",
+      "licenseName": "CC Attribution 4.0",
+      "url": "https://sketchfab.com/3d-models/dji-inspire-2-c0e0841b557446b0926476152456dbbb"
+    }
+  },
+  {
+    "id": "avata",
+    "name": "DJI Avata",
+    "family": "consumer",
+    "blurb": "Ducted cinewhoop. Bounces off things and keeps flying.",
+    "environment": "earth",
+    "model": "models/avata.glb",
+    "spec": {
+      "span_m": 0.18,
+      "length_m": 0.18,
+      "empty_mass_kg": 0.41,
+      "mtow_kg": 0.5,
+      "powertrain": "electric",
+      "rotors": 4,
+      "rotor_diameter_m": 0.076,
+      "battery_wh": 35.7,
+      "battery_cells": 4,
+      "payload_kg": 0.05,
+      "cruise_kmh": 40,
+      "max_speed_kmh": 97,
+      "endurance_h": 0.3,
+      "ceiling_m": 5000
+    },
+    "axes": {
+      "span": 2,
+      "length": 0,
+      "vertical": 1
+    },
+    "aftSign": 1,
+    "scaleToMetres": 0.000976799195855862,
+    "modelExtent": [
+      181.5603360016024,
+      80.42662625941347,
+      184.27533597863555
+    ],
+    "origin": [
+      -3.080316199785983,
+      18.73529385412816,
+      -13.354275092463958
+    ],
+    "cuts": {},
+    "hidden": [],
+    "parts": [
+      {
+        "node": "Object_2",
+        "group": "Object_2",
+        "role": "rotor",
+        "side": "left",
+        "center": [
+          0.53876,
+          6.23877,
+          16.49936
+        ],
+        "size": [
+          103.64323,
+          53.15616,
+          140.02784
+        ],
+        "swappable": true
+      },
+      {
+        "node": "Object_12",
+        "group": "Object_12",
+        "role": "body",
+        "side": "left",
+        "center": [
+          -0.69382,
+          3.44959,
+          7.0688
+        ],
+        "size": [
+          179.43942,
+          52.5439,
+          154.74143
+        ],
+        "swappable": false
+      },
+      {
+        "node": "Object_11",
+        "group": "Object_11",
+        "role": "body",
+        "side": "left",
+        "center": [
+          -3.42207,
+          -1.62353,
+          16.76549
+        ],
+        "size": [
+          174.7162,
+          75.06061,
+          145.29531
+        ],
+        "swappable": false
+      },
+      {
+        "node": "Object_10",
+        "group": "Object_10",
+        "role": "body",
+        "side": "left",
+        "center": [
+          0.18079,
+          6.17312,
+          6.8425
+        ],
+        "size": [
+          181.19877,
+          65.94823,
+          170.1751
+        ],
+        "swappable": false
+      },
+      {
+        "node": "Object_9",
+        "group": "Object_9",
+        "role": "body",
+        "side": "left",
+        "center": [
+          0.23717,
+          0.63639,
+          6.84971
+        ],
+        "size": [
+          180.82528,
+          79.12521,
+          163.498
+        ],
+        "swappable": false
+      },
+      {
+        "node": "Object_8",
+        "group": "Object_8",
+        "role": "arm",
+        "side": "left",
+        "center": [
+          -8.89425,
+          0.52046,
+          36.61048
+        ],
+        "size": [
+          160.38804,
+          79.3857,
+          111.05437
+        ],
+        "swappable": false
+      },
+      {
+        "node": "Object_7",
+        "group": "Object_7",
+        "role": "arm",
+        "side": "left",
+        "center": [
+          -27.66916,
+          0.27484,
+          12.67554
+        ],
+        "size": [
+          121.79081,
+          79.87674,
+          158.91139
+        ],
+        "swappable": false
+      },
+      {
+        "node": "Object_6",
+        "group": "Object_6",
+        "role": "body",
+        "side": "center",
+        "center": [
+          -0.59487,
+          -24.09185,
+          -1.74946
+        ],
+        "size": [
+          179.64746,
+          32.20735,
+          180.77641
+        ],
+        "swappable": false
+      },
+      {
+        "node": "Object_5",
+        "group": "Object_5",
+        "role": "body",
+        "side": "center",
+        "center": [
+          0.48878,
+          -0.77733,
+          -1.54755
+        ],
+        "size": [
+          178.09407,
+          78.87196,
+          180.2987
+        ],
+        "swappable": false
+      },
+      {
+        "node": "Object_4",
+        "group": "Object_4",
+        "role": "body",
+        "side": "left",
+        "center": [
+          11.38746,
+          5.80045,
+          17.75554
+        ],
+        "size": [
+          125.80578,
+          53.95511,
+          139.37227
+        ],
+        "swappable": false
+      },
+      {
+        "node": "Object_3",
+        "group": "Object_3",
+        "role": "body",
+        "side": "left",
+        "center": [
+          -10.61256,
+          0.42998,
+          13.65205
+        ],
+        "size": [
+          125.08925,
+          70.93339,
+          149.00697
+        ],
+        "swappable": false
+      },
+      {
+        "node": "Object_13",
+        "group": "Object_13",
+        "role": "body",
+        "side": "left",
+        "center": [
+          0.97124,
+          5.65752,
+          15.71888
+        ],
+        "size": [
+          106.15834,
+          59.81275,
+          137.4754
+        ],
+        "swappable": false
+      }
+    ],
+    "credit": {
+      "author": "Archive RO_BG",
+      "license": "CC-BY-4.0",
+      "licenseName": "CC Attribution 4.0",
+      "url": "https://sketchfab.com/3d-models/dji-avata-b338aae3a00145dc8dbb7c60135ba2bb"
     }
   }
 ]

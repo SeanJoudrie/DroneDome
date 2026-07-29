@@ -36,6 +36,12 @@ const PUBLISHED: Record<string, { mtow: number; endurance: number; cruise: numbe
   'rq11-raven': { mtow: 1.9, endurance: 1.5, cruise: 50 },
   'phantom-4': { mtow: 1.6, endurance: 0.5, cruise: 50 },
   'mavic-3': { mtow: 1.05, endurance: 0.767, cruise: 50 },
+  akinci: { mtow: 5500, endurance: 24, cruise: 241 },
+  'shahed-136': { mtow: 200, endurance: 13.5, cruise: 185 },
+  'altius-700': { mtow: 227, endurance: 4, cruise: 185 },
+  'matrice-300': { mtow: 9.0, endurance: 0.92, cruise: 50 },
+  'inspire-2': { mtow: 4.25, endurance: 0.45, cruise: 50 },
+  avata: { mtow: 0.5, endurance: 0.3, cruise: 40 },
 }
 
 const pick = (groups: StatGroup[], title: string, label: string) =>

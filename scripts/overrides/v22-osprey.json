@@ -1,0 +1,10 @@
+{
+  "_note": "Two meshes: the fuselage, and one lump holding the wing, both nacelles and both proprotors. So the wing has to be a cut. Because the nacelles live on the wingtips, taking the wing off takes the proprotors with it - which is exactly what would happen to the real aircraft.",
+  "_cuts": {
+    "wing": {
+      "axis": "span",
+      "keepBand": 0.14,
+      "comment": "keeps the ~3.6 m fuselage out of a 25.6 m rotor-tip span"
+    }
+  }
+}

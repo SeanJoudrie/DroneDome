@@ -1,0 +1,12 @@
+{
+  "_note": "Two meshes, and both of them are the whole aircraft - it is a pure delta, so there is no fuselage to separate from the wing. Both are the body, and the wing becomes a cut: keep the centre spine, clip the outer panels away. That is the only way this airframe comes apart.",
+  "Object_2": "body",
+  "Object_3": "body",
+  "_cuts": {
+    "wing": {
+      "axis": "span",
+      "keepBand": 0.14,
+      "comment": "keeps the ~0.35 m spine out of a 2.5 m span"
+    }
+  }
+}

@@ -11,7 +11,8 @@
     "assets": "python3 scripts/fetch.py && node scripts/normalize.mjs && python3 scripts/classify.py && node scripts/optimize.mjs && node scripts/build-catalog.mjs",
     "assets:repack": "node scripts/normalize.mjs && python3 scripts/classify.py && node scripts/optimize.mjs && node scripts/build-catalog.mjs",
     "check:physics": "tsx scripts/check-physics.ts",
-    "fuzz": "tsx scripts/fuzz-physics.ts"
+    "fuzz": "tsx scripts/fuzz-physics.ts",
+    "check:parts": "tsx scripts/check-parts.ts"
   },
   "dependencies": {
     "react": "^18.3.1",

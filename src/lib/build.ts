@@ -36,6 +36,13 @@ const PRESET_LOADOUT: Record<string, { powerplant: string; energy: string; paylo
   // camera counts it twice and puts them over their own MTOW.
   'phantom-4': { powerplant: 'e-2216-950', energy: 'lipo-4s-5000', payloads: ['none'] },
   'mavic-3': { powerplant: 'e-2216-950', energy: 'lipo-4s-5000', payloads: ['none'] },
+  akinci: { powerplant: 'ai450t-twin', energy: 'fuel-1350', payloads: ['sar'] },
+  // The warhead is the payload, and it is already counted in the airframe mass.
+  'shahed-136': { powerplant: 'md-550', energy: 'fuel-40', payloads: ['none'] },
+  'altius-700': { powerplant: 'md-550', energy: 'fuel-40', payloads: ['eo-ir'] },
+  'matrice-300': { powerplant: 'e-5010-360', energy: 'liion-tb60-dual', payloads: ['lidar'] },
+  'inspire-2': { powerplant: 'e-5010-360', energy: 'lipo-6s-8000', payloads: ['gimbal-4k'] },
+  avata: { powerplant: 'e-2207-2450', energy: 'lipo-4s-2420', payloads: ['none'] },
 }
 
 const FALLBACK = { powerplant: 'e-5010-360', energy: 'lipo-4s-5000', payloads: ['none'] }

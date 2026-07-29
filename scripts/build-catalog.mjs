@@ -44,6 +44,7 @@ for (const ac of sources.aircraft) {
     modelExtent: geo.modelExtent,
     origin: geo.origin,
     cuts: geo.cuts ?? {},
+    hidden: geo.hidden ?? [],
     parts: geo.parts.map((p) => ({
       node: p.node,
       group: p.group,
