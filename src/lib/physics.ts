@@ -70,6 +70,20 @@ function densityFigureOfMerit(fom: number, rho: number) {
   return fom * clamp((rho / 1.225) ** 0.15, 0.35, 1)
 }
 
+/**
+ * Small things fly badly, and shrinking used to be a free win here: mass falls
+ * with the cube while thrust falls only with the square, so dragging the scale
+ * slider left produced absurd thrust-to-weight with nothing to pay for it.
+ *
+ * In reality a smaller blade or chord means a lower Reynolds number, thicker
+ * relative boundary layer and worse lift-to-drag. This penalises characteristic
+ * lengths below about 25 cm, which is where model-scale aerodynamics starts to
+ * hurt in life too.
+ */
+function reynoldsFactor(characteristicLengthM: number) {
+  return clamp((Math.max(characteristicLengthM, 1e-4) / 0.25) ** 0.12, 0.62, 1)
+}
+
 const clamp = (v: number, lo: number, hi: number) => Math.min(hi, Math.max(lo, v))
 
 function row(label: string, value: number, unit: StatRow['unit'], hint?: string): StatRow {
@@ -266,7 +280,9 @@ export function analyse(build: Build): Analysis {
     const discPerRotor = (Math.PI * dia * dia) / 4
     const coaxLoss = donorSpec.coaxial ? 0.82 : 1
     const disc = discPerRotor * rotorCount * coaxLoss
-    const fom = densityFigureOfMerit(clamp(plant?.efficiency ?? 0.7, 0.3, 0.9), rho)
+    const fom =
+      densityFigureOfMerit(clamp(plant?.efficiency ?? 0.7, 0.3, 0.9), rho) *
+      reynoldsFactor(dia)
 
     // Momentum theory, inverted: for a given shaft power, how much static
     // thrust can the disc actually produce?  T = ((P·FoM)² · 2ρA)^(1/3)
@@ -335,7 +351,11 @@ export function analyse(build: Build): Analysis {
 
     stallSpeed = Math.sqrt((2 * weight) / (cruiseRho * wingArea * CL_MAX))
 
-    const cd0 = CD0_CLEAN + payloadDragArea / Math.max(wingArea, 1e-6)
+    // Small chords carry proportionally thicker boundary layers, so parasite
+    // drag rises as the wing shrinks.
+    const chordM = wingArea / Math.max(span, 1e-6)
+    const cd0 =
+      CD0_CLEAN / reynoldsFactor(chordM) + payloadDragArea / Math.max(wingArea, 1e-6)
     liftToDrag = 0.5 * Math.sqrt((Math.PI * aspect * OSWALD) / cd0)
 
     // Cruise at best lift-to-drag: CL where induced drag equals parasite drag.
@@ -451,6 +471,26 @@ export function analyse(build: Build): Analysis {
     )
   }
 
+  // ---- can the pack actually deliver it? -----------------------------------
+  // Energy is not the same as power. A 266 Wh Li-ion brick holds far more than
+  // a 22 Wh race pack and can supply a third of the current. Until now the
+  // C-rating existed only as prose in the catalog.
+  let peakDemandW = 0
+  let packCeilingW = 0
+  let brownout = false
+  if (energy?.kind === 'battery' && energy.cRating) {
+    packCeilingW = (energy.wh ?? 0) * energy.cRating * s3
+    // Full-throttle electrical draw, which is what the pack actually sees.
+    peakDemandW = shaftW / clamp(plant?.efficiency ?? 0.8, 0.3, 0.95) + avionicsW
+    brownout = packCeilingW > 0 && peakDemandW > packCeilingW
+    if (brownout) {
+      warnings.push({
+        severity: 'warn',
+        text: `Full throttle asks ${(peakDemandW / 1000).toFixed(1)} kW of a pack rated for ${(packCeilingW / 1000).toFixed(1)} kW. The voltage will collapse under load — it browns out, and repeated attempts will destroy the pack.`,
+      })
+    }
+  }
+
   // ---- payload capacity ---------------------------------------------------
   let extraPayloadKg = 0
   if (hasRotors) {
@@ -465,6 +505,13 @@ export function analyse(build: Build): Analysis {
     extraPayloadKg = Math.max(0, Math.min(structuralMax, wingLoadingMax) - totalMass)
   }
 
+  if (packCeilingW > 0) {
+    energyRows.push({
+      ...row('Peak draw vs pack', (peakDemandW / packCeilingW) * 100, 'percent',
+        'over 100% and the pack cannot supply full throttle'),
+      gauge: { max: 150, invert: true },
+    })
+  }
   groups.push({ title: kind === 'fuel' || kind === 'hybrid' ? 'Fuel & endurance' : 'Energy & endurance', rows: energyRows })
 
   // ---- structural limits ---------------------------------------------------

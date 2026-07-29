@@ -183,6 +183,12 @@ export interface EnergySource {
   fuelKg?: number
   /** Continuous generated power, W (solar). */
   solarW?: number
+  /**
+   * Continuous discharge rating. Peak power a pack can deliver is its energy
+   * in watt-hours times this, which is why a 22 Wh race pack at 75C outruns a
+   * 266 Wh Li-ion brick at 10C.
+   */
+  cRating?: number
   massKg: number
   note: string
 }
