@@ -109,7 +109,10 @@ function resolveSlot(build: Build, base: AircraftModel, role: PartRole) {
           donor: base,
           fromRole: role,
           fitScale: choice.scale ?? 1,
-          count: undefined,
+          // The aircraft's own wing can be doubled up into a biplane just as a
+          // borrowed one can. Hard-coding this to undefined meant the "how many"
+          // control moved neither the model nor the numbers on a stock part.
+          count: choice.count,
           place: choice,
         }
       : null
@@ -437,7 +440,20 @@ export function analyse(build: Build): Analysis {
     const aspect = wingArea > 0 ? (span * span) / wingArea : 6
     aspectRatioUsed = aspect
 
-    stallSpeed = Math.sqrt((2 * weight) / (cruiseRho * wingArea * CL_MAX))
+    // Incidence rigs the wing at a permanent angle of attack. A few degrees
+    // nose-up buys a lower stall speed, because the wing is already partway to
+    // its maximum lift coefficient before the aircraft pitches at all. Past
+    // that it is just stalled, and a wing rigged nose-down never gets there.
+    const incidence = clamp(wingSlot!.place?.pitchDeg ?? 0, -30, 30)
+    const clUsable = clamp(CL_MAX * (1 + incidence / 45), CL_MAX * 0.35, CL_MAX)
+    if (incidence > 12) {
+      warnings.push({
+        severity: 'warn',
+        text: `The wing is rigged ${incidence.toFixed(0)}° nose-up. Past about 12° it is flying stalled, and the lift it makes falls away rather than building.`,
+      })
+    }
+
+    stallSpeed = Math.sqrt((2 * weight) / (cruiseRho * wingArea * clUsable))
 
     // Small chords carry proportionally thicker boundary layers, so parasite
     // drag rises as the wing shrinks.

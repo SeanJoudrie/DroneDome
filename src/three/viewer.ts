@@ -271,15 +271,19 @@ export function createViewer(container: HTMLElement): ViewerHandle {
     object.traverse((o) => {
       const mesh = o as THREE.Mesh
       if (!mesh.isMesh) return
-      const mats = Array.isArray(mesh.material) ? mesh.material : [mesh.material]
-      mesh.material = mats.map((m) => {
+      const wasArray = Array.isArray(mesh.material)
+      const mats = wasArray ? (mesh.material as THREE.Material[]) : [mesh.material as THREE.Material]
+      const painted = mats.map((m) => {
         const clone = (m as THREE.MeshStandardMaterial).clone()
         clone.color = colour.clone()
         clone.map = null
         clone.needsUpdate = true
         return clone
       })
-      if (!Array.isArray(mesh.material)) mesh.material = mesh.material[0]
+      // Checking Array.isArray *after* assigning an array is always true, so a
+      // single-material mesh was left holding a one-element array and leaning on
+      // the renderer's default group to unwrap it.
+      mesh.material = wasArray ? painted : painted[0]
     })
   }
 
@@ -518,6 +522,7 @@ export function createViewer(container: HTMLElement): ViewerHandle {
       const factor = choice.scale ?? 1
       const place = choice
       const tilt = role === 'rotor' ? (place.tiltDeg ?? 0) : 0
+      const copies = Math.max(1, Math.round(place.count ?? 1))
       const moved =
         Math.abs(factor - 1) > 1e-3 ||
         !!place.fore ||
@@ -525,7 +530,8 @@ export function createViewer(container: HTMLElement): ViewerHandle {
         !!place.rollDeg ||
         !!place.pitchDeg ||
         !!place.yawDeg ||
-        !!tilt
+        !!tilt ||
+        copies > 1
       if (!moved) continue
       // Which side a node is on has to come from where it actually sits, not
       // from the classifier's label: "right" in model space lands on either
@@ -569,6 +575,27 @@ export function createViewer(container: HTMLElement): ViewerHandle {
       if (!nodes.length) continue
       const hull = new THREE.Box3().setFromObject(baseClone)
       const size = hull.getSize(new THREE.Vector3())
+
+      // A second and third wing, stacked above the first, is how a biplane and
+      // a triplane get built out of an aircraft's own wing.
+      if (copies > 1) {
+        const step = (place.layout === 'tandem' ? size.z : size.y) * 0.22
+        // The copies go onto the assembly rather than alongside the original,
+        // because inside the model root a metre is not a metre and "up" is
+        // whatever axis the exporter chose.
+        baseClone.updateMatrixWorld(true)
+        const originals = [...nodes]
+        for (let i = 1; i < copies; i++) {
+          for (const node of originals) {
+            const copy = bakeWorld(node)
+            copy.userData.ddSide = node.userData.ddSide
+            if (place.layout === 'tandem') copy.position.z += step * i
+            else copy.position.y += step * i
+            assembly.add(copy)
+            nodes.push(copy)
+          }
+        }
+      }
       const off = new THREE.Vector3(
         0,
         (place.rise ?? 0) * size.y * 0.5,
