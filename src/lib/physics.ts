@@ -105,21 +105,60 @@ function resolveSlot(build: Build, base: AircraftModel, role: PartRole) {
       !!base.cuts[role] ||
       (role === 'wing' && !!base.spec.wing_area_m2)
     return present
-      ? { donor: base, fitScale: choice.scale ?? 1, count: undefined, place: choice }
+      ? {
+          donor: base,
+          fromRole: role,
+          fitScale: choice.scale ?? 1,
+          count: undefined,
+          place: choice,
+        }
       : null
   }
   const donor = AIRCRAFT_BY_ID[choice.aircraftId]
   if (!donor) return null
+  // Which of the donor's parts to take. Normally the matching one, but a part
+  // can be repurposed — and when it is, its published figures no longer apply,
+  // so everything downstream has to fall back on measuring the mesh.
+  const fromRole = choice.fromRole ?? role
   // A borrowed part is resized to suit the host it is bolted to. Four 25 cm
   // quadcopter rotors on a 20 m Reaper are technically honest and visually
   // useless, so donor parts scale with the host's span — and because the
   // physics uses the same number, the result stays truthful either way.
   return {
     donor,
+    fromRole,
     fitScale: fitScaleFor(base, donor) * (choice.scale ?? 1),
     count: choice.count,
     place: choice,
   }
+}
+
+type Fitted = NonNullable<ReturnType<typeof resolveSlot>>
+
+/** Span of a role's parts on a model, in metres. */
+function partSpanOf(model: AircraftModel, role: PartRole): number {
+  const ps = model.parts.filter((p) => p.role === role)
+  if (!ps.length) return 0
+  const si = model.axes.span
+  return Math.max(...ps.map((p) => p.size[si])) * model.scaleToMetres
+}
+
+/**
+ * Lifting area a fitted part contributes, m² at unit scale.
+ *
+ * A wing used as a wing has a published area, and that is the honest number.
+ * A tail, a solar panel or a rotor blade pressed into service as a wing has
+ * no such figure, so it gets measured off its own mesh instead.
+ */
+function fittedAreaOf(slot: Fitted, role: PartRole): number {
+  if (slot.fromRole === role) {
+    const ds = slot.donor.spec
+    if (role === 'wing') return ds.wing_area_m2 ?? (ds.span_m * ds.span_m) / 12
+  }
+  const measured = planformOf(slot.donor, slot.fromRole)
+  if (measured > 0) return measured
+  const ds = slot.donor.spec
+  return role === 'wing' ? ds.wing_area_m2 ?? (ds.span_m * ds.span_m) / 12 : 0
 }
 
 /**
@@ -271,9 +310,7 @@ export function analyse(build: Build): Analysis {
   // Wing planform, needed by the rotor block before the wing block runs.
   let wingAreaForDownload = 0
   if (hasWing && wingSlot) {
-    const ds = wingSlot.donor.spec
-    wingAreaForDownload =
-      (ds.wing_area_m2 ?? (ds.span_m * ds.span_m) / 12) * s2 * wingSlot.fitScale ** 2
+    wingAreaForDownload = fittedAreaOf(wingSlot, 'wing') * s2 * wingSlot.fitScale ** 2
   }
   let downloadLoss = 0
 
@@ -286,7 +323,13 @@ export function analyse(build: Build): Analysis {
   let hoverThrottle = 0
   if (hasRotors && rotorCount > 0) {
     const donorSpec = rotorSlot!.donor.spec
-    const dia = (donorSpec.rotor_diameter_m ?? 0.25) * s * rotorSlot!.fitScale
+    const naturalDia =
+      rotorSlot!.fromRole === 'rotor'
+        ? donorSpec.rotor_diameter_m ?? partSpanOf(rotorSlot!.donor, 'rotor') ?? 0.25
+        : // A wing panel or a tailplane spun up as a rotor sweeps a disc as wide
+          // as the part itself.
+          partSpanOf(rotorSlot!.donor, rotorSlot!.fromRole) || 0.25
+    const dia = naturalDia * s * rotorSlot!.fitScale
     const discPerRotor = (Math.PI * dia * dia) / 4
     const coaxLoss = donorSpec.coaxial ? 0.82 : 1
     const disc = discPerRotor * rotorCount * coaxLoss
@@ -363,9 +406,8 @@ export function analyse(build: Build): Analysis {
   let wingArea = 0
   let aspectRatioUsed = 6
   if (hasWing) {
-    const donorSpec = wingSlot!.donor.spec
     const fit = wingSlot!.fitScale
-    wingArea = (donorSpec.wing_area_m2 ?? (donorSpec.span_m * donorSpec.span_m) / 12) * s2 * fit ** 2
+    wingArea = fittedAreaOf(wingSlot!, 'wing') * s2 * fit ** 2
 
     // Extra wings are not free area. A biplane's second wing sits in the first
     // one's flow field and contributes roughly 80% of what it would alone; a
@@ -385,7 +427,13 @@ export function analyse(build: Build): Analysis {
       Math.cos((clamp(dihedral, 0, 60) * Math.PI) / 180) *
       Math.cos((clamp(sweep, 0, 60) * Math.PI) / 180)
     wingArea *= lossFactor
-    const span = donorSpec.span_m * s * fit
+    // A repurposed part spans only as far as the part does, not as far as the
+    // aircraft it was taken off — a Reaper tailplane makes a short, stubby wing.
+    const naturalSpan =
+      wingSlot!.fromRole === 'wing'
+        ? wingSlot!.donor.spec.span_m
+        : partSpanOf(wingSlot!.donor, wingSlot!.fromRole) || wingSlot!.donor.spec.span_m
+    const span = naturalSpan * s * fit
     const aspect = wingArea > 0 ? (span * span) / wingArea : 6
     aspectRatioUsed = aspect
 
@@ -677,7 +725,8 @@ export function analyse(build: Build): Analysis {
     return (
       nudge +
       (stationOf(base, role) ??
-        (stationOf(slot.donor, role) ?? 0) * (base.spec.span_m / (slot.donor.spec.span_m || 1)))
+        (stationOf(slot.donor, slot.fromRole) ?? 0) *
+          (base.spec.span_m / (slot.donor.spec.span_m || 1)))
     )
   }
 

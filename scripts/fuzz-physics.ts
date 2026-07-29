@@ -72,6 +72,21 @@ for (const ac of AIRCRAFT) {
     b.slots.wing = { kind: 'donor', aircraftId: 'mq9-reaper', scale }
     assertSane(`${ac.id} wing×${scale}`, b)
   }
+
+  // Parts doing a job they were never built for. These have no published
+  // figures to fall back on, so every number is measured off the mesh - which
+  // is exactly where a zero-area part could divide its way to infinity.
+  for (const slot of SWAPPABLE_ROLES) {
+    for (const donor of AIRCRAFT) {
+      const roles = new Set(donor.parts.filter((p) => p.swappable).map((p) => p.role))
+      for (const fromRole of roles) {
+        if (fromRole === slot) continue
+        const b = createBuild(ac.id)
+        b.slots[slot] = { kind: 'donor', aircraftId: donor.id, fromRole }
+        assertSane(`${ac.id} ${slot}<-${donor.id}.${fromRole}`, b)
+      }
+    }
+  }
 }
 
 // every powerplant against every energy source, on two very different frames

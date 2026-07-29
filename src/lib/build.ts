@@ -108,6 +108,24 @@ export function donorsFor(role: PartRole) {
   return AIRCRAFT.filter((a) => a.parts.some((p) => p.role === role && p.swappable))
 }
 
+/**
+ * Every part in the catalog that could be bolted into a slot it did not come
+ * from — a Reaper's tail as a wing, an Ingenuity solar panel as a tailplane.
+ *
+ * This is the Lego drawer. Restricting each slot to parts of its own kind meant
+ * twenty-seven aircraft offered a handful of choices per slot; letting a part
+ * change job turns the same models into a few hundred.
+ */
+export function crossRolePartsFor(role: PartRole) {
+  const out: { aircraft: (typeof AIRCRAFT)[number]; fromRole: PartRole }[] = []
+  for (const a of AIRCRAFT) {
+    const roles = new Set<PartRole>()
+    for (const p of a.parts) if (p.swappable && p.role !== role) roles.add(p.role)
+    for (const r of ROLE_ORDER) if (roles.has(r)) out.push({ aircraft: a, fromRole: r })
+  }
+  return out
+}
+
 export function slotLabel(build: Build, role: PartRole): string {
   const choice: SlotChoice = build.slots[role] ?? { kind: 'stock' }
   if (choice.kind === 'none') return 'Removed'

@@ -1,3 +1,4 @@
+import { useMemo, useState } from 'react'
 import type {
   Analysis,
   Build,
@@ -14,7 +15,7 @@ import {
   PAYLOADS,
   POWERPLANTS,
 } from '../data/catalog'
-import { donorsFor, slotLabel } from '../lib/build'
+import { crossRolePartsFor, donorsFor, slotLabel } from '../lib/build'
 import { analyse } from '../lib/physics'
 import { format, type UnitSystem } from '../lib/units'
 
@@ -248,6 +249,13 @@ export function Picker({
 }) {
   const current = headline(build)
   const preview = (patch: Partial<Build>) => headline({ ...build, ...patch })
+  // Hooks cannot live inside the branch below, so the drawer state is declared
+  // here even though only the role picker uses it.
+  const [drawer, setDrawer] = useState(false)
+  const crossParts = useMemo(
+    () => (target.kind === 'role' ? crossRolePartsFor(target.role) : []),
+    [target],
+  )
 
   let title = ''
   let body: React.ReactNode = null
@@ -458,7 +466,40 @@ export function Picker({
                 key={d.id}
                 name={`${d.name} ${role}`}
                 note={d.blurb}
-                selected={choice?.kind === 'donor' && choice.aircraftId === d.id}
+                selected={
+                  choice?.kind === 'donor' && choice.aircraftId === d.id && !choice.fromRole
+                }
+                onPick={() => onChange({ ...build, ...patch })}
+                base={current}
+                next={preview(patch)}
+                system={system}
+              />
+            )
+          })}
+
+        {/* The Lego drawer. Any part in the catalog can do any job — the slot
+            decides what it does, the mesh decides what it looks like. */}
+        <button className="drawer-toggle" onClick={() => setDrawer((v) => !v)}>
+          {drawer ? '−' : '+'} Use something else as a {role} ({crossParts.length})
+        </button>
+        {drawer &&
+          crossParts.map(({ aircraft: d, fromRole }) => {
+            const patch = {
+              slots: {
+                ...build.slots,
+                [role]: { kind: 'donor' as const, aircraftId: d.id, fromRole },
+              },
+            }
+            return (
+              <OptionRow
+                key={`${d.id}:${fromRole}`}
+                name={`${d.name} ${fromRole}`}
+                note={`Fitted as a ${role}. ${d.blurb}`}
+                selected={
+                  choice?.kind === 'donor' &&
+                  choice.aircraftId === d.id &&
+                  choice.fromRole === fromRole
+                }
                 onPick={() => onChange({ ...build, ...patch })}
                 base={current}
                 next={preview(patch)}

@@ -472,6 +472,8 @@ export function createViewer(container: HTMLElement): ViewerHandle {
     const removed = new Set<PartRole>()
     const donors: {
       role: PartRole
+      /** Which of the donor's roles the mesh comes from; usually the same. */
+      fromRole: PartRole
       model: AircraftModel
       fit: number
       count: number
@@ -486,6 +488,7 @@ export function createViewer(container: HTMLElement): ViewerHandle {
         if (!donor) continue
         donors.push({
           role,
+          fromRole: choice.fromRole ?? role,
           model: donor,
           fit: fitScaleFor(base, donor) * (choice.scale ?? 1),
           count: choice.count ?? donor.spec.rotors ?? 1,
@@ -585,7 +588,7 @@ export function createViewer(container: HTMLElement): ViewerHandle {
       donorClone.applyMatrix4(donorNorm)
       donorClone.updateMatrixWorld(true)
       donorClone.traverse((o) => {
-        if (roleOf(d.model, o.name) === d.role && (o as THREE.Mesh).isMesh) pieces.push(o)
+        if (roleOf(d.model, o.name) === d.fromRole && (o as THREE.Mesh).isMesh) pieces.push(o)
       })
       if (!pieces.length) continue
 

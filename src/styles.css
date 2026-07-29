@@ -868,3 +868,24 @@ a {
   gap: 8px;
   flex-wrap: wrap;
 }
+
+/* The cross-role parts drawer. Kept shut by default: it is a few hundred
+   options, and most of the time you want a wing to be a wing. */
+.drawer-toggle {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 0.55rem 0.85rem;
+  background: transparent;
+  border: 0;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  font: inherit;
+  font-size: 0.82rem;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+}
+.drawer-toggle:hover {
+  color: var(--fg);
+  background: var(--raise);
+}

@@ -166,7 +166,19 @@ export interface SlotPlacement {
 export type SlotChoice =
   | ({ kind: 'stock'; scale?: number; count?: number } & SlotPlacement)
   | { kind: 'none' }
-  | ({ kind: 'donor'; aircraftId: string; count?: number; scale?: number } & SlotPlacement)
+  | ({
+      kind: 'donor'
+      aircraftId: string
+      /**
+       * Which of the donor's roles to take the mesh from. Defaults to the slot
+       * it is going into, which is the ordinary case — a wing for a wing. Set it
+       * to something else and the part changes job: a Reaper's tail bolted on
+       * as a wing is a wing, and is measured and flown as one.
+       */
+      fromRole?: PartRole
+      count?: number
+      scale?: number
+    } & SlotPlacement)
 
 export interface Build {
   /** Schema version. Lets a future change reject builds it cannot read. */
