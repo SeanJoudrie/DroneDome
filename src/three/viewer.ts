@@ -100,6 +100,23 @@ function rotorStations(seats: THREE.Vector3[], tolerance: number): THREE.Vector3
 }
 
 /**
+ * Mark a subtree as belonging to a role.
+ *
+ * A part borrowed from another aircraft keeps the name it had in the donor file,
+ * and that name means nothing to the host's catalog — so report() resolved it to
+ * an empty role, which reads identically to "this mesh belongs to nothing". It
+ * does not: a borrowed camera comes off with the equipment like anything else.
+ * That ambiguity cost an afternoon chasing a rule-4 violation that was never
+ * there, so the role travels with the mesh instead of being inferred from a name
+ * the host has never heard of.
+ */
+function stampRole(object: THREE.Object3D, role: PartRole) {
+  object.traverse((o) => {
+    o.userData.ddRole = role
+  })
+}
+
+/**
  * Resize one part of an aircraft in place.
  *
  * The nodes for that role are lifted into a group hanging off `container`,
@@ -1007,6 +1024,7 @@ export function createViewer(
           }
           arm.position.set(x, y, z)
           if (tilt) arm.rotateX(-tilt)
+          stampRole(arm, d.role)
           assembly.add(arm)
         }
       } else if (hostMounts && hostMounts.length) {
@@ -1030,6 +1048,7 @@ export function createViewer(
               else copy.position.y += step
             }
             applyAngles(copy, d.place)
+            stampRole(copy, d.role)
             assembly.add(copy)
           }
         }
@@ -1057,6 +1076,7 @@ export function createViewer(
           default:
             group.position.set(0, mid.y, mid.z)
         }
+        stampRole(group, d.role)
         assembly.add(group)
       }
     }
@@ -1129,12 +1149,14 @@ export function createViewer(
         for (const at of hostPoints.slice(0, spec.repeat ?? hostPoints.length)) {
           const copy = unit.clone(true)
           copy.position.copy(at)
+          stampRole(copy, 'payload')
           assembly.add(copy)
         }
       } else {
         // nothing equivalent on the host: hang it under the nose
         const hull = new THREE.Box3().setFromObject(baseClone)
         unit.position.set(0, hull.min.y + (hull.max.y - hull.min.y) * 0.12, hull.max.z * 0.45)
+        stampRole(unit, 'payload')
         assembly.add(unit)
       }
     }
@@ -1282,7 +1304,12 @@ export function createViewer(
           // Resolved the same way the builder resolves it, so a test can ask
           // whether the app can actually find a part rather than guessing at
           // the name-matching rules from outside.
-          role: (lastBase && roleOf(lastBase, mesh.name)) || '',
+          // The stamp first, because a borrowed part's name belongs to the
+          // aircraft it came from and will not resolve against this one.
+          role:
+            (typeof mesh.userData.ddRole === 'string' ? mesh.userData.ddRole : null) ??
+            (lastBase && roleOf(lastBase, mesh.name)) ??
+            '',
           min: [box.min.x, box.min.y, box.min.z],
           max: [box.max.x, box.max.y, box.max.z],
         })
