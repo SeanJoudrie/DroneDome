@@ -17,13 +17,26 @@ loader.setDRACOLoader(draco)
 
 const cache = new Map<string, Promise<THREE.Group>>()
 
-function loadModel(model: AircraftModel): Promise<THREE.Group> {
+function loadModel(
+  model: AircraftModel,
+  onProgress?: (loaded: number, total: number) => void,
+): Promise<THREE.Group> {
   const url = `${import.meta.env.BASE_URL}${model.model}`
   let entry = cache.get(url)
   if (!entry) {
     entry = new Promise<THREE.Group>((resolve, reject) => {
-      loader.load(url, (gltf) => resolve(gltf.scene), undefined, reject)
+      loader.load(
+        url,
+        (gltf) => resolve(gltf.scene),
+        (e) => onProgress?.(e.loaded, e.total),
+        reject,
+      )
     })
+    // A rejection must not stay in the cache. Keeping it would make one dropped
+    // request permanently fatal for that aircraft: every later attempt would
+    // await the same rejected promise, so Retry could never work and the model
+    // would stay unavailable until the page was reloaded.
+    entry.catch(() => cache.delete(url))
     cache.set(url, entry)
   }
   return entry
@@ -303,6 +316,20 @@ export interface MeshReport {
   clips: number
 }
 
+/**
+ * What the viewer is doing, so the interface can stop disagreeing with it.
+ *
+ * Without this the panel and the viewport described different aircraft for as
+ * long as a model took to arrive: the stats read the build you had just picked
+ * while the screen still showed the last one, with nothing to say a change was
+ * in flight. For an app whose whole claim is that the numbers describe what you
+ * built, that was the most expensive thing it could get wrong.
+ */
+export type ViewerStatus =
+  | { phase: 'ready' }
+  | { phase: 'loading'; aircraft: string; loaded: number; total: number }
+  | { phase: 'failed'; aircraft: string }
+
 export interface ViewerHandle {
   setBuild(build: Build): void
   setTheme(theme: 'light' | 'dark'): void
@@ -310,6 +337,8 @@ export interface ViewerHandle {
   frame(): void
   dispose(): void
   screenshot(): string
+  /** Try the last requested build again, after a load failed. */
+  retry(): void
   /**
    * Every visible mesh and where it ended up.
    *
@@ -321,7 +350,10 @@ export interface ViewerHandle {
   report(): { buildId: string; meshes: MeshReport[] }
 }
 
-export function createViewer(container: HTMLElement): ViewerHandle {
+export function createViewer(
+  container: HTMLElement,
+  onStatus: (status: ViewerStatus) => void = () => {},
+): ViewerHandle {
   const renderer = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true })
   renderer.setPixelRatio(Math.min(devicePixelRatio, 2))
   renderer.shadowMap.enabled = true
@@ -408,6 +440,8 @@ export function createViewer(container: HTMLElement): ViewerHandle {
 
   let disposed = false
   let token = 0
+  /** The build most recently asked for, so a failed load can be retried. */
+  let lastRequested: Build | null = null
   /** Which aircraft the camera was last framed for, and at what natural size. */
   let framedFor: string | null = null
   let framedReach = 0
@@ -624,8 +658,23 @@ export function createViewer(container: HTMLElement): ViewerHandle {
     const mine = ++token
     const base = AIRCRAFT_BY_ID[build.baseId]
     if (!base) return
+    lastRequested = build
 
-    const baseScene = await loadModel(base)
+    onStatus({ phase: 'loading', aircraft: base.name, loaded: 0, total: 0 })
+    let baseScene: THREE.Group
+    try {
+      baseScene = await loadModel(base, (loaded, total) => {
+        if (!disposed && mine === token) {
+          onStatus({ phase: 'loading', aircraft: base.name, loaded, total })
+        }
+      })
+    } catch {
+      // Leave whatever is on screen where it is. A blank viewport gives no way
+      // to tell a dropped request from a build that renders nothing, and this
+      // app has both failure modes.
+      if (!disposed && mine === token) onStatus({ phase: 'failed', aircraft: base.name })
+      return
+    }
     if (disposed || mine !== token) return
 
     clearRoot()
@@ -863,7 +912,13 @@ export function createViewer(container: HTMLElement): ViewerHandle {
 
     // Bolt on whatever is replacing them.
     for (const d of donors) {
-      const donorScene = await loadModel(d.model)
+      // A donor mesh that will not load costs you that part, not the aircraft.
+      let donorScene: THREE.Group
+      try {
+        donorScene = await loadModel(d.model)
+      } catch {
+        continue
+      }
       if (disposed || mine !== token) return
       const donorNorm = normaliseTransform(d.model)
 
@@ -1029,7 +1084,14 @@ export function createViewer(container: HTMLElement): ViewerHandle {
         o.visible = false
       })
 
-      const donorScene = await loadModel(donor)
+      // Same rule as the donor parts: a piece of equipment that cannot be
+      // fetched is missing its picture, and that is all.
+      let donorScene: THREE.Group
+      try {
+        donorScene = await loadModel(donor)
+      } catch {
+        continue
+      }
       if (disposed || mine !== token) return
       const donorClone = donorScene.clone(true)
       donorClone.applyMatrix4(normaliseTransform(donor))
@@ -1093,7 +1155,13 @@ export function createViewer(container: HTMLElement): ViewerHandle {
     // size instead, growing the aircraft 4x would also push the camera back 4x
     // and stretch the grid 4x, and the slider would appear to do nothing.
     const natural = new THREE.Box3().setFromObject(assembly)
-    if (natural.isEmpty()) return
+    if (natural.isEmpty()) {
+      // Nothing measurable came out of this build. Report ready anyway: a
+      // spinner that never stops is worse than an empty stage, and the stage
+      // being empty is itself the honest answer here.
+      onStatus({ phase: 'ready' })
+      return
+    }
     const naturalSize = natural.getSize(new THREE.Vector3())
     const reach = Math.max(naturalSize.x, naturalSize.y, naturalSize.z, 0.05)
 
@@ -1149,6 +1217,9 @@ export function createViewer(container: HTMLElement): ViewerHandle {
       camera.position.set(reach * 1.1, reach * 0.85, reach * 1.8)
     }
     controls.update()
+
+    // Only now is what is on screen the build the panel is describing.
+    onStatus({ phase: 'ready' })
   }
 
   function resize() {
@@ -1182,6 +1253,9 @@ export function createViewer(container: HTMLElement): ViewerHandle {
     setTheme,
     resize,
     frame,
+    retry: () => {
+      if (lastRequested) void setBuild(lastRequested)
+    },
     screenshot: () => renderer.domElement.toDataURL('image/png'),
     report() {
       const out: MeshReport[] = []

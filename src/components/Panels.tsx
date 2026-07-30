@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import type {
   Analysis,
   Build,
@@ -728,10 +728,25 @@ function StatLine({ row, system }: { row: StatRow; system: UnitSystem }) {
   )
 }
 
-export function Stats({ analysis, system }: { analysis: Analysis; system: UnitSystem }) {
+export function Stats({
+  analysis,
+  system,
+  pending = false,
+}: {
+  analysis: Analysis
+  system: UnitSystem
+  /**
+   * The model on screen is not this build yet. These figures are right for what
+   * was asked for and wrong about what is being shown, and saying so is the
+   * whole point — the app's one claim is that the numbers describe the aircraft
+   * in front of you.
+   */
+  pending?: boolean
+}) {
   return (
-    <>
-      <div className={`verdict ${analysis.verdict.level}`}>
+    <div className={pending ? 'stats pending' : 'stats'} aria-busy={pending}>
+      {pending && <p className="stats-pending">Figures for the build you just picked — the model is still loading.</p>}
+      <div className={`verdict ${analysis.verdict.level}`} role="status">
         <div className="verdict-head">{analysis.verdict.headline}</div>
         <div className="verdict-reason">{analysis.verdict.reason}</div>
       </div>
@@ -831,16 +846,83 @@ export function Stats({ analysis, system }: { analysis: Analysis; system: UnitSy
           </div>
         </section>
       )}
-    </>
+    </div>
   )
 }
 
+/**
+ * A real dialog, rather than a div that looks like one.
+ *
+ * It had no role, no name, and never took focus; Escape did nothing, and Tab
+ * walked straight out of it into the controls behind the scrim. Closing was
+ * available to a pointer and to nothing else.
+ *
+ * Native `<dialog>` was the wrong fit here only because the panel is already
+ * positioned and themed as an overlay, so the behaviours are supplied
+ * explicitly: focus moves in on open, is held inside while open, and returns to
+ * whatever opened it on close.
+ */
 export function Credits({ onClose }: { onClose: () => void }) {
+  const panel = useRef<HTMLDivElement | null>(null)
+  const opener = useRef<Element | null>(null)
+
+  useEffect(() => {
+    opener.current = document.activeElement
+    const focusables = () =>
+      Array.from(
+        panel.current?.querySelectorAll<HTMLElement>(
+          'button, a[href], input, select, textarea, [tabindex]:not([tabindex="-1"])',
+        ) ?? [],
+      ).filter((e) => e.offsetParent !== null)
+
+    // The panel itself, not its first button: it carries the accessible name,
+    // so focusing it means a screen reader announces what just opened before
+    // reading the controls inside.
+    panel.current?.focus()
+
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        e.preventDefault()
+        onClose()
+        return
+      }
+      if (e.key !== 'Tab') return
+      const list = focusables()
+      if (!list.length) return
+      const first = list[0]
+      const last = list[list.length - 1]
+      const active = document.activeElement
+      // Wrap at both ends, and pull focus back if it has already escaped.
+      if (e.shiftKey && (active === first || !panel.current?.contains(active))) {
+        e.preventDefault()
+        last.focus()
+      } else if (!e.shiftKey && (active === last || !panel.current?.contains(active))) {
+        e.preventDefault()
+        first.focus()
+      }
+    }
+    document.addEventListener('keydown', onKey)
+    return () => {
+      document.removeEventListener('keydown', onKey)
+      ;(opener.current as HTMLElement | null)?.focus?.()
+    }
+  }, [onClose])
+
   return (
     <div className="scrim" onClick={onClose}>
-      <div className="modal" onClick={(e) => e.stopPropagation()}>
+      <div
+        className="modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="credits-title"
+        tabIndex={-1}
+        ref={panel}
+        onClick={(e) => e.stopPropagation()}
+      >
         <div className="panel-head">
-          <span className="panel-title">Credits</span>
+          <h2 className="panel-title" id="credits-title">
+            Credits
+          </h2>
           <button className="btn ghost" onClick={onClose}>
             Close
           </button>

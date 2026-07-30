@@ -196,6 +196,38 @@ export function slotLabel(build: Build, role: PartRole): string {
   return donor ? donor.name : 'Unknown'
 }
 
+/**
+ * The build in one sentence, for people who cannot see the render.
+ *
+ * The 3D view is the product, and to assistive technology it was an unlabelled
+ * canvas: changing aircraft, taking a wing off or scaling to 4x announced
+ * nothing at all. Everything needed to say what is on screen was already being
+ * computed for the slot labels, so this is assembled from those rather than
+ * written separately — which also means it cannot drift out of agreement with
+ * the panel.
+ */
+export function describeBuild(build: Build): string {
+  const base = AIRCRAFT_BY_ID[build.baseId]
+  if (!base) return 'No aircraft loaded'
+  const parts: string[] = []
+  for (const role of SWAPPABLE_ROLES) {
+    const choice = build.slots[role]
+    if (!choice) continue
+    if (choice.kind === 'none') {
+      parts.push(`${role} removed`)
+    } else if (choice.kind === 'donor') {
+      const donor = AIRCRAFT_BY_ID[choice.aircraftId]
+      if (donor) parts.push(`${donor.name} ${choice.fromRole ?? role} as its ${role}`)
+    } else if ((choice.scale ?? 1) !== 1) {
+      parts.push(`${role} at ${(choice.scale ?? 1).toFixed(2)}×`)
+    }
+  }
+  const scale = build.scale !== 1 ? `, whole aircraft at ${build.scale.toFixed(2)}×` : ''
+  return parts.length
+    ? `${base.name} with ${parts.join(', ')}${scale}`
+    : `${base.name}, standard${scale}`
+}
+
 export function isChimera(build: Build): boolean {
   return Object.values(build.slots).some(
     (c) => c && (c.kind === 'none' || (c.kind === 'donor' && c.aircraftId !== build.baseId)),

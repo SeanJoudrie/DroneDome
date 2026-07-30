@@ -15,7 +15,10 @@
     "check:parts": "tsx scripts/check-parts.ts",
     "check:geometry": "node scripts/geometry-sweep.mjs",
     "check:capability": "node scripts/capability-sweep.mjs",
-    "check:removal": "node scripts/removal-sweep.mjs"
+    "check:removal": "node scripts/removal-sweep.mjs",
+    "build:deployed": "vite build --base=/DroneDome/ --outDir dist-ci",
+    "serve:deployed": "vite preview --base=/DroneDome/ --outDir dist-ci --port 4173 --strictPort",
+    "gates": "node scripts/gates.mjs"
   },
   "dependencies": {
     "react": "^18.3.1",
