@@ -1,0 +1,6 @@
+{
+  "_note": "Two 1-3 cm meshes sitting at plus and minus 7.36 m on a 14.80 m span - the wingtips, to within 4 cm of the half-span. Wingtip lights. They were classified as tail because they are small, paired and far off the centreline, which is also what a tailplane looks like to a bounding box. Left as tail they stayed behind when the wing came off, hanging seven metres out in clear air: the widest gap in the whole geometry sweep, at 37% of the aircraft's length.",
+  "Object_3": "wing",
+  "Object_4": "wing",
+  "_note_tail": "Reclassifying those two leaves the Predator with no tail mesh at all, so its tail slot now reads 'not fitted' rather than pretending. That is the honest state and not a regression: the only thing 'remove the tail' ever removed here was those two lights. The real inverted-V tail is welded into the fuselage boom, and giving it back needs a measured _cuts box, not a role guess - Object_8 and Object_12 both run most of the length of the aircraft, so a badly chosen band takes the nose off instead. aftSign is unaffected (still 1), so the fore/aft station, CG and static margin are unchanged."
+}
