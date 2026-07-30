@@ -32,15 +32,18 @@ const ids = await page.locator('select').first().evaluate((el) =>
   Array.from(el.options).map((o) => o.value))
 
 /**
- * How far the furthest adrift piece is from the body of the aircraft.
+ * Every piece that is adrift from the body of the aircraft, and how far.
  *
  * Counting connected components turned out to be far too twitchy: on thin
  * geometry a hairline gap between two meshes scored the same as a rotor
  * hanging a metre away, and the count moved around between runs without
  * anything visible changing. What matters is the gap, so measure that.
- * Returns the widest gap in metres between a detached group and the main one.
+ *
+ * Returns one entry per detached group: the gap in metres to the main body and
+ * the names of the meshes in it, so the caller can tell a piece that has just
+ * come adrift from one that was never attached in the first place.
  */
-function worstGap(meshes, slack) {
+function detached(meshes, slack) {
   const near = (a, b) =>
     a.min[0] - slack <= b.max[0] && b.min[0] - slack <= a.max[0] &&
     a.min[1] - slack <= b.max[1] && b.min[1] - slack <= a.max[1] &&
@@ -58,26 +61,26 @@ function worstGap(meshes, slack) {
     g.push(m)
     groups.set(k, g)
   })
-  if (groups.size < 2) return 0
+  if (groups.size < 2) return []
   const vol = (g) => {
     const lo = [Infinity, Infinity, Infinity], hi = [-Infinity, -Infinity, -Infinity]
     for (const m of g) for (let k = 0; k < 3; k++) {
       lo[k] = Math.min(lo[k], m.min[k]); hi[k] = Math.max(hi[k], m.max[k])
     }
-    return { lo, hi, v: (hi[0]-lo[0]) * (hi[1]-lo[1]) * (hi[2]-lo[2]) }
+    return { lo, hi, v: (hi[0]-lo[0]) * (hi[1]-lo[1]) * (hi[2]-lo[2]), names: g.map((m) => m.name) }
   }
   const boxes = [...groups.values()].map(vol)
   const main = boxes.reduce((a, b) => (b.v > a.v ? b : a))
-  let worst = 0
+  const out = []
   for (const b of boxes) {
     if (b === main) continue
     let gap = 0
     for (let k = 0; k < 3; k++) {
       gap = Math.max(gap, b.lo[k] - main.hi[k], main.lo[k] - b.hi[k])
     }
-    worst = Math.max(worst, gap)
+    out.push({ gap, names: b.names })
   }
-  return worst
+  return out
 }
 
 const size = (ms) => {
@@ -124,7 +127,15 @@ for (const id of ids) {
   if (!stock.length) { findings.push({ id, op: 'stock', why: 'renders nothing' }); continue }
   const reach = size(stock)
   const slack = reach * 0.02
-  const baseGap = worstGap(stock, slack)
+  const stockDetached = detached(stock, slack)
+  const baseGap = stockDetached.reduce((a, d) => Math.max(a, d.gap), 0)
+  // Pieces this model already ships adrift. The Phantom 4 has one gear mesh
+  // sitting off the airframe in its stock build, and nothing the app does moves
+  // it — but taking the rotors off shrinks the main body's box, so the measured
+  // distance to that same stray grew from 33% to 60% and read as four separate
+  // findings. A gap to a box whose size depends on what is still fitted is not
+  // evidence on its own; what matters is whether the piece was attached before.
+  const strays = new Set(stockDetached.flatMap((d) => d.names))
   if (!finite(stock)) findings.push({ id, op: 'stock', why: 'non-finite mesh position' })
 
   const ops = []
@@ -152,7 +163,12 @@ for (const id of ids) {
     if (!/moved|angled/.test(name)) {
       // Only a gap you could see. A tenth of the aircraft's own size is about
       // where a part stops reading as attached and starts reading as floating.
-      const gap = worstGap(meshes, slack * scale)
+      //
+      // A group made up entirely of pieces that were already adrift in stock is
+      // not this operation's doing, however far away it now measures.
+      const gap = detached(meshes, slack * scale)
+        .filter((d) => !d.names.every((n) => strays.has(n)))
+        .reduce((a, d) => Math.max(a, d.gap), 0)
       // The stock gap scales with the build too, so a model whose propellers
       // already stand clear of its frame must not read as broken at 4x simply
       // because that clearance is now four times wider.
