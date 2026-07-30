@@ -13,3 +13,6 @@ dist-test/
 assets-src/
 .sketchfab-token
 *.tsbuildinfo
+
+# A second build, for running the Playwright gates against the deployed base path.
+dist-ci/
