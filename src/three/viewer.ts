@@ -561,11 +561,23 @@ export function createViewer(
    */
   let cutPlanes: THREE.Plane[] = []
 
+  /**
+   * Where newly made planes are collected, and what they will be transformed by.
+   *
+   * The host's own cuts live in the assembly's frame. A borrowed part does not:
+   * its geometry arrives in the donor's frame and is then scaled and moved onto
+   * the host, so its planes have to ride that same transform or the clip lands
+   * somewhere else entirely. Each batch therefore records the object whose world
+   * matrix carries it.
+   */
+  let planeSink: THREE.Plane[] = cutPlanes
+  let deferredPlanes: { planes: THREE.Plane[]; node: THREE.Object3D }[] = []
+
   /** Keeps coordinates on `axis` at or above `lo`. */
   function planeAbove(axis: 0 | 1 | 2, lo: number) {
     const n = new THREE.Vector3().setComponent(axis, 1)
     const p = new THREE.Plane(n, -lo)
-    cutPlanes.push(p)
+    planeSink.push(p)
     return p
   }
 
@@ -573,7 +585,7 @@ export function createViewer(
   function planeBelow(axis: 0 | 1 | 2, hi: number) {
     const n = new THREE.Vector3().setComponent(axis, -1)
     const p = new THREE.Plane(n, hi)
-    cutPlanes.push(p)
+    planeSink.push(p)
     return p
   }
 
@@ -733,6 +745,8 @@ export function createViewer(
 
     const assembly = new THREE.Group()
     cutPlanes = []
+    planeSink = cutPlanes
+    deferredPlanes = []
     const baseClone = baseScene.clone(true)
     baseClone.applyMatrix4(normaliseTransform(base))
     // Scenery that came with the upload and is not the aircraft. The classifier
@@ -992,8 +1006,46 @@ export function createViewer(
       }
 
       const group = new THREE.Group()
-      for (const piece of pieces) group.add(bakeWorld(piece))
+      // A welded donor has no separate mesh for the part — the Global Hawk's
+      // wing is the same primitive as its fuselage, and mounting that whole put
+      // an entire second aircraft on top of the first. The donor's own cut says
+      // which region of it is the wing, so clip to that and take only the wing.
+      const donorCut = d.model.cuts[d.fromRole]
+      if (donorCut) {
+        const held: THREE.Plane[] = []
+        const previous = planeSink
+        planeSink = held
+        const regions = cutRegions(d.model, d.fromRole)
+        planeSink = previous
+        if (regions) {
+          for (const piece of pieces) {
+            for (const part of regions.parts) {
+              const slice = bakeWorld(piece)
+              clipMaterials(slice as THREE.Mesh, part.planes, false)
+              group.add(slice)
+            }
+          }
+          deferredPlanes.push({ planes: held, node: group })
+        } else {
+          for (const piece of pieces) group.add(bakeWorld(piece))
+        }
+      } else {
+        for (const piece of pieces) group.add(bakeWorld(piece))
+      }
       group.scale.setScalar(d.fit)
+
+      // Bring the part's own middle to the group's origin, so that placing the
+      // group at a mounting point puts the part there rather than the donor's
+      // model origin. Without this a borrowed wing arrived offset by however far
+      // it happened to sit from the middle of the aircraft it came from.
+      group.updateMatrixWorld(true)
+      const ownBox = new THREE.Box3().setFromObject(group)
+      if (!ownBox.isEmpty()) {
+        const ownMid = ownBox.getCenter(new THREE.Vector3())
+        for (const child of [...group.children]) {
+          child.position.sub(ownMid.clone().divideScalar(d.fit || 1))
+        }
+      }
 
       // Rotors get laid out on the host's own mounting points where it has
       // them, otherwise spread evenly around the airframe.
@@ -1071,7 +1123,19 @@ export function createViewer(
           (d.place?.rise ?? 0) * size.y * 0.5,
           (d.place?.fore ?? 0) * size.z * -0.5,
         )
-        for (const point of hostMounts.slice(0, Math.max(1, d.count))) {
+        // Where the host's own part physically sat, not where its transform node
+        // happened to be. On a model with baked geometry every node reports the
+        // model origin, so mounting on those put a borrowed wing at the nose.
+        // A wing is one assembly across the centreline, so its stations average
+        // to the single station it belongs at.
+        const seat = seats.get(d.role) ?? []
+        const stations =
+          (d.role === 'wing' || d.role === 'tail') && seat.length
+            ? [seat.reduce((a, v) => a.add(v), new THREE.Vector3()).divideScalar(seat.length)]
+            : seat.length
+              ? seat
+              : hostMounts
+        for (const point of stations.slice(0, Math.max(1, d.count))) {
           // A count above one stacks copies - two wings is a biplane, three a
           // triplane - offset vertically or fore-and-aft by the layout.
           for (let i = 0; i < (d.role === 'wing' || d.role === 'tail' ? extra : 1); i++) {
@@ -1238,6 +1302,11 @@ export function createViewer(
     // which is the only space three.js clips in.
     assembly.updateMatrixWorld(true)
     for (const plane of cutPlanes) plane.applyMatrix4(assembly.matrixWorld)
+    // A borrowed part's planes ride its own group, which already includes the
+    // assembly's transform.
+    for (const batch of deferredPlanes) {
+      for (const plane of batch.planes) plane.applyMatrix4(batch.node.matrixWorld)
+    }
 
     // The grid is a ruler: fixed squares at the base aircraft's scale, so a
     // 4x model visibly covers sixteen times the ground a 1x one does.

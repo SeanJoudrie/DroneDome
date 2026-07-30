@@ -1,0 +1,9 @@
+{
+  "_note": "The Reaper is the aircraft everything else gets tried against, so its wing has to be exactly right. The wing surface is one mesh (defaultMaterial_19, 20.12 m of span), but six more spanwise members sit at the same height and tile the span contiguously from -9.9 m to +9.9 m: 3.15 m each, centred at plus and minus 2.01, 5.16 and 8.30. Four were classified tail and two hardpoint, because a thin paired member off the centreline is what both of those look like to a bounding box. They are wing structure. Left as they were, 'remove the wing' took the wing surface and left a full-span skeleton behind - 16% of the aircraft went and it still read as having wings.",
+  "defaultMaterial_16": "wing",
+  "defaultMaterial_17": "wing",
+  "defaultMaterial_18": "wing",
+  "defaultMaterial_20": "wing",
+  "defaultMaterial_21": "wing",
+  "defaultMaterial_22": "wing"
+}
