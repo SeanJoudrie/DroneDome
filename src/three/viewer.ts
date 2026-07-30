@@ -6,7 +6,7 @@ import type { AircraftModel, Build, PartRole, SlotPlacement } from '../types'
 import { AIRCRAFT_BY_ID } from '../data/aircraft.generated'
 import { PAINTS, PAYLOADS_BY_ID } from '../data/catalog'
 import { fitScaleFor } from '../lib/physics'
-import { canonical, groupOf, roleOf } from '../lib/names'
+import { canonical, groupOf, lookupPart, roleOf } from '../lib/names'
 
 const SWAP_ROLES: PartRole[] = ['wing', 'tail', 'rotor', 'gear', 'payload', 'solar', 'hardpoint']
 
@@ -318,6 +318,25 @@ function coversAirframe(model: AircraftModel, role: PartRole) {
 }
 
 /**
+ * Whether one mesh reaches right across the aircraft, and so is a welded lump
+ * rather than a part in its own right.
+ *
+ * The V-22's wing is inside a mesh the classifier named for the rotors, because
+ * the nacelles and proprotors are welded in beside it, and that mesh is the
+ * full span. A tailsitter's four rotors are three per cent of it each. The
+ * difference decides whether a cut may reach into a mesh that belongs to
+ * another role, and getting it wrong in either direction is visible: too strict
+ * and the Osprey cannot take its own wing off, too loose and taking a VBAT's
+ * wing off takes ninety-five per cent of the VBAT.
+ */
+function spansAirframe(model: AircraftModel, nodeName: string) {
+  const part = lookupPart(model, nodeName)
+  if (!part) return false
+  const axis = model.axes.span
+  return part.size[axis] / (model.modelExtent[axis] || 1) > 0.8
+}
+
+/**
  * Copy a node out of its model with its world transform applied exactly once.
  *
  * clone() already carries the node's own matrix, so multiplying the world
@@ -582,20 +601,27 @@ export function createViewer(
    * With one exception, below.
    */
   function weldedMeshes(root: THREE.Object3D, model: AircraftModel, role: PartRole) {
-    // Unless the classifier found nothing for this role at all. Then the cut is
-    // the only description of the part there is, and the mesh it is welded into
-    // may well be named after something else that is welded in beside it: the
-    // V-22's wing lives in a lump the classifier called a rotor, because the
-    // nacelles and proprotors are in there too. Skipping it left that cut with
-    // only the fuselage to act on, so the Osprey lent half a hull as a wing and
-    // could not take its own wing off either.
+    // Unless the classifier found no mesh for this role at all, and the mesh in
+    // question is a welded lump spanning the whole aircraft. Then the cut is the
+    // only description of the part there is, and the lump it is welded into may
+    // well be named after something else welded in beside it: the V-22's wing
+    // lives inside a mesh the classifier called a rotor, because the nacelles
+    // and proprotors are in there too. Skipping it left that cut with only the
+    // fuselage to act on, so the Osprey lent half a hull as a wing and could not
+    // take its own wing off either.
+    //
+    // Both halves of that test are load-bearing. Without the span, a tailsitter
+    // whose role is also cut-only let the cut through its four rotors and its
+    // tail, and taking the wing off took ninety-five per cent of the aircraft.
     const orphan = !model.parts.some((p) => p.role === role)
     const out: THREE.Mesh[] = []
     root.traverse((o) => {
       const mesh = o as THREE.Mesh
       if (!mesh.isMesh) return
       const meshRole = roleOf(model, o.name)
-      if (!orphan && meshRole && meshRole !== 'body' && meshRole !== role) return
+      if (meshRole && meshRole !== 'body' && meshRole !== role) {
+        if (!orphan || !spansAirframe(model, o.name)) return
+      }
       out.push(mesh)
     })
     return out
