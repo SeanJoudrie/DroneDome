@@ -15,6 +15,14 @@
 import { chromium } from 'playwright'
 
 const URL = process.argv[2] ?? 'http://localhost:4173/DroneDome/'
+// Airframes to sweep, if you name any. The whole catalog is 1365 operations and
+// the better part of half an hour, which is the right thing for the gate and
+// the wrong thing when you are chasing one finding on one aircraft — or when
+// you need the same sweep run twice, against a change and against the build it
+// replaces, to know which findings the change actually caused.
+//
+//   node scripts/geometry-sweep.mjs http://localhost:4173/DroneDome/ vbat akinci
+const ONLY = new Set(process.argv.slice(3))
 const ROLES = ['wing', 'tail', 'rotor', 'gear', 'payload', 'solar', 'hardpoint']
 
 const browser = await chromium.launch({
@@ -28,8 +36,15 @@ await page.goto(URL, { waitUntil: 'load' })
 await page.waitForFunction(() => !!window.dronedome, null, { timeout: 30000 })
 await page.waitForTimeout(2500)
 
-const ids = await page.locator('select').first().evaluate((el) =>
+const all = await page.locator('select').first().evaluate((el) =>
   Array.from(el.options).map((o) => o.value))
+const ids = ONLY.size ? all.filter((id) => ONLY.has(id)) : all
+const unknown = [...ONLY].filter((id) => !all.includes(id))
+if (unknown.length) {
+  console.error(`no such airframe: ${unknown.join(', ')}`)
+  await browser.close()
+  process.exit(2)
+}
 
 /**
  * Every piece that is adrift from the body of the aircraft, and how far.
@@ -189,9 +204,21 @@ for (const id of ids) {
       // not, which is the failure actually worth catching.
       // Both rotor-count operations run at scale 1, so the stock hull needs no
       // scaling to compare against.
-      const ringOp = /rotor x8/.test(name)
+      //
+      // Taking a part off earns the same treatment, for the same reason. The
+      // app deliberately does not delete what a removed part was holding — an
+      // Akinci's pylons stay where its wing was, because deciding what is
+      // debris from bounding-box adjacency is a guess and a guess is not
+      // allowed to delete an aeroplane. So a removal is expected to leave
+      // something unattached, and measuring that against the fuselage reports
+      // the app doing exactly as it was told. What is still worth catching is a
+      // piece that has gone somewhere it never was, so the stock silhouette is
+      // the reference here too. (This was invisible until report() learned to
+      // see through clipping: before that a clipped remnant still measured as
+      // the whole hull, so it overlapped everything and never read as adrift.)
+      const stillOp = /rotor x8/.test(name) || / off$/.test(name)
       const gap = adrift.reduce((worst, d) => {
-        if (!ringOp) return Math.max(worst, d.gap)
+        if (!stillOp) return Math.max(worst, d.gap)
         let out = 0
         for (let k = 0; k < 3; k++) {
           out = Math.max(out, d.lo[k] - hull.hi[k], hull.lo[k] - d.hi[k])
