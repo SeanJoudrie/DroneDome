@@ -1,4 +1,5 @@
 {
   "_note": "The upload includes the rolling flight case the drone ships in, sitting under it as a separate mesh group. It is not part of the aircraft, and leaving it in made the Matrice measure a metre tall and weigh its bounding box in luggage.",
+  "_note_rotors": "check:parts warns that only one rotor group was found for four, and it is right, but this is not the agri-hex case and must not be fixed by guessing. The candidates are polySurface4387_Copper_0 and _Copper_1, and they are not propellers: each is a thin flat panel 0.67 x 0.56 m centred on the airframe, where a 0.533 m propeller belongs at an arm tip. Nothing else in the file is propeller-shaped either - the whole model is one welded node split by material, and lambert20_0 spans the full 0.895 m span at 9 cm thick, which is the arms and props together. Reclassifying any of those would take visible airframe away with the rotors. It needs a _cuts box per arm tip, measured off the mesh, not a role guess.",
   "_exclude": ["polySurface4181_*"]
 }

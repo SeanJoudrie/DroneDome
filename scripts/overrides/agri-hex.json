@@ -1,0 +1,6 @@
+{
+  "_note": "Six arms, but the classifier found propellers on only four of them. The fore and aft ones are these three meshes, called out as arms because a propeller lying flat over the end of a boom overlaps it and reads as part of it. They are the same shape and the same size as the four it did recognise - a disc 0.59 m across and 5 cm thick, at the same height, at the two remaining arm tips. Leaving them as arms meant removing the rotors left three propellers turning in the air.",
+  "polySurface5_Drone_0": "rotor",
+  "polySurface11_Drone_0": "rotor",
+  "polySurface8_Drone_0": "rotor"
+}
