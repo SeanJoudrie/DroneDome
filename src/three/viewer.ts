@@ -289,6 +289,35 @@ function scaleRole(
 }
 
 /**
+ * Whether a role's meshes are the part, or the whole aeroplane wearing its name.
+ *
+ * Some airframes have both: the Cessna has four real wing meshes and a cut for
+ * the bit welded into the fuselage, and there the meshes are the wing. NASA's
+ * Global Hawk is one welded lump whose first primitive happens to answer to the
+ * wing's name, and there they are not — lending "the wing" that way handed the
+ * host an entire second aircraft.
+ *
+ * Reach tells them apart without a rule per airframe. A wing is most of the
+ * span and a small fraction of the length and the height; a hull is most of all
+ * three. Span is deliberately not part of the test, because a real wing does
+ * cover the whole of it.
+ */
+function coversAirframe(model: AircraftModel, role: PartRole) {
+  const parts = model.parts.filter((p) => p.role === role)
+  if (!parts.length) return false
+  const reach = (axis: number) => {
+    let lo = Infinity
+    let hi = -Infinity
+    for (const p of parts) {
+      lo = Math.min(lo, p.center[axis] - p.size[axis] / 2)
+      hi = Math.max(hi, p.center[axis] + p.size[axis] / 2)
+    }
+    return (hi - lo) / (model.modelExtent[axis] || 1)
+  }
+  return reach(model.axes.length) > 0.8 && reach(model.axes.vertical) > 0.8
+}
+
+/**
  * Copy a node out of its model with its world transform applied exactly once.
  *
  * clone() already carries the node's own matrix, so multiplying the world
@@ -316,6 +345,32 @@ function applyAngles(obj: THREE.Object3D, place?: SlotPlacement, mirror = 1) {
   if (place.rollDeg) obj.rotateZ((place.rollDeg * mirror * Math.PI) / 180)
   if (place.pitchDeg) obj.rotateX((place.pitchDeg * Math.PI) / 180)
   if (place.yawDeg) obj.rotateY((place.yawDeg * mirror * Math.PI) / 180)
+}
+
+/**
+ * Where a mesh actually appears, rather than where its bounding box says.
+ *
+ * A clipped mesh keeps the bounds of everything it was cut from — a Global Hawk
+ * wing lent to another aircraft still measures as an entire Global Hawk — so
+ * every check built on boxes was blind to the one operation this app is for.
+ * Reading the vertices that survive the planes is the only honest answer, and
+ * it is the same reason scripts/measure-region.py reads vertices too.
+ *
+ * Only the report path pays for this, and only for meshes that are clipped.
+ */
+function drawnBounds(mesh: THREE.Mesh, mats: THREE.Material[], into: THREE.Box3) {
+  const planes = mats.flatMap((m) => m.clippingPlanes ?? [])
+  into.makeEmpty()
+  if (!planes.length) return into.setFromObject(mesh)
+  const pos = mesh.geometry?.getAttribute('position')
+  if (!pos) return into.setFromObject(mesh)
+  const v = new THREE.Vector3()
+  for (let i = 0; i < pos.count; i++) {
+    v.fromBufferAttribute(pos as THREE.BufferAttribute, i).applyMatrix4(mesh.matrixWorld)
+    // clipIntersection is off, so a point has to be inside every plane at once.
+    if (planes.every((p) => p.distanceToPoint(v) >= 0)) into.expandByPoint(v)
+  }
+  return into
 }
 
 /** One rendered mesh, in world space, for the geometry self-checks. */
@@ -523,43 +578,56 @@ export function createViewer(
    * classified as this very role. Parts the classifier already pulled out as
    * their own nodes — the Cessna's tail, its wheels — are handled by the node
    * toggle, and clipping them too would take the tail off with the wings.
+   *
+   * With one exception, below.
    */
   function weldedMeshes(root: THREE.Object3D, model: AircraftModel, role: PartRole) {
+    // Unless the classifier found nothing for this role at all. Then the cut is
+    // the only description of the part there is, and the mesh it is welded into
+    // may well be named after something else that is welded in beside it: the
+    // V-22's wing lives in a lump the classifier called a rotor, because the
+    // nacelles and proprotors are in there too. Skipping it left that cut with
+    // only the fuselage to act on, so the Osprey lent half a hull as a wing and
+    // could not take its own wing off either.
+    const orphan = !model.parts.some((p) => p.role === role)
     const out: THREE.Mesh[] = []
     root.traverse((o) => {
       const mesh = o as THREE.Mesh
       if (!mesh.isMesh) return
       const meshRole = roleOf(model, o.name)
-      if (meshRole && meshRole !== 'body' && meshRole !== role) return
+      if (!orphan && meshRole && meshRole !== 'body' && meshRole !== role) return
       out.push(mesh)
     })
     return out
   }
 
   /**
-   * Every plane made for the build in progress.
+   * Every plane made for the build in progress, with the object whose frame it
+   * was worked out in.
    *
-   * three.js clips in world space, but the cuts are worked out in the
-   * assembly's own frame, before the aircraft has been dropped onto the ground
-   * and scaled. Keeping the list lets them all be carried into world space once
-   * the assembly is finally placed — without that, a cut drifts as soon as the
-   * scale slider moves off 1.
+   * three.js clips in world space, but a cut is worked out in the frame of the
+   * thing it cuts — the assembly for the host's own hull, and a borrowed part's
+   * own group for a donor, which is somewhere else entirely by the time it has
+   * been scaled and bolted on. Carrying every plane through its own object's
+   * matrix once the scene has stopped moving is what keeps the two apart:
+   * sharing one frame clipped a borrowed Global Hawk wing where the host's
+   * fuselage was, not where the wing had been mounted.
    */
-  let cutPlanes: THREE.Plane[] = []
+  let cutPlanes: { plane: THREE.Plane; frame: THREE.Object3D }[] = []
 
-  /** Keeps coordinates on `axis` at or above `lo`. */
-  function planeAbove(axis: 0 | 1 | 2, lo: number) {
+  /** Keeps coordinates on `axis` at or above `lo`, in `frame`'s own space. */
+  function planeAbove(axis: 0 | 1 | 2, lo: number, frame: THREE.Object3D) {
     const n = new THREE.Vector3().setComponent(axis, 1)
     const p = new THREE.Plane(n, -lo)
-    cutPlanes.push(p)
+    cutPlanes.push({ plane: p, frame })
     return p
   }
 
-  /** Keeps coordinates on `axis` at or below `hi`. */
-  function planeBelow(axis: 0 | 1 | 2, hi: number) {
+  /** Keeps coordinates on `axis` at or below `hi`, in `frame`'s own space. */
+  function planeBelow(axis: 0 | 1 | 2, hi: number, frame: THREE.Object3D) {
     const n = new THREE.Vector3().setComponent(axis, -1)
     const p = new THREE.Plane(n, hi)
-    cutPlanes.push(p)
+    cutPlanes.push({ plane: p, frame })
     return p
   }
 
@@ -575,7 +643,7 @@ export function createViewer(
    * a wing needs dihedral, not bank) and its complement as a list of convex
    * regions, since "everything except a box" is not itself convex.
    */
-  function cutRegions(model: AircraftModel, role: PartRole) {
+  function cutRegions(model: AircraftModel, role: PartRole, frame: THREE.Object3D) {
     const cut = model.cuts[role]
     if (!cut) return null
     const m = model.scaleToMetres
@@ -590,11 +658,11 @@ export function createViewer(
     const keeps: THREE.Plane[][] = []
     const inside: THREE.Plane[] = []
     for (const l of limits) {
-      keeps.push([...inside, planeBelow(l.axis, l.lo)])
-      keeps.push([...inside, planeAbove(l.axis, l.hi)])
-      inside.push(planeAbove(l.axis, l.lo), planeBelow(l.axis, l.hi))
+      keeps.push([...inside, planeBelow(l.axis, l.lo, frame)])
+      keeps.push([...inside, planeAbove(l.axis, l.hi, frame)])
+      inside.push(planeAbove(l.axis, l.lo, frame), planeBelow(l.axis, l.hi, frame))
     }
-    keeps.push([...inside, planeBelow(0, keep), planeAbove(0, -keep)])
+    keeps.push([...inside, planeBelow(0, keep, frame), planeAbove(0, -keep, frame)])
 
     // Where the cut runs is where the part is attached, and the bands say how
     // far along and how high it sits. A clipped mesh still reports the geometry
@@ -606,8 +674,8 @@ export function createViewer(
     }
     return {
       keeps,
-      right: [...inside, planeAbove(0, keep)],
-      left: [...inside, planeBelow(0, -keep)],
+      right: [...inside, planeAbove(0, keep, frame)],
+      left: [...inside, planeBelow(0, -keep, frame)],
       mountX: keep,
       mountY: band(1),
       mountZ: band(2),
@@ -619,8 +687,13 @@ export function createViewer(
    * its wings fused into the fuselage, so removing them means keeping only
    * what falls outside the box.
    */
-  function applyCut(object: THREE.Object3D, model: AircraftModel, role: PartRole) {
-    carveWelded(object, model, role, false)
+  function applyCut(
+    object: THREE.Object3D,
+    model: AircraftModel,
+    role: PartRole,
+    frame: THREE.Object3D,
+  ) {
+    carveWelded(object, model, role, false, frame)
   }
 
   /**
@@ -638,8 +711,9 @@ export function createViewer(
     model: AircraftModel,
     role: PartRole,
     keepPart: boolean,
+    frame: THREE.Object3D,
   ) {
-    const regions = cutRegions(model, role)
+    const regions = cutRegions(model, role, frame)
     if (!regions) return []
     const made: THREE.Object3D[] = []
     for (const mesh of weldedMeshes(root, model, role)) {
@@ -669,6 +743,77 @@ export function createViewer(
       clipMaterials(mesh, regions.keeps[0], false)
     }
     return made
+  }
+
+  /**
+   * Lift a welded donor's part out on its own, without the rest of the donor.
+   *
+   * carveWelded's job is to leave a hole in an aircraft that stays on screen,
+   * so it keeps the complement as well. Borrowing is the opposite job: the
+   * Global Hawk's wing is a region of a single mesh that is also its fuselage,
+   * its tail and its intake, and lending it as a wing means lending that region
+   * and nothing else. Without this the host got the whole donor aeroplane laid
+   * over it — which is exactly what an RQ-4 wing on a Reaper looked like.
+   */
+  function carveDonorPart(
+    root: THREE.Object3D,
+    model: AircraftModel,
+    role: PartRole,
+    frame: THREE.Object3D,
+  ) {
+    const regions = cutRegions(model, role, frame)
+    if (!regions) return []
+    const made: THREE.Object3D[] = []
+    for (const mesh of weldedMeshes(root, model, role)) {
+      for (const side of ['left', 'right'] as const) {
+        const half = mesh.clone(false)
+        mesh.parent?.add(half)
+        clipMaterials(half, regions[side], false)
+        made.push(half)
+      }
+      mesh.visible = false
+    }
+    return made
+  }
+
+  /**
+   * Where a cut part actually is, measured from vertices rather than boxes.
+   *
+   * A clipped mesh still reports the bounds of the whole hull it was cut from,
+   * so asking three.js for the box of a borrowed Global Hawk wing answers with
+   * the entire Global Hawk — and mounting by that box hangs the wing metres off
+   * the host. The only honest answer is to read the geometry, the same reason
+   * scripts/measure-region.py reads vertices instead of bounding boxes.
+   *
+   * It is a property of the donor and not of the build, so it is measured once.
+   */
+  const partExtents = new Map<string, THREE.Box3>()
+  function cutPartExtent(model: AircraftModel, role: PartRole, meshes: THREE.Mesh[]) {
+    const key = `${model.id}:${role}`
+    const known = partExtents.get(key)
+    if (known) return known
+    const cut = model.cuts[role]!
+    const m = model.scaleToMetres
+    const keep = cut.keep * m
+    const zLo = cut.bandLength ? cut.bandLength[0] * m : -Infinity
+    const zHi = cut.bandLength ? cut.bandLength[1] * m : Infinity
+    const yLo = cut.bandVertical ? cut.bandVertical[0] * m : -Infinity
+    const yHi = cut.bandVertical ? cut.bandVertical[1] * m : Infinity
+
+    const box = new THREE.Box3()
+    const v = new THREE.Vector3()
+    for (const mesh of meshes) {
+      const pos = mesh.geometry?.getAttribute('position')
+      if (!pos) continue
+      for (let i = 0; i < pos.count; i++) {
+        v.fromBufferAttribute(pos as THREE.BufferAttribute, i).applyMatrix4(mesh.matrixWorld)
+        if (Math.abs(v.x) < keep) continue
+        if (v.y < yLo || v.y > yHi || v.z < zLo || v.z > zHi) continue
+        box.expandByPoint(v)
+      }
+    }
+    partExtents.set(key, box)
+    return box
   }
 
   async function setBuild(build: Build) {
@@ -759,33 +904,35 @@ export function createViewer(
       }
     }
 
-    // Take the base's own version of anything that has been changed out.
-    const mounts = new Map<PartRole, THREE.Vector3[]>()
-    // Where the part physically was, as opposed to where its transform node
-    // sits. For a mesh with baked geometry those are different: the node is at
-    // the model's origin, so four rotors all report the same point and any ring
-    // measured from them has no radius at all.
+    // Take the base's own version of anything that has been changed out, and
+    // remember the hole it leaves — that hole is the mount.
+    //
+    // Where the part physically was, not where its transform node sits: every
+    // one of these models has its geometry baked, so the node is at the model's
+    // origin however far out on the wing the mesh itself is. Four rotors all
+    // report the same point that way, and a borrowed wing bolted to it arrived
+    // at the nose, at ground level, still wearing its donor's offsets.
+    /** The whole space a role filled, for parts that mount as one assembly. */
+    const socket = new Map<PartRole, THREE.Box3>()
+    /** Each separate station, for parts that mount several at a time. */
     const seats = new Map<PartRole, THREE.Vector3[]>()
     baseClone.updateMatrixWorld(true)
     baseClone.traverse((o) => {
       const role = roleOf(base, o.name)
       if (!role || !removed.has(role)) return
-      const where = new THREE.Vector3()
-      o.getWorldPosition(where)
-      const list = mounts.get(role) ?? []
-      list.push(where)
-      mounts.set(role, list)
       if ((o as THREE.Mesh).isMesh) {
         const box = new THREE.Box3().setFromObject(o)
         if (!box.isEmpty()) {
           const seat = seats.get(role) ?? []
           seat.push(box.getCenter(new THREE.Vector3()))
           seats.set(role, seat)
+          const held = socket.get(role) ?? new THREE.Box3()
+          socket.set(role, held.union(box))
         }
       }
       o.visible = false
     })
-    for (const role of removed) applyCut(baseClone, base, role)
+    for (const role of removed) applyCut(baseClone, base, role, assembly)
 
     // There used to be a pass here that hid anything left hanging once a part
     // came off — an Akinci's hardpoints when its wing goes. It is gone, but not
@@ -839,8 +986,8 @@ export function createViewer(
         if (mirrored && straddles) {
           const other = (o as THREE.Mesh).clone(false)
           o.parent?.add(other)
-          clipMaterials(o as THREE.Mesh, [planeBelow(0, midX)], false)
-          clipMaterials(other, [planeAbove(0, midX)], false)
+          clipMaterials(o as THREE.Mesh, [planeBelow(0, midX, assembly)], false)
+          clipMaterials(other, [planeAbove(0, midX, assembly)], false)
           o.userData.ddSide = 'left'
           other.userData.ddSide = 'right'
           o.userData.ddGroup = `${part}:l`
@@ -876,7 +1023,7 @@ export function createViewer(
       // Split it in two so the region can be transformed like a real part —
       // only once something is actually asking it to move, since the split
       // doubles the geometry.
-      nodes.push(...carveWelded(baseClone, base, role, true))
+      nodes.push(...carveWelded(baseClone, base, role, true, assembly))
       if (!nodes.length) continue
       const hull = new THREE.Box3().setFromObject(baseClone)
       const size = hull.getSize(new THREE.Vector3())
@@ -939,30 +1086,101 @@ export function createViewer(
       if (disposed || mine !== token) return
       const donorNorm = normaliseTransform(d.model)
 
-      let pieces: THREE.Object3D[] = []
-      const donorClone = donorScene.clone(true)
-      donorClone.applyMatrix4(donorNorm)
-      donorClone.updateMatrixWorld(true)
-      donorClone.traverse((o) => {
-        if (roleOf(d.model, o.name) === d.fromRole && (o as THREE.Mesh).isMesh) pieces.push(o)
-      })
-      if (!pieces.length) continue
+      /**
+       * One copy of the borrowed part, centred on itself and facing the way
+       * this host faces.
+       *
+       * Built fresh each time rather than cloned, because a cut is a set of
+       * clipping planes carried into world space through one object's matrix:
+       * two clones sharing a plane are both clipped where the first one stands.
+       *
+       * The returned group's origin is the part's own middle, so mounting it is
+       * a matter of moving that origin to where the host's own part was. It
+       * used to keep its donor's coordinates, which is why an X-47B wing landed
+       * five metres off the Reaper's centreline with the Reaper's wing still on.
+       */
+      const makePart = () => {
+        const donorClone = donorScene.clone(true)
+        donorClone.applyMatrix4(donorNorm)
+        donorClone.updateMatrixWorld(true)
 
-      // A donor quad contributes four rotors; we want one of them, repeated —
-      // otherwise every mounting point gets the whole set and you end up with
-      // sixteen. Wings and tails are single assemblies, so they come as they are.
-      if (d.role === 'rotor') {
-        const firstGroup = groupOf(d.model, pieces[0].name)
-        pieces = pieces.filter((p) => groupOf(d.model, p.name) === firstGroup)
+        // Three groups, because each does one thing and they have to happen in
+        // this order: recentre the geometry on itself, turn it to face the way
+        // the host faces, then scale it to the host's size. Folding the first
+        // two together would swing the part around the donor's origin instead
+        // of its own middle, which throws it half an aircraft off the mount.
+        const held = new THREE.Group()
+        const facing = new THREE.Group()
+        const carrier = new THREE.Group()
+        facing.add(held)
+        carrier.add(facing)
+
+        // A donor whose part is welded into a shared hull has no mesh to lend,
+        // only a region of one — so the region is what gets lifted out, and its
+        // true extent has to be measured rather than read off a box that still
+        // describes the whole aircraft. A donor that has both keeps its meshes:
+        // they are the part, and the cut is only there for what is welded round
+        // it. See coversAirframe for how the two are told apart.
+        let extent: THREE.Box3
+        const own = d.model.parts.filter((p) => p.role === d.fromRole)
+        const fromCut =
+          !!d.model.cuts[d.fromRole] && (!own.length || coversAirframe(d.model, d.fromRole))
+        if (fromCut) {
+          const hull = weldedMeshes(donorClone, d.model, d.fromRole) as THREE.Mesh[]
+          extent = cutPartExtent(d.model, d.fromRole, hull)
+          if (extent.isEmpty()) return null
+          for (const half of carveDonorPart(donorClone, d.model, d.fromRole, held)) {
+            held.add(bakeWorld(half))
+          }
+        } else {
+          let pieces: THREE.Object3D[] = []
+          donorClone.traverse((o) => {
+            if (roleOf(d.model, o.name) === d.fromRole && (o as THREE.Mesh).isMesh) pieces.push(o)
+          })
+          if (!pieces.length) return null
+          // A donor quad contributes four rotors; we want one of them, repeated
+          // — otherwise every mounting point gets the whole set and you end up
+          // with sixteen. Wings and tails are single assemblies.
+          if (d.role === 'rotor') {
+            const first = groupOf(d.model, pieces[0].name)
+            pieces = pieces.filter((p) => groupOf(d.model, p.name) === first)
+          }
+          for (const piece of pieces) held.add(bakeWorld(piece))
+          held.updateMatrixWorld(true)
+          extent = new THREE.Box3().setFromObject(held)
+          if (extent.isEmpty()) return null
+        }
+        if (!held.children.length) return null
+
+        const middle = extent.getCenter(new THREE.Vector3())
+        // A wing and a tailplane are centreline assemblies: their middle is the
+        // aircraft's centreline whatever the mesh happens to measure, and
+        // forcing it there is what stops a borrowed pair arriving lopsided.
+        if (d.role === 'wing' || d.role === 'tail') middle.x = 0
+        held.position.sub(middle)
+
+        // Which way round the donor was modelled is not which way round this
+        // host is. Both facts are already written down; using neither meant a
+        // swept wing borrowed across that boundary arrived swept forwards.
+        if (d.model.aftSign !== base.aftSign) facing.rotateY(Math.PI)
+
+        carrier.scale.setScalar(d.fit)
+        return { carrier, size: extent.getSize(new THREE.Vector3()) }
       }
 
-      const group = new THREE.Group()
-      for (const piece of pieces) group.add(bakeWorld(piece))
-      group.scale.setScalar(d.fit)
+      const first = makePart()
+      if (!first) continue
+      // The first copy is already built; every one after it is built afresh
+      // rather than cloned, so each carries its own clipping planes.
+      let pending: ReturnType<typeof makePart> = first
+      const take = () => {
+        const held = pending
+        pending = null
+        return held ?? makePart()
+      }
 
       // Rotors get laid out on the host's own mounting points where it has
       // them, otherwise spread evenly around the airframe.
-      const hostMounts = mounts.get(d.role)
       if (d.role === 'rotor') {
         // Layout is a first-class choice: the same four rotors read completely
         // differently as an X, a plus, a tandem pair of pairs or a stack.
@@ -995,7 +1213,9 @@ export function createViewer(
         const tilt = ((d.place?.tiltDeg ?? 0) * Math.PI) / 180
         const layout = d.place?.layout ?? 'ring'
         for (let i = 0; i < d.count; i++) {
-          const arm = group.clone(true)
+          const made = take()
+          if (!made) break
+          const arm = made.carrier
           let x = 0
           let y = rise
           let z = fore
@@ -1027,20 +1247,73 @@ export function createViewer(
           stampRole(arm, d.role)
           assembly.add(arm)
         }
-      } else if (hostMounts && hostMounts.length) {
+      } else {
         const extra = Math.max(1, d.count ?? 1)
         const hull = new THREE.Box3().setFromObject(baseClone)
         const size = hull.getSize(new THREE.Vector3())
+        const mid = hull.getCenter(new THREE.Vector3())
         const nudge = new THREE.Vector3(
           0,
           (d.place?.rise ?? 0) * size.y * 0.5,
           (d.place?.fore ?? 0) * size.z * -0.5,
         )
-        for (const point of hostMounts.slice(0, Math.max(1, d.count))) {
-          // A count above one stacks copies - two wings is a biplane, three a
-          // triplane - offset vertically or fore-and-aft by the layout.
-          for (let i = 0; i < (d.role === 'wing' || d.role === 'tail' ? extra : 1); i++) {
-            const copy = group.clone(true)
+
+        // Where the host's own part was. A wing and a tailplane are single
+        // centreline assemblies however many meshes they are made of, so they
+        // get one socket spanning the lot, on the centreline. Gear legs and
+        // pylons are several separate stations and each one takes a part.
+        const centreline = d.role === 'wing' || d.role === 'tail'
+        let held = socket.get(d.role) ?? null
+        // The host's part may be welded into its hull rather than a mesh of its
+        // own, in which case the socket is the cut region — measured, because a
+        // clipped mesh still reports the bounds of the whole aircraft it was cut
+        // from. Told apart the same way a donor's is.
+        if (base.cuts[d.role] && (!held || coversAirframe(base, d.role))) {
+          const measured = cutPartExtent(
+            base,
+            d.role,
+            weldedMeshes(baseClone, base, d.role) as THREE.Mesh[],
+          )
+          if (!measured.isEmpty()) held = measured
+        }
+
+        const points: THREE.Vector3[] = []
+        if (held && centreline) {
+          points.push(new THREE.Vector3(0, (held.min.y + held.max.y) / 2, (held.min.z + held.max.z) / 2))
+        } else if (held) {
+          points.push(...(seats.get(d.role) ?? [held.getCenter(new THREE.Vector3())]).slice(0, extra))
+        } else {
+          // The host never had this role, so there is no socket to fill. Put it
+          // where that kind of part belongs on an aircraft rather than leaving
+          // it at the donor's own coordinates, floating in space.
+          const where = new THREE.Vector3()
+          switch (d.role) {
+            case 'tail':
+              where.set(0, mid.y + size.y * 0.25, hull.min.z + size.z * 0.06)
+              break
+            case 'gear':
+              where.set(0, hull.min.y, mid.z)
+              break
+            case 'solar':
+              where.set(0, hull.max.y, mid.z)
+              break
+            case 'hardpoint':
+            case 'payload':
+              where.set(0, hull.min.y + size.y * 0.1, mid.z + size.z * 0.15)
+              break
+            default:
+              where.set(0, mid.y, mid.z)
+          }
+          points.push(where)
+        }
+
+        for (const point of points) {
+          // A count above one stacks copies — two wings is a biplane, three a
+          // triplane — offset vertically or fore-and-aft by the layout.
+          for (let i = 0; i < (centreline ? extra : 1); i++) {
+            const made = take()
+            if (!made) break
+            const copy = made.carrier
             copy.position.copy(point).add(nudge)
             if (i > 0) {
               const step = size.y * 0.14 * i
@@ -1052,32 +1325,6 @@ export function createViewer(
             assembly.add(copy)
           }
         }
-      } else {
-        // The host never had this role, so there is no mounting point to copy.
-        // Put it where that kind of part belongs on an aircraft rather than
-        // leaving it at the donor's own coordinates, floating in space.
-        const hull = new THREE.Box3().setFromObject(baseClone)
-        const size = hull.getSize(new THREE.Vector3())
-        const mid = hull.getCenter(new THREE.Vector3())
-        switch (d.role) {
-          case 'tail':
-            group.position.set(0, mid.y + size.y * 0.25, hull.min.z + size.z * 0.06)
-            break
-          case 'gear':
-            group.position.set(0, hull.min.y, mid.z)
-            break
-          case 'solar':
-            group.position.set(0, hull.max.y, mid.z)
-            break
-          case 'hardpoint':
-          case 'payload':
-            group.position.set(0, hull.min.y + size.y * 0.1, mid.z + size.z * 0.15)
-            break
-          default:
-            group.position.set(0, mid.y, mid.z)
-        }
-        stampRole(group, d.role)
-        assembly.add(group)
       }
     }
 
@@ -1202,7 +1449,7 @@ export function createViewer(
     // Now that the assembly has stopped moving, carry the cuts into world space,
     // which is the only space three.js clips in.
     assembly.updateMatrixWorld(true)
-    for (const plane of cutPlanes) plane.applyMatrix4(assembly.matrixWorld)
+    for (const { plane, frame } of cutPlanes) plane.applyMatrix4(frame.matrixWorld)
 
     // The grid is a ruler: fixed squares at the base aircraft's scale, so a
     // 4x model visibly covers sixteen times the ground a 1x one does.
@@ -1295,9 +1542,9 @@ export function createViewer(
         for (let p: THREE.Object3D | null = mesh.parent; p; p = p.parent) {
           if (!p.visible) return
         }
-        box.setFromObject(mesh)
-        if (box.isEmpty()) return
         const mats = Array.isArray(mesh.material) ? mesh.material : [mesh.material]
+        drawnBounds(mesh, mats as THREE.Material[], box)
+        if (box.isEmpty()) return
         out.push({
           clips: mats.reduce((n, m) => n + ((m as THREE.Material).clippingPlanes?.length ?? 0), 0),
           name: mesh.name,
