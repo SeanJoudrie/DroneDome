@@ -78,7 +78,7 @@ function detached(meshes, slack) {
     for (let k = 0; k < 3; k++) {
       gap = Math.max(gap, b.lo[k] - main.hi[k], main.lo[k] - b.hi[k])
     }
-    out.push({ gap, names: b.names })
+    out.push({ gap, names: b.names, lo: b.lo, hi: b.hi })
   }
   return out
 }
@@ -136,6 +136,13 @@ for (const id of ids) {
   // findings. A gap to a box whose size depends on what is still fitted is not
   // evidence on its own; what matters is whether the piece was attached before.
   const strays = new Set(stockDetached.flatMap((d) => d.names))
+  // The silhouette the stock aircraft occupies, for the one operation where a
+  // detached part is the honest answer rather than a bug. See below.
+  const hull = { lo: [Infinity, Infinity, Infinity], hi: [-Infinity, -Infinity, -Infinity] }
+  for (const m of stock) for (let k = 0; k < 3; k++) {
+    hull.lo[k] = Math.min(hull.lo[k], m.min[k])
+    hull.hi[k] = Math.max(hull.hi[k], m.max[k])
+  }
   if (!finite(stock)) findings.push({ id, op: 'stock', why: 'non-finite mesh position' })
 
   const ops = []
@@ -166,9 +173,31 @@ for (const id of ids) {
       //
       // A group made up entirely of pieces that were already adrift in stock is
       // not this operation's doing, however far away it now measures.
-      const gap = detached(meshes, slack * scale)
+      const adrift = detached(meshes, slack * scale)
         .filter((d) => !d.names.every((n) => strays.has(n)))
-        .reduce((a, d) => Math.max(a, d.gap), 0)
+
+      // Asking a quadcopter for eight rotors puts four of them between the arms,
+      // with no arm underneath. That is not drift, it is the answer: the sandbox
+      // never refuses, and an eight-rotor X500 is a valid abomination. Measuring
+      // those against the body made 24 of 36 findings complaints about the app
+      // doing as it was told, which is a gate that can never go green.
+      //
+      // What still matters is whether a rotor went somewhere on the aircraft at
+      // all, so for these two the reference is the stock silhouette rather than
+      // whatever is left touching the fuselage. A rotor in the rotor plane at
+      // the ring radius sits inside it; one flung clear of the airframe does
+      // not, which is the failure actually worth catching.
+      // Both rotor-count operations run at scale 1, so the stock hull needs no
+      // scaling to compare against.
+      const ringOp = /rotor x8/.test(name)
+      const gap = adrift.reduce((worst, d) => {
+        if (!ringOp) return Math.max(worst, d.gap)
+        let out = 0
+        for (let k = 0; k < 3; k++) {
+          out = Math.max(out, d.lo[k] - hull.hi[k], hull.lo[k] - d.hi[k])
+        }
+        return Math.max(worst, out)
+      }, 0)
       // The stock gap scales with the build too, so a model whose propellers
       // already stand clear of its frame must not read as broken at 4x simply
       // because that clearance is now four times wider.
