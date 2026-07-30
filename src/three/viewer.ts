@@ -357,6 +357,18 @@ export interface ViewerHandle {
   /** Try the last requested build again, after a load failed. */
   retry(): void
   /**
+   * The camera pose, and a way to put it back.
+   *
+   * The viewer reframes when the aircraft changes or when a part's natural size
+   * jumps, which is right for a person and useless for a comparison: two
+   * screenshots of the same aircraft with and without its tail were framed
+   * differently, so diffing them reported thousands of pixels changed and said
+   * nothing about whether the tail had gone. Pinning the pose makes the two
+   * images differ only where the geometry does.
+   */
+  camera(): { position: [number, number, number]; target: [number, number, number] }
+  setCamera(pose: { position: [number, number, number]; target: [number, number, number] }): void
+  /**
    * Every visible mesh and where it ended up.
    *
    * Exists so a test can ask questions no screenshot can answer — is anything
@@ -460,6 +472,8 @@ export function createViewer(
   /** The build most recently asked for, so a failed load can be retried. */
   let lastRequested: Build | null = null
   /** Which aircraft the camera was last framed for, and at what natural size. */
+  /** Set by setCamera: hold the view still instead of reframing each build. */
+  let pinned = false
   let framedFor: string | null = null
   let framedReach = 0
 
@@ -594,7 +608,18 @@ export function createViewer(
       keeps.push([...inside, planeAbove(l.axis, l.hi)])
       inside.push(planeAbove(l.axis, l.lo), planeBelow(l.axis, l.hi))
     }
-    keeps.push([...inside, planeBelow(0, keep), planeAbove(0, -keep)])
+    // Which side of the band is the aircraft, and which is the part.
+    //
+    // A wing is outboard, so the aircraft keeps the middle and the sides come
+    // off. A centreline part is the reverse: the fin is the middle, and both
+    // sides of it are aircraft. Getting this wrong does not fail quietly — it
+    // removes the fuselage and leaves the tail.
+    if (cut.removeCentre) {
+      keeps.push([...inside, planeAbove(0, keep)])
+      keeps.push([...inside, planeBelow(0, -keep)])
+    } else {
+      keeps.push([...inside, planeBelow(0, keep), planeAbove(0, -keep)])
+    }
 
     // Where the cut runs is where the part is attached, and the bands say how
     // far along and how high it sits. A clipped mesh still reports the geometry
@@ -604,11 +629,25 @@ export function createViewer(
       const l = limits.find((x) => x.axis === axis)
       return l ? (l.lo + l.hi) / 2 : null
     }
+    // One piece for a centreline part, two mirrored halves for a wing or a
+    // tailplane — so dihedral and sweep still mirror correctly on the pair, and a
+    // fin is not split down the middle into halves that scale apart.
+    const parts = cut.removeCentre
+      ? [
+          {
+            side: 'center' as const,
+            planes: [...inside, planeBelow(0, keep), planeAbove(0, -keep)],
+            mountX: 0,
+          },
+        ]
+      : [
+          { side: 'right' as const, planes: [...inside, planeAbove(0, keep)], mountX: keep },
+          { side: 'left' as const, planes: [...inside, planeBelow(0, -keep)], mountX: -keep },
+        ]
+
     return {
       keeps,
-      right: [...inside, planeAbove(0, keep)],
-      left: [...inside, planeBelow(0, -keep)],
-      mountX: keep,
+      parts,
       mountY: band(1),
       mountZ: band(2),
     }
@@ -652,17 +691,13 @@ export function createViewer(
         clipMaterials(piece, planes, false)
       }
       if (keepPart) {
-        for (const side of ['left', 'right'] as const) {
+        for (const part of regions.parts) {
           const half = mesh.clone(false)
           mesh.parent?.add(half)
-          clipMaterials(half, regions[side], false)
-          half.userData.ddSide = side
-          half.userData.ddGroup = `${mesh.name}:${side}`
-          half.userData.ddMount = [
-            side === 'right' ? regions.mountX : -regions.mountX,
-            regions.mountY,
-            regions.mountZ,
-          ]
+          clipMaterials(half, part.planes, false)
+          half.userData.ddSide = part.side
+          half.userData.ddGroup = `${mesh.name}:${part.side}`
+          half.userData.ddMount = [part.mountX, regions.mountY, regions.mountZ]
           made.push(half)
         }
       }
@@ -1232,7 +1267,7 @@ export function createViewer(
     // build off-screen. This is measured before the scale slider is applied, so
     // dragging that still moves the model rather than the camera.
     const jumped = framedReach > 0 && (reach / framedReach > 2.5 || framedReach / reach > 2.5)
-    if (framedFor !== build.baseId || jumped) {
+    if (!pinned && (framedFor !== build.baseId || jumped)) {
       framedFor = build.baseId
       framedReach = reach
       controls.target.set(0, size.y * 0.45, 0)
@@ -1253,6 +1288,7 @@ export function createViewer(
   }
 
   function frame() {
+    pinned = false
     const box = new THREE.Box3().setFromObject(root)
     if (box.isEmpty()) return
     const size = box.getSize(new THREE.Vector3())
@@ -1277,6 +1313,18 @@ export function createViewer(
     frame,
     retry: () => {
       if (lastRequested) void setBuild(lastRequested)
+    },
+    camera: () => ({
+      position: [camera.position.x, camera.position.y, camera.position.z],
+      target: [controls.target.x, controls.target.y, controls.target.z],
+    }),
+    setCamera: (pose) => {
+      camera.position.set(...pose.position)
+      controls.target.set(...pose.target)
+      controls.update()
+      // Hold it there. Clearing framedFor would have done the opposite and
+      // forced a reframe on the next build.
+      pinned = true
     },
     screenshot: () => renderer.domElement.toDataURL('image/png'),
     report() {

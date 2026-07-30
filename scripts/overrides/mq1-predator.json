@@ -2,13 +2,6 @@
   "_note": "Two 1-3 cm meshes sitting at plus and minus 7.36 m on a 14.80 m span - the wingtips, to within 4 cm of the half-span. Wingtip lights. They were classified as tail because they are small, paired and far off the centreline, which is also what a tailplane looks like to a bounding box. Left as tail they stayed behind when the wing came off, hanging seven metres out in clear air: the widest gap in the whole geometry sweep, at 37% of the aircraft's length.",
   "Object_3": "wing",
   "Object_4": "wing",
-  "_note_tail": "Reclassifying those two left the Predator with no tail mesh at all, and its real inverted-V tail is welded into the fuselage boom - so the tail is a cut. Measured with scripts/measure-region.py rather than guessed: along the length axis the aft 17% carries geometry reaching plus and minus 0.226 of the half-span and the full height of the hull, which is the V-tail, while the boom immediately forward of it is only 0.049 wide. Keeping a 0.06 band therefore keeps the boom and drops both tail surfaces. aftSign is unaffected (still 1), so station, CG and static margin are unchanged.",
-  "_cuts": {
-    "tail": {
-      "axis": "span",
-      "keepBand": 0.06,
-      "lengthBand": [0.0, 0.17],
-      "comment": "keeps the 0.36 m boom out of a 7.4 m half-span and drops the inverted-V surfaces outboard of it, in the aft 1.5 m only"
-    }
-  }
+  "_note_tail": "Reclassifying those two leaves the Predator with no tail mesh, so the tail slot reads 'not fitted'. That is honest: the only thing 'remove the tail' ever removed here was two navigation lights. aftSign is unaffected (still 1), so station, CG and static margin are unchanged.",
+  "_note_tail_attempt": "A cut was tried here and removed nothing, which npm run check:cuts now catches. The reasoning was wrong in an instructive way. measure-region.py reported the aft 17% of the length axis carrying geometry out to 0.226 of the half-span, and I read that as the inverted-V tail - but it slices every mesh at once, and those vertices belong to a mesh classified as wing. The tail cut is not allowed to touch wing meshes, by design, because clipping them would take the wings off with the tail. The only mesh it may touch that reaches that far aft is Object_8, the boom, and it is 0.38 m wide - entirely inside the 0.44 m keep band, so nothing was outboard of it and nothing was clipped. Forty-two clipping planes were attached and no geometry moved. Locating this tail needs per-mesh vertex measurement, not a profile summed over all of them."
 }

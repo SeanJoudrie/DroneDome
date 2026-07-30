@@ -80,6 +80,10 @@ export default function App() {
       // Which parts the app itself believes are swappable, so the capability
       // check tests the live catalog rather than a snapshot of it.
       caps: () => capabilityMatrix(),
+      // Holding the view still is what makes two renders comparable: a cut can
+      // then be confirmed by what changed in the picture rather than inferred.
+      camera: () => viewer.camera(),
+      setCamera: (pose: Parameters<ViewerHandle['setCamera']>[0]) => viewer.setCamera(pose),
     }
     ;(window as unknown as { __mk?: unknown }).__mk = (id: string) => createBuild(id)
     const onResize = () => viewer.resize()

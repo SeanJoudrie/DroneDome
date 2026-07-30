@@ -595,18 +595,7 @@ export const AIRCRAFT: AircraftModel[] = [
       -0.23204851150512695,
       -0.22551631927490234
     ],
-    "cuts": {
-      "tail": {
-        "axis": 0,
-        "axisName": "span",
-        "keep": 0.439823,
-        "origin": 0,
-        "bandLength": [
-          -4.303226,
-          -2.840129
-        ]
-      }
-    },
+    "cuts": {},
     "hidden": [],
     "parts": [
       {
@@ -1140,7 +1129,7 @@ export const AIRCRAFT: AircraftModel[] = [
     "hidden": [],
     "parts": [
       {
-        "node": "Global Hawk_973e56",
+        "node": "Global Hawk_9dbf7f",
         "group": "Global Hawk",
         "role": "wing",
         "side": "center",
@@ -1157,7 +1146,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": true
       },
       {
-        "node": "Global Hawk_f2a272",
+        "node": "Global Hawk_ba95f7",
         "group": "Global Hawk",
         "role": "gear",
         "side": "center",
@@ -1174,7 +1163,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": true
       },
       {
-        "node": "Global Hawk_aefb51",
+        "node": "Global Hawk_ce2fe4",
         "group": "Global Hawk",
         "role": "body",
         "side": "center",
@@ -1191,7 +1180,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": false
       },
       {
-        "node": "Global Hawk_fdf2fa",
+        "node": "Global Hawk_6a7035",
         "group": "Global Hawk",
         "role": "body",
         "side": "center",
@@ -1208,7 +1197,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": false
       },
       {
-        "node": "Global Hawk_c7f1c5",
+        "node": "Global Hawk_22d25c",
         "group": "Global Hawk",
         "role": "body",
         "side": "center",
@@ -1225,7 +1214,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": false
       },
       {
-        "node": "Global Hawk_fa1e95",
+        "node": "Global Hawk_3ee795",
         "group": "Global Hawk",
         "role": "body",
         "side": "center",
@@ -1295,7 +1284,7 @@ export const AIRCRAFT: AircraftModel[] = [
     "hidden": [],
     "parts": [
       {
-        "node": "rotors_02_b0cc1d",
+        "node": "rotors_02_c1eede",
         "group": "rotors_02",
         "role": "rotor",
         "side": "center",
@@ -1312,7 +1301,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": true
       },
       {
-        "node": "rotors_01_a442a9",
+        "node": "rotors_01_88d2af",
         "group": "rotors_01",
         "role": "rotor",
         "side": "center",
@@ -1329,7 +1318,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": true
       },
       {
-        "node": "rotors_02_42cfd6",
+        "node": "rotors_02_eaf8a4",
         "group": "rotors_02",
         "role": "rotor",
         "side": "center",
@@ -1346,7 +1335,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": true
       },
       {
-        "node": "rotors_01_e6ff58",
+        "node": "rotors_01_57f761",
         "group": "rotors_01",
         "role": "rotor",
         "side": "center",
@@ -1363,7 +1352,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": true
       },
       {
-        "node": "parts_02_6b4190",
+        "node": "parts_02_bae1b6",
         "group": "parts_02",
         "role": "body",
         "side": "center",
@@ -1380,7 +1369,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": false
       },
       {
-        "node": "parts_01_d5dc18",
+        "node": "parts_01_7c2992",
         "group": "parts_01",
         "role": "body",
         "side": "center",
@@ -1397,7 +1386,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": false
       },
       {
-        "node": "leg_04_8d75de",
+        "node": "leg_04_e2681f",
         "group": "leg_04",
         "role": "gear",
         "side": "right",
@@ -1414,7 +1403,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": true
       },
       {
-        "node": "leg_03_f13354",
+        "node": "leg_03_4e6a0f",
         "group": "leg_03",
         "role": "gear",
         "side": "left",
@@ -1431,7 +1420,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": true
       },
       {
-        "node": "leg_02_f885cb",
+        "node": "leg_02_8c10f0",
         "group": "leg_02",
         "role": "gear",
         "side": "right",
@@ -1448,7 +1437,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": true
       },
       {
-        "node": "leg_01_dc690c",
+        "node": "leg_01_17f681",
         "group": "leg_01",
         "role": "gear",
         "side": "left",
@@ -1465,7 +1454,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": true
       },
       {
-        "node": "solar_panel_8c9f47",
+        "node": "solar_panel_414608",
         "group": "solar_panel",
         "role": "solar",
         "side": "center",
@@ -1482,7 +1471,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": true
       },
       {
-        "node": "leg_04_052501",
+        "node": "leg_04_7c7c98",
         "group": "leg_04",
         "role": "gear",
         "side": "right",
@@ -1499,7 +1488,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": true
       },
       {
-        "node": "leg_03_235781",
+        "node": "leg_03_65c661",
         "group": "leg_03",
         "role": "gear",
         "side": "left",
@@ -1516,7 +1505,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": true
       },
       {
-        "node": "leg_02_e02b94",
+        "node": "leg_02_e56527",
         "group": "leg_02",
         "role": "gear",
         "side": "right",
@@ -1533,7 +1522,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": true
       },
       {
-        "node": "leg_01_04c0be",
+        "node": "leg_01_89eced",
         "group": "leg_01",
         "role": "gear",
         "side": "left",
@@ -1550,7 +1539,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": true
       },
       {
-        "node": "rotors_02_88a9f6",
+        "node": "rotors_02_31070d",
         "group": "rotors_02",
         "role": "rotor",
         "side": "center",
@@ -1567,7 +1556,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": true
       },
       {
-        "node": "rotors_01_61f2d2",
+        "node": "rotors_01_12a297",
         "group": "rotors_01",
         "role": "rotor",
         "side": "center",
@@ -1584,7 +1573,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": true
       },
       {
-        "node": "bus_d75214",
+        "node": "bus_d0e5ad",
         "group": "bus",
         "role": "body",
         "side": "center",
@@ -1601,7 +1590,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": false
       },
       {
-        "node": "leg_04_58f18d",
+        "node": "leg_04_7b1a21",
         "group": "leg_04",
         "role": "gear",
         "side": "right",
@@ -1618,7 +1607,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": true
       },
       {
-        "node": "leg_03_499c51",
+        "node": "leg_03_333f14",
         "group": "leg_03",
         "role": "gear",
         "side": "left",
@@ -1635,7 +1624,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": true
       },
       {
-        "node": "leg_02_be3395",
+        "node": "leg_02_634d29",
         "group": "leg_02",
         "role": "gear",
         "side": "right",
@@ -1652,7 +1641,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": true
       },
       {
-        "node": "leg_01_1fb829",
+        "node": "leg_01_8346ae",
         "group": "leg_01",
         "role": "gear",
         "side": "left",
@@ -1669,7 +1658,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": true
       },
       {
-        "node": "parts_02_626636",
+        "node": "parts_02_46e8c4",
         "group": "parts_02",
         "role": "body",
         "side": "center",
@@ -1686,7 +1675,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": false
       },
       {
-        "node": "parts_01_59eeb5",
+        "node": "parts_01_f02674",
         "group": "parts_01",
         "role": "body",
         "side": "center",
@@ -1703,7 +1692,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": false
       },
       {
-        "node": "parts_02_883034",
+        "node": "parts_02_50947c",
         "group": "parts_02",
         "role": "body",
         "side": "center",
@@ -1720,7 +1709,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": false
       },
       {
-        "node": "parts_01_fcdd62",
+        "node": "parts_01_dd2d8c",
         "group": "parts_01",
         "role": "body",
         "side": "center",
@@ -1737,7 +1726,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": false
       },
       {
-        "node": "solar_panel_28bb40",
+        "node": "solar_panel_669257",
         "group": "solar_panel",
         "role": "solar",
         "side": "right",
@@ -1754,7 +1743,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": true
       },
       {
-        "node": "bus_40a2db",
+        "node": "bus_ce01e0",
         "group": "bus",
         "role": "body",
         "side": "center",
@@ -1771,7 +1760,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": false
       },
       {
-        "node": "solar_panel_842e16",
+        "node": "solar_panel_abc172",
         "group": "solar_panel",
         "role": "solar",
         "side": "center",
@@ -1788,7 +1777,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": true
       },
       {
-        "node": "rotors_01_cf6921",
+        "node": "rotors_01_de3581",
         "group": "rotors_01",
         "role": "rotor",
         "side": "center",
@@ -1805,7 +1794,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": true
       },
       {
-        "node": "bus_404f46",
+        "node": "bus_eca07c",
         "group": "bus",
         "role": "body",
         "side": "center",
@@ -1822,7 +1811,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": false
       },
       {
-        "node": "cams_a9aaf0",
+        "node": "cams_fdad04",
         "group": "cams",
         "role": "payload",
         "side": "center",
@@ -1839,7 +1828,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": true
       },
       {
-        "node": "rotors_02_418043",
+        "node": "rotors_02_0da739",
         "group": "rotors_02",
         "role": "rotor",
         "side": "center",
@@ -1856,7 +1845,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": true
       },
       {
-        "node": "solar_panel_654861",
+        "node": "solar_panel_62e05d",
         "group": "solar_panel",
         "role": "solar",
         "side": "center",
@@ -1873,7 +1862,7 @@ export const AIRCRAFT: AircraftModel[] = [
         "swappable": true
       },
       {
-        "node": "cams_25573d",
+        "node": "cams_4bc85e",
         "group": "cams",
         "role": "payload",
         "side": "center",

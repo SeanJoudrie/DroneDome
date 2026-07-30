@@ -55,6 +55,17 @@ export interface AircraftCut {
    */
   bandLength?: [number, number]
   bandVertical?: [number, number]
+  /**
+   * Which side of the band is the part.
+   *
+   * A wing is outboard of the fuselage, so the default removes everything
+   * outside `keep` and the aircraft keeps the middle. A part that sits ON the
+   * centreline is the other way round: a single tail fin, a mast, the Predator's
+   * ventral fin. Without this those were simply unreachable — the cut could only
+   * ever take geometry away from the sides, so removing the tail left the fin
+   * standing.
+   */
+  removeCentre?: boolean
 }
 
 export type Powertrain = 'electric' | 'fuel' | 'hybrid' | 'solar'

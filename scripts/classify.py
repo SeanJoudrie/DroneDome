@@ -286,6 +286,11 @@ def classify(aid, spec):
             entry["bandLength"] = along
         if up:
             entry["bandVertical"] = up
+        # "remove": "centre" for a part that sits ON the centreline rather than
+        # outboard of it — a single fin, a mast, a ventral strake. Without it the
+        # cut could only ever take geometry off the sides.
+        if cut.get("remove") == "centre":
+            entry["removeCentre"] = True
         cuts[role] = entry
 
     # ---- real-world scale --------------------------------------------------

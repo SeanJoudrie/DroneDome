@@ -23,6 +23,7 @@ const PORT = 4173
 const URL = `http://localhost:${PORT}${BASE}`
 
 const GATES = {
+  cuts: 'scripts/cut-sweep.mjs',
   removal: 'scripts/removal-sweep.mjs',
   capability: 'scripts/capability-sweep.mjs',
   geometry: 'scripts/geometry-sweep.mjs',

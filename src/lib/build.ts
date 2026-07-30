@@ -159,6 +159,9 @@ export function capabilityMatrix() {
     aircraft: AIRCRAFT.map((a) => ({
       id: a.id,
       has: SWAPPABLE_ROLES.filter((r) => hasStockRole(a, r)),
+      // Which roles are a clipped region of a welded hull rather than their own
+      // mesh, so check:cuts knows what to look at.
+      cuts: Object.keys(a.cuts) as PartRole[],
     })),
     donors,
     cross,
