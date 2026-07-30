@@ -101,6 +101,35 @@ function gone(before, after) {
   }
 }
 
+/**
+ * Roughly how much of the picture this role ought to account for.
+ *
+ * A flat threshold cannot judge both a 20 m wing and a 55 cm sensor turret on
+ * the same 20 m aircraft. The turret is a fraction of a percent of the frame
+ * however perfectly it is drawn, so a fixed floor calls it broken for being
+ * small. Comparing each part against its own footprint asks the question that
+ * actually matters: did as much change as this part is big?
+ */
+const footprint = (ms, role) => {
+  const face = (b) => Math.max(
+    (b.max[0] - b.min[0]) * (b.max[2] - b.min[2]),
+    (b.max[0] - b.min[0]) * (b.max[1] - b.min[1]),
+  )
+  const all = ms.reduce((sum, m) => Math.max(sum, face(m)), 0)
+  const mine = ms.filter((m) => m.role === role).reduce((sum, m) => sum + face(m), 0)
+  const whole = (() => {
+    const lo = [Infinity, Infinity, Infinity]
+    const hi = [-Infinity, -Infinity, -Infinity]
+    for (const m of ms) for (let k = 0; k < 3; k++) {
+      lo[k] = Math.min(lo[k], m.min[k])
+      hi[k] = Math.max(hi[k], m.max[k])
+    }
+    return face({ min: lo, max: hi })
+  })()
+  void all
+  return whole > 0 ? Math.min(1, mine / whole) : 0
+}
+
 const extent = (ms) => {
   const lo = [Infinity, Infinity, Infinity]
   const hi = [-Infinity, -Infinity, -Infinity]
@@ -119,7 +148,7 @@ const slight = []
 let checked = 0
 
 console.log(`\n${list.length} airframes, two views each (three-quarter and overhead).\n`)
-console.log('airframe'.padEnd(16) + 'role'.padEnd(10) + '3/4'.padStart(7) + 'top'.padStart(7) + '  span'.padStart(10) + '   verdict')
+console.log('airframe'.padEnd(16) + 'role'.padEnd(10) + '3/4'.padStart(7) + 'top'.padStart(7) + 'span'.padStart(8) + 'part'.padStart(9) + 'ratio'.padStart(8) + '   verdict')
 
 for (const a of list) {
   for (const role of a.has) {
@@ -160,18 +189,27 @@ for (const a of list) {
     const best = Math.max(...shares)
     const strippedSize = after.length ? extent(after) : { span: 0 }
     const spanDrop = stockSize.span ? 1 - strippedSize.span / stockSize.span : 0
+    const owed = footprint(stock, role)
+    // What fraction of its own size actually left. Above 1 is normal: taking a
+    // wing off also takes its shadow and whatever it was hiding behind it.
+    const met = owed > 0 ? best / owed : best > 0 ? 1 : 0
     const line =
       a.id.padEnd(16) + role.padEnd(10) +
       `${(shares[0] * 100).toFixed(1)}%`.padStart(7) +
       `${(shares[1] * 100).toFixed(1)}%`.padStart(7) +
-      `${(spanDrop * 100).toFixed(0)}%`.padStart(10)
+      `${(spanDrop * 100).toFixed(0)}%`.padStart(8) +
+      `${(owed * 100).toFixed(1)}%`.padStart(9) +
+      `${met.toFixed(2)}x`.padStart(8)
 
-    if (best < NOTHING) {
+    if (best < NOTHING && met < 0.25) {
       console.log(`${line}   NOTHING LEFT THE SCREEN`)
-      dead.push([a.id, role, `removes ${(best * 100).toFixed(2)}% — the control does nothing visible`])
-    } else if (best < SLIGHT) {
-      console.log(`${line}   slight`)
-      slight.push([a.id, role, `${(best * 100).toFixed(1)}%`])
+      dead.push([
+        a.id, role,
+        `removes ${(best * 100).toFixed(2)}% where the part is ${(owed * 100).toFixed(1)}% of the picture`,
+      ])
+    } else if (met < 0.25) {
+      console.log(`${line}   under-removes`)
+      slight.push([a.id, role, `${(best * 100).toFixed(1)}% of an expected ${(owed * 100).toFixed(1)}%`])
     } else {
       console.log(`${line}   ok`)
     }
@@ -182,7 +220,7 @@ const pad = (s, n) => String(s).padEnd(n)
 console.log(`\n${checked} removal(s) checked against what actually leaves the screen.\n`)
 for (const [id, role, why] of dead) console.log(`  FAIL  ${pad(id, 16)} ${pad(role, 10)} ${why}`)
 if (slight.length) {
-  console.log(`\n  ${slight.length} removal(s) barely changed the picture — small parts, or the next bug:`)
+  console.log(`\n  ${slight.length} removal(s) changed less than the part's own size predicts:`)
   for (const [id, role, s] of slight) console.log(`        ${pad(id, 16)} ${pad(role, 10)} ${s}`)
 }
 for (const c of crashes) console.log(`  CRASH ${c.slice(0, 140)}`)
