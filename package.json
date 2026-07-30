@@ -17,6 +17,7 @@
     "check:capability": "node scripts/capability-sweep.mjs",
     "check:removal": "node scripts/removal-sweep.mjs",
     "check:cuts": "node scripts/cut-sweep.mjs",
+    "check:strip": "node scripts/strip-sweep.mjs",
     "build:deployed": "vite build --base=/DroneDome/ --outDir dist-ci",
     "serve:deployed": "vite preview --base=/DroneDome/ --outDir dist-ci --port 4173 --strictPort",
     "gates": "node scripts/gates.mjs"
