@@ -145,10 +145,22 @@ const list = ONLY ? caps.aircraft.filter((a) => a.id === ONLY) : caps.aircraft
 
 const dead = []
 const slight = []
+const hidden = []
+
+const boxOf = (ms) => {
+  if (!ms.length) return null
+  const lo = [Infinity, Infinity, Infinity]
+  const hi = [-Infinity, -Infinity, -Infinity]
+  for (const m of ms) for (let k = 0; k < 3; k++) {
+    lo[k] = Math.min(lo[k], m.min[k])
+    hi[k] = Math.max(hi[k], m.max[k])
+  }
+  return { lo, hi }
+}
 let checked = 0
 
 console.log(`\n${list.length} airframes, two views each (three-quarter and overhead).\n`)
-console.log('airframe'.padEnd(16) + 'role'.padEnd(10) + '3/4'.padStart(7) + 'top'.padStart(7) + 'span'.padStart(8) + 'part'.padStart(9) + 'ratio'.padStart(8) + '   verdict')
+console.log('airframe'.padEnd(16) + 'role'.padEnd(10) + '3/4'.padStart(7) + 'top'.padStart(7) + 'low'.padStart(7) + 'span'.padStart(8) + 'part'.padStart(9) + 'ratio'.padStart(8) + '   verdict')
 
 for (const a of list) {
   for (const role of a.has) {
@@ -171,7 +183,13 @@ for (const a of list) {
     )
     const poses = [
       base,
+      // Overhead.
       { position: [base.target[0] + d * 0.02, base.target[1] + d, base.target[2] + d * 0.02], target: base.target },
+      // Low from the side, almost level with the aircraft. Landing gear lives
+      // under the fuselage, so both of the views above look straight past it —
+      // nine of the first eighteen failures were gear, and the fuselage was
+      // hiding every one of them.
+      { position: [base.target[0] + d * 0.98, base.target[1] + d * 0.08, base.target[2] + d * 0.15], target: base.target },
     ]
 
     const before = []
@@ -196,6 +214,17 @@ for (const a of list) {
     const strippedSize = after.length ? extent(after) : { span: 0 }
     const spanDrop = stockSize.span ? 1 - strippedSize.span / stockSize.span : 0
     const owed = footprint(stock, role)
+    // A part that lives entirely inside the rest of the airframe cannot be seen
+    // to go, from any angle. The V-22, Global Hawk and Predator all carry their
+    // landing gear modelled retracted inside the hull; removing it is correct
+    // and invisible, and calling that a failure buries the real ones. Reported
+    // rather than skipped, because "you cannot see this part at all" is worth
+    // knowing even when it is not a bug.
+    const partBox = boxOf(stock.filter((m) => m.role === role))
+    const restBox = boxOf(stock.filter((m) => m.role !== role))
+    const buried =
+      !!partBox && !!restBox &&
+      [0, 1, 2].every((k) => partBox.lo[k] >= restBox.lo[k] - 1e-6 && partBox.hi[k] <= restBox.hi[k] + 1e-6)
     // What fraction of its own size actually left. Above 1 is normal: taking a
     // wing off also takes its shadow and whatever it was hiding behind it.
     const met = owed > 0 ? best / owed : best > 0 ? 1 : 0
@@ -203,11 +232,15 @@ for (const a of list) {
       a.id.padEnd(16) + role.padEnd(10) +
       `${(shares[0] * 100).toFixed(1)}%`.padStart(7) +
       `${(shares[1] * 100).toFixed(1)}%`.padStart(7) +
+      `${(shares[2] * 100).toFixed(1)}%`.padStart(7) +
       `${(spanDrop * 100).toFixed(0)}%`.padStart(8) +
       `${(owed * 100).toFixed(1)}%`.padStart(9) +
       `${met.toFixed(2)}x`.padStart(8)
 
-    if (best < NOTHING && met < 0.25) {
+    if (buried && best < NOTHING) {
+      console.log(`${line}   hidden inside the airframe`)
+      hidden.push([a.id, role, `the part sits entirely within the rest of the aircraft`])
+    } else if (best < NOTHING && met < 0.25) {
       console.log(`${line}   NOTHING LEFT THE SCREEN`)
       dead.push([
         a.id, role,
@@ -228,6 +261,10 @@ for (const [id, role, why] of dead) console.log(`  FAIL  ${pad(id, 16)} ${pad(ro
 if (slight.length) {
   console.log(`\n  ${slight.length} removal(s) changed less than the part's own size predicts:`)
   for (const [id, role, s] of slight) console.log(`        ${pad(id, 16)} ${pad(role, 10)} ${s}`)
+}
+if (hidden.length) {
+  console.log(`\n  ${hidden.length} part(s) are removed correctly but were never visible to begin with:`)
+  for (const [id, role, why] of hidden) console.log(`        ${pad(id, 16)} ${pad(role, 10)} ${why}`)
 }
 for (const c of crashes) console.log(`  CRASH ${c.slice(0, 140)}`)
 if (!dead.length && !crashes.length) console.log('  every part that can be removed leaves the screen when it is.')

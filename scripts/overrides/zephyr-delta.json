@@ -1,0 +1,5 @@
+{
+  "_note": "A flying wing whose lifting surface is three meshes occupying the same space: wing, flap_left and flap_right, all 1.50 m across and all centred on the same point. Only the first was classified as the wing, so removing the wing left the two flaps standing in exactly the same place - the aircraft looked untouched, which is the Reaper's bug on a different airframe. The flaps are the wing's trailing edge and belong to it.",
+  "flap_left": "wing",
+  "flap_right": "wing"
+}
