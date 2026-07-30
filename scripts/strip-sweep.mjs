@@ -70,16 +70,35 @@ async function shot() {
   return sharp(png).greyscale().raw().toBuffer({ resolveWithObject: true })
 }
 
-/** Aircraft pixels present in `before` and gone in `after`. */
+/**
+ * How much of the aircraft changed.
+ *
+ * Not just the silhouette. A sensor pod under a fuselage is in front of more
+ * aircraft, so taking it off changes what is drawn there without changing the
+ * outline at all — measuring only the outline reported the Reaper's payload as
+ * removing nothing when it was removing a turret. So this counts both: pixels
+ * that stopped being aircraft, and pixels that stayed aircraft but visibly
+ * changed.
+ */
 function gone(before, after) {
   let lit = 0
   let lost = 0
+  let altered = 0
   for (let i = 0; i < before.data.length; i++) {
-    const on = before.data[i] > 105
-    if (on) lit++
-    if (on && !(after.data[i] > 105)) lost++
+    const a = before.data[i]
+    const b = after.data[i]
+    const on = a > 105
+    if (!on) continue
+    lit++
+    if (!(b > 105)) lost++
+    else if (Math.abs(a - b) > 14) altered++
   }
-  return { lit, lost, share: lit ? lost / lit : 0 }
+  return {
+    lit,
+    lost,
+    share: lit ? lost / lit : 0,
+    changed: lit ? (lost + altered) / lit : 0,
+  }
 }
 
 const extent = (ms) => {
@@ -134,7 +153,7 @@ for (const a of list) {
     for (let i = 0; i < poses.length; i++) {
       await page.evaluate((x) => window.dronedome.setCamera(x), poses[i])
       await page.waitForTimeout(420)
-      shares.push(gone(before[i], await shot()).share)
+      shares.push(gone(before[i], await shot()).changed)
     }
     checked++
 

@@ -1193,15 +1193,24 @@ export function createViewer(
       const donor = AIRCRAFT_BY_ID[spec.aircraftId]
       if (!donor) continue
 
-      // hide whatever the host already had in that role
+      // Hide whatever the host already had in that role, and note where it
+      // physically sat — the middle of its geometry, not the origin of its
+      // transform node. On a model with baked geometry every node reports the
+      // model origin, so all four of the Reaper's sensor stations came back as
+      // the same point in the middle of the fuselage. Four copies of one turret
+      // were mounted there, inside the body, invisible: fitting the EO/IR
+      // changed nothing you could see, and so did taking it off again.
+      baseClone.updateMatrixWorld(true)
       const hostPoints: THREE.Vector3[] = []
       baseClone.traverse((o) => {
         if (roleOf(base, o.name) !== spec.role || !(o as THREE.Mesh).isMesh) return
-        const at = new THREE.Vector3()
-        o.getWorldPosition(at)
-        hostPoints.push(at)
+        const box = new THREE.Box3().setFromObject(o)
+        if (!box.isEmpty()) hostPoints.push(box.getCenter(new THREE.Vector3()))
         o.visible = false
       })
+      // Furthest forward first: a sensor turret belongs at the nose station, not
+      // at whichever one the exporter happened to write down first.
+      hostPoints.sort((a, c) => c.z - a.z)
 
       // Same rule as the donor parts: a piece of equipment that cannot be
       // fetched is missing its picture, and that is all.
@@ -1245,7 +1254,10 @@ export function createViewer(
       unit.scale.setScalar(spec.sizeM / longest)
 
       if (hostPoints.length) {
-        for (const at of hostPoints.slice(0, spec.repeat ?? hostPoints.length)) {
+        // One turret is one turret. Mounting it at every station the host had
+        // gave the Reaper four of them; `repeat` is for equipment that really is
+        // carried in numbers, like a rack of missiles.
+        for (const at of hostPoints.slice(0, Math.max(1, spec.repeat ?? 1))) {
           const copy = unit.clone(true)
           copy.position.copy(at)
           stampRole(copy, 'payload')
