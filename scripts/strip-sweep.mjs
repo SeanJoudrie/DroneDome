@@ -66,7 +66,7 @@ async function apply(baseId, slots) {
 }
 
 async function shot() {
-  const png = await page.locator('canvas').first().screenshot()
+  const png = await page.locator('canvas').first().screenshot({ timeout: 60000, animations: 'disabled' })
   return sharp(png).greyscale().raw().toBuffer({ resolveWithObject: true })
 }
 
@@ -155,6 +155,12 @@ for (const a of list) {
     const stock = await apply(a.id, {})
     if (!stock) { dead.push([a.id, role, 'never finished rendering']); continue }
 
+    // Let go of the previous aircraft's view before reading this one's. Without
+    // this the pin set for the first airframe held for all of them, so a 35 cm
+    // Phantom was photographed from where a 20 m Reaper had been framed and
+    // every removal on it measured as changing nothing.
+    await page.evaluate(() => window.dronedome.frame())
+    await page.waitForTimeout(250)
     // Two poses derived from the aircraft's own auto-framed distance, so a
     // 27 cm Black Hornet and a 40 m Global Hawk are both filling the frame.
     const base = await page.evaluate(() => window.dronedome.camera())

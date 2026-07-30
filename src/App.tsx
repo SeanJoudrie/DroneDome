@@ -84,6 +84,12 @@ export default function App() {
       // then be confirmed by what changed in the picture rather than inferred.
       camera: () => viewer.camera(),
       setCamera: (pose: Parameters<ViewerHandle['setCamera']>[0]) => viewer.setCamera(pose),
+      // Releases the pin and re-frames on whatever is loaded now. A check that
+      // pins the view for one aircraft must let go before the next, or every
+      // later airframe is photographed from the distance the previous one
+      // needed — a 35 cm quadcopter shot from where a 20 m Reaper was framed is
+      // a speck, and every removal on it reads as changing nothing.
+      frame: () => viewer.frame(),
     }
     ;(window as unknown as { __mk?: unknown }).__mk = (id: string) => createBuild(id)
     const onResize = () => viewer.resize()
