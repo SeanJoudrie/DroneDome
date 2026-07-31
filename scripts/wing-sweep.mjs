@@ -46,9 +46,12 @@ const URL = positional || arg('url', 'http://localhost:4173/DroneDome/')
 const WRITE = arg('write', null)
 if (WRITE) mkdirSync(WRITE, { recursive: true })
 
+const only = arg('only', null)
 const donors = AIRCRAFT.filter(
   (a) => a.parts.some((p) => p.role === ROLE) || Object.prototype.hasOwnProperty.call(a.cuts, ROLE),
-).map((a) => a.id)
+)
+  .map((a) => a.id)
+  .filter((id) => !only || only.split(',').includes(id))
 if (!donors.includes(HOST)) {
   console.error(`${HOST} has no ${ROLE} of its own to compare against`)
   process.exit(2)
@@ -123,42 +126,55 @@ const look = async (v) => {
   await page.evaluate((p) => window.dronedome.setCamera({ position: p.v, target: p.t }), { v, t: T })
   await page.waitForTimeout(450)
 }
-const differs = (a, c, i) =>
-  Math.abs(a[i] - c[i]) + Math.abs(a[i + 1] - c[i + 1]) + Math.abs(a[i + 2] - c[i + 2]) > 30
-
-// The background plate: the scene with every mesh hidden. It is what the
-// isolated shots are measured against, because the part is the only thing in
-// them - measuring against the wingless aircraft instead would report its whole
-// fuselage as having vanished.
-const empty = {}
-await apply({})
-await page.evaluate(() => window.dronedome.isolate('nothing-is-this-role'))
-for (const [k, v] of Object.entries(VIEWS)) { await look(v); empty[k] = await shoot() }
-await page.evaluate(() => window.dronedome.isolate(null))
+/**
+ * Brighter than the empty plate, not merely different from it.
+ *
+ * The part is lit; the shadow it throws on the ground is the same scene minus
+ * some light. Counting "different" counted the shadow, and a shadow spreads far
+ * wider than the thing casting it - which read as the X-47B's wing spanning the
+ * whole frame when the picture plainly showed two panels inside it. Twice now a
+ * measurement has been fooled by this scene's lighting; the part is the bright
+ * pixels.
+ */
+const lit = (a, c, i) =>
+  a[i] + a[i + 1] + a[i + 2] - (c[i] + c[i + 1] + c[i + 2]) > 60
 
 /**
- * The part alone, on the empty plate.
+ * The part alone, and the empty plate to read it against.
  *
- * Not a difference of two renders. The scene casts shadows, so a wing of a
- * different shape re-shades the whole fuselage and the difference lights up an
- * aeroplane-shaped region no donor ever sent - which is how the TB2 looked like
- * it was handing over its airframe when it was handing over a wing. isolate()
- * asks the renderer to draw that role and nothing else, so the pixels are the
- * part.
+ * Both from the build in front of us, never a plate captured once and reused:
+ * the ground is sized from the assembly, so a different build lays it out
+ * differently and a stale plate disagreed with every shot along a thirteen-pixel
+ * band right across the horizon. Counting that band said the X-47B's wing
+ * spanned the entire frame while the picture showed two panels well inside it.
  */
-const partOnly = async () => {
-  await page.evaluate((r) => window.dronedome.isolate(r), ROLE)
+const isolateShots = async (role) => {
+  await page.evaluate((r) => window.dronedome.isolate(r), role)
   const shots = {}
   for (const [k, v] of Object.entries(VIEWS)) { await look(v); shots[k] = await shoot() }
   await page.evaluate(() => window.dronedome.isolate(null))
   return shots
 }
 
+/**
+ * The part drawn alone, and the same build with nothing drawn at all.
+ *
+ * Not a difference of two renders of the aircraft. The scene casts shadows, so
+ * a wing of a different shape re-shades the whole fuselage and that difference
+ * lights up an aeroplane-shaped region no donor ever sent - which is how the TB2
+ * looked like it was handing over its airframe when it was handing over a wing.
+ * Drawing the role by itself answers the question directly.
+ */
+const partOnly = async () => ({
+  part: await isolateShots(ROLE),
+  empty: await isolateShots('nothing-is-this-role'),
+})
+
 /** Every pixel of the isolated part: where it is, how wide, how even. */
-const measure = (shot, k) => {
+const measure = (shot, empty, k) => {
   let n = 0, left = 0, right = 0, lo = W, hi = -1, ySum = 0, xSum = 0
   for (let i = 0; i < W * H; i++) {
-    if (!differs(shot, empty[k], i * 3)) continue
+    if (!lit(shot, empty[k], i * 3)) continue
     n++
     const x = i % W
     ySum += (i / W) | 0
@@ -172,7 +188,7 @@ const measure = (shot, k) => {
 await apply({})
 const ownShots = await partOnly()
 const own = {}
-for (const k of Object.keys(VIEWS)) own[k] = measure(ownShots[k], k)
+for (const k of Object.keys(VIEWS)) own[k] = measure(ownShots.part[k], ownShots.empty, k)
 // The centreline in pixels, taken from the host's own part rather than assumed
 // to be the middle of the frame: the camera is framed on the whole aircraft,
 // which is not symmetric fore and aft, so the middle of the picture is not the
@@ -199,17 +215,19 @@ for (const id of donors) {
   }
   const fitted = {}
   for (const [k, v] of Object.entries(VIEWS)) { await look(v); fitted[k] = await shoot() }
-  const alone = await partOnly()
+  const shots = await partOnly()
+  const alone = shots.part
+  const plate = shots.empty
 
   const stat = {}
   const tiles = []
   let r = 0
   for (const k of Object.keys(VIEWS)) {
-    const m = measure(alone[k], k)
+    const m = measure(alone[k], plate, k)
     // Left and right of the host's own centreline, so "lopsided" means what it
     // sounds like.
     for (let i = 0; i < W * H; i++) {
-      if (!differs(alone[k], empty[k], i * 3)) continue
+      if (!lit(alone[k], plate[k], i * 3)) continue
       if (i % W < axisX) m.left++
       else m.right++
     }
