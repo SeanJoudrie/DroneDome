@@ -100,6 +100,7 @@ export default function App() {
       // wingtip crossing the fuselage in projection reads as attached while the
       // root hangs a metre clear.
       joinGap: (role: Parameters<ViewerHandle['joinGap']>[0]) => viewer.joinGap(role),
+      seating: () => viewer.seating(),
     }
     ;(window as unknown as { __mk?: unknown }).__mk = (id: string) => createBuild(id)
     const onResize = () => viewer.resize()

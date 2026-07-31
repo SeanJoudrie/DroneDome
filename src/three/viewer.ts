@@ -404,6 +404,8 @@ export interface ViewerHandle {
    * should read as.
    */
   joinGap(role: PartRole, against?: PartRole): { gap: number; partPoints: number; hostPoints: number } | null
+  /** Diagnostic: what each borrowed half was seated against, and where it landed. */
+  seating(): unknown[]
 }
 
 export function createViewer(
@@ -715,6 +717,16 @@ export function createViewer(
    */
   let cutPlanes: THREE.Plane[] = []
 
+  /** Diagnostic: what each borrowed half was seated against, and where it went. */
+  let seatLog: {
+    role: PartRole
+    side: 'left' | 'right'
+    socket: number[]
+    plug: number[]
+    bodyHalf: number
+    landed?: number[] | null
+  }[] = []
+
   /**
    * Where newly made planes are collected, and what they will be transformed by.
    *
@@ -908,6 +920,7 @@ export function createViewer(
 
     // Work out what each role is doing before touching the scene graph.
     const removed = new Set<PartRole>()
+    seatLog = []
     const donors: {
       role: PartRole
       /** Which of the donor's roles the mesh comes from; usually the same. */
@@ -948,7 +961,12 @@ export function createViewer(
           fromRole: choice.fromRole ?? role,
           model: donor,
           fit: fitScaleFor(base, donor) * (choice.scale ?? 1),
-          count: choice.count ?? donor.spec.rotors ?? 1,
+          // How many of them, and only a rotor has a natural count. A wing
+          // donor was falling back to the donor's rotor count, so a quadplane's
+          // wing arrived four times, stacked - which is exactly what the
+          // Standard VTOL was drawing. A wing is one wing unless asked for a
+          // biplane.
+          count: choice.count ?? (role === 'rotor' ? (donor.spec.rotors ?? 1) : 1),
           place: choice,
         })
       }
@@ -1263,6 +1281,15 @@ export function createViewer(
         // its aircraft; the Akinci's is a metre off, and the cut walked clean
         // off the wing and took everything with it.
         unit.updateMatrixWorld(true)
+        // The root measured here, with the unit still at the origin, so it is a
+        // property of the part rather than of where the part currently is.
+        // Measuring it after a provisional placement does not work: "innermost
+        // by distance from the centreline" picks a different set of vertices
+        // once the part has been moved, so aligning by it never settles. The
+        // TB2 landed exactly on its socket because its region starts eight
+        // metres out and translation cannot change which end is inboard; the
+        // Cessna's root sits near the centreline, and it did not.
+        const plugLocal = side ? rootAnchor(unit, side) : null
         const ownBox = new THREE.Box3().setFromObject(unit)
         const mid = ownBox.isEmpty() ? new THREE.Vector3() : ownBox.getCenter(new THREE.Vector3())
         // Where this half's root is, which is NOT the edge of its bounding box
@@ -1280,7 +1307,7 @@ export function createViewer(
               ? ownBox.min.x
               : ownBox.max.x
         }
-        return { unit, held, mid, box: ownBox, inboard, empty: ownBox.isEmpty() }
+        return { unit, held, mid, box: ownBox, inboard, plugLocal, empty: ownBox.isEmpty() }
       }
 
       // Only split a donor that really is a pair. A wing running tip to tip as
@@ -1410,7 +1437,12 @@ export function createViewer(
           baseClone.traverse((o) => {
             const mesh = o as THREE.Mesh
             if (!mesh.isMesh || !mesh.visible) return
-            if (roleOf(base, mesh.name) === d.role) return
+            // The body, not merely "not the wing". The Reaper hangs missiles
+            // and pylons two metres outboard, and taking the innermost edge of
+            // anything that was not the wing measured those instead: bodyHalf
+            // came out at 2.40 m against a fuselage half-width of 0.42, so
+            // every socket was placed two metres out to sea.
+            if (roleOf(base, mesh.name) !== 'body') return
             const box = new THREE.Box3().setFromObject(mesh)
             if (box.isEmpty()) return
             if (box.max.z < z - depth || box.min.z > z + depth) return
@@ -1443,7 +1475,7 @@ export function createViewer(
                   cutSockets.get(d.role)?.[side] ??
                   null
                 : null
-              const plug = side ? rootAnchor(copy, side) : null
+              const plug = made.plugLocal
               if (socket && plug) {
                 // Socket to plug, all three axes at once. Height and fore/aft
                 // used to come from the unit's bounding-box centre, which for a
@@ -1452,6 +1484,13 @@ export function createViewer(
                 // roots instead is what stops a part arriving beside the
                 // aircraft rather than on it.
                 copy.position.add(socket).sub(plug)
+                seatLog.push({
+                  role: d.role,
+                  side: side as 'left' | 'right',
+                  socket: socket.toArray(),
+                  plug: plug.toArray(),
+                  bodyHalf: root,
+                })
               } else if (side) {
                 // No socket to read — the host never had this part as geometry
                 // and has no cut for it either. Falling back to butting the
@@ -1469,6 +1508,13 @@ export function createViewer(
               applyAngles(copy, d.place)
               stampRole(copy, d.role)
               assembly.add(copy)
+              // Where the root ended up once everything downstream has had its
+              // say. If this is not the socket, something after the seating is
+              // moving it.
+              if (side !== undefined && seatLog.length) {
+                const landed = rootAnchor(copy, side)
+                seatLog[seatLog.length - 1].landed = landed ? landed.toArray() : null
+              }
             }
           }
         }
@@ -1786,6 +1832,9 @@ export function createViewer(
         })
       })
       return { buildId: lastBuildKey, meshes: out }
+    },
+    seating() {
+      return seatLog
     },
     joinGap(role, against) {
       if (!lastAssembly) return null
