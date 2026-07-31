@@ -6,6 +6,7 @@ import type { AircraftModel, Build, PartRole, SlotPlacement } from '../types'
 import { AIRCRAFT_BY_ID } from '../data/aircraft.generated'
 import { PAINTS, PAYLOADS_BY_ID } from '../data/catalog'
 import { fitScaleFor } from '../lib/physics'
+import { socketFor } from '../data/sockets'
 import { canonical, groupOf, roleOf } from '../lib/names'
 
 const SWAP_ROLES: PartRole[] = ['wing', 'tail', 'rotor', 'gear', 'payload', 'solar', 'hardpoint']
@@ -706,6 +707,68 @@ export function createViewer(
     return null
   }
 
+
+  /**
+   * Every drawn vertex of a role, in world space, minus the ones its own
+   * clipping planes threw away. A clipped hull still carries every vertex it
+   * ever had, and counting those measures geometry that is not on screen.
+   */
+  function drawnPoints(root: THREE.Object3D, keep: (mesh: THREE.Mesh) => boolean, budget = 1500) {
+    root.updateMatrixWorld(true)
+    const out: THREE.Vector3[] = []
+    const v = new THREE.Vector3()
+    root.traverse((o) => {
+      const mesh = o as THREE.Mesh
+      if (!mesh.isMesh || !mesh.visible) return
+      for (let p: THREE.Object3D | null = mesh.parent; p; p = p.parent) if (!p.visible) return
+      if (!keep(mesh)) return
+      const position = mesh.geometry?.getAttribute('position')
+      if (!position) return
+      const mats = Array.isArray(mesh.material) ? mesh.material : [mesh.material]
+      const planes = mats.flatMap((m) => (m as THREE.Material).clippingPlanes ?? [])
+      const stride = Math.max(1, Math.floor(position.count / budget))
+      for (let i = 0; i < position.count; i += stride) {
+        v.fromBufferAttribute(position, i).applyMatrix4(mesh.matrixWorld)
+        let kept = true
+        for (const plane of planes) {
+          if (plane.distanceToPoint(v) < 0) { kept = false; break }
+        }
+        if (kept) out.push(v.clone())
+      }
+    })
+    return out
+  }
+
+  /**
+   * Slide a seated part along the shortest line to the body until it touches.
+   *
+   * The socket puts a part roughly where it belongs; this closes what is left.
+   * It is a measurement, not another rule about where roots are: find the
+   * closest pair of points between the part as drawn and the body as drawn, and
+   * translate by the vector between them. The part is then in contact by
+   * construction, which is the only way this converges after three attempts at
+   * predicting the offset instead.
+   *
+   * Capped, because a part that is wildly misplaced should stay visibly
+   * misplaced rather than be dragged across the aircraft to hide it.
+   */
+  function contactShift(part: THREE.Object3D, body: THREE.Vector3[], limit: number) {
+    if (!body.length) return null
+    const mine = drawnPoints(part, () => true)
+    if (!mine.length) return null
+    let best = Infinity
+    const shift = new THREE.Vector3()
+    for (const a of mine) {
+      for (const b of body) {
+        const d = a.distanceToSquared(b)
+        if (d < best) { best = d; shift.copy(b).sub(a) }
+      }
+    }
+    const d = shift.length()
+    if (!Number.isFinite(best) || d > limit) return null
+    return shift
+  }
+
   /**
    * Every plane made for the build in progress.
    *
@@ -725,6 +788,7 @@ export function createViewer(
     plug: number[]
     bodyHalf: number
     landed?: number[] | null
+    snap?: string
   }[] = []
 
   /**
@@ -738,6 +802,19 @@ export function createViewer(
    */
   let planeSink: THREE.Plane[] = cutPlanes
   let deferredPlanes: { planes: THREE.Plane[]; node: THREE.Object3D }[] = []
+
+  /**
+   * Borrowed parts waiting to be snapped against the body.
+   *
+   * The snap cannot happen where the part is built, because a borrowed part's
+   * clipping planes are still in the donor's frame at that point - they are
+   * carried into world space only once the assembly has stopped moving. Testing
+   * a vertex against an untransformed plane throws away the wrong vertices, and
+   * that is exactly what happened: the TB2 came back with no vertices at all,
+   * the Global Hawk never seated, and the px4 quadplane snapped itself against
+   * geometry that was not there.
+   */
+  let toSnap: { node: THREE.Object3D; planes: THREE.Plane[] }[] = []
 
   /** Keeps coordinates on `axis` at or above `lo`. */
   function planeAbove(axis: 0 | 1 | 2, lo: number) {
@@ -921,6 +998,7 @@ export function createViewer(
     // Work out what each role is doing before touching the scene graph.
     const removed = new Set<PartRole>()
     seatLog = []
+    toSnap = []
     const donors: {
       role: PartRole
       /** Which of the donor's roles the mesh comes from; usually the same. */
@@ -1469,12 +1547,18 @@ export function createViewer(
               // The socket, resolved now that the body's width at this station
               // is known. Geometry first; the cut band only where the host has
               // no mesh for this role at all.
+              // The table first. It is the only one of these that has been
+              // looked at rather than derived, and deriving it is what failed
+              // three times.
               const pts = side ? hostPoints.get(d.role)?.[side] : null
-              const socket = side
-                ? (pts && pts.length ? socketAt(pts, side, root) : null) ??
-                  cutSockets.get(d.role)?.[side] ??
-                  null
-                : null
+              const listed = side ? socketFor(base.id, d.role, side) : null
+              const socket = listed
+                ? new THREE.Vector3(listed.x, listed.y, listed.z)
+                : side
+                  ? (pts && pts.length ? socketAt(pts, side, root) : null) ??
+                    cutSockets.get(d.role)?.[side] ??
+                    null
+                  : null
               const plug = made.plugLocal
               if (socket && plug) {
                 // Socket to plug, all three axes at once. Height and fore/aft
@@ -1508,6 +1592,14 @@ export function createViewer(
               applyAngles(copy, d.place)
               stampRole(copy, d.role)
               assembly.add(copy)
+              // Everything above puts the part roughly right. This closes the
+              // rest by measuring it: the shortest line from the part to the
+              // body, walked. A metre and a half is the cap, so a part that is
+              // grossly wrong stays visibly wrong.
+              // Whichever way it was placed. A donor whose wing runs tip to tip
+              // as one mesh is never split into sides, and skipping those left
+              // the Raven and the TB2 hanging while everything else seated.
+              toSnap.push({ node: copy, planes: made.held })
               // Where the root ended up once everything downstream has had its
               // say. If this is not the socket, something after the seating is
               // moving it.
@@ -1706,6 +1798,26 @@ export function createViewer(
     // assembly's transform.
     for (const batch of deferredPlanes) {
       for (const plane of batch.planes) plane.applyMatrix4(batch.node.matrixWorld)
+    }
+
+    // Now that every plane is in the space it clips in, close what is left of
+    // each join by measuring it. A part is translated along the shortest line
+    // to the fuselage until the two touch - and its own planes travel with it,
+    // or the geometry would walk out from under its own cut.
+    if (toSnap.length) {
+      const worldBody = drawnPoints(assembly, (mesh) => {
+        const stamped = typeof mesh.userData.ddRole === 'string' ? mesh.userData.ddRole : null
+        return (stamped ?? roleOf(base, mesh.name)) === 'body'
+      })
+      const scale = assembly.scale.x || 1
+      for (const { node, planes } of toSnap) {
+        const shift = contactShift(node, worldBody, 1.5 * scale)
+        if (!shift) continue
+        node.position.addScaledVector(shift, 1 / scale)
+        node.updateMatrixWorld(true)
+        for (const plane of planes) plane.translate(shift)
+      }
+      assembly.updateMatrixWorld(true)
     }
 
     // The grid is a ruler: fixed squares at the base aircraft's scale, so a
