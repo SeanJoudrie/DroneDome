@@ -404,6 +404,8 @@ export interface ViewerHandle {
    * should read as.
    */
   joinGap(role: PartRole, against?: PartRole): { gap: number; partPoints: number; hostPoints: number } | null
+  /** Diagnostic: what each borrowed half was seated against, and where it landed. */
+  seating(): unknown[]
 }
 
 export function createViewer(
@@ -608,6 +610,103 @@ export function createViewer(
   }
 
   /**
+   * Where a part meets the body, per side, from the vertices.
+   *
+   * The socket. Everything before this positioned a borrowed part by its
+   * bounding-box centre, which is not a feature of the part at all — for a
+   * clipped region it is the centre of the whole donor hull, so the height and
+   * the fore/aft station a wing arrived at were arbitrary. That is why parts
+   * floated: nothing ever asked where on the wing the wing is supposed to touch
+   * a fuselage.
+   *
+   * The answer is the root: of the geometry that belongs to this role, the part
+   * nearest the centreline. Taking the innermost tenth by |x| and averaging it
+   * gives a point that survives a ragged edge, and it is computed the same way
+   * on the host and on the donor — so the host's answer is the socket, the
+   * donor's is the plug, and fitting one to the other is a subtraction.
+   *
+   * Vertices thrown away by their own clipping planes are skipped, because a
+   * cut hull still carries every vertex it ever had.
+   */
+  function rolePoints(root: THREE.Object3D, side: 'left' | 'right') {
+    root.updateMatrixWorld(true)
+    const sign = side === 'right' ? 1 : -1
+    const points: THREE.Vector3[] = []
+    const v = new THREE.Vector3()
+    root.traverse((o) => {
+      const mesh = o as THREE.Mesh
+      if (!mesh.isMesh || !mesh.visible) return
+      const position = mesh.geometry?.getAttribute('position')
+      if (!position) return
+      const mats = Array.isArray(mesh.material) ? mesh.material : [mesh.material]
+      const planes = mats.flatMap((m) => (m as THREE.Material).clippingPlanes ?? [])
+      const stride = Math.max(1, Math.floor(position.count / 4000))
+      for (let i = 0; i < position.count; i += stride) {
+        v.fromBufferAttribute(position, i).applyMatrix4(mesh.matrixWorld)
+        if (v.x * sign < 0) continue
+        let kept = true
+        for (const plane of planes) {
+          if (plane.distanceToPoint(v) < 0) {
+            kept = false
+            break
+          }
+        }
+        if (kept) points.push(v.clone())
+      }
+    })
+    return points
+  }
+
+  /**
+   * The part's own root: the innermost slice of it, averaged.
+   *
+   * For a donor this is where its wing left its fuselage, and it is what gets
+   * placed on the host's socket.
+   */
+  function rootAnchor(root: THREE.Object3D, side: 'left' | 'right') {
+    const points = rolePoints(root, side)
+    if (points.length < 4) return null
+    points.sort((a, b) => Math.abs(a.x) - Math.abs(b.x))
+    const inner = points.slice(0, Math.max(3, Math.round(points.length * 0.1)))
+    const at = new THREE.Vector3()
+    for (const p of inner) at.add(p)
+    return at.divideScalar(inner.length)
+  }
+
+  /**
+   * The host's socket: where its own part crosses the side of its fuselage.
+   *
+   * NOT the innermost slice, which is what the first attempt used and why it
+   * made things worse. The Reaper's wing includes one mesh running tip to tip
+   * straight through the fuselage, so its innermost vertices sit on the
+   * centreline — the socket came out at x = 0 and every donor was dragged into
+   * the middle of the aircraft.
+   *
+   * The join is at the fuselage side, so that is where to measure: take the
+   * part's own vertices in a band around the body's half-width and average
+   * them. Height and fore/aft then come from the wing where it actually meets
+   * the body rather than from wherever the mesh happens to be centred.
+   */
+  function socketAt(points: THREE.Vector3[], side: 'left' | 'right', bodyHalf: number) {
+    if (points.length < 4) return null
+    const sign = side === 'right' ? 1 : -1
+    for (const width of [0.25, 0.5, 1, 2]) {
+      const band = Math.max(bodyHalf * width, 0.05)
+      const near = points.filter((p) => Math.abs(Math.abs(p.x) - bodyHalf) <= band)
+      if (near.length >= 4) {
+        const at = new THREE.Vector3()
+        for (const p of near) at.add(p)
+        at.divideScalar(near.length)
+        // The x is the body's edge by definition; only the height and station
+        // are being read off the geometry.
+        at.x = sign * bodyHalf
+        return at
+      }
+    }
+    return null
+  }
+
+  /**
    * Every plane made for the build in progress.
    *
    * three.js clips in world space, but the cuts are worked out in the
@@ -617,6 +716,16 @@ export function createViewer(
    * scale slider moves off 1.
    */
   let cutPlanes: THREE.Plane[] = []
+
+  /** Diagnostic: what each borrowed half was seated against, and where it went. */
+  let seatLog: {
+    role: PartRole
+    side: 'left' | 'right'
+    socket: number[]
+    plug: number[]
+    bodyHalf: number
+    landed?: number[] | null
+  }[] = []
 
   /**
    * Where newly made planes are collected, and what they will be transformed by.
@@ -811,6 +920,7 @@ export function createViewer(
 
     // Work out what each role is doing before touching the scene graph.
     const removed = new Set<PartRole>()
+    seatLog = []
     const donors: {
       role: PartRole
       /** Which of the donor's roles the mesh comes from; usually the same. */
@@ -853,9 +963,9 @@ export function createViewer(
           fit: fitScaleFor(base, donor) * (choice.scale ?? 1),
           // How many of them, and only a rotor has a natural count. A wing
           // donor was falling back to the donor's rotor count, so a quadplane's
-          // wing arrived four times, stacked one above the next - which is
-          // exactly what the Standard VTOL was drawing. A wing is one wing
-          // unless a biplane was asked for.
+          // wing arrived four times, stacked - which is exactly what the
+          // Standard VTOL was drawing. A wing is one wing unless asked for a
+          // biplane.
           count: choice.count ?? (role === 'rotor' ? (donor.spec.rotors ?? 1) : 1),
           place: choice,
         })
@@ -869,6 +979,45 @@ export function createViewer(
     // the model's origin, so four rotors all report the same point and any ring
     // measured from them has no radius at all.
     const seats = new Map<PartRole, THREE.Vector3[]>()
+    // The host's own part, sampled before it is taken away. Once the wing is
+    // hidden there is nothing left to ask where the wing root was, and it is not
+    // recoverable from the fuselage alone. Kept as points rather than as a
+    // single anchor because the socket needs the body's width to be known, and
+    // that is measured later.
+    const hostPoints = new Map<PartRole, { left: THREE.Vector3[]; right: THREE.Vector3[] }>()
+    const cutSockets = new Map<PartRole, { left: THREE.Vector3 | null; right: THREE.Vector3 | null }>()
+    baseClone.updateMatrixWorld(true)
+    for (const role of removed) {
+      // Isolate the role, sample it, put everything back. Cheaper and far less
+      // error-prone than threading a filter through the vertex walk.
+      const restore: THREE.Object3D[] = []
+      baseClone.traverse((o) => {
+        if (!(o as THREE.Mesh).isMesh || !o.visible) return
+        if (roleOf(base, o.name) !== role) {
+          o.visible = false
+          restore.push(o)
+        }
+      })
+      hostPoints.set(role, {
+        left: rolePoints(baseClone, 'left'),
+        right: rolePoints(baseClone, 'right'),
+      })
+      for (const o of restore) o.visible = true
+      // A host whose part is entirely a cut has no meshes to sample - the
+      // Global Hawk's wing is the same primitive as its fuselage. The cut knows
+      // where that role attaches, because the band is drawn at the join.
+      const regions = cutRegions(base, role)
+      if (regions) {
+        const y = regions.mountY ?? 0
+        const z = regions.mountZ ?? 0
+        const from: { left: THREE.Vector3 | null; right: THREE.Vector3 | null } = { left: null, right: null }
+        for (const part of regions.parts) {
+          if (part.side === 'right') from.right = new THREE.Vector3(part.mountX, y, z)
+          if (part.side === 'left') from.left = new THREE.Vector3(part.mountX, y, z)
+        }
+        cutSockets.set(role, from)
+      }
+    }
     baseClone.updateMatrixWorld(true)
     baseClone.traverse((o) => {
       const role = roleOf(base, o.name)
@@ -1132,6 +1281,15 @@ export function createViewer(
         // its aircraft; the Akinci's is a metre off, and the cut walked clean
         // off the wing and took everything with it.
         unit.updateMatrixWorld(true)
+        // The root measured here, with the unit still at the origin, so it is a
+        // property of the part rather than of where the part currently is.
+        // Measuring it after a provisional placement does not work: "innermost
+        // by distance from the centreline" picks a different set of vertices
+        // once the part has been moved, so aligning by it never settles. The
+        // TB2 landed exactly on its socket because its region starts eight
+        // metres out and translation cannot change which end is inboard; the
+        // Cessna's root sits near the centreline, and it did not.
+        const plugLocal = side ? rootAnchor(unit, side) : null
         const ownBox = new THREE.Box3().setFromObject(unit)
         const mid = ownBox.isEmpty() ? new THREE.Vector3() : ownBox.getCenter(new THREE.Vector3())
         // Where this half's root is, which is NOT the edge of its bounding box
@@ -1149,7 +1307,7 @@ export function createViewer(
               ? ownBox.min.x
               : ownBox.max.x
         }
-        return { unit, held, mid, box: ownBox, inboard, empty: ownBox.isEmpty() }
+        return { unit, held, mid, box: ownBox, inboard, plugLocal, empty: ownBox.isEmpty() }
       }
 
       // Only split a donor that really is a pair. A wing running tip to tip as
@@ -1279,7 +1437,12 @@ export function createViewer(
           baseClone.traverse((o) => {
             const mesh = o as THREE.Mesh
             if (!mesh.isMesh || !mesh.visible) return
-            if (roleOf(base, mesh.name) === d.role) return
+            // The body, not merely "not the wing". The Reaper hangs missiles
+            // and pylons two metres outboard, and taking the innermost edge of
+            // anything that was not the wing measured those instead: bodyHalf
+            // came out at 2.40 m against a fuselage half-width of 0.42, so
+            // every socket was placed two metres out to sea.
+            if (roleOf(base, mesh.name) !== 'body') return
             const box = new THREE.Box3().setFromObject(mesh)
             if (box.isEmpty()) return
             if (box.max.z < z - depth || box.min.z > z + depth) return
@@ -1298,14 +1461,45 @@ export function createViewer(
               if (made.empty) continue
               const copy = made.unit
               if (made.held.length) deferredPlanes.push({ planes: made.held, node: copy })
-              copy.position.copy(point).add(nudge).sub(made.mid)
-              if (side) {
-                // Slide the half in until its inboard edge meets the body. The
-                // root is allowed a little way inside it so the join reads as a
-                // join and not as two pieces touching.
+              // Seat it first, then let the placement sliders offset from
+              // seated. Nudging before the socket alignment would have the
+              // alignment cancel it, and the fore/rise controls would silently
+              // do nothing.
+              copy.position.copy(point).sub(made.mid)
+              // The socket, resolved now that the body's width at this station
+              // is known. Geometry first; the cut band only where the host has
+              // no mesh for this role at all.
+              const pts = side ? hostPoints.get(d.role)?.[side] : null
+              const socket = side
+                ? (pts && pts.length ? socketAt(pts, side, root) : null) ??
+                  cutSockets.get(d.role)?.[side] ??
+                  null
+                : null
+              const plug = made.plugLocal
+              if (socket && plug) {
+                // Socket to plug, all three axes at once. Height and fore/aft
+                // used to come from the unit's bounding-box centre, which for a
+                // clipped region is the centre of the whole donor hull and so
+                // has nothing to do with where the wing root is. Aligning the
+                // roots instead is what stops a part arriving beside the
+                // aircraft rather than on it.
+                copy.position.add(socket).sub(plug)
+                seatLog.push({
+                  role: d.role,
+                  side: side as 'left' | 'right',
+                  socket: socket.toArray(),
+                  plug: plug.toArray(),
+                  bodyHalf: root,
+                })
+              } else if (side) {
+                // No socket to read — the host never had this part as geometry
+                // and has no cut for it either. Falling back to butting the
+                // root against the body is worse but still beats the donor's
+                // own coordinates.
                 const sign = side === 'right' ? 1 : -1
                 copy.position.x = sign * root * 0.85 - made.inboard
               }
+              copy.position.add(nudge)
               if (i > 0) {
                 const step = size.y * 0.14 * i
                 if (d.place?.layout === 'tandem') copy.position.z += size.z * 0.22 * i
@@ -1314,6 +1508,13 @@ export function createViewer(
               applyAngles(copy, d.place)
               stampRole(copy, d.role)
               assembly.add(copy)
+              // Where the root ended up once everything downstream has had its
+              // say. If this is not the socket, something after the seating is
+              // moving it.
+              if (side !== undefined && seatLog.length) {
+                const landed = rootAnchor(copy, side)
+                seatLog[seatLog.length - 1].landed = landed ? landed.toArray() : null
+              }
             }
           }
         }
@@ -1631,6 +1832,9 @@ export function createViewer(
         })
       })
       return { buildId: lastBuildKey, meshes: out }
+    },
+    seating() {
+      return seatLog
     },
     joinGap(role, against) {
       if (!lastAssembly) return null

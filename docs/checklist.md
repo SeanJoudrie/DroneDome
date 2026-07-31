@@ -56,11 +56,50 @@ decision from the owner · `[-]` deliberately parked
   did not move at all, which is its own clue - its socket comes from the cut
   band rather than from geometry.
 
-  So the idea holds and the measurement of the root is wrong somewhere. The
-  pattern worth chasing next: everything that regressed was a cut donor that the
-  old butt-against-the-body path had already seated, and the Reaper's own wing
-  includes a mesh that crosses the centreline, so the host's "innermost tenth"
-  may be landing at x=0 rather than at the wing root.
+  **Second attempt, also worse. Both are on branch claude/socket-attachment and
+  neither is on main.** Taking the socket from a band around the body's
+  half-width instead of the innermost slice gave 13 findings against 11 and 5,
+  and moved donors that had been fine: TB2 0.04 -> 0.24 m, Akinci 0.03 -> 0.89,
+  Cessna 0.58 -> 2.23, px4-vtol to 3.05.
+
+  Two attempts, both in the wrong direction, is not a parameter to tune. The
+  model of the problem is wrong and a third guess would be the same mistake
+  again.
+
+  **Third attempt, from instrumentation rather than another idea.** Printing the
+  socket, the plug and where the root actually landed found two real faults in
+  one pass. `bodyHalf` read 2.40 m against a fuselage half-width of 0.42, because
+  it took the innermost edge of anything that was not the wing and the Reaper
+  hangs pylons two metres out - so every socket sat two metres out to sea. And
+  the plug was measured after a provisional placement, where "innermost by
+  distance from the centreline" selects different vertices once the part has
+  moved, so the alignment never settled. The TB2 landed perfectly throughout
+  because its region starts eight metres out and translation cannot change which
+  end is inboard; the Cessna's root is near the centreline and never converged.
+
+  Result: much better magnitudes, still more findings. Global Hawk 1.85 -> 0.54,
+  Cessna 1.75 -> 0.45, V-22 and px4-tailsitter now seated, VBAT's gap 0.32 ->
+  0.01. But TB2 0.04 -> 0.18, Akinci 0.03 -> 0.37, px4-vtol/tiltrotor 0.00 ->
+  1.05, px4-plane 0.00 -> 0.52. Eleven findings against five, so it stays off
+  main.
+
+  The shape now is a consistent small overshoot rather than parts flying away:
+  most of the failures sit between 0.18 and 0.54 m, which is a socket that is
+  close but not on the surface. Worth trying next: the socket's y and z come
+  from averaging the host wing's vertices in a band around the body edge, and an
+  average sits in the middle of an aerofoil rather than on the fuselage skin.
+  The px4 pair at 1.05 m is a different failure from the 0.18-0.54 cluster and
+  should be read separately.
+
+  **Superseded note - the original next step, now done:** Print the socket and the
+  plug for one donor - the Cessna and the TB2 are the useful pair, one mesh
+  wing and one cut - and compare them against where the part actually lands.
+  The arithmetic is a subtraction, so if the part is 2 m from where the socket
+  says it should be, either one of the two points is not in assembly space or
+  something downstream is moving the group after it is seated. applyAngles
+  rotates the group about its own origin, and a unit's geometry is baked at
+  donor coordinates far from that origin, which would swing a part a long way
+  for a small angle - worth ruling in or out first.
 - [ ] **B4.** MQ-9 only, as proof of concept. The other 34 airframes keep
       current behaviour until the pattern proves out.
 - [-] **B5.** Visible socket outline. **Cut** — parts vary enormously in size
@@ -102,11 +141,11 @@ decision from the owner · `[-]` deliberately parked
 ## D. Other geometry bugs
 
 - [x] **D1.** Standard VTOL renders **four copies** of the wing, stacked
-      vertically per side, all detached. **Done and shipped.** The read was
-      close: a donor's count falls back to the *donor's rotor count*, so a
-      quadplane's wing arrived four times. Confirmed in the seating dump, which
-      logged four seatings per side for px4-vtol. Only a rotor has a natural
-      count; a wing is one wing unless a biplane is asked for.
+      vertically per side, all detached. **Done (on the socket branch)** — the
+      read was close: a donor's count falls back to the *donor's rotor count*,
+      so a quadplane's wing arrived four times. Confirmed in the seating dump,
+      which logged four seatings per side for px4-vtol. Only a rotor has a
+      natural count; a wing is one wing unless a biplane is asked for.
 - [ ] **D2.** Standard VTOL and Tiltrotor VTOL draw the **same mesh**. Picker
       stats differ correctly (+1.06 t vs +1.09 t, −10.9 h vs −10.6 h, −62.7 vs
       −47.7 km/h), so the data is fine and the mesh swap is not taking.
