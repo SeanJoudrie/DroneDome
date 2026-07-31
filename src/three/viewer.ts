@@ -851,7 +851,12 @@ export function createViewer(
           fromRole: choice.fromRole ?? role,
           model: donor,
           fit: fitScaleFor(base, donor) * (choice.scale ?? 1),
-          count: choice.count ?? donor.spec.rotors ?? 1,
+          // How many of them, and only a rotor has a natural count. A wing
+          // donor was falling back to the donor's rotor count, so a quadplane's
+          // wing arrived four times, stacked one above the next - which is
+          // exactly what the Standard VTOL was drawing. A wing is one wing
+          // unless a biplane was asked for.
+          count: choice.count ?? (role === 'rotor' ? (donor.spec.rotors ?? 1) : 1),
           place: choice,
         })
       }

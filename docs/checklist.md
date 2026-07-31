@@ -101,9 +101,12 @@ decision from the owner · `[-]` deliberately parked
 
 ## D. Other geometry bugs
 
-- [ ] **D1.** Standard VTOL renders **four copies** of the wing, stacked
-      vertically per side, all detached. Read: the four quadplane rotor
-      positions are being applied to the wing mesh instead of to the rotors.
+- [x] **D1.** Standard VTOL renders **four copies** of the wing, stacked
+      vertically per side, all detached. **Done and shipped.** The read was
+      close: a donor's count falls back to the *donor's rotor count*, so a
+      quadplane's wing arrived four times. Confirmed in the seating dump, which
+      logged four seatings per side for px4-vtol. Only a rotor has a natural
+      count; a wing is one wing unless a biplane is asked for.
 - [ ] **D2.** Standard VTOL and Tiltrotor VTOL draw the **same mesh**. Picker
       stats differ correctly (+1.06 t vs +1.09 t, −10.9 h vs −10.6 h, −62.7 vs
       −47.7 km/h), so the data is fine and the mesh swap is not taking.
