@@ -56,11 +56,25 @@ decision from the owner · `[-]` deliberately parked
   did not move at all, which is its own clue - its socket comes from the cut
   band rather than from geometry.
 
-  So the idea holds and the measurement of the root is wrong somewhere. The
-  pattern worth chasing next: everything that regressed was a cut donor that the
-  old butt-against-the-body path had already seated, and the Reaper's own wing
-  includes a mesh that crosses the centreline, so the host's "innermost tenth"
-  may be landing at x=0 rather than at the wing root.
+  **Second attempt, also worse. Both are on branch claude/socket-attachment and
+  neither is on main.** Taking the socket from a band around the body's
+  half-width instead of the innermost slice gave 13 findings against 11 and 5,
+  and moved donors that had been fine: TB2 0.04 -> 0.24 m, Akinci 0.03 -> 0.89,
+  Cessna 0.58 -> 2.23, px4-vtol to 3.05.
+
+  Two attempts, both in the wrong direction, is not a parameter to tune. The
+  model of the problem is wrong and a third guess would be the same mistake
+  again.
+
+  **Next step is instrumentation, not another idea.** Print the socket and the
+  plug for one donor - the Cessna and the TB2 are the useful pair, one mesh
+  wing and one cut - and compare them against where the part actually lands.
+  The arithmetic is a subtraction, so if the part is 2 m from where the socket
+  says it should be, either one of the two points is not in assembly space or
+  something downstream is moving the group after it is seated. applyAngles
+  rotates the group about its own origin, and a unit's geometry is baked at
+  donor coordinates far from that origin, which would swing a part a long way
+  for a small angle - worth ruling in or out first.
 - [ ] **B4.** MQ-9 only, as proof of concept. The other 34 airframes keep
       current behaviour until the pattern proves out.
 - [-] **B5.** Visible socket outline. **Cut** — parts vary enormously in size
