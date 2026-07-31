@@ -626,7 +626,7 @@ export function createViewer(
    * Vertices thrown away by their own clipping planes are skipped, because a
    * cut hull still carries every vertex it ever had.
    */
-  function rootAnchor(root: THREE.Object3D, side: 'left' | 'right') {
+  function rolePoints(root: THREE.Object3D, side: 'left' | 'right') {
     root.updateMatrixWorld(true)
     const sign = side === 'right' ? 1 : -1
     const points: THREE.Vector3[] = []
@@ -652,12 +652,56 @@ export function createViewer(
         if (kept) points.push(v.clone())
       }
     })
+    return points
+  }
+
+  /**
+   * The part's own root: the innermost slice of it, averaged.
+   *
+   * For a donor this is where its wing left its fuselage, and it is what gets
+   * placed on the host's socket.
+   */
+  function rootAnchor(root: THREE.Object3D, side: 'left' | 'right') {
+    const points = rolePoints(root, side)
     if (points.length < 4) return null
     points.sort((a, b) => Math.abs(a.x) - Math.abs(b.x))
     const inner = points.slice(0, Math.max(3, Math.round(points.length * 0.1)))
     const at = new THREE.Vector3()
     for (const p of inner) at.add(p)
     return at.divideScalar(inner.length)
+  }
+
+  /**
+   * The host's socket: where its own part crosses the side of its fuselage.
+   *
+   * NOT the innermost slice, which is what the first attempt used and why it
+   * made things worse. The Reaper's wing includes one mesh running tip to tip
+   * straight through the fuselage, so its innermost vertices sit on the
+   * centreline — the socket came out at x = 0 and every donor was dragged into
+   * the middle of the aircraft.
+   *
+   * The join is at the fuselage side, so that is where to measure: take the
+   * part's own vertices in a band around the body's half-width and average
+   * them. Height and fore/aft then come from the wing where it actually meets
+   * the body rather than from wherever the mesh happens to be centred.
+   */
+  function socketAt(points: THREE.Vector3[], side: 'left' | 'right', bodyHalf: number) {
+    if (points.length < 4) return null
+    const sign = side === 'right' ? 1 : -1
+    for (const width of [0.25, 0.5, 1, 2]) {
+      const band = Math.max(bodyHalf * width, 0.05)
+      const near = points.filter((p) => Math.abs(Math.abs(p.x) - bodyHalf) <= band)
+      if (near.length >= 4) {
+        const at = new THREE.Vector3()
+        for (const p of near) at.add(p)
+        at.divideScalar(near.length)
+        // The x is the body's edge by definition; only the height and station
+        // are being read off the geometry.
+        at.x = sign * bodyHalf
+        return at
+      }
+    }
+    return null
   }
 
   /**
@@ -917,13 +961,16 @@ export function createViewer(
     // the model's origin, so four rotors all report the same point and any ring
     // measured from them has no radius at all.
     const seats = new Map<PartRole, THREE.Vector3[]>()
-    // The host's sockets, read off the host's own parts before they are taken
-    // away. Once the wing is hidden there is nothing left to ask where the wing
-    // root was, and the answer is not recoverable from the fuselage alone.
-    const sockets = new Map<PartRole, { left: THREE.Vector3 | null; right: THREE.Vector3 | null }>()
+    // The host's own part, sampled before it is taken away. Once the wing is
+    // hidden there is nothing left to ask where the wing root was, and it is not
+    // recoverable from the fuselage alone. Kept as points rather than as a
+    // single anchor because the socket needs the body's width to be known, and
+    // that is measured later.
+    const hostPoints = new Map<PartRole, { left: THREE.Vector3[]; right: THREE.Vector3[] }>()
+    const cutSockets = new Map<PartRole, { left: THREE.Vector3 | null; right: THREE.Vector3 | null }>()
     baseClone.updateMatrixWorld(true)
     for (const role of removed) {
-      // Isolate the role, measure it, put everything back. Cheaper and far less
+      // Isolate the role, sample it, put everything back. Cheaper and far less
       // error-prone than threading a filter through the vertex walk.
       const restore: THREE.Object3D[] = []
       baseClone.traverse((o) => {
@@ -933,24 +980,25 @@ export function createViewer(
           restore.push(o)
         }
       })
-      let left = rootAnchor(baseClone, 'left')
-      let right = rootAnchor(baseClone, 'right')
+      hostPoints.set(role, {
+        left: rolePoints(baseClone, 'left'),
+        right: rolePoints(baseClone, 'right'),
+      })
       for (const o of restore) o.visible = true
-      // A host whose part is entirely a cut has no meshes to isolate — the
+      // A host whose part is entirely a cut has no meshes to sample - the
       // Global Hawk's wing is the same primitive as its fuselage. The cut knows
       // where that role attaches, because the band is drawn at the join.
-      if (!left || !right) {
-        const regions = cutRegions(base, role)
-        if (regions) {
-          const y = regions.mountY ?? 0
-          const z = regions.mountZ ?? 0
-          for (const part of regions.parts) {
-            if (part.side === 'right') right = right ?? new THREE.Vector3(part.mountX, y, z)
-            if (part.side === 'left') left = left ?? new THREE.Vector3(part.mountX, y, z)
-          }
+      const regions = cutRegions(base, role)
+      if (regions) {
+        const y = regions.mountY ?? 0
+        const z = regions.mountZ ?? 0
+        const from: { left: THREE.Vector3 | null; right: THREE.Vector3 | null } = { left: null, right: null }
+        for (const part of regions.parts) {
+          if (part.side === 'right') from.right = new THREE.Vector3(part.mountX, y, z)
+          if (part.side === 'left') from.left = new THREE.Vector3(part.mountX, y, z)
         }
+        cutSockets.set(role, from)
       }
-      sockets.set(role, { left, right })
     }
     baseClone.updateMatrixWorld(true)
     baseClone.traverse((o) => {
@@ -1386,7 +1434,15 @@ export function createViewer(
               // alignment cancel it, and the fore/rise controls would silently
               // do nothing.
               copy.position.copy(point).sub(made.mid)
-              const socket = side ? sockets.get(d.role)?.[side] : null
+              // The socket, resolved now that the body's width at this station
+              // is known. Geometry first; the cut band only where the host has
+              // no mesh for this role at all.
+              const pts = side ? hostPoints.get(d.role)?.[side] : null
+              const socket = side
+                ? (pts && pts.length ? socketAt(pts, side, root) : null) ??
+                  cutSockets.get(d.role)?.[side] ??
+                  null
+                : null
               const plug = side ? rootAnchor(copy, side) : null
               if (socket && plug) {
                 // Socket to plug, all three axes at once. Height and fore/aft
