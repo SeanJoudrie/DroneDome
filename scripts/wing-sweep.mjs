@@ -44,6 +44,12 @@ const ROLE = arg('role', 'wing')
 const positional = process.argv.slice(2).find((a) => a.startsWith('http'))
 const URL = positional || arg('url', 'http://localhost:4173/DroneDome/')
 const WRITE = arg('write', null)
+// Self-check for the attachment measurement, using the app's own control rather
+// than a doctored render: lift the borrowed part off with the placement slider
+// and the gap must open. A test that reports zero for every donor is not
+// evidence that every donor is attached until it has been shown to report
+// something else when one is not.
+const LIFT = Number(arg('lift', 0))
 if (WRITE) mkdirSync(WRITE, { recursive: true })
 
 const only = arg('only', null)
@@ -262,7 +268,9 @@ const ROW = TILE_H + 24
 const findings = []
 const rows = []
 for (const id of donors) {
-  if (!(await apply({ [ROLE]: { kind: 'donor', aircraftId: id } }))) {
+  const slot = { kind: 'donor', aircraftId: id }
+  if (LIFT) slot.rise = LIFT
+  if (!(await apply({ [ROLE]: slot }))) {
     findings.push(`${id}: the build never finished loading`)
     continue
   }
