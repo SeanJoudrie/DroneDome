@@ -1,0 +1,15 @@
+{
+  "_note": "This upload is two objects, not one. Cube.002_Material_0 is the whole X-47B - nose, wings, tails, gear, complete. Cube.001_Material.001_0 is a second lump in the same livery sitting off to one side of it, part of no aircraft; drawn on screen it looked like a wedge of wreckage parked beside the drone. Three things followed from keeping it. It was visible on the stock airframe. It stretched the model's span extent from 20.4 to 28.5, so scaleToMetres was derived from a width the aircraft does not have and the X-47B rendered at 13.5 m across instead of 18.92, a third undersized. And because the classifier had two meshes to label it called the real aircraft the wing and the stray lump the body, so borrowing the X-47B's wing handed the host an entire X-47B - which is exactly what it looked like.",
+  "_exclude": ["Cube.001_Material.001_0"],
+
+  "_note_body": "With the lump gone there is one mesh left and it is the airframe, so it is the body and the wing is a cut through it. A flying wing has no fuselage to speak of; the keepBand holds the centre section the engine and bay live in, and both outer panels come off.",
+  "Cube.002_Material_0": "body",
+
+  "_cuts": {
+    "wing": {
+      "axis": "span",
+      "keepBand": 0.3,
+      "comment": "Chose this by chord, not by vertex count: the panel is a handful of big triangles, so 90% of the vertices sit in the centre section and counting them would put the boundary far too far inboard. Sliced across the span the chord holds around half the model's length out to 0.25, falls to 0.46 by 0.30 and collapses to 0.14 past it - that step is where the centre body ends and the wing begins. Everything outboard of it is panel, so the box needs no other sides."
+    }
+  }
+}

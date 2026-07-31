@@ -88,7 +88,19 @@ const apply = async (slots) => {
 let W = 0
 let H = 0
 const shoot = async () => {
-  const im = sharp(await page.locator('canvas').first().screenshot()).removeAlpha()
+  // Retry: under swiftshader a frame occasionally takes long enough that
+  // Playwright's "element is stable" wait expires, and losing the whole sweep
+  // seventeen aircraft in to one slow frame is not a finding about the app.
+  let shot = null
+  for (let attempt = 0; attempt < 3 && !shot; attempt++) {
+    try {
+      shot = await page.locator('canvas').first().screenshot({ timeout: 30000 })
+    } catch (err) {
+      if (attempt === 2) throw err
+      await page.waitForTimeout(1500)
+    }
+  }
+  const im = sharp(shot).removeAlpha()
   const meta = await im.metadata()
   W = meta.width
   H = meta.height
