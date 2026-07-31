@@ -27,8 +27,8 @@ decision from the owner · `[-]` deliberately parked
       fuselage:** ALTIUS 0.06 m · Predator 0.01 m · Reaper-on-itself 0.03 m ·
       **Raven 0.35 m · Cessna 1.75 m · Global Hawk 1.85 m.** Matches the
       screenshots exactly. Tolerance for "bolted on" is 0.10 m.
-- [ ] **A3.** Every attachment claim from here on gets a close-in render of the
-      root, not a whole-aircraft shot.
+- [x] **A3.** Every attachment claim from here on gets a close-in render of the
+      root, not a whole-aircraft shot. **Done** — scripts/show-root.mjs.
 
 ## B. Sockets — the core fix
 
@@ -105,10 +105,14 @@ decision from the owner · `[-]` deliberately parked
       two figures need to at least agree with each other.
 - [ ] **F2.** Aspect ratio is derived from span, so it is wrong on every swapped
       build too. Falls out of F1.
-- [ ] **F3.** Verdict ignores overload — structural load hits 101%, 103%, 105%
+- [x] **F3.** Verdict ignores overload — structural load hits 101%, 103%, 105%
       (amber) and the banner still reads "Flies, and keeps flying — you'll get
-      bored before it does."
-- [ ] **F4.** Spare payload `0 g` should read `0 kg` or "none".
+      bored before it does." **Done** — a new rung, "Flies, over its limit",
+      reads 101% and 105% as marginal. The warning already existed in the panel;
+      the headline never looked at it, and the headline is read first.
+- [x] **F4.** Spare payload `0 g` should read `0 kg` or "none". **Done** — zero
+      is not a small mass, and picking the unit by size sent it to the bottom of
+      the scale.
 
 ## G. Later
 
@@ -117,8 +121,12 @@ decision from the owner · `[-]` deliberately parked
       couple of seconds. Came through garbled on voice — needs confirming.
 - [ ] **G3.** Environments should be more than a grid recolour. Even a simple
       backdrop/horizon would sell sea level vs. Mars.
-- [ ] **G4.** Quadcopter rotors/arms as a wing-slot option from specific real
-      drones, purely for the absurdity. That is the fun the concept is selling.
+- [x] **G4.** Quadcopter rotors/arms as a wing-slot option from specific real
+      drones, purely for the absurdity. **Already built** — the "use something
+      else as a wing" drawer offers 63 cross-role parts for the wing slot, 27 of
+      them rotors, from Ingenuity, the X500, the Typhoon, the Black Hornet, the
+      delivery quad and more. Whether they land squarely is B's problem, not a
+      missing feature.
 - [-] **G5.** "Auto-adjust" button to shrink an oversized wing to fit.
       **Parked** — polish, not core. Attachment first.
 

@@ -928,6 +928,19 @@ function judge(x: {
       reason: `It stalls at ${(x.stallSpeed * 3.6).toFixed(0)} km/h but can only manage ${(x.maxSpeed * 3.6).toFixed(0)} km/h. It will never get airborne.`,
     }
   }
+  // Over its rated weight but inside the ultimate margin. There was already a
+  // warning for this in the panel, but the headline never looked at it, so a
+  // build at 105% of the airframe's MTOW was announced as "Flies, and keeps
+  // flying — you will get bored before it does". The verdict is the first thing
+  // read and the warning is the last; disagreeing with each other, the verdict
+  // wins, and it was wrong.
+  if (x.loadFraction > 1) {
+    return {
+      level: 'marginal',
+      headline: 'Flies, over its limit',
+      reason: `${(x.loadFraction * 100).toFixed(0)}% of the airframe's rated takeoff weight. Inside the safety margin, so it would get off the ground — once.`,
+    }
+  }
   if (x.hasRotors && !x.yawAuthority && x.twr >= 1) {
     return {
       level: 'bad',

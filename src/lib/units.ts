@@ -15,6 +15,10 @@ const sig = (v: number, digits = 3) => {
 
 /** Mass reads better in grams for a whoop and tonnes for a Global Hawk. */
 function mass(kg: number, system: UnitSystem) {
+  // Zero is not a small mass, it is no mass, and picking the unit by size sent
+  // it to the bottom of the scale: a build with nothing spare read "0 g", which
+  // says the aircraft can carry a gram rather than that it can carry nothing.
+  if (kg === 0) return { value: '0', unit: system === 'imperial' ? 'lb' : 'kg' }
   if (system === 'imperial') {
     const lb = kg * 2.20462
     if (lb < 1) return { value: sig(lb * 16), unit: 'oz' }
