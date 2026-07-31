@@ -995,15 +995,6 @@ export function createViewer(
       donorClone.traverse((o) => {
         if (roleOf(d.model, o.name) === d.fromRole && (o as THREE.Mesh).isMesh) pieces.push(o)
       })
-      if (!pieces.length) continue
-
-      // A donor quad contributes four rotors; we want one of them, repeated —
-      // otherwise every mounting point gets the whole set and you end up with
-      // sixteen. Wings and tails are single assemblies, so they come as they are.
-      if (d.role === 'rotor') {
-        const firstGroup = groupOf(d.model, pieces[0].name)
-        pieces = pieces.filter((p) => groupOf(d.model, p.name) === firstGroup)
-      }
 
       // A welded donor has no separate mesh for the part. The Global Hawk's wing
       // is the same primitive as its fuselage; the Cessna's is inside its body
@@ -1011,10 +1002,24 @@ export function createViewer(
       // fetched only its ailerons and flaps. Where the donor has a cut for this
       // role, that cut is the only thing that knows which region is the part —
       // so take the meshes the cut applies to, and clip them to it.
+      //
+      // Before the empty check, not after. An aircraft whose part is ENTIRELY a
+      // cut has no meshes in that role at all — the Akinci, once its two hull
+      // meshes were labelled as the fuselage they are — so bailing on an empty
+      // list first meant it contributed nothing whatsoever.
       const donorCut = d.model.cuts[d.fromRole]
       if (donorCut) {
         const welded = weldedMeshes(donorClone, d.model, d.fromRole)
         if (welded.length) pieces = welded
+      }
+      if (!pieces.length) continue
+
+      // A donor quad contributes four rotors; we want one of them, repeated —
+      // otherwise every mounting point gets the whole set and you end up with
+      // sixteen. Wings and tails are single assemblies, so they come as they are.
+      if (d.role === 'rotor' && !donorCut) {
+        const firstGroup = groupOf(d.model, pieces[0].name)
+        pieces = pieces.filter((p) => groupOf(d.model, p.name) === firstGroup)
       }
 
       /**

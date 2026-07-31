@@ -14,7 +14,8 @@
       "axis": "span",
       "keepBand": 0.1,
       "lengthBand": [0.48, 0.84],
-      "comment": "Measured with scripts/measure-region.py. Along the length axis the wing runs 0.50 to 0.81, reaching the full half-span, while the boom either side of it is 0.04 to 0.06 wide; the V-tail is at 0.00-0.12 and the nose beyond 0.85. Keeping a 0.10 band holds the 1 m fuselage and drops both wing panels, without touching either end."
+      "verticalBand": [0.35, 0.53],
+      "comment": "Measured with scripts/measure-region.py. Along the length axis the wing runs 0.50 to 0.81, reaching the full half-span, while the boom either side of it is 0.04 to 0.06 wide; the V-tail is at 0.00-0.12 and the nose beyond 0.85. Keeping a 0.10 band holds the 1 m fuselage and drops both wing panels, without touching either end. The vertical band is what stops this from being a slab of the whole hull: everything past 60% of half-span sits between 0.363 and 0.513 of the model's height and nothing else does, so that is the lifting surface and the belly, the nacelles and the spine below and above it are not."
     }
   }
 }
