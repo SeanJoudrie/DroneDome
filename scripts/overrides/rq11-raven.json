@@ -1,0 +1,8 @@
+{
+  "_note": "Drawn from above, this Raven was lying sideways: its wing ran nose to tail and its tail boom ran across. Everything downstream inherited that. Lending its wing to another aircraft handed over a plank down the fuselage, because the span-fit stretched whatever axis was labelled span, and the axis labelled span was the aircraft's length.",
+
+  "_note_axes": "The classifier takes the widest axis as span and asks the manifest to break the tie, which works whenever the model is proportioned like the aircraft. This one is not: the real Raven is 1.37 m across and 0.91 m long, wider than it is long, but the model's boom is drawn relatively longer, so its length axis (0.250) is wider than its span axis (0.218) and the guess went the wrong way. Measured, axis 0 is mirror-symmetric about its middle (0.74) and axis 2 is not (0.30), which is the difference between a span and a length: one wing mirrors the other, a nose does not mirror a tail.",
+  "_axes": { "span": 0, "length": 2, "vertical": 1 },
+
+  "_note_warning": "check:parts now warns that the length axis measures 1.57 m against a published 0.91 m. That is true and it is the model, not the assignment: the boom is drawn too long for the airframe. It was silent before only because the axes were swapped, so the figure being compared against the published span was the model's length, which happened to be close. A disclosed 1.7x on one dimension beats an aircraft drawn sideways."
+}

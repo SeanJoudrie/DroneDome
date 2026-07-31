@@ -1065,7 +1065,7 @@ export function createViewer(
        * and every copy sits somewhere different — sharing one set put the
        * Global Hawk's cut nowhere near the Global Hawk.
        */
-      const makeUnit = () => {
+      const makeUnit = (side?: 'left' | 'right') => {
         const unit = new THREE.Group()
         const held: THREE.Plane[] = []
         if (donorCut) {
@@ -1076,6 +1076,7 @@ export function createViewer(
           if (regions) {
             for (const piece of pieces) {
               for (const part of regions.parts) {
+                if (side && part.side !== 'center' && part.side !== side) continue
                 const slice = bakeWorld(piece)
                 clipMaterials(slice as THREE.Mesh, part.planes, false)
                 unit.add(slice)
@@ -1085,7 +1086,19 @@ export function createViewer(
             for (const piece of pieces) unit.add(bakeWorld(piece))
           }
         } else {
-          for (const piece of pieces) unit.add(bakeWorld(piece))
+          // A donor whose part is its own mesh still arrives as a pair, and the
+          // pair has to come apart for each half to be butted against the host's
+          // body. Split on which side of the donor's centreline the mesh sits;
+          // anything straddling it belongs to both and is left whole.
+          for (const piece of pieces) {
+            if (side) {
+              const box = new THREE.Box3().setFromObject(piece)
+              const straddles = box.min.x < 0 && box.max.x > 0
+              const mine = box.min.x + box.max.x > 0 ? 'right' : 'left'
+              if (!straddles && mine !== side) continue
+            }
+            unit.add(bakeWorld(piece))
+          }
         }
         unit.scale.setScalar(d.fit)
         // Where the part's own middle sits, so mounting can put THAT on the
@@ -1100,8 +1113,34 @@ export function createViewer(
         unit.updateMatrixWorld(true)
         const ownBox = new THREE.Box3().setFromObject(unit)
         const mid = ownBox.isEmpty() ? new THREE.Vector3() : ownBox.getCenter(new THREE.Vector3())
-        return { unit, held, mid }
+        // Where this half's root is, which is NOT the edge of its bounding box
+        // whenever the half is a clipped region: clipping does not shrink a
+        // mesh's box, so a cut donor's half still reports the whole hull and its
+        // "edge" is the far wingtip. The cut knows the answer - its keep band is
+        // the donor's own root - so ask that, and only fall back to the box for
+        // a donor whose part is really its own mesh.
+        let inboard = 0
+        if (side) {
+          const sign = side === 'right' ? 1 : -1
+          inboard = donorCut
+            ? sign * donorCut.keep * d.model.scaleToMetres * d.fit
+            : sign > 0
+              ? ownBox.min.x
+              : ownBox.max.x
+        }
+        return { unit, held, mid, box: ownBox, inboard, empty: ownBox.isEmpty() }
       }
+
+      // Only split a donor that really is a pair. A wing running tip to tip as
+      // one mesh has no gap to close, and halving it would draw it twice.
+      const pairs =
+        (d.role === 'wing' || d.role === 'tail') &&
+        (donorCut
+          ? !donorCut.removeCentre
+          : pieces.every((p) => {
+              const box = new THREE.Box3().setFromObject(p)
+              return !(box.min.x < 0 && box.max.x > 0)
+            }) && pieces.some((p) => new THREE.Box3().setFromObject(p).max.x <= 0))
 
       const first = makeUnit()
       const group = first.unit
@@ -1197,22 +1236,64 @@ export function createViewer(
             : seat.length
               ? seat
               : hostMounts
+        /**
+         * How far out the host's body reaches at a given station.
+         *
+         * A borrowed wing is a pair, and the gap between its roots is the
+         * donor's fuselage, scaled to the host's span. Put that pair on the
+         * host centred and the gap stays the donor's: the Raven's roots ended
+         * up outboard of the Reaper's body with the fuselage sitting on a plank
+         * between them, and the PX4 quadplane's left daylight either side of the
+         * boom. Nothing measured that, because span, centring and symmetry were
+         * all correct - the wing was simply not attached to anything.
+         *
+         * So each half is butted against the body instead. This measures where
+         * the body is, from the geometry rather than from the span figure, in a
+         * window around the station the part mounts at - a fuselage is not the
+         * same width at the nose as at the wing.
+         */
+        const bodyHalfWidthAt = (z: number, depth: number) => {
+          let half = 0
+          baseClone.updateMatrixWorld(true)
+          baseClone.traverse((o) => {
+            const mesh = o as THREE.Mesh
+            if (!mesh.isMesh || !mesh.visible) return
+            if (roleOf(base, mesh.name) === d.role) return
+            const box = new THREE.Box3().setFromObject(mesh)
+            if (box.isEmpty()) return
+            if (box.max.z < z - depth || box.min.z > z + depth) return
+            half = Math.max(half, Math.min(Math.abs(box.min.x), Math.abs(box.max.x)))
+          })
+          return half
+        }
+
         for (const point of stations.slice(0, Math.max(1, d.count))) {
+          const root = pairs ? bodyHalfWidthAt(point.z, Math.max(size.z * 0.12, 0.05)) : 0
           // A count above one stacks copies - two wings is a biplane, three a
           // triplane - offset vertically or fore-and-aft by the layout.
           for (let i = 0; i < (d.role === 'wing' || d.role === 'tail' ? extra : 1); i++) {
-            const made = makeUnit()
-            const copy = made.unit
-            if (made.held.length) deferredPlanes.push({ planes: made.held, node: copy })
-            copy.position.copy(point).add(nudge).sub(made.mid)
-            if (i > 0) {
-              const step = size.y * 0.14 * i
-              if (d.place?.layout === 'tandem') copy.position.z += size.z * 0.22 * i
-              else copy.position.y += step
+            for (const side of pairs ? (['left', 'right'] as const) : [undefined]) {
+              const made = makeUnit(side)
+              if (made.empty) continue
+              const copy = made.unit
+              if (made.held.length) deferredPlanes.push({ planes: made.held, node: copy })
+              copy.position.copy(point).add(nudge).sub(made.mid)
+              if (side) {
+                // Slide the half in until its inboard edge meets the body. The
+                // root is allowed a little way inside it so the join reads as a
+                // join and not as two pieces touching.
+                const sign = side === 'right' ? 1 : -1
+                copy.position.x = sign * root * 0.85 - made.inboard
+              }
+              if (i > 0) {
+                const step = size.y * 0.14 * i
+                if (d.place?.layout === 'tandem') copy.position.z += size.z * 0.22 * i
+                else copy.position.y += step
+              }
+              applyAngles(copy, d.place)
+              stampRole(copy, d.role)
+              assembly.add(copy)
             }
-            applyAngles(copy, d.place)
-            stampRole(copy, d.role)
-            assembly.add(copy)
           }
         }
       } else {

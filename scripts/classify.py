@@ -160,6 +160,28 @@ def classify(aid, spec):
             span, length = big, next_big
 
     S, L, V = span, length, vert
+
+    # Last resort: name the axes outright.
+    #
+    # Everything downstream stands on this - the band a cut is measured in, which
+    # parts pair up as left and right, where the tail sits relative to the wing -
+    # so getting it wrong is not a small error. The guess above takes the widest
+    # axis as the span and asks the manifest to break the tie, and that fails
+    # whenever a model's proportions do not match the aircraft's: the Raven's
+    # boom is relatively longer in this model than on the real thing, so its
+    # length axis is the widest one. It was drawn sideways, wing fore and aft and
+    # boom across, and lending its wing handed over a plank down the fuselage.
+    #
+    # Only set this having looked at the geometry. scripts/show-roles.mjs draws
+    # each role by itself, which is how the Raven was caught.
+    forced = overrides.get("_axes")
+    if forced:
+        S = int(forced.get("span", S))
+        L = int(forced.get("length", L))
+        V = int(forced.get("vertical", V))
+        if sorted((S, L, V)) != [0, 1, 2]:
+            sys.exit(f"{aid}: _axes must name each of 0, 1 and 2 exactly once, got {(S, L, V)}")
+
     total_span = float(extent[S])
     total_len = float(extent[L])
 
