@@ -4,7 +4,15 @@
     "wing": {
       "axis": "span",
       "keepBand": 0.14,
-      "comment": "keeps the ~3.6 m fuselage out of a 25.6 m rotor-tip span"
+      "lengthBand": [
+        0.22,
+        1.0
+      ],
+      "verticalBand": [
+        0.38,
+        0.96
+      ],
+      "comment": "Measured with scripts/measure-band.py. Keeping the nacelles and proprotors is deliberate - they are bolted to the wingtips and would go with the wing on the real aircraft - but the open slab was also taking the sponsons and the gear, 2595 of the 5636 vertices outboard of the fuselage."
     }
   }
 }

@@ -4,7 +4,15 @@
     "wing": {
       "axis": "span",
       "keepBand": 0.105,
-      "comment": "fraction of half-span retained; the Global Hawk fuselage is roughly 10% of its 39.9 m span"
+      "lengthBand": [
+        0.36,
+        0.57
+      ],
+      "verticalBand": [
+        0.26,
+        0.32
+      ],
+      "comment": "Measured with scripts/measure-band.py. The span band alone reached 9102 of the 10274 vertices outboard of the fuselage - the V-tail and the engine fairing as well as the wing. The wing tip sits between 0.279 and 0.303 of the model's height, a very flat panel, and everything outboard at that height runs 0.376 to 0.548 fore and aft."
     }
   },
   "_mountScale": {

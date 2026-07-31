@@ -90,6 +90,10 @@ export default function App() {
       // needed — a 35 cm quadcopter shot from where a 20 m Reaper was framed is
       // a speck, and every removal on it reads as changing nothing.
       frame: () => viewer.frame(),
+      // Draws one role and nothing else, so a check can photograph what a
+      // borrowed part actually put on screen instead of differencing two
+      // renders and picking up the shadow it casts on the fuselage.
+      isolate: (role: Parameters<ViewerHandle['isolate']>[0]) => viewer.isolate(role),
     }
     ;(window as unknown as { __mk?: unknown }).__mk = (id: string) => createBuild(id)
     const onResize = () => viewer.resize()

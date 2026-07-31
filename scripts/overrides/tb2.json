@@ -4,7 +4,15 @@
     "wing": {
       "axis": "span",
       "keepBand": 0.22,
-      "comment": "keeps fuselage plus both tail booms, drops the outer wing panels"
+      "lengthBand": [
+        0.4,
+        0.55
+      ],
+      "verticalBand": [
+        0.43,
+        0.59
+      ],
+      "comment": "Measured with scripts/measure-band.py. A span band on its own is an infinite slab: outboard of the fuselage it was also taking both tail booms and the tailplane, 1846 of the 2070 vertices out there. The wing tip sits between 0.446 and 0.568 of the model's height, and everything outboard at that height runs 0.418 to 0.531 fore and aft, so that box is the lifting surface and the booms above and behind it are not."
     }
   }
 }

@@ -1,5 +1,5 @@
 /**
- * Run the three browser-driven gates against the build that actually ships.
+ * Run the browser-driven gates against the build that actually ships.
  *
  * They used to be run by hand against whatever `vite preview` was already
  * serving, which meant base '/' — while GitHub Pages serves the app from
@@ -13,7 +13,7 @@
  * each gate at it. Roughly 2,400 automated operations move onto the
  * configuration that is really published.
  *
- *   npm run gates              # all three
+ *   npm run gates              # all of them
  *   npm run gates removal      # one of them
  */
 import { spawn, spawnSync } from 'node:child_process'
@@ -26,6 +26,7 @@ const GATES = {
   strip: 'scripts/strip-sweep.mjs',
   cuts: 'scripts/cut-sweep.mjs',
   removal: 'scripts/removal-sweep.mjs',
+  swap: 'scripts/wing-sweep.mjs',
   capability: 'scripts/capability-sweep.mjs',
   geometry: 'scripts/geometry-sweep.mjs',
 }

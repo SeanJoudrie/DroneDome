@@ -8,8 +8,15 @@
     "wing": {
       "axis": "span",
       "keepBand": 0.1,
-      "lengthBand": [0.35, 0.95],
-      "comment": "keeps the fuselage out of a 2.0 m span, and closes the box ahead of the tailplane"
+      "lengthBand": [
+        0.57,
+        0.82
+      ],
+      "verticalBand": [
+        0.66,
+        0.79
+      ],
+      "comment": "Measured with scripts/measure-band.py. The fore/aft band already kept the tailplane out; the vertical band is what keeps the main gear legs out, and tightening the fore/aft band to what is actually at wing height drops 318 of the 732 vertices outboard of the fuselage that the old box was taking."
     }
   }
 }

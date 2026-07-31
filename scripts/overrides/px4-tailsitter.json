@@ -4,7 +4,15 @@
     "wing": {
       "axis": "span",
       "keepBand": 0.15,
-      "comment": "keeps the centre spine out of a 1.0 m span"
+      "lengthBand": [
+        0.16,
+        0.86
+      ],
+      "verticalBand": [
+        0.17,
+        0.51
+      ],
+      "comment": "Measured with scripts/measure-band.py. The wing is nearly the whole airframe, but not quite: the open slab was also taking the motor booms above and below it, 3882 of the 11967 vertices outboard of the spine. The panel sits between 0.190 and 0.501 of the model's height."
     }
   }
 }

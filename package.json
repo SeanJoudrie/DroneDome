@@ -16,6 +16,7 @@
     "check:geometry": "node scripts/geometry-sweep.mjs",
     "check:capability": "node scripts/capability-sweep.mjs",
     "check:removal": "node scripts/removal-sweep.mjs",
+    "check:swap": "node scripts/wing-sweep.mjs",
     "check:cuts": "node scripts/cut-sweep.mjs",
     "check:strip": "node scripts/strip-sweep.mjs",
     "build:deployed": "vite build --base=/DroneDome/ --outDir dist-ci",

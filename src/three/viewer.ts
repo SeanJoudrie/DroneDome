@@ -377,6 +377,17 @@ export interface ViewerHandle {
    * rather than a handful someone thought to look at.
    */
   report(): { buildId: string; meshes: MeshReport[] }
+  /**
+   * Show one role and hide the rest, until the next build.
+   *
+   * For checking what a borrowed part actually put on screen. The obvious way
+   * is to photograph the aircraft with and without it and difference the two,
+   * and that is wrong: the scene casts shadows, so fitting a wing of a
+   * different shape re-shades the whole fuselage, and the difference lights up
+   * an aeroplane-shaped region that no donor ever sent. Asking the renderer to
+   * draw the part alone answers the question directly instead of inferring it.
+   */
+  isolate(role: PartRole | null): void
 }
 
 export function createViewer(
@@ -1475,6 +1486,26 @@ export function createViewer(
         })
       })
       return { buildId: lastBuildKey, meshes: out }
+    },
+    isolate(role) {
+      if (!lastAssembly) return
+      lastAssembly.traverse((o) => {
+        const mesh = o as THREE.Mesh
+        if (!mesh.isMesh) return
+        if (mesh.userData.ddShown === undefined) mesh.userData.ddShown = mesh.visible
+        if (role === null) {
+          mesh.visible = mesh.userData.ddShown as boolean
+          return
+        }
+        // The same resolution report() uses, and the stamp first: a borrowed
+        // part's name belongs to the aircraft it came from and will not resolve
+        // against this one.
+        const mine =
+          (typeof mesh.userData.ddRole === 'string' ? mesh.userData.ddRole : null) ??
+          (lastBase && roleOf(lastBase, mesh.name)) ??
+          ''
+        mesh.visible = (mesh.userData.ddShown as boolean) && mine === role
+      })
     },
     dispose() {
       disposed = true
