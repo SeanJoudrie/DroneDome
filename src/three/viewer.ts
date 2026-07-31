@@ -387,7 +387,7 @@ export interface ViewerHandle {
    * an aeroplane-shaped region that no donor ever sent. Asking the renderer to
    * draw the part alone answers the question directly instead of inferring it.
    */
-  isolate(role: PartRole | null): void
+  isolate(role: PartRole | null, invert?: boolean): void
 }
 
 export function createViewer(
@@ -1594,7 +1594,7 @@ export function createViewer(
       })
       return { buildId: lastBuildKey, meshes: out }
     },
-    isolate(role) {
+    isolate(role, invert = false) {
       if (!lastAssembly) return
       lastAssembly.traverse((o) => {
         const mesh = o as THREE.Mesh
@@ -1611,7 +1611,8 @@ export function createViewer(
           (typeof mesh.userData.ddRole === 'string' ? mesh.userData.ddRole : null) ??
           (lastBase && roleOf(lastBase, mesh.name)) ??
           ''
-        mesh.visible = (mesh.userData.ddShown as boolean) && mine === role
+        const match = invert ? mine !== role : mine === role
+        mesh.visible = (mesh.userData.ddShown as boolean) && match
       })
     },
     dispose() {

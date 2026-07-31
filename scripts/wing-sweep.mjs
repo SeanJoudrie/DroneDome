@@ -148,8 +148,8 @@ const lit = (a, c, i) =>
  * band right across the horizon. Counting that band said the X-47B's wing
  * spanned the entire frame while the picture showed two panels well inside it.
  */
-const isolateShots = async (role) => {
-  await page.evaluate((r) => window.dronedome.isolate(r), role)
+const isolateShots = async (role, invert = false) => {
+  await page.evaluate((a) => window.dronedome.isolate(a.role, a.invert), { role, invert })
   const shots = {}
   for (const [k, v] of Object.entries(VIEWS)) { await look(v); shots[k] = await shoot() }
   await page.evaluate(() => window.dronedome.isolate(null))
@@ -167,8 +167,61 @@ const isolateShots = async (role) => {
  */
 const partOnly = async () => ({
   part: await isolateShots(ROLE),
+  // The rest of the aircraft, to answer the question the other measurements
+  // cannot: is the part joined to it. A wing can be exactly the right span,
+  // exactly on the centreline, perfectly even and at exactly the right height,
+  // and still be floating half a metre clear of the fuselage - which is what
+  // three donors were doing while every number said they were fine.
+  host: await isolateShots(ROLE, true),
   empty: await isolateShots('nothing-is-this-role'),
 })
+
+/** A lit-pixel mask, as a flat array of 0/1 per pixel. */
+const maskOf = (shot, empty) => {
+  const m = new Uint8Array(W * H)
+  for (let i = 0; i < W * H; i++) if (lit(shot, empty, i * 3)) m[i] = 1
+  return m
+}
+
+/**
+ * How far the part is from the aircraft, in pixels.
+ *
+ * Grows the host's silhouette outwards a ring at a time and stops when it first
+ * touches the part. Zero means they overlap, which is what a wing passing
+ * through a fuselage should read as; a handful of pixels is a join; tens of
+ * pixels is a part hanging in space next to the aeroplane.
+ */
+const gapBetween = (partMask, hostMask, limit) => {
+  let front = []
+  const seen = new Uint8Array(W * H)
+  for (let i = 0; i < W * H; i++) {
+    if (!hostMask[i]) continue
+    if (partMask[i]) return 0
+    seen[i] = 1
+    front.push(i)
+  }
+  if (!front.length) return null
+  for (let step = 1; step <= limit; step++) {
+    const next = []
+    for (const i of front) {
+      const x = i % W
+      const y = (i / W) | 0
+      for (const [dx, dy] of [[1, 0], [-1, 0], [0, 1], [0, -1]]) {
+        const nx = x + dx
+        const ny = y + dy
+        if (nx < 0 || ny < 0 || nx >= W || ny >= H) continue
+        const j = ny * W + nx
+        if (seen[j]) continue
+        if (partMask[j]) return step
+        seen[j] = 1
+        next.push(j)
+      }
+    }
+    if (!next.length) break
+    front = next
+  }
+  return limit + 1
+}
 
 /** Every pixel of the isolated part: where it is, how wide, how even. */
 const measure = (shot, empty, k) => {
@@ -218,6 +271,16 @@ for (const id of donors) {
   const shots = await partOnly()
   const alone = shots.part
   const plate = shots.empty
+  // How far the part is from the rest of the aircraft, at the angle that shows
+  // a root gap best. Front is the wing seen end-on, where daylight between a
+  // root and a fuselage is unmistakable; top catches a part sitting fore or aft
+  // of the body it should be joined to.
+  const gaps = {}
+  for (const k of ['front', 'top']) {
+    gaps[k] = gapBetween(maskOf(alone[k], plate[k]), maskOf(shots.host[k], plate[k]), 40)
+  }
+  const gap = [gaps.front, gaps.top].filter((g) => g !== null)
+  const detached = gap.length ? Math.min(...gap) : null
 
   const stat = {}
   const tiles = []
@@ -269,24 +332,35 @@ for (const id of donors) {
   // check passed, because a role that is entirely a cut has no meshes to count.
   if (total < 200) verdicts.push('NOTHING ARRIVED')
   else {
+    // The one that matters most, and the one nothing measured until three
+    // screenshots of the real app showed a wing hanging in space beside the
+    // aeroplane while span, centring, symmetry and station all read correct.
+    if (detached === null) verdicts.push('the host drew nothing to attach to')
+    else if (detached > 6) verdicts.push(`NOT ATTACHED — ${detached}px clear of the aircraft`)
     if (Math.abs(offset) > W * 0.02) verdicts.push(`off centre by ${offset.toFixed(0)}px`)
     if (asym > 0.2) verdicts.push(`lopsided ${(100 * asym).toFixed(0)}%`)
-    if (Math.abs(station) > H * 0.06) verdicts.push(`${station.toFixed(0)}px off the ${ROLE} station`)
+    // Generous, because donors genuinely differ: a Cessna's wing sits on top of
+    // its cabin and a Global Hawk's through the middle of its fuselage, so a
+    // borrowed one landing higher or lower than the host's own is the donor
+    // being itself, not a fault. Only a part nowhere near the station is worth
+    // reporting, and how firmly it is attached is measured separately anyway.
+    if (Math.abs(station) > H * 0.2) verdicts.push(`${station.toFixed(0)}px off the ${ROLE} station`)
     // A donor that dumps its whole airframe reaches far wider than the part it
     // replaced, in every direction at once.
     if (width > own.front.hi - own.front.lo + W * 0.15) verdicts.push('wider than the host')
   }
-  rows.push({ id, width, offset, asym, station, total, verdicts })
+  rows.push({ id, width, offset, asym, station, total, detached, verdicts })
   if (verdicts.length) findings.push(`${id}: ${verdicts.join(', ')}`)
 }
 await browser.close()
 
 console.log(`\n${donors.length} ${ROLE}s fitted to the ${HOST}, judged on the render.\n`)
-console.log('donor            width  off-centre  lopsided  station   pixels  verdict')
+console.log('donor            width  off-centre  lopsided  station   gap   pixels  verdict')
 for (const r of rows) {
   console.log(
     `${r.id.padEnd(16)}${String(r.width).padStart(5)}px${r.offset.toFixed(0).padStart(9)}px` +
-      `${(100 * r.asym).toFixed(0).padStart(9)}%${r.station.toFixed(0).padStart(8)}px${String(r.total).padStart(9)}  ` +
+      `${(100 * r.asym).toFixed(0).padStart(9)}%${r.station.toFixed(0).padStart(8)}px` +
+      `${(r.detached === null ? '--' : String(r.detached)).padStart(6)}${String(r.total).padStart(9)}  ` +
       (r.verdicts.length ? r.verdicts.join(', ') : 'ok'),
   )
 }

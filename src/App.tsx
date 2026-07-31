@@ -93,7 +93,8 @@ export default function App() {
       // Draws one role and nothing else, so a check can photograph what a
       // borrowed part actually put on screen instead of differencing two
       // renders and picking up the shadow it casts on the fuselage.
-      isolate: (role: Parameters<ViewerHandle['isolate']>[0]) => viewer.isolate(role),
+      isolate: (role: Parameters<ViewerHandle['isolate']>[0], invert?: boolean) =>
+        viewer.isolate(role, invert),
     }
     ;(window as unknown as { __mk?: unknown }).__mk = (id: string) => createBuild(id)
     const onResize = () => viewer.resize()
