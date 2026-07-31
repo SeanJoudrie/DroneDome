@@ -87,7 +87,7 @@ decision from the owner · `[-]` deliberately parked
 
 ## E. Tails — same family as the wings
 
-- [ ] **E1.** Black Hornet tail **throws the whole model ~20 ft into the air.**
+- [x] **E1.** Black Hornet tail **throws the whole model ~20 ft into the air.**
       Every other part leaves the MQ-9 anchored; this one moves the host. The
       host must stay put, always.
 - [ ] **E2.** Raven tail broken.

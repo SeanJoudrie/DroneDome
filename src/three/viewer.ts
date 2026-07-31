@@ -1465,9 +1465,26 @@ export function createViewer(
 
     assembly.scale.multiplyScalar(build.scale)
 
-    // Sit it on the ground, centred.
-    const box = new THREE.Box3().setFromObject(assembly)
-    const size = box.getSize(new THREE.Vector3())
+    // Sit it on the ground, centred — on the host's own geometry, not on
+    // everything bolted to it.
+    //
+    // Measured from the whole assembly, the aircraft moved whenever a borrowed
+    // part reached past it. A Black Hornet's tail hangs a long way below a
+    // Reaper, so taking the lowest point of anything put the Reaper twenty feet
+    // in the air, and a part slung out to one side slid it sideways. The host
+    // is the thing that should stay still: it is what the view is framed on and
+    // what everything else is judged against. A badly placed part now hangs
+    // wherever it hangs, which is the honest picture and much easier to see.
+    const hostBox = new THREE.Box3()
+    assembly.traverse((o) => {
+      const mesh = o as THREE.Mesh
+      if (!mesh.isMesh || !mesh.visible) return
+      if (mesh.userData.ddRole) return // stamped means borrowed
+      hostBox.expandByObject(mesh)
+    })
+    const whole = new THREE.Box3().setFromObject(assembly)
+    const box = hostBox.isEmpty() ? whole : hostBox
+    const size = whole.getSize(new THREE.Vector3())
     const centre = box.getCenter(new THREE.Vector3())
     assembly.position.sub(new THREE.Vector3(centre.x, box.min.y, centre.z))
     root.add(assembly)
