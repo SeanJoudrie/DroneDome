@@ -32,17 +32,35 @@ decision from the owner · `[-]` deliberately parked
 
 ## B. Sockets — the core fix
 
-- [ ] **B1.** Define six sockets on the MQ-9: wing, tail, gear, rotor,
+- [~] **B1.** Define six sockets on the MQ-9: wing, tail, gear, rotor,
       hardpoint, payload. Each is a point plus an orientation on the host body.
       Each slot owns its own root, so the app knows what to remove and what
       replaces it.
-- [ ] **B2.** Give every part its own registered attach point — the specific
+- [~] **B2.** Give every part its own registered attach point — the specific
       spot meant to touch a fuselage. Not its centre, not its bounding-box
       middle. This is the half that does not exist today, which is why parts
       land wherever their donor's origin happened to be, and why ALTIUS works
       (its origin coincidentally lands close).
-- [ ] **B3.** Snap = put the part's attach point on the host's socket. No
+- [~] **B3.** Snap = put the part's attach point on the host's socket. No
       per-donor special cases.
+
+  **First attempt written, measured, and reverted off main (925f861, reverted).**
+  Both halves were computed the same way: of the geometry belonging to a role,
+  the innermost tenth by distance from the centreline, averaged. Seating became
+  `socket - plug` on all three axes.
+
+  Measured against the pre-socket baseline it was net worse - 11 findings
+  against 5. Better: Cessna 1.75 -> 0.58 m, Zephyr to 0.07 m, TB2 and Akinci
+  clean. Worse: every PX4 airframe went from seated to 1.05-1.65 m clear, the
+  X-47B from 0.00 to 0.54, the Shahed to 1.45, the V-22 to 0.32. The Global Hawk
+  did not move at all, which is its own clue - its socket comes from the cut
+  band rather than from geometry.
+
+  So the idea holds and the measurement of the root is wrong somewhere. The
+  pattern worth chasing next: everything that regressed was a cut donor that the
+  old butt-against-the-body path had already seated, and the Reaper's own wing
+  includes a mesh that crosses the centreline, so the host's "innermost tenth"
+  may be landing at x=0 rather than at the wing root.
 - [ ] **B4.** MQ-9 only, as proof of concept. The other 34 airframes keep
       current behaviour until the pattern proves out.
 - [-] **B5.** Visible socket outline. **Cut** — parts vary enormously in size
