@@ -64,9 +64,17 @@ decision from the owner · `[-]` deliberately parked
       looks like. Do not touch.
 - [ ] **C9.** X-47B — 22 px off centre against a 21 px threshold. Marginal;
       recheck once sockets land.
-- [ ] **C10.** V-22 Osprey — 21% lopsided.
+- [ ] **C10.** V-22 Osprey — 21% lopsided. Measured bands available
+      (`lengthBand [0.22, 1.0]`, `verticalBand [0.38, 0.96]`, dropping 2,595 of
+      5,636 outboard vertices — the sponsons and gear). Not applied yet: worth
+      doing after the sockets land, so it is judged once rather than twice.
 - [ ] **C11.** Shahed-136 — hands over most of its airframe including the tail
-      fin, roughly twice the Reaper's span.
+      fin, roughly twice the Reaper's span. **Re-tiered to 3.** Estimated as a
+      cut-band tweak; it is not. Its axes and scale check out exactly (span axis
+      renders at 2.50 m against a published 2.5), the measured band changes 23
+      vertices out of 48,331, and a delta's wing legitimately *is* most of its
+      airframe. The arithmetic says the fitted wing should span about 18 m and
+      the render says about 43 m. That gap needs its own diagnosis.
 - [?] **C12.** VBAT — **its model has no wing at all.** What draws is a ducted
       fan and a fuselage tube; the "wing" cut was slicing that tube lengthwise.
       Dropping the cut turns the parts gate red, because the app offers a wing
