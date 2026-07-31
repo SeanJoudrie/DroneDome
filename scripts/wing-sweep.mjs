@@ -50,6 +50,9 @@ const WRITE = arg('write', null)
 // evidence that every donor is attached until it has been shown to report
 // something else when one is not.
 const LIFT = Number(arg('lift', 0))
+// How far a part may sit from the aircraft and still count as bolted to it.
+// A join is a join: 10 cm on a 20 m aeroplane is already a visible seam.
+const TOLERANCE = Number(arg('tolerance', 0.1))
 if (WRITE) mkdirSync(WRITE, { recursive: true })
 
 const only = arg('only', null)
@@ -283,12 +286,11 @@ for (const id of donors) {
   // a root gap best. Front is the wing seen end-on, where daylight between a
   // root and a fuselage is unmistakable; top catches a part sitting fore or aft
   // of the body it should be joined to.
-  const gaps = {}
-  for (const k of ['front', 'top']) {
-    gaps[k] = gapBetween(maskOf(alone[k], plate[k]), maskOf(shots.host[k], plate[k]), 40)
-  }
-  const gap = [gaps.front, gaps.top].filter((g) => g !== null)
-  const detached = gap.length ? Math.min(...gap) : null
+  // In metres, from the vertices, not from pixels. A wingtip crossing the
+  // fuselage in projection reads as touching however far the root is from it,
+  // and at whole-aircraft zoom a 30 cm gap is one pixel.
+  const join = await page.evaluate((r) => window.dronedome.joinGap(r), ROLE)
+  const detached = join ? join.gap : null
 
   const stat = {}
   const tiles = []
@@ -344,7 +346,8 @@ for (const id of donors) {
     // screenshots of the real app showed a wing hanging in space beside the
     // aeroplane while span, centring, symmetry and station all read correct.
     if (detached === null) verdicts.push('the host drew nothing to attach to')
-    else if (detached > 6) verdicts.push(`NOT ATTACHED — ${detached}px clear of the aircraft`)
+    else if (detached > TOLERANCE)
+      verdicts.push(`NOT ATTACHED — ${detached.toFixed(2)} m clear of the aircraft`)
     if (Math.abs(offset) > W * 0.02) verdicts.push(`off centre by ${offset.toFixed(0)}px`)
     if (asym > 0.2) verdicts.push(`lopsided ${(100 * asym).toFixed(0)}%`)
     // Generous, because donors genuinely differ: a Cessna's wing sits on top of
@@ -363,12 +366,12 @@ for (const id of donors) {
 await browser.close()
 
 console.log(`\n${donors.length} ${ROLE}s fitted to the ${HOST}, judged on the render.\n`)
-console.log('donor            width  off-centre  lopsided  station   gap   pixels  verdict')
+console.log('donor            width  off-centre  lopsided  station     gap   pixels  verdict')
 for (const r of rows) {
   console.log(
     `${r.id.padEnd(16)}${String(r.width).padStart(5)}px${r.offset.toFixed(0).padStart(9)}px` +
       `${(100 * r.asym).toFixed(0).padStart(9)}%${r.station.toFixed(0).padStart(8)}px` +
-      `${(r.detached === null ? '--' : String(r.detached)).padStart(6)}${String(r.total).padStart(9)}  ` +
+      `${(r.detached === null ? '--' : r.detached.toFixed(2) + 'm').padStart(8)}${String(r.total).padStart(9)}  ` +
       (r.verdicts.length ? r.verdicts.join(', ') : 'ok'),
   )
 }

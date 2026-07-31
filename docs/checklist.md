@@ -10,15 +10,23 @@ decision from the owner · `[-]` deliberately parked
 
 ## A. Method — fix the ruler before trusting any fix
 
-- [ ] **A1.** Replace the attachment test. The current one measures whether the
+- [x] **A1.** Replace the attachment test. The current one measures whether the
       part and the aircraft overlap **in a 2-D projection**, so a wingtip
       crossing behind the fuselage on screen reads as "attached" while the root
       sits a metre away in 3-D. It also shoots the whole aircraft, where a 30 cm
       gap on a 20 m span is one pixel against a six-pixel tolerance. The
       replacement must measure the join in 3-D: distance from the part's root to
-      the host's surface, in metres.
-- [ ] **A2.** Prove A1 fails on today's build before changing anything else.
-      A test that has never failed is not evidence.
+      the host's surface, in metres. **Done** — `joinGap(role)` walks the real
+      vertices in world space, discards the ones their own clipping planes threw
+      away, and returns the shortest distance from the part to the *fuselage*.
+      Against the whole aircraft it was still too lenient: the Reaper carries
+      missiles and pylons a metre outboard, so a wing floating clear of the body
+      passed by being near those. A wing joins a fuselage.
+- [x] **A2.** Prove A1 fails on today's build before changing anything else.
+      A test that has never failed is not evidence. **Baseline, wing root to
+      fuselage:** ALTIUS 0.06 m · Predator 0.01 m · Reaper-on-itself 0.03 m ·
+      **Raven 0.35 m · Cessna 1.75 m · Global Hawk 1.85 m.** Matches the
+      screenshots exactly. Tolerance for "bolted on" is 0.10 m.
 - [ ] **A3.** Every attachment claim from here on gets a close-in render of the
       root, not a whole-aircraft shot.
 

@@ -95,6 +95,11 @@ export default function App() {
       // renders and picking up the shadow it casts on the fuselage.
       isolate: (role: Parameters<ViewerHandle['isolate']>[0], invert?: boolean) =>
         viewer.isolate(role, invert),
+      // The shortest distance in metres from a role's visible geometry to the
+      // rest of the aircraft. Pixel overlap in a render cannot answer this: a
+      // wingtip crossing the fuselage in projection reads as attached while the
+      // root hangs a metre clear.
+      joinGap: (role: Parameters<ViewerHandle['joinGap']>[0]) => viewer.joinGap(role),
     }
     ;(window as unknown as { __mk?: unknown }).__mk = (id: string) => createBuild(id)
     const onResize = () => viewer.resize()

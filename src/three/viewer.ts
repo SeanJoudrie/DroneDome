@@ -388,6 +388,22 @@ export interface ViewerHandle {
    * draw the part alone answers the question directly instead of inferring it.
    */
   isolate(role: PartRole | null, invert?: boolean): void
+  /**
+   * How far a role's geometry is from the rest of the aircraft, in metres.
+   *
+   * The question every other measurement has failed to answer. Pixel overlap in
+   * a render says a wing is attached whenever a wingtip happens to cross the
+   * fuselage in projection, which is true of a wing floating a metre clear of
+   * it. Bounding boxes are worse: clipping does not shrink one, so a cut
+   * donor's box is the whole donor hull.
+   *
+   * So this walks the real vertices, in world space, discards the ones their
+   * own clipping planes have thrown away, and returns the shortest distance
+   * from any surviving vertex of the part to any surviving vertex of the rest.
+   * Zero means they interpenetrate, which is what a wing through a fuselage
+   * should read as.
+   */
+  joinGap(role: PartRole, against?: PartRole): { gap: number; partPoints: number; hostPoints: number } | null
 }
 
 export function createViewer(
@@ -1593,6 +1609,67 @@ export function createViewer(
         })
       })
       return { buildId: lastBuildKey, meshes: out }
+    },
+    joinGap(role, against) {
+      if (!lastAssembly) return null
+      lastAssembly.updateMatrixWorld(true)
+      const mine: number[] = []
+      const theirs: number[] = []
+      const v = new THREE.Vector3()
+      lastAssembly.traverse((o) => {
+        const mesh = o as THREE.Mesh
+        if (!mesh.isMesh || !mesh.visible) return
+        for (let p: THREE.Object3D | null = mesh.parent; p; p = p.parent) if (!p.visible) return
+        const position = mesh.geometry?.getAttribute('position')
+        if (!position) return
+        const resolved =
+          (typeof mesh.userData.ddRole === 'string' ? mesh.userData.ddRole : null) ??
+          (lastBase && roleOf(lastBase, mesh.name)) ??
+          ''
+        // Measured against the body by default rather than against anything at
+        // all. The Reaper carries missiles and pylons a metre outboard, and a
+        // wing floating clear of the fuselage still passes close to those - it
+        // read as attached to the aircraft while being attached to nothing. A
+        // wing joins a fuselage.
+        const wanted = against ?? 'body'
+        if (resolved !== role && resolved !== wanted) return
+        const into = resolved === role ? mine : theirs
+        // A clipped mesh still carries every vertex it ever had, including the
+        // ones on the far side of the cut that are not drawn. Counting those
+        // would measure a wing against a fuselage that is not on screen.
+        const mats = Array.isArray(mesh.material) ? mesh.material : [mesh.material]
+        const planes = mats.flatMap((m) => (m as THREE.Material).clippingPlanes ?? [])
+        // Sample rather than take every vertex: a hull can carry 60,000 of them
+        // and the answer does not need that resolution.
+        const stride = Math.max(1, Math.floor(position.count / 1500))
+        for (let i = 0; i < position.count; i += stride) {
+          v.fromBufferAttribute(position, i).applyMatrix4(mesh.matrixWorld)
+          let kept = true
+          for (const plane of planes) {
+            if (plane.distanceToPoint(v) < 0) {
+              kept = false
+              break
+            }
+          }
+          if (kept) into.push(v.x, v.y, v.z)
+        }
+      })
+      if (!mine.length || !theirs.length) return null
+      let best = Infinity
+      for (let a = 0; a < mine.length; a += 3) {
+        for (let b = 0; b < theirs.length; b += 3) {
+          const dx = mine[a] - theirs[b]
+          const dy = mine[a + 1] - theirs[b + 1]
+          const dz = mine[a + 2] - theirs[b + 2]
+          const d = dx * dx + dy * dy + dz * dz
+          if (d < best) best = d
+        }
+      }
+      return {
+        gap: Math.sqrt(best),
+        partPoints: mine.length / 3,
+        hostPoints: theirs.length / 3,
+      }
     },
     isolate(role, invert = false) {
       if (!lastAssembly) return
