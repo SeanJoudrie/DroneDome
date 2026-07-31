@@ -16,3 +16,8 @@ assets-src/
 
 # A second build, for running the Playwright gates against the deployed base path.
 dist-ci/
+
+# Throwaway diagnostics written while chasing a bug. Anything worth keeping
+# graduates to scripts/ with a comment explaining what it caught.
+.w*.mjs
+.lw.ts

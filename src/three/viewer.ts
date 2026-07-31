@@ -543,6 +543,35 @@ export function createViewer(
     mesh.material = Array.isArray(mesh.material) ? clipped : clipped[0]
   }
 
+  /** True if nothing between this node and `root` has been hidden. */
+  function visibleHere(node: THREE.Object3D, root: THREE.Object3D) {
+    for (let o: THREE.Object3D | null = node; o && o !== root.parent; o = o.parent) {
+      if (!o.visible) return false
+    }
+    return true
+  }
+
+  /**
+   * Stop drawing what came with the upload but is not the aircraft.
+   *
+   * Display stands, flight cases, and in the X-47B's case a second lump of hull
+   * parked beside the aeroplane. The classifier already refuses to measure
+   * these; this is what stops them being drawn — which is how the Matrice spent
+   * a while sitting on top of its own flight case.
+   *
+   * It has to run on a donor as much as on the host. It did not, and so
+   * borrowing a wing from the X-47B also handed over the lump: ten metres of it,
+   * scaled to the host and dragging the mount point with it, because a unit's
+   * offset is measured from the box around everything in it.
+   */
+  function hideScenery(root: THREE.Object3D, model: AircraftModel) {
+    if (!model.hidden.length) return
+    const scenery = new Set(model.hidden.map(canonical))
+    root.traverse((o) => {
+      if (scenery.has(canonical(o.name))) o.visible = false
+    })
+  }
+
   /**
    * The meshes a cut is allowed to touch: the welded lump itself, plus anything
    * classified as this very role. Parts the classifier already pulled out as
@@ -554,6 +583,7 @@ export function createViewer(
     root.traverse((o) => {
       const mesh = o as THREE.Mesh
       if (!mesh.isMesh) return
+      if (!visibleHere(mesh, root)) return
       const meshRole = roleOf(model, o.name)
       if (meshRole && meshRole !== 'body' && meshRole !== role) return
       out.push(mesh)
@@ -760,15 +790,7 @@ export function createViewer(
     deferredPlanes = []
     const baseClone = baseScene.clone(true)
     baseClone.applyMatrix4(normaliseTransform(base))
-    // Scenery that came with the upload and is not the aircraft. The classifier
-    // already refused to measure it; this stops it being drawn, which is how the
-    // Matrice spent a while sitting on top of its own flight case.
-    if (base.hidden.length) {
-      const scenery = new Set(base.hidden.map(canonical))
-      baseClone.traverse((o) => {
-        if (scenery.has(canonical(o.name))) o.visible = false
-      })
-    }
+    hideScenery(baseClone, base)
     assembly.add(baseClone)
 
     // Work out what each role is doing before touching the scene graph.
@@ -1002,8 +1024,10 @@ export function createViewer(
       let pieces: THREE.Object3D[] = []
       const donorClone = donorScene.clone(true)
       donorClone.applyMatrix4(donorNorm)
+      hideScenery(donorClone, d.model)
       donorClone.updateMatrixWorld(true)
       donorClone.traverse((o) => {
+        if (!visibleHere(o, donorClone)) return
         if (roleOf(d.model, o.name) === d.fromRole && (o as THREE.Mesh).isMesh) pieces.push(o)
       })
 
@@ -1265,10 +1289,12 @@ export function createViewer(
       if (disposed || mine !== token) return
       const donorClone = donorScene.clone(true)
       donorClone.applyMatrix4(normaliseTransform(donor))
+      hideScenery(donorClone, donor)
       donorClone.updateMatrixWorld(true)
 
       let pieces: THREE.Object3D[] = []
       donorClone.traverse((o) => {
+        if (!visibleHere(o, donorClone)) return
         if (roleOf(donor, o.name) === spec.role && (o as THREE.Mesh).isMesh) pieces.push(o)
       })
       if (!pieces.length) continue
