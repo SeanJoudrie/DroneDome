@@ -1005,47 +1005,66 @@ export function createViewer(
         pieces = pieces.filter((p) => groupOf(d.model, p.name) === firstGroup)
       }
 
-      const group = new THREE.Group()
-      // A welded donor has no separate mesh for the part — the Global Hawk's
-      // wing is the same primitive as its fuselage, and mounting that whole put
-      // an entire second aircraft on top of the first. The donor's own cut says
-      // which region of it is the wing, so clip to that and take only the wing.
+      // A welded donor has no separate mesh for the part. The Global Hawk's wing
+      // is the same primitive as its fuselage; the Cessna's is inside its body
+      // mesh and is not labelled a wing at all, so collecting meshes by role
+      // fetched only its ailerons and flaps. Where the donor has a cut for this
+      // role, that cut is the only thing that knows which region is the part —
+      // so take the meshes the cut applies to, and clip them to it.
       const donorCut = d.model.cuts[d.fromRole]
       if (donorCut) {
-        const held: THREE.Plane[] = []
-        const previous = planeSink
-        planeSink = held
-        const regions = cutRegions(d.model, d.fromRole)
-        planeSink = previous
-        if (regions) {
-          for (const piece of pieces) {
-            for (const part of regions.parts) {
-              const slice = bakeWorld(piece)
-              clipMaterials(slice as THREE.Mesh, part.planes, false)
-              group.add(slice)
-            }
-          }
-          deferredPlanes.push({ planes: held, node: group })
-        } else {
-          for (const piece of pieces) group.add(bakeWorld(piece))
-        }
-      } else {
-        for (const piece of pieces) group.add(bakeWorld(piece))
+        const welded = weldedMeshes(donorClone, d.model, d.fromRole)
+        if (welded.length) pieces = welded
       }
-      group.scale.setScalar(d.fit)
 
-      // Bring the part's own middle to the group's origin, so that placing the
-      // group at a mounting point puts the part there rather than the donor's
-      // model origin. Without this a borrowed wing arrived offset by however far
-      // it happened to sit from the middle of the aircraft it came from.
-      group.updateMatrixWorld(true)
-      const ownBox = new THREE.Box3().setFromObject(group)
-      if (!ownBox.isEmpty()) {
-        const ownMid = ownBox.getCenter(new THREE.Vector3())
-        for (const child of [...group.children]) {
-          child.position.sub(ownMid.clone().divideScalar(d.fit || 1))
+      /**
+       * Build one mountable copy of the part.
+       *
+       * Made fresh per mounting point rather than cloned, because a clipped copy
+       * needs clipping planes of its own. Planes are positioned in world space,
+       * and every copy sits somewhere different — sharing one set put the
+       * Global Hawk's cut nowhere near the Global Hawk.
+       */
+      const makeUnit = () => {
+        const unit = new THREE.Group()
+        const held: THREE.Plane[] = []
+        if (donorCut) {
+          const previous = planeSink
+          planeSink = held
+          const regions = cutRegions(d.model, d.fromRole)
+          planeSink = previous
+          if (regions) {
+            for (const piece of pieces) {
+              for (const part of regions.parts) {
+                const slice = bakeWorld(piece)
+                clipMaterials(slice as THREE.Mesh, part.planes, false)
+                unit.add(slice)
+              }
+            }
+          } else {
+            for (const piece of pieces) unit.add(bakeWorld(piece))
+          }
+        } else {
+          for (const piece of pieces) unit.add(bakeWorld(piece))
         }
+        unit.scale.setScalar(d.fit)
+        // Where the part's own middle sits, so mounting can put THAT on the
+        // mounting point rather than the donor's model origin.
+        //
+        // Reported, not applied. Shifting the meshes inside the group would
+        // move the geometry out from under its own clipping planes, which ride
+        // the group's transform and know nothing about a child-level nudge. The
+        // Global Hawk survived that because its wing mesh is already centred on
+        // its aircraft; the Akinci's is a metre off, and the cut walked clean
+        // off the wing and took everything with it.
+        unit.updateMatrixWorld(true)
+        const ownBox = new THREE.Box3().setFromObject(unit)
+        const mid = ownBox.isEmpty() ? new THREE.Vector3() : ownBox.getCenter(new THREE.Vector3())
+        return { unit, held, mid }
       }
+
+      const first = makeUnit()
+      const group = first.unit
 
       // Rotors get laid out on the host's own mounting points where it has
       // them, otherwise spread evenly around the airframe.
@@ -1082,7 +1101,9 @@ export function createViewer(
         const tilt = ((d.place?.tiltDeg ?? 0) * Math.PI) / 180
         const layout = d.place?.layout ?? 'ring'
         for (let i = 0; i < d.count; i++) {
-          const arm = group.clone(true)
+          const made = makeUnit()
+          const arm = made.unit
+          if (made.held.length) deferredPlanes.push({ planes: made.held, node: arm })
           let x = 0
           let y = rise
           let z = fore
@@ -1110,6 +1131,7 @@ export function createViewer(
             z = fore + Math.sin(angle) * radius
           }
           arm.position.set(x, y, z)
+          arm.position.sub(made.mid)
           if (tilt) arm.rotateX(-tilt)
           stampRole(arm, d.role)
           assembly.add(arm)
@@ -1139,8 +1161,10 @@ export function createViewer(
           // A count above one stacks copies - two wings is a biplane, three a
           // triplane - offset vertically or fore-and-aft by the layout.
           for (let i = 0; i < (d.role === 'wing' || d.role === 'tail' ? extra : 1); i++) {
-            const copy = group.clone(true)
-            copy.position.copy(point).add(nudge)
+            const made = makeUnit()
+            const copy = made.unit
+            if (made.held.length) deferredPlanes.push({ planes: made.held, node: copy })
+            copy.position.copy(point).add(nudge).sub(made.mid)
             if (i > 0) {
               const step = size.y * 0.14 * i
               if (d.place?.layout === 'tandem') copy.position.z += size.z * 0.22 * i
@@ -1175,7 +1199,9 @@ export function createViewer(
           default:
             group.position.set(0, mid.y, mid.z)
         }
+        group.position.sub(first.mid)
         stampRole(group, d.role)
+        if (first.held.length) deferredPlanes.push({ planes: first.held, node: group })
         assembly.add(group)
       }
     }

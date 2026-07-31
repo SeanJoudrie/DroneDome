@@ -3,5 +3,18 @@
   "umtas.003_Material.007_0": "hardpoint",
   "umtas.002_Material.007_0": "hardpoint",
   "umtas.001_Material.007_0": "hardpoint",
-  "umtas_Material.007_0": "hardpoint"
+  "umtas_Material.007_0": "hardpoint",
+
+  "_note_wing": "Cube_govde_0 and Cube.011_govde_0 were both classified wing. 'Govde' is Turkish for fuselage, and the boxes agree: 20.00 x 12.39 m and 18.48 x 8.18 m, each the whole aircraft. Borrowing the Akinci's wing therefore handed over two copies of the entire airframe, the second sitting 1.96 m aft of the first. They are the welded hull, so they are body, and the wing is a cut through them.",
+  "Cube_govde_0": "body",
+  "Cube.011_govde_0": "body",
+
+  "_cuts": {
+    "wing": {
+      "axis": "span",
+      "keepBand": 0.1,
+      "lengthBand": [0.48, 0.84],
+      "comment": "Measured with scripts/measure-region.py. Along the length axis the wing runs 0.50 to 0.81, reaching the full half-span, while the boom either side of it is 0.04 to 0.06 wide; the V-tail is at 0.00-0.12 and the nose beyond 0.85. Keeping a 0.10 band holds the 1 m fuselage and drops both wing panels, without touching either end."
+    }
+  }
 }
